@@ -1,8 +1,10 @@
 Package: statR
 Title: statR
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "thomas.lorusso@statistik.ji.zh.ch", role = c("aut", "cre"))
-Description: statR - the 'swiss army knife' for everything we do in R at the statistical office.
+Authors@R: as.person(c(
+    "Andrea Schnell <andrea.schnell@statistik.ji.zh.ch> [aut]", 
+    "Thomas Lo Russo <thomas.lorusso@statistik.ji.zh.ch> [aut,cre]"))
+Description: statR bundles a variety of functions that allow to generate ready-to-publish plots (ggplot2-theme & colorpalettes) as well as saving data in formated excel-tables. The generated outputs are aligned with the corporate design of the Canton Zurich.
 Depends: R (>= 3.3.0)
 License: What license is it under?
 Encoding: UTF-8
@@ -11,4 +13,7 @@ RoxygenNote: 6.0.1
 Imports:
     dplyr,
     ggplot2,
-	openxlsx
+	openxlsx,
+	magrittr
+URL: https://statistikzh.github.io/statR/
+BugReports: https://github.com/statistikZH/statR/issues
