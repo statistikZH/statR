@@ -55,9 +55,9 @@ quickXLSX <-function (data, name,filename="file", grouplines = 0, metadata = NA,
   openxlsx::addWorksheet(wb, "data")
   statzh <- "Stempel_STAT-01.png"
 
-  if (is.na(logo)) { logo <- statzh }
+  if (is.na(logo)) { logo <- statzh
 
-  if (file.exists(logo)) {
+  # if (file.exists(logo)) {
 
     openxlsx::insertImage(wb, 1, logo, width = 2.145, height = 0.7865,
                           units = "in")
