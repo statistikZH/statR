@@ -4,7 +4,8 @@
 \alias{quickXLSX}
 \title{quickXLSX}
 \usage{
-quickXLSX(data, name, grouplines = 0)
+quickXLSX(data, name, filename = "file", grouplines = 0, metadata = NA,
+  logo = statzh, contactdetails = statzhcontact)
 }
 \arguments{
 \item{data}{data to be included in the XLSX-table.}
@@ -17,6 +18,7 @@ quickXLSX(data, name, grouplines = 0)
 Function to create a formated single-worksheet XLSX automatically
 }
 \examples{
-quickXLSX(mtcars,"title of the spreadsheet")
+quickXLSX(data, name, filename="file", grouplines = 0, metadata = NA, logo = statzh,
+contactdetails = statzhcontact)
 }
 \keyword{quickXLSX}
