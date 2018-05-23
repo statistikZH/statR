@@ -17,7 +17,7 @@
 # Function
 
 
-quickXLSX <-function (data, name,filename="file", grouplines = 0, metadata = NA, logo = NA,
+quickXLSX <-function (data, name,filename="file", grouplines = 0, metadata = NA, logo = "none",
                       contactdetails = statzhcontact) {
 
   remarks <- if (is.na(metadata)) {
@@ -58,8 +58,7 @@ quickXLSX <-function (data, name,filename="file", grouplines = 0, metadata = NA,
 
   if(file.exists(statzh)){logo <- statzh}
 
-  if (!is.na(logo)) {
-
+  if (logo!="none") {
 
     openxlsx::insertImage(wb, 1, logo, width = 2.145, height = 0.7865,
                           units = "in")
