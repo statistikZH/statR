@@ -4,18 +4,28 @@
 \alias{statXLSX}
 \title{statXLSX}
 \usage{
-statXLSX(data, name, sheets, sheetvar, grouplines = FALSE)
+statXLSX(data, name, filename = "file", sheetvar, grouplines = FALSE,
+  metadata = NA, logo = "statzh", contactdetails = "statzh",
+  source = "statzh")
 }
 \arguments{
 \item{data}{data to be included in the XLSX-table.}
 
 \item{name}{title of the table / file.}
 
-\item{sheets}{values of the discrete or categorical variable for which a single worksheet should be generated}
+\item{filename}{filename of the xlsx-file. Defaults to "file".}
 
-\item{sheetvar}{variable which contains the discrete variable to be used as 'period'}
+\item{sheetvar}{variable which contains the variable to be used to split the data across several sheets.}
 
-\item{grouplines}{defaults to FALSE. Can be used to separate grouped variables visually.}
+\item{grouplines}{columns to be separated visually by vertical lines.}
+
+\item{metadata}{metadata-information to be included. Defaults to NA.}
+
+\item{logo}{path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"}
+
+\item{contactdetails}{contactdetails of the data publisher. Defaults to "statzh".}
+
+\item{source}{source of the data. Defaults to "statzh".}
 }
 \description{
 Function to create formatted spreadsheets automatically
@@ -24,6 +34,8 @@ Function to create formatted spreadsheets automatically
 # Generation of a spreadsheet with four worksheets (one per 'carb'-category).
 # Can be used to generate worksheets for multiple years.
 
-statXLSX(mtcars[c(1:10),],"mtcars",c(1:4),carb,grouplines=c(1,5,6))
+statXLSX(mtcars[c(1:10),],"mtcars",carb,grouplines=c(1,5,6))
+
+statXLSX(head(mtcars),"mpgcars", carb, filename="testfile33",grouplines = c(1,2,3), metadata = "remarks: the source of the data is ...",source="canton of zurich",logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
 }
 \keyword{statXLSX}
