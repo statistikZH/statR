@@ -13,7 +13,7 @@ RoxygenNote: 6.0.1
 Imports:
     dplyr,
     ggplot2,
-	openxlsx,
-	magrittr
+	  openxlsx,
+	  magrittr
 URL: https://statistikzh.github.io/statR/
 BugReports: https://github.com/statistikZH/statR/issues
