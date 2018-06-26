@@ -1,15 +1,17 @@
-# worksheetSTAT: add STAT-worksheets to an existing Workbook
+# insert_worksheet: add formatted worksheets to an existing Workbook
 
-#' worksheetSTAT
+#' insert_worksheet
 #'
 #' Function to create formatted spreadsheets automatically
 #' @param data data to be included in the XLSX-table.
-#' @param wb workbook object to write new worksheet in.
-#' @param name title of the table / file.
-#' @param sheets values of the discrete or categorical variable for which a single worksheet should be generated
-#' @param sheetvar variable which contains the discrete variable to be used as 'period'
+#' @param workbook workbook object to write new worksheet in.
+#' @param sheetname title of the table and the sheet
+#' @param source source of the data. Defaults to "statzh".
+#' @param metadata metadata-information to be included. Defaults to NA.
+#' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
+#' @param contactdetails contactdetails of the data publisher. Defaults to "statzh".
 #' @param grouplines defaults to FALSE. Can be used to separate grouped variables visually.
-#' @keywords worksheetSTAT
+#' @keywords insert_worksheet
 #' @export
 #' @examples
 #' # Generation of a spreadsheet with four worksheets (one per 'carb'-category).
@@ -18,126 +20,178 @@
 #'   # create workbook
 #' wb <- openxlsx::createWorkbook("hello")
 #'
-#' worksheeSTAT(mtcars[c(1:10),],wb,"mtcars",c(1:4),carb,grouplines=c(1,5,6))
+#' insert_worksheet(mtcars[c(1:10),],wb,"mtcars",c(1:4),carb,grouplines=c(1,5,6))
 
 # Function
 
 #TO DO - insert name of the worksheet dynamicaly, insert warning if WB is not a workbook-object
 
-insert_worksheet <- function(data, workbook, sheetname, grouplines = FALSE) {
-  
+insert_worksheet <- function(data, workbook, sheetname, source="statzh", metadata = NA, logo="statzh", grouplines = FALSE, contactdetails="statzh",...) {
+
+  # Metadata
+  remarks <- if (is.na(metadata)) {
+    "Bemerkungen:"
+  }
+  else if (metadata == "HAE") {
+    "Die Zahlen der letzten drei Jahre sind provisorisch."
+  }
+  else {
+    metadata
+  }
+
+
   #Zahlenformat: Tausendertrennzeichen
   options("openxlsx.numFmt" = "#,###0")
-  
+
   #extrahiere colname
   # col_name <- rlang::enquo(sheetvar)
-  
+
   wb<-workbook
-  
+
   # data-container from row 5
   datenbereich = 14
-  
+
   #define width of the area in which data is contained for formating
   spalten = ncol(data)
-  
+
   #position of contact details
   contact = if(spalten>4){spalten-2}else{3}
-  
+
   #styles
   title <- openxlsx::createStyle(fontSize=14, textDecoration="bold",fontName="Arial")
-  
+
   subtitle <- openxlsx::createStyle(fontSize=12, textDecoration="italic",fontName="Arial")
-  
+
   header <- openxlsx::createStyle(fontSize = 12, fontColour = "#000000",  halign = "left", border="Bottom",  borderColour = "#009ee0",textDecoration = "bold")
-  
+
   # header1 <- createStyle(fontSize = 14, fontColour = "#FFFFFF", halign = "center",
   #                        fgFill = "#3F98CC", border="TopBottom", borderColour = "#4F81BD")
-  
+
   # header2 <- createStyle(fontSize = 12, fontColour = "#FFFFFF", halign = "center",
   #                        fgFill = "#407B9F", border="TopBottom", borderColour = "#4F81BD")
-  
+
   headerline <- openxlsx::createStyle(border="Bottom", borderColour = "#009ee0",borderStyle = getOption("openxlsx.borderStyle", "thick"))
-  
+
   #Linien
   bottomline <- openxlsx::createStyle(border="Bottom", borderColour = "#009ee0")
-  
+
   leftline <- openxlsx::createStyle(border="Left", borderColour = "#4F81BD")
-  
-  
+
+  #wrap
+  wrap <- openxlsx::createStyle(wrapText = TRUE)
+
+
   ### Loop for multiple years / worksheets ------------
-  
+
   # for (year in sheets){
   #
   #   #get index
   #   i<- which(sheets==year)
-  
+
   ## Add worksheet
   openxlsx::addWorksheet(wb,paste(sheetname))
-  
-  ?addWorksheet
-  
+
   i <- paste(sheetname)
-  
-  # img <- system.file("zh2.png", package = "openxlsx")
-  #
-  # insertImage(wb, 1, img, startRow = 1,  startCol = 1)
-  
+
+
   # Style ---------------------
-  
+
   #title,subtitle & Header
-  
-  
+
+
   # Titel & Untertitel -----------------
-  
+
   #Logo
-  if (file.exists("L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/Stempel_STAT-01.png")) {
-    openxlsx::insertImage(wb, paste(sheetname), "L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/Stempel_STAT-01.png",width=2.145, height=0.7865, units="in")
+  statzh <- "Stempel_STAT-01.png"
+
+ if(file.exists(statzh)){logo <- statzh}
+
+  if (logo!="none") {
+
+    openxlsx::insertImage(wb, i, logo, width = 2.145, height = 0.7865,
+                          units = "in")
   }
+
+
+  #standard contactdetails
+  if(contactdetails=="statzh"){
+
+    contactdetails <- c("Datashop, Tel: 0432597500",
+                       "datashop@statistik.ji.zh.ch",
+                       "http://www.statistik.zh.ch")
+
+  }else {contactdetails}
+
+  if (length(contactdetails) > 3) {
+    warning("Contactdetails may overlap with other elements. To avoid this issue please do not include more than three elements in the contactdetails vector.")
+  }
+
+
+  if(source=="statzh"){
+
+    source="Quelle: Statistisches Amt des Kantons Zürich"
+
+  }else {source}
+
+
+
+
+
+  # if (file.exists("L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/Stempel_STAT-01.png")) {
+  #   openxlsx::insertImage(wb, paste(sheetname), "L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/Stempel_STAT-01.png",width=2.145, height=0.7865, units="in")
+  # }
+
   #Titel
-  openxlsx::writeData(wb, sheet = i,"title", headerStyle=title,startRow = 7)
-  
+  openxlsx::writeData(wb, sheet = i,sheetname, headerStyle=title,startRow = 7)
+
   ##Quelle
-  openxlsx::writeData(wb, sheet = i, "Quelle: Statistisches Amt des Kantons Zürich", headerStyle=subtitle, startRow = 8)
-  
+  openxlsx::writeData(wb, sheet = i, source, headerStyle=subtitle, startRow = 8)
+
   ##Quelle
-  openxlsx::writeData(wb, sheet = i, "Bemerkungen:", headerStyle=subtitle, startRow = 9)
-  
+  openxlsx::writeData(wb, sheet = i, metadata, headerStyle=subtitle, startRow = 9)
+
   #Kontakt
-  openxlsx::writeData(wb, sheet = i, "Datashop, Tel: 0432597500", headerStyle=subtitle, startRow = 2, startCol=contact)
-  openxlsx::writeFormula(wb, i, x = '=HYPERLINK("mailto:datashop@statistik.ji.zh.ch", "datashop@statistik.ji.zh.ch")'
-                         ,startRow = 3, startCol=contact)
-  openxlsx::writeFormula(wb, i, x = '=HYPERLINK("http://www.statistik.zh.ch", "www.statistik.zh.ch")'
-                         ,startRow = 4, startCol=contact)
-  
+  openxlsx::writeData(wb, sheet = i,
+                      contactdetails,
+                      headerStyle = wrap,
+                      startRow = 2,
+                      startCol = contact)
+
   #Aktualisierungsdatum
-  openxlsx::writeData(wb, sheet = i, paste("Aktualisiert am ", format(Sys.Date(), format="%d.%m.%Y"), " durch: ",
-                                           stringr::str_sub(Sys.getenv("USERNAME"),-2)), headerStyle=subtitle, startRow = 5, startCol=contact)
-  
+  openxlsx::writeData(wb, sheet = i, paste("Aktualisiert am ",
+                                           format(Sys.Date(), format="%d.%m.%Y"), " durch: ",
+                                           stringr::str_sub(Sys.getenv("USERNAME"),-2)),
+                                          headerStyle=subtitle, startRow = 5, startCol=contact)
+
+  # Daten abfüllen
   openxlsx::writeData(wb, sheet = i, as.data.frame(data%>%ungroup()), rowNames = FALSE, startRow = datenbereich, withFilter = FALSE)
-  
+
   #Füge Formatierungen ein
-  
+
   openxlsx::addStyle(wb, sheet = i, headerline, rows = 5, cols = 1:spalten, gridExpand = TRUE,stack = TRUE)
-  
+
   openxlsx::addStyle(wb, sheet = i, title, rows = 7, cols = 1, gridExpand = TRUE)
-  
+
   # addStyle(wb, sheet = i, header1, rows = datenbereich, cols = 1:spalten, gridExpand = TRUE,stack = TRUE)
-  
+
   openxlsx::addStyle(wb, sheet = i, header, rows = datenbereich, cols = 1:spalten, gridExpand = TRUE,stack = TRUE)
-  
+
   if (!is.null(grouplines)){
-    
-    openxlsx::addStyle(wb, sheet = i, leftline, rows =datenbereich:nrow(data), cols = grouplines, gridExpand = TRUE,stack = TRUE)
-    
+
+    datenbereich_end <-nrow(data)+datenbereich
+
+    openxlsx::addStyle(wb, sheet = i, leftline, rows=datenbereich:datenbereich_end, cols = grouplines, gridExpand = TRUE,stack = TRUE)
+
   }
+
   #Friere oberste Zeilen ein
-  
+
   openxlsx::freezePane(wb, sheet=i ,  firstActiveRow = datenbereich+2)
-  
+
   # bodyStyle <- createStyle(border="TopBottom", borderColour = "#4F81BD")
   # addStyle(wb, sheet = 1, bodyStyle, rows = 2:6, cols = 1:11, gridExpand = TRUE)
   openxlsx::setColWidths(wb, i, cols=4:spalten, widths = 18) ## set column width for row names column
-  
+
   newworkbook<<-wb
-  
+
 }
