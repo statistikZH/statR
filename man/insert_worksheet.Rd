@@ -13,7 +13,9 @@ insert_worksheet(data, workbook, title = "Title", sheetname = "data",
 
 \item{workbook}{workbook object to write new worksheet in.}
 
-\item{sheetname}{title of the table and the sheet}
+\item{title}{title of the table and the sheet}
+
+\item{sheetname}{name of the sheet-tab.}
 
 \item{source}{source of the data. Defaults to "statzh".}
 

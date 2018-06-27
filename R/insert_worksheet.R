@@ -5,7 +5,8 @@
 #' Function to create formatted spreadsheets automatically
 #' @param data data to be included in the XLSX-table.
 #' @param workbook workbook object to write new worksheet in.
-#' @param sheetname title of the table and the sheet
+#' @param title title of the table and the sheet
+#' @param sheetname name of the sheet-tab.
 #' @param source source of the data. Defaults to "statzh".
 #' @param metadata metadata-information to be included. Defaults to NA.
 #' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
