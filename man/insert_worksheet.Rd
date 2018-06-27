@@ -2,22 +2,30 @@
 % Please edit documentation in R/insert_worksheet.R
 \name{insert_worksheet}
 \alias{insert_worksheet}
-\title{worksheetSTAT}
+\title{insert_worksheet}
 \usage{
-insert_worksheet(data, workbook, sheetname, grouplines = FALSE)
+insert_worksheet(data, workbook, title = "Title", sheetname = "data",
+  source = "statzh", metadata = NA, logo = NULL, grouplines = FALSE,
+  contactdetails = "statzh")
 }
 \arguments{
 \item{data}{data to be included in the XLSX-table.}
 
+\item{workbook}{workbook object to write new worksheet in.}
+
+\item{title}{title of the table and the sheet}
+
+\item{sheetname}{name of the sheet-tab.}
+
+\item{source}{source of the data. Defaults to "statzh".}
+
+\item{metadata}{metadata-information to be included. Defaults to NA.}
+
+\item{logo}{path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"}
+
 \item{grouplines}{defaults to FALSE. Can be used to separate grouped variables visually.}
 
-\item{wb}{workbook object to write new worksheet in.}
-
-\item{name}{title of the table / file.}
-
-\item{sheets}{values of the discrete or categorical variable for which a single worksheet should be generated}
-
-\item{sheetvar}{variable which contains the discrete variable to be used as 'period'}
+\item{contactdetails}{contactdetails of the data publisher. Defaults to "statzh".}
 }
 \description{
 Function to create formatted spreadsheets automatically
@@ -29,6 +37,6 @@ Function to create formatted spreadsheets automatically
   # create workbook
 wb <- openxlsx::createWorkbook("hello")
 
-worksheeSTAT(mtcars[c(1:10),],wb,"mtcars",c(1:4),carb,grouplines=c(1,5,6))
+insert_worksheet(mtcars[c(1:10),],wb,"mtcars",c(1:4),carb,grouplines=c(1,5,6))
 }
-\keyword{worksheetSTAT}
+\keyword{insert_worksheet}

@@ -4,100 +4,37 @@
 #'
 #' Function to create a formated single-worksheet XLSX automatically
 #' @param data data to be included in the XLSX-table.
-#' @param name title of the table / file.
-#' @metadata metadata-information to be included.
-#' @logo path of the file to be included as logo (png / jpeg / svg)
-#' @param grouplines insert vertical lines to separate columns visually.
+#' @param file filename of the xlsx-file. No Default.
+#' @param name title of the table in the worksheet, defaults to "Titel".
+#' @param source source of the data. Defaults to "statzh".
+#' @param metadata metadata-information to be included. Defaults to NA.
+#' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
+#' @param contactdetails contactdetails of the data publisher. Defaults to "statzh".
+#' @param grouplines columns to be separated visually by vertical lines.
 #' @keywords quickXLSX
 #' @export
 #' @examples
-#' quickXLSX(data, name, filename="file", grouplines = 0, metadata = NA, logo = statzh,
-#' contactdetails = statzhcontact)
+#' quickXLSX(head(mtcars), "mtcars")
+#'
+#' #example with own logo, a custom filename, lines separating selected columns and some remarks
+#'
+#' quickXLSX(head(mtcars),  file="filename", title="alternative title", source="alternative source",contactdetails="blavla", grouplines = c(1,2,3), metadata = "remarks:",logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
 
-# Function
 
+quickXLSX <-function (data, file, ...) {
 
-quickXLSX <-function (data, name,filename="file", grouplines = 0, metadata = NA, logo = "none",
-                      contactdetails = statzhcontact) {
+  #create workbook
+  wb <- openxlsx::createWorkbook(paste(file))
 
-  remarks <- if (is.na(metadata)) {
-    "Bemerkungen:"
-  }
-  else if (metadata == "HAE") {
-    "Die Zahlen der letzten drei Jahre sind provisorisch."
-  }
-  else {
-    metadata
-  }
+  #insert data
+  insert_worksheet(data, wb, ...)
 
-  wb <- openxlsx::createWorkbook(paste(name))
-  options(openxlsx.numFmt = "#,###0")
-  datenbereich = 14
-  spalten = ncol(data)
-  contact = if (spalten > 4) {
-    spalten - 2
-  }
-  else {
-    3
-  }
-  title <- openxlsx::createStyle(fontSize = 14, textDecoration = "bold",
-                                 fontName = "Arial")
-  subtitle <- openxlsx::createStyle(fontSize = 12, textDecoration = "italic",
-                                    fontName = "Arial")
-  header <- openxlsx::createStyle(fontSize = 12, fontColour = "#000000",
-                                  halign = "left", border = "Bottom", borderColour = "#009ee0",
-                                  textDecoration = "bold")
-  headerline <- openxlsx::createStyle(border = "Bottom", borderColour = "#009ee0",
-                                      borderStyle = getOption("openxlsx.borderStyle", "thick"))
-  bottomline <- openxlsx::createStyle(border = "Bottom", borderColour = "#009ee0")
-  leftline <- openxlsx::createStyle(border = "Left", borderColour = "#4F81BD")
-  wrap <- openxlsx::createStyle(wrapText = TRUE)
-  openxlsx::addWorksheet(wb, "data")
-
-  statzh <- "Stempel_STAT-01.png"
-
-  if(file.exists(statzh)){logo <- statzh}
-
-  if (logo!="none") {
-
-    openxlsx::insertImage(wb, 1, logo, width = 2.145, height = 0.7865,
-                          units = "in")
-  }
-
-  openxlsx::writeData(wb, sheet = 1, substr(name,0,6) , headerStyle = title,
-                      startRow = 7)
-  openxlsx::writeData(wb, sheet = 1, "Quelle: Statistisches Amt des Kantons Zürich",
-                      headerStyle = subtitle, startRow = 8)
-  openxlsx::writeData(wb, sheet = 1, remarks, headerStyle = subtitle,
-                      startRow = 9)
-  statzhcontact <- c("Datashop, Tel: 0432597500", "datashop@statistik.ji.zh.ch",
-                     "http://www.statistik.zh.ch")
-  if (length(contactdetails) > 3) {
-    warning("Contactdetails may overlap with other elements. To avoid this issue please do not include more than three elements in the contactdetails vector.")
-  }
-  openxlsx::writeData(wb, sheet = 1, contactdetails, headerStyle = wrap,
-                      startRow = 2, startCol = contact)
-  openxlsx::writeData(wb, sheet = 1, paste("Aktualisiert am ",
-                                           format(Sys.Date(), format = "%d.%m.%Y"), " durch: ",
-                                           stringr::str_sub(Sys.getenv("USERNAME"), -2)), headerStyle = subtitle,
-                      startRow = 5, startCol = contact)
-  openxlsx::writeData(wb, sheet = 1, data, rowNames = FALSE,
-                      startRow = datenbereich, withFilter = FALSE)
-  openxlsx::addStyle(wb, sheet = 1, title, rows = 7, cols = 1,
-                     gridExpand = TRUE)
-  openxlsx::addStyle(wb, sheet = 1, headerline, rows = 5, cols = 1:spalten,
-                     gridExpand = TRUE, stack = TRUE)
-  openxlsx::addStyle(wb, sheet = 1, header, rows = datenbereich,
-                     cols = 1:spalten, gridExpand = TRUE, stack = TRUE)
-  if (grouplines != 0) {
-    openxlsx::addStyle(wb, sheet = 1, leftline, rows = (datenbereich -
-                                                          1):nrow(data), cols = grouplines, gridExpand = TRUE,
-                       stack = TRUE)
-  }
-  openxlsx::freezePane(wb, sheet = 1, firstActiveRow = datenbereich +2)
-  openxlsx::setColWidths(wb, 1, cols = 1:spalten, widths = 20)
-  openxlsx::saveWorkbook(wb, paste(substr(name,0,20), ".xlsx", sep = ""),
+  #save workbook
+  openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""),
                          overwrite = TRUE)
-}
 
+  rm(newworkbook,envir = .GlobalEnv)
+
+
+}
 

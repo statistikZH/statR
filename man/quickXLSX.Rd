@@ -4,21 +4,33 @@
 \alias{quickXLSX}
 \title{quickXLSX}
 \usage{
-quickXLSX(data, name, filename = "file", grouplines = 0, metadata = NA,
-  logo = statzh, contactdetails = statzhcontact)
+quickXLSX(data, file, ...)
 }
 \arguments{
 \item{data}{data to be included in the XLSX-table.}
 
-\item{name}{title of the table / file.}
+\item{file}{filename of the xlsx-file. No Default.}
 
-\item{grouplines}{insert vertical lines to separate columns visually.}
+\item{name}{title of the table in the worksheet, defaults to "Titel".}
+
+\item{source}{source of the data. Defaults to "statzh".}
+
+\item{metadata}{metadata-information to be included. Defaults to NA.}
+
+\item{logo}{path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"}
+
+\item{contactdetails}{contactdetails of the data publisher. Defaults to "statzh".}
+
+\item{grouplines}{columns to be separated visually by vertical lines.}
 }
 \description{
 Function to create a formated single-worksheet XLSX automatically
 }
 \examples{
-quickXLSX(data, name, filename="file", grouplines = 0, metadata = NA, logo = statzh,
-contactdetails = statzhcontact)
+quickXLSX(head(mtcars), "mtcars")
+
+#example with own logo, a custom filename, lines separating selected columns and some remarks
+
+quickXLSX(head(mtcars),  file="filename", title="alternative title", source="alternative source",contactdetails="blavla", grouplines = c(1,2,3), metadata = "remarks:",logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
 }
 \keyword{quickXLSX}
