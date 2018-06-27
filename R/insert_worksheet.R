@@ -26,7 +26,9 @@
 
 #TO DO - insert name of the worksheet dynamicaly, insert warning if WB is not a workbook-object
 
-insert_worksheet <- function(data, workbook, sheetname, source="statzh", metadata = NA, logo="statzh", grouplines = FALSE, contactdetails="statzh",...) {
+#remove points?
+
+insert_worksheet <- function(data, workbook, title="Title",  sheetname="data", source="statzh", metadata = NA, logo=NULL, grouplines = FALSE, contactdetails="statzh") {
 
   # Metadata
   remarks <- if (is.na(metadata)) {
@@ -58,7 +60,7 @@ insert_worksheet <- function(data, workbook, sheetname, source="statzh", metadat
   contact = if(spalten>4){spalten-2}else{3}
 
   #styles
-  title <- openxlsx::createStyle(fontSize=14, textDecoration="bold",fontName="Arial")
+  titleStyle <- openxlsx::createStyle(fontSize=14, textDecoration="bold",fontName="Arial")
 
   subtitle <- openxlsx::createStyle(fontSize=12, textDecoration="italic",fontName="Arial")
 
@@ -88,10 +90,13 @@ insert_worksheet <- function(data, workbook, sheetname, source="statzh", metadat
   #   #get index
   #   i<- which(sheets==year)
 
-  ## Add worksheet
-  openxlsx::addWorksheet(wb,paste(sheetname))
+  # warning if sheetname is longer than the limit imposed by excel (31 characters)
+  if(nchar(sheetname)>31){warning("sheetname is cut to 31 characters (excel-limit)")}
 
-  i <- paste(sheetname)
+  ## Add worksheet
+  openxlsx::addWorksheet(wb,paste(substr(sheetname,0,31)))
+
+  i <- paste(substr(sheetname,0,31))
 
 
   # Style ---------------------
@@ -102,15 +107,25 @@ insert_worksheet <- function(data, workbook, sheetname, source="statzh", metadat
   # Titel & Untertitel -----------------
 
   #Logo
-  statzh <- "Stempel_STAT-01.png"
 
- if(file.exists(statzh)){logo <- statzh}
+statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
 
-  if (logo!="none") {
+  # file.exists(paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png"))
 
-    openxlsx::insertImage(wb, i, logo, width = 2.145, height = 0.7865,
+
+ if(is.character(logo)){statzh <- paste0(logo)}
+
+
+ if (file.exists(statzh)) {
+
+   # message("logo found and added")
+
+
+    openxlsx::insertImage(wb, i, statzh, width = 2.145, height = 0.7865,
                           units = "in")
-  }
+ } else {
+
+   message("no logo found and / or added")}
 
 
   #standard contactdetails
@@ -142,12 +157,12 @@ insert_worksheet <- function(data, workbook, sheetname, source="statzh", metadat
   # }
 
   #Titel
-  openxlsx::writeData(wb, sheet = i,sheetname, headerStyle=title,startRow = 7)
+  openxlsx::writeData(wb, sheet = i,title, headerStyle=titleStyle,startRow = 7)
 
   ##Quelle
   openxlsx::writeData(wb, sheet = i, source, headerStyle=subtitle, startRow = 8)
 
-  ##Quelle
+  ##Metadata
   openxlsx::writeData(wb, sheet = i, metadata, headerStyle=subtitle, startRow = 9)
 
   #Kontakt
@@ -170,7 +185,7 @@ insert_worksheet <- function(data, workbook, sheetname, source="statzh", metadat
 
   openxlsx::addStyle(wb, sheet = i, headerline, rows = 5, cols = 1:spalten, gridExpand = TRUE,stack = TRUE)
 
-  openxlsx::addStyle(wb, sheet = i, title, rows = 7, cols = 1, gridExpand = TRUE)
+  openxlsx::addStyle(wb, sheet = i, titleStyle, rows = 7, cols = 1, gridExpand = TRUE)
 
   # addStyle(wb, sheet = i, header1, rows = datenbereich, cols = 1:spalten, gridExpand = TRUE,stack = TRUE)
 
