@@ -56,7 +56,7 @@ splitXLSX <- function(data, file, sheetvar, ...) {
   #save xlsx
   openxlsx::saveWorkbook(wb, paste(file,".xlsx",sep=""), overwrite = TRUE)
 
-  rm(newworkbook,envir = .GlobalEnv)
+  # rm(newworkbook,envir = .GlobalEnv)
 
 }
 

@@ -33,7 +33,7 @@ quickXLSX <-function (data, file, ...) {
   openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""),
                          overwrite = TRUE)
 
-  rm(newworkbook,envir = .GlobalEnv)
+  # rm(newworkbook,envir = .GlobalEnv)
 
 
 }

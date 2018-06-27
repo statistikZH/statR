@@ -29,7 +29,7 @@
 
 #remove points?
 
-insert_worksheet <- function(data, workbook, title="Title",  sheetname="data", source="statzh", metadata = NA, logo=NULL, grouplines = FALSE, contactdetails="statzh") {
+insert_worksheet <- function(data, workbook, sheetname="data",title="Title", source="statzh", metadata = NA, logo=NULL, grouplines = FALSE, contactdetails="statzh") {
 
   # Metadata
   remarks <- if (is.na(metadata)) {
@@ -92,7 +92,7 @@ insert_worksheet <- function(data, workbook, title="Title",  sheetname="data", s
   #   i<- which(sheets==year)
 
   # warning if sheetname is longer than the limit imposed by excel (31 characters)
-  if(nchar(sheetname)>31){warning("sheetname is cut to 31 characters (excel-limit)")}
+  if(nchar(sheetname)>31){warning("sheetname is cut to 31 characters (limit imposed by MS-Excel)")}
 
   ## Add worksheet
   openxlsx::addWorksheet(wb,paste(substr(sheetname,0,31)))
@@ -208,6 +208,6 @@ statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
   # addStyle(wb, sheet = 1, bodyStyle, rows = 2:6, cols = 1:11, gridExpand = TRUE)
   openxlsx::setColWidths(wb, i, cols=4:spalten, widths = 18) ## set column width for row names column
 
-  newworkbook<<-wb
+  # newworkbook<<-wb
 
 }

@@ -4,7 +4,7 @@
 \alias{insert_worksheet}
 \title{insert_worksheet}
 \usage{
-insert_worksheet(data, workbook, title = "Title", sheetname = "data",
+insert_worksheet(data, workbook, sheetname = "data", title = "Title",
   source = "statzh", metadata = NA, logo = NULL, grouplines = FALSE,
   contactdetails = "statzh")
 }
@@ -13,9 +13,9 @@ insert_worksheet(data, workbook, title = "Title", sheetname = "data",
 
 \item{workbook}{workbook object to write new worksheet in.}
 
-\item{title}{title of the table and the sheet}
-
 \item{sheetname}{name of the sheet-tab.}
+
+\item{title}{title of the table and the sheet}
 
 \item{source}{source of the data. Defaults to "statzh".}
 
