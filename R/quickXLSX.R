@@ -5,7 +5,7 @@
 #' Function to create a formated single-worksheet XLSX automatically
 #' @param data data to be included in the XLSX-table.
 #' @param file filename of the xlsx-file. No Default.
-#' @param name title of the table in the worksheet, defaults to "Titel".
+#' @param title title of the table in the worksheet, defaults to "Titel".
 #' @param source source of the data. Defaults to "statzh".
 #' @param metadata metadata-information to be included. Defaults to NA.
 #' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
