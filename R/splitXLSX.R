@@ -26,6 +26,7 @@
 
 splitXLSX <- function(data, file, sheetvar, ...) {
 
+  data <- as.data,as.data.frame(data)
 
   #extract colname
   col_name <- rlang::enquo(sheetvar)
