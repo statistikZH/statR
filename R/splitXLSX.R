@@ -26,6 +26,7 @@
 
 splitXLSX <- function(data, file, sheetvar, ...) {
 
+  data <- as.data.frame(data)
 
   #extract colname
   col_name <- rlang::enquo(sheetvar)
@@ -56,7 +57,7 @@ splitXLSX <- function(data, file, sheetvar, ...) {
   #save xlsx
   openxlsx::saveWorkbook(wb, paste(file,".xlsx",sep=""), overwrite = TRUE)
 
-  rm(newworkbook,envir = .GlobalEnv)
+  # rm(newworkbook,envir = .GlobalEnv)
 
 }
 
