@@ -5,7 +5,7 @@
 #' Function to create formatted spreadsheets automatically
 #' @param data data to be included in the XLSX-table.
 #' @param file filename of the xlsx-file. No Default.
-#' @param name title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.
+#' @param title title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.
 #' @param sheetvar variable which contains the variable to be used to split the data across several sheets.
 #' @param source source of the data. Defaults to "statzh".
 #' @param metadata metadata-information to be included. Defaults to NA.
