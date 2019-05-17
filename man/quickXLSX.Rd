@@ -11,7 +11,7 @@ quickXLSX(data, file, ...)
 
 \item{file}{filename of the xlsx-file. No Default.}
 
-\item{name}{title of the table in the worksheet, defaults to "Titel".}
+\item{title}{title of the table in the worksheet, defaults to "Titel".}
 
 \item{source}{source of the data. Defaults to "statzh".}
 
@@ -31,6 +31,6 @@ quickXLSX(head(mtcars), "mtcars")
 
 #example with own logo, a custom filename, lines separating selected columns and some remarks
 
-quickXLSX(head(mtcars),  file="filename", title="alternative title", source="alternative source",contactdetails="blavla", grouplines = c(1,2,3), metadata = "remarks:",logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
+quickXLSX(head(mtcars),  file="filename", title="your title", source="alternative source",contactdetails="blavla", grouplines = c(1,2,3), metadata = "remarks:",logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
 }
 \keyword{quickXLSX}

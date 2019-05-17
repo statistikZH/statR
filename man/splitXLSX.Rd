@@ -13,7 +13,7 @@ splitXLSX(data, file, sheetvar, ...)
 
 \item{sheetvar}{variable which contains the variable to be used to split the data across several sheets.}
 
-\item{name}{title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.}
+\item{title}{title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.}
 
 \item{source}{source of the data. Defaults to "statzh".}
 
