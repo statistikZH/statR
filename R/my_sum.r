@@ -1,26 +1,26 @@
-# my_sum: Funktion für einfache (gruppierte) Standradauswertungen
-
+#' my_sum: Funktion für einfache (gruppierte) Standradauswertungen
 #' my_sum
 #'
 #' Function to create a formated single-worksheet XLSX automatically
 #' @param df dataframe
 #' @param var variables to be aggregated
-#' @param ... grouping variables
+#' @param ... Grouping Variables
 #' @keywords my_sum
 #' @export
 #' @examples
 #'
-#' my_sum(df, var, [grp1, grp2, ...])
+#' my_sum(df, var, grp1, grp2, ...)
 #' df -> data.frame
 #' var -> Auswertungsvariable
 #' grp1 -> Groupingvariable 1 (optional)
 #' grp2 -> Groupingvariable 2 (optional)
+#'
+#'
 
-
-require(tidyverse)
 
 my_sum <- function(df, var, ...) {
-  group_by <- quos(...)
+
+  dplyr::group_by <- quos(...)
   var <- enquo(var)
   mean_name <- paste0("mean_", quo_name(var))
   sd_name <- paste0("sd_", quo_name(var))
