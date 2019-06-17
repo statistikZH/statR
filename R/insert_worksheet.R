@@ -52,7 +52,9 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title", sou
   wb<-workbook
 
   # data-container from row 5
-  datenbereich = 14
+  n_metadata <- length(metadata)
+
+  datenbereich = 9 + n_metadata + 3
 
   #define width of the area in which data is contained for formating
   spalten = ncol(data)
