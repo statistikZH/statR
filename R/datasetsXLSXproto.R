@@ -24,7 +24,13 @@
 
 # Function
 
-datasetsXLSX <- function(file="test", datasets=list(head(mtcars),head(diamonds)),...){
+datasetsXLSX <- function(file="test",
+                         datasets=list(head(mtcars),head(diamonds)),
+                         sheetnames,
+                         titles,
+                         sources,
+                         metadata1,
+                         ...){
 
   wb <- openxlsx::createWorkbook("hello")
 
@@ -34,14 +40,32 @@ datasetsXLSX <- function(file="test", datasets=list(head(mtcars),head(diamonds))
 
     i <- i+1
 
+    # next
+    sheetnames_def <- if(sheetnames != )
+
+    title_def <- if(length(titles)>1) {
+      titles[i]
+    } else {titles
+    }
+
+    source_def <- if(length(sources)>1) {
+      sources[i]
+    } else {sources
+    }
+
+    metadata_def <- if(length(metadata1)>1) {
+      metadata1[i]
+    } else {metadata1
+    }
+
     #dynamisch mit sheetvar!
-    statR::insert_worksheet(data=dataset,workbook=wb,sheetname = i)
-
-
+    statR::insert_worksheet(data=dataset,
+                            workbook=wb,
+                            sheetname = i,
+                            title = title_def
+                            source = source_def,
+                            metadata = metadata_def)
   }
-
-
   openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""))
-
 }
 
