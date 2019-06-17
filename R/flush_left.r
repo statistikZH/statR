@@ -13,7 +13,6 @@
 #' labs(title = "Titel", subtitle = "Untertitel", caption = "Datenquelle"))
 
 
-
 flush_left <- function(g, ...){
 
   xout <- ggplotGrob(g)
