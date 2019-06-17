@@ -171,6 +171,12 @@ statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
   openxlsx::writeData(wb, sheet = i, source, headerStyle=subtitle, startRow = 8+n_metadata)
 
 
+  for (j in c(2:5)){
+
+    mergeCells(wb, sheet = i, cols = contact:(contact+1), rows = j)
+
+  }
+
 
   #Kontakt
   openxlsx::writeData(wb, sheet = i,
@@ -212,7 +218,7 @@ statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
 
   # bodyStyle <- createStyle(border="TopBottom", borderColour = "#4F81BD")
   # addStyle(wb, sheet = 1, bodyStyle, rows = 2:6, cols = 1:11, gridExpand = TRUE)
-  openxlsx::setColWidths(wb, i, cols=4:spalten, widths = "auto") ## set column width for row names column
+  openxlsx::setColWidths(wb, i, cols=4:spalten, widths = "auto", ignoreMergedCells = TRUE) ## set column width for row names column
 
   # newworkbook<<-wb
 
