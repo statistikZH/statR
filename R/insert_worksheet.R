@@ -206,7 +206,7 @@ statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
 
   # bodyStyle <- createStyle(border="TopBottom", borderColour = "#4F81BD")
   # addStyle(wb, sheet = 1, bodyStyle, rows = 2:6, cols = 1:11, gridExpand = TRUE)
-  openxlsx::setColWidths(wb, i, cols=4:spalten, widths = 18) ## set column width for row names column
+  openxlsx::setColWidths(wb, i, cols=4:spalten, widths = "auto") ## set column width for row names column
 
   # newworkbook<<-wb
 
