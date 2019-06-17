@@ -162,11 +162,15 @@ statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
   #Titel
   openxlsx::writeData(wb, sheet = i,title, headerStyle=titleStyle,startRow = 7)
 
-  ##Quelle
-  openxlsx::writeData(wb, sheet = i, source, headerStyle=subtitle, startRow = 8)
 
   ##Metadata
-  openxlsx::writeData(wb, sheet = i, metadata, headerStyle=subtitle, startRow = 9)
+  openxlsx::writeData(wb, sheet = i, metadata, headerStyle=subtitle, startRow = 8)
+
+
+  ##Quelle
+  openxlsx::writeData(wb, sheet = i, source, headerStyle=subtitle, startRow = 8+n_metadata)
+
+
 
   #Kontakt
   openxlsx::writeData(wb, sheet = i,
