@@ -3,9 +3,7 @@
 #' flush_left
 #'
 #' Function to flush title, subtitle and caption to the lefthand side of the graphics device
-#' @param df dataframe
-#' @param var variables to be aggregated
-#' @param ... grouping variables
+#' @param g ggplot object
 #' @keywords flush left
 #' @export
 #' @examples
@@ -13,12 +11,10 @@
 #' flush_left(ggplot(mtcars, aes( x = cyl))+geom_bar()+labs(title = "Titel", subtitle = "Untertitel", caption = "Datenquelle"))
 
 
-require(ggplot2)
 
+flush_left <- function(g, ...){
 
-flush_left <- function(x, ...){
-
-  xout <- ggplotGrob(x)
+  xout <- ggplotGrob(g)
 
   xout$layout$l[xout$layout$name == "title"] <- 1
   xout$layout$l[xout$layout$name == "subtitle"] <- 1
