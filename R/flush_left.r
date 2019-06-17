@@ -8,7 +8,9 @@
 #' @export
 #' @examples
 #'
-#' flush_left(ggplot(mtcars, aes( x = cyl))+geom_bar()+labs(title = "Titel", subtitle = "Untertitel", caption = "Datenquelle"))
+#' flush_left(ggplot(mtcars, aes( x = cyl))+
+#' geom_bar()+
+#' labs(title = "Titel", subtitle = "Untertitel", caption = "Datenquelle"))
 
 
 

@@ -4,21 +4,19 @@
 \alias{flush_left}
 \title{flush_left}
 \usage{
-flush_left(x, ...)
+flush_left(g, ...)
 }
 \arguments{
-\item{...}{grouping variables}
-
-\item{df}{dataframe}
-
-\item{var}{variables to be aggregated}
+\item{g}{ggplot object}
 }
 \description{
 Function to flush title, subtitle and caption to the lefthand side of the graphics device
 }
 \examples{
 
-flush_left(ggplot(mtcars, aes( x = cyl))+geom_bar()+labs(title = "Titel", subtitle = "Untertitel", caption = "Datenquelle"))
+flush_left(ggplot(mtcars, aes( x = cyl))+
+geom_bar()+
+labs(title = "Titel", subtitle = "Untertitel", caption = "Datenquelle"))
 }
 \keyword{flush}
 \keyword{left}
