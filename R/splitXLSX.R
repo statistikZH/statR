@@ -18,7 +18,7 @@
 #' # Generation of a spreadsheet with four worksheets (one per 'carb'-category).
 #' # Can be used to generate worksheets for multiple years.
 #'
-#' splitXLSX(mtcars[c(1:10),],"mtcars",carb,grouplines=c(1,5,6))
+#' splitXLSX(head(mtcars),"mtcars",carb,grouplines=c(1,5,6))
 #'
 #' splitXLSX(head(mtcars),carb, file="filename",grouplines = c(1,2,3), metadata = "remarks: ....",source="canton of zurich",logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
 
