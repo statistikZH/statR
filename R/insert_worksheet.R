@@ -52,7 +52,9 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title", sou
   wb<-workbook
 
   # data-container from row 5
-  datenbereich = 14
+  n_metadata <- length(metadata)
+
+  datenbereich = 9 + n_metadata + 3
 
   #define width of the area in which data is contained for formating
   spalten = ncol(data)
@@ -160,11 +162,21 @@ statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
   #Titel
   openxlsx::writeData(wb, sheet = i,title, headerStyle=titleStyle,startRow = 7)
 
-  ##Quelle
-  openxlsx::writeData(wb, sheet = i, source, headerStyle=subtitle, startRow = 8)
 
   ##Metadata
-  openxlsx::writeData(wb, sheet = i, metadata, headerStyle=subtitle, startRow = 9)
+  openxlsx::writeData(wb, sheet = i, metadata, headerStyle=subtitle, startRow = 8)
+
+
+  ##Quelle
+  openxlsx::writeData(wb, sheet = i, source, headerStyle=subtitle, startRow = 8+n_metadata)
+
+
+  for (j in c(2:5)){
+
+    mergeCells(wb, sheet = i, cols = contact:(contact+1), rows = j)
+
+  }
+
 
   #Kontakt
   openxlsx::writeData(wb, sheet = i,
@@ -206,7 +218,7 @@ statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
 
   # bodyStyle <- createStyle(border="TopBottom", borderColour = "#4F81BD")
   # addStyle(wb, sheet = 1, bodyStyle, rows = 2:6, cols = 1:11, gridExpand = TRUE)
-  openxlsx::setColWidths(wb, i, cols=4:spalten, widths = 18) ## set column width for row names column
+  openxlsx::setColWidths(wb, i, cols=4:spalten, widths = 18, ignoreMergedCells = TRUE) ## set column width for row names column
 
   # newworkbook<<-wb
 
