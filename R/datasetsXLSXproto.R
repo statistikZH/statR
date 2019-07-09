@@ -24,11 +24,7 @@
 
 # Functions
 
-sql1 <- head(mtcars)
-sql4 <- head(diamonds)
-
-datasetsXLSX <- function(file="test",
-                         #datasets1=list(head(mtcars),head(diamonds)),
+datasetsXLSX <- function(file,
                          datasets,
                          sheetnames,
                          titles,
@@ -39,7 +35,6 @@ datasetsXLSX <- function(file="test",
 
 
   wb <- openxlsx::createWorkbook("hello")
-  datasets <- list(as.data.frame(datasets[1]), as.data.frame(datasets[2]))
 
   i<-0
 
@@ -47,7 +42,6 @@ datasetsXLSX <- function(file="test",
 
     i <- i+1
 
-    #next 31
     sheetnames_def <- if(length(sheetnames)>1) {
       sheetnames[i]
     } else {i
@@ -82,19 +76,29 @@ datasetsXLSX <- function(file="test",
 
 
 # example1
-datasetsXLSX(file="t8",
-             datasets = c(head(mtcars),head(diamonds)),
+datasetsXLSX(file="test1",
+             datasets = list(head(mtcars),head(diamonds)),
              sheetnames = c("t1", "t2"),
              titles = c("hi", "hey"),
              sources = c("ji", "hu"),
-             metadata1 = c("gut", "schlecht")
+             metadata1 = c("HAE", "schlecht")
              )
 
 # example2
-datasetsXLSX(file="test",
-             datasets = c(sql1, sql2),
+datasetsXLSX(file="test2",
+             datasets = list(head(mtcars),head(diamonds)),
              sheetnames = "t1",
              titles = "hey",
              sources = "hu",
              metadata1 = "gut"
 )
+
+# example3
+datasetsXLSX(file="test3",
+             datasets = list(head(mtcars),head(diamonds), tail(diamonds)),
+             sheetnames = c("t1", "t2", "t3"),
+             titles = c("hi", "hey", "hoi"),
+             sources = c("ji", "hu", "bu"),
+             metadata1 = c("gut", "schlecht", "neutral")
+)
+
