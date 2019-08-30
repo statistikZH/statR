@@ -38,8 +38,8 @@
 #') }
 
 
+datasetsXLSX <- function(file,
 
-datasetsXLSX <- function(file="test",
                          datasets,
                          sheetnames,
                          titles,
@@ -50,7 +50,6 @@ datasetsXLSX <- function(file="test",
 
 
   wb <- openxlsx::createWorkbook("hello")
-  datasets <- list(as.data.frame(datasets[1]), as.data.frame(datasets[2]))
 
   i<-0
 
@@ -58,7 +57,6 @@ datasetsXLSX <- function(file="test",
 
     i <- i+1
 
-    #next 31
     sheetnames_def <- if(length(sheetnames)>1) {
       sheetnames[i]
     } else {i
@@ -90,3 +88,4 @@ datasetsXLSX <- function(file="test",
   }
   openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""))
 }
+
