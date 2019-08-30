@@ -4,7 +4,8 @@
 \alias{interpolate2}
 \title{interpolate2()}
 \usage{
-interpolate2(palette, color = color, degree = degree, number = number)
+interpolate2(palette, color = color, degree = degree,
+  number = number)
 }
 \arguments{
 \item{palette}{a vector of colors to be interpolated to the same degree with the same color to generate uniform color palettes}

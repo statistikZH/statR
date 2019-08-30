@@ -5,8 +5,8 @@
 \title{insert_worksheet}
 \usage{
 insert_worksheet(data, workbook, sheetname = "data", title = "Title",
-  source = "statzh", metadata = NA, logo = NULL, grouplines = FALSE,
-  contactdetails = "statzh")
+  source = "statzh", metadata = NA, logo = NULL,
+  grouplines = FALSE, contactdetails = "statzh")
 }
 \arguments{
 \item{data}{data to be included in the XLSX-table.}
