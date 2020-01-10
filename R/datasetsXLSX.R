@@ -17,7 +17,7 @@
 #' @examples
 #'  \donttest{
 #'
-#' # example1
+#' # example
 #' datasetsXLSX(file="t8",
 #'            datasets = c(head(mtcars),head(diamonds)),
 #'            sheetnames = c("t1", "t2"),
