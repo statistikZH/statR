@@ -15,9 +15,9 @@
 #' @keywords datasetsXLSX
 #' @export
 #' @examples
-#' # Generation of a spreadsheet with four worksheets (one per 'carb'-category).
-#' # Can be used to generate worksheets for multiple years.
+#'  \donttest{
 #'
+<<<<<<< HEAD:R/datasetsXLSXproto.R
 #' # example3
 #' datasetsXLSX(file="test3",
 #'             datasets = list(head(mtcars),head(diamonds), tail(diamonds)),
@@ -31,13 +31,37 @@
 #'
 #'
 
+=======
+#' # example
+#' datasetsXLSX(file="t8",
+#'            datasets = c(head(mtcars),head(diamonds)),
+#'            sheetnames = c("t1", "t2"),
+#'            titles = c("hi", "hey"),
+#'             sources = c("ji", "hu"),
+#'            metadata1 = c("gut", "schlecht")
+#')
+#' sql1 <- head(mtcars)
+#' sql4 <- head(diamonds)
+#'
+# example2
+#' datasetsXLSX(file="test",
+#'             datasets = c(sql1, sql2),
+#'            sheetnames = "t1",
+#'            titles = "hey",
+#'            sources = "hu",
+#'            metadata1 = "gut"
+#') }
+>>>>>>> ea176025b2a9c460497a55032394a7562a8607f3:R/datasetsXLSX.R
 
-# Functions
 
 library(openxlsx)
 
 datasetsXLSX <- function(file,
+<<<<<<< HEAD:R/datasetsXLSXproto.R
                          maintitle,
+=======
+
+>>>>>>> ea176025b2a9c460497a55032394a7562a8607f3:R/datasetsXLSX.R
                          datasets,
                          sheetnames,
                          titles,
@@ -237,6 +261,7 @@ datasetsXLSX <- function(file,
   openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""))
 }
 
+<<<<<<< HEAD:R/datasetsXLSXproto.R
 #
 # # example1
 datasetsXLSX(file="aloha",
@@ -275,3 +300,5 @@ datasetsXLSX(file2="test3",
 #              metadata1 = c("gut", "schlecht", "neutral")
 # )
 
+=======
+>>>>>>> ea176025b2a9c460497a55032394a7562a8607f3:R/datasetsXLSX.R
