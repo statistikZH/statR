@@ -15,9 +15,9 @@
 #' @keywords datasetsXLSX
 #' @export
 #' @examples
-#'  \donttest{
+#' # Generation of a spreadsheet with four worksheets (one per 'carb'-category).
+#' # Can be used to generate worksheets for multiple years.
 #'
-<<<<<<< HEAD:R/datasetsXLSXproto.R
 #' # example3
 #' datasetsXLSX(file="test3",
 #'             datasets = list(head(mtcars),head(diamonds), tail(diamonds)),
@@ -31,37 +31,13 @@
 #'
 #'
 
-=======
-#' # example
-#' datasetsXLSX(file="t8",
-#'            datasets = c(head(mtcars),head(diamonds)),
-#'            sheetnames = c("t1", "t2"),
-#'            titles = c("hi", "hey"),
-#'             sources = c("ji", "hu"),
-#'            metadata1 = c("gut", "schlecht")
-#')
-#' sql1 <- head(mtcars)
-#' sql4 <- head(diamonds)
-#'
-# example2
-#' datasetsXLSX(file="test",
-#'             datasets = c(sql1, sql2),
-#'            sheetnames = "t1",
-#'            titles = "hey",
-#'            sources = "hu",
-#'            metadata1 = "gut"
-#') }
->>>>>>> ea176025b2a9c460497a55032394a7562a8607f3:R/datasetsXLSX.R
 
+# Functions
 
 library(openxlsx)
 
 datasetsXLSX <- function(file,
-<<<<<<< HEAD:R/datasetsXLSXproto.R
                          maintitle,
-=======
-
->>>>>>> ea176025b2a9c460497a55032394a7562a8607f3:R/datasetsXLSX.R
                          datasets,
                          sheetnames,
                          titles,
@@ -107,7 +83,7 @@ datasetsXLSX <- function(file,
                             title = title_def,
                             source = source_def,
                             metadata = metadata_def
-                            )
+    )
   }
 
 
@@ -206,21 +182,21 @@ datasetsXLSX <- function(file,
            ,rows = 10
            ,cols = 3
            ,gridExpand = TRUE
-           )
+  )
 
   writeData(wb
             ,"Inhalt"
             ,x = maintitle
             ,headerStyle=titleStyle
             ,xy = c("C", 10)
-            )
+  )
 
   # source
   writeData(wb
             ,"Inhalt"
             ,"Quelle: Statistisches Amt des Kantons Zürich"
             ,xy = c("C", 11)
-            )
+  )
 
   # subtitle
   subtitleStyle <- createStyle(fontSize=11, textDecoration="bold",fontName="Arial", halign = "left")
@@ -230,14 +206,14 @@ datasetsXLSX <- function(file,
            ,rows = 14
            ,cols = 3
            ,gridExpand = TRUE
-           )
+  )
 
   writeData(wb
             ,sheet = "Inhalt"
             ,x = "Inhalt"
             ,headerStyle=subtitleStyle
             ,xy = c("C", 13)
-            )
+  )
 
   ## Writing internal hyperlinks
   writeFormula(wb
@@ -248,7 +224,7 @@ datasetsXLSX <- function(file,
                                         ,text = titles # soll arguments titles entsprechen
                )
                ,xy = c("C", 15)
-               )
+  )
 
 
   openxlsx::worksheetOrder(wb) <- c(length(names(wb)),1:(length(names(wb))-1))
@@ -261,7 +237,6 @@ datasetsXLSX <- function(file,
   openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""))
 }
 
-<<<<<<< HEAD:R/datasetsXLSXproto.R
 #
 # # example1
 datasetsXLSX(file="aloha",
@@ -272,15 +247,15 @@ datasetsXLSX(file="aloha",
              sources = c("ji", "hu"),
              metadata1 = c("HAE", "schlecht"),
              auftrag_id="AAAAA"
-             )
+)
 
 
 datasetsXLSX(file2="test3",
-                       datasets = list(head(mtcars),head(diamonds), tail(diamonds)),
-                          sheetnames = c("t1", "t2", "t3"),
-                      titles = c("hi", "hey", "hoi"),
-                        sources = c("ji", "hu", "bu"),
-                        metadata1 = c("gut", "schlecht", "neutral"))
+             datasets = list(head(mtcars),head(diamonds), tail(diamonds)),
+             sheetnames = c("t1", "t2", "t3"),
+             titles = c("hi", "hey", "hoi"),
+             sources = c("ji", "hu", "bu"),
+             metadata1 = c("gut", "schlecht", "neutral"))
 #
 # # example2
 # datasetsXLSX(file="test2",
@@ -299,6 +274,3 @@ datasetsXLSX(file2="test3",
 #              sources = c("ji", "hu", "bu"),
 #              metadata1 = c("gut", "schlecht", "neutral")
 # )
-
-=======
->>>>>>> ea176025b2a9c460497a55032394a7562a8607f3:R/datasetsXLSX.R
