@@ -18,17 +18,15 @@
 #' @keywords datasetsXLSX
 #' @export
 #' @examples
-#' # Generation of a spreadsheet with four worksheets (one per 'carb'-category).
-#' # Can be used to generate worksheets for multiple years.
 #'
-#'# example
+#' # example with image
 #' library(tmap)
 #' data("World")
 #' # create map
 #' map <- tm_shape(World) +
 #'   tm_polygons("HPI")
 #'
-#'datasetsXLSX(file="datasetsXLSX"
+#' datasetsXLSX(file="datasetsXLSX"
 #'             ,maintitle = "nice datasets"
 #'             ,datasets = list(head(mtcars),tail(mtcars),map)
 #'             ,sheetnames = c("data1","data2","map")
@@ -39,22 +37,20 @@
 #'             ,titles = c("Title","Title", "Map")
 #'             ,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung", "Quelle: Strukturerhebung")
 #'             ,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla", "Bemerkungen: blablabla")
-#'             ,auftrag_id="AS2020_01"
+#'             ,auftrag_id="A2020_0200"
 #')
-#'datasetsXLSX(file="datasetsXLSX"
-,maintitle = "nice datasets"
-,datasets = list(head(mtcars),tail(mtcars))
-,sheetnames = c("data1","data2")
-# ,widths = c(0,0,10)
-# ,heights = c(0,0,8.5)
-# ,startrows = c(0,0,10)
-# ,startcols = c(0,0,8)
-,titles = c("Title","Title")
-,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung")
-,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla")
-,auftrag_id="AS2020_01"
-)
-
+#'
+#'
+#' # example without image
+#' datasetsXLSX(file="datasetsXLSX2"
+#' ,maintitle = "nice datasets"
+#' ,datasets = list(head(mtcars),tail(mtcars))
+#' ,sheetnames = c("data1","data2")
+#' ,titles = c("Title","Title")
+#' ,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung")
+#' ,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla")
+#' ,auftrag_id="AS2020_01"
+#' )
 #'
 #'
 
@@ -116,7 +112,7 @@ datasetsXLSX <- function(file
 
     #dynamisch mit sheetvar!
     if(is.data.frame(dataset)){
-      insert_worksheet2(data=dataset
+      insert_worksheet_nh(data=dataset
                         ,workbook=wb
                         ,sheetname = sheetnames_def
                         ,title = title_def
@@ -155,7 +151,7 @@ datasetsXLSX <- function(file
   # insert images
   openxlsx::insertImage(wb
                         ,"Inhalt"
-                        ,"C:/gitrepos/Raum_Siedlungsreport/Data/Stempel_STAT-01.png"
+                        ,"C:/gitrepos/statR/data/Stempel_STAT-01.png"
                         ,startRow = 2
                         ,startCol = 2
                         ,width = 2.5
@@ -290,25 +286,25 @@ datasetsXLSX <- function(file
 
 
 
-# example
-pacman::p_load(tidyverse,tmap)
-data("World")
-# create map
-map <- tm_shape(World) +
-  tm_polygons("HPI")
-
-datasetsXLSX(file="datasetsXLSX"
-             ,maintitle = "nice datasets"
-             ,datasets = list(head(mtcars),tail(mtcars),map)
-             ,sheetnames = c("data1","data2","map")
-             ,widths = c(0,0,10)
-             ,heights = c(0,0,8.5)
-             ,startrows = c(0,0,10)
-             ,startcols = c(0,0,8)
-             ,titles = c("Title","Title", "Map")
-             ,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung", "Quelle: Strukturerhebung")
-             ,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla", "Bemerkungen: blablabla")
-             ,auftrag_id="AS2020_01"
-)
+# # # example
+# pacman::p_load(tidyverse,tmap)
+# data("World")
+# # create map
+# map <- tm_shape(World) +
+#   tm_polygons("HPI")
+#
+# datasetsXLSX(file="datasetsXLSX"
+#              ,maintitle = "nice datasets"
+#              ,datasets = list(head(mtcars),tail(mtcars),map)
+#              ,sheetnames = c("data1","data2","map")
+#              ,widths = c(0,0,10)
+#              ,heights = c(0,0,8.5)
+#              ,startrows = c(0,0,10)
+#              ,startcols = c(0,0,8)
+#              ,titles = c("Title","Title", "Map")
+#              ,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung", "Quelle: Strukturerhebung")
+#              ,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla", "Bemerkungen: blablabla")
+#              ,auftrag_id="A2020_0200"
+# )
 
 
