@@ -21,11 +21,7 @@
 #'   # create workbook
 #' wb <- openxlsx::createWorkbook("hello")
 #'
-#' insert_worksheet_nh(mtcars[c(1:10),],wb,"mtcars",c(1:4),carb,grouplines=c(1,5,6))
-#'
-#'
-
-
+#' insert_worksheet(mtcars[c(1:10),],wb,"mtcars",c(1:4),carb,grouplines=c(1,5,6))
 
 # Function
 
@@ -35,14 +31,14 @@
 
 
 insert_worksheet_nh <- function(data
-                                ,workbook
-                                ,sheetname="data"
-                                ,title="Title"
-                                ,source="Quelle: Statistisches Amt Kanton Zürich"
-                                ,metadata = NA
-                                #,logo=NULL
-                                ,grouplines = FALSE
-                                #,contactdetails="statzh"
+                              ,workbook
+                              ,sheetname="data"
+                              ,title="Title"
+                              ,source="Quelle: Statistisches Amt Kanton Zürich"
+                              ,metadata = NA
+                              #,logo=NULL
+                              ,grouplines = FALSE
+                              #,contactdetails="statzh"
 ) {
 
   # Metadata
@@ -167,7 +163,7 @@ insert_worksheet_nh <- function(data
 
   subtitle <- openxlsx::createStyle(fontSize=11, fontName="Calibri")
 
-  header <- openxlsx::createStyle(fontSize = 12, fontName="Calibri", fontColour = "#000000",  halign = "left", border="Bottom",  borderColour = "#009ee0",textDecoration = "bold")
+  header <- openxlsx::createStyle(fontSize = 12, , fontName="Calibri", fontColour = "#000000",  halign = "left", border="Bottom",  borderColour = "#009ee0",textDecoration = "bold")
 
 
   #Titel
@@ -302,21 +298,21 @@ insert_worksheet_nh <- function(data
 
 
 
-# # example
-# hi <- openxlsx::createWorkbook("hi")
-#
-#
-# insert_worksheet2(head(mtcars)
-#                   ,hi
-#                   ,"data1"
-#                   ,title = "Title"
-#                   ,source = "Quelle: Statistisches Amt Kanton Zürich"
-#                   ,metadata = "Bemerkung: ...")
-# insert_worksheet2(tail(mtcars)
-#                   ,hi
-#                   ,"data2"
-#                   ,title = "Title"
-#                   ,source = "Quelle: Statistisches Amt Kanton Zürich"
-#                   ,metadata = "Bemerkung: ...")
-#
-# openxlsx::saveWorkbook(hi,"insertworksheet2.xlsx")
+# example
+export <- openxlsx::createWorkbook("export")
+
+
+insert_worksheet2(head(mtcars)
+                  ,export
+                  ,"data1"
+                  ,title = "Title"
+                  ,source = "Quelle: Statistisches Amt Kanton Zürich"
+                  ,metadata = "Bemerkung: ...")
+insert_worksheet2(tail(mtcars)
+                  ,export
+                  ,"data2"
+                  ,title = "Title"
+                  ,source = "Quelle: Statistisches Amt Kanton Zürich"
+                  ,metadata = "Bemerkung: ...")
+
+openxlsx::saveWorkbook(export,"insertworksheet2.xlsx")
