@@ -17,3 +17,7 @@ Imports:
 	  magrittr
 URL: https://statistikzh.github.io/statR/
 BugReports: https://github.com/statistikZH/statR/issues
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
