@@ -15,17 +15,35 @@
 #' @keywords insert_worksheet
 #' @export
 #' @examples
-#' # Generation of a spreadsheet with four worksheets (one per 'carb'-category).
-#' # Can be used to generate worksheets for multiple years.
+#'  # insertion of two worksheets in a existing workbook
 #'
 #'   # create workbook
 #' wb <- openxlsx::createWorkbook("hello")
 #'
 #' insert_worksheet_nh(mtcars[c(1:10),],wb,"mtcars",c(1:4),carb,grouplines=c(1,5,6))
 #'
+#'   # create workbook
+#' export <- openxlsx::createWorkbook("export")
 #'
-
-
+#' # insert a new worksheet
+#' insert_worksheet_nh(head(mtcars)
+#'                   ,export
+#'                   ,"data1"
+#'                  ,title = "Title"
+#'                   ,source = "Quelle: Statistisches Amt Kanton Zürich"
+#'                   ,metadata = "Bemerkung: ...")
+#'
+#'  # insert a further worksheet
+#' insert_worksheet_nh(tail(mtcars)
+#'                    ,export
+#'                    ,"data2"
+#'                    ,title = "Title"
+#'                    ,source = "Quelle: Statistisches Amt Kanton Zürich"
+#'                    ,metadata = "Bemerkung: ...")
+#'
+#'  # save workbook
+#'  openxlsx::saveWorkbook(export,"example.xlsx")
+#'
 
 # Function
 
@@ -89,13 +107,6 @@ insert_worksheet_nh <- function(data
   wrap <- openxlsx::createStyle(wrapText = TRUE)
 
 
-  ### Loop for multiple years / worksheets ------------
-
-  # for (year in sheets){
-  #
-  #   #get index
-  #   i<- which(sheets==year)
-
   # warning if sheetname is longer than the limit imposed by excel (31 characters)
   if(nchar(sheetname)>31){warning("sheetname is cut to 31 characters (limit imposed by MS-Excel)")}
 
@@ -104,63 +115,6 @@ insert_worksheet_nh <- function(data
 
   i <- paste(substr(sheetname,0,31))
 
-
-  # Style ---------------------
-
-  #title,subtitle & Header
-
-
-  # Titel & Untertitel -----------------
-
-  # #Logo
-  #
-  # statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
-  #
-  # # file.exists(paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png"))
-  #
-  #
-  # if(is.character(logo)){statzh <- paste0(logo)}
-  #
-  #
-  # if (file.exists(statzh)) {
-  #
-  #   # message("logo found and added")
-  #
-  #
-  #   openxlsx::insertImage(wb, i, statzh, width = 2.145, height = 0.7865,
-  #                         units = "in")
-  # } else {
-  #
-  #   message("no logo found and / or added")}
-  #
-  #
-  # #standard contactdetails
-  # if(contactdetails=="statzh"){
-  #
-  #   contactdetails <- c("Datashop, Tel: 0432597500",
-  #                       "datashop@statistik.ji.zh.ch",
-  #                       "http://www.statistik.zh.ch")
-  #
-  # }else {contactdetails}
-  #
-  # if (length(contactdetails) > 3) {
-  #   warning("Contactdetails may overlap with other elements. To avoid this issue please do not include more than three elements in the contactdetails vector.")
-  # }
-  #
-  #
-  # if(source=="statzh"){
-  #
-  #   source="Quelle: Statistisches Amt des Kantons Zürich"
-  #
-  # }else {source}
-
-
-
-
-
-  # if (file.exists("L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/Stempel_STAT-01.png")) {
-  #   openxlsx::insertImage(wb, paste(sheetname), "L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/Stempel_STAT-01.png",width=2.145, height=0.7865, units="in")
-  # }
 
   #styles
   titleStyle <- openxlsx::createStyle(fontSize=14, textDecoration="bold",fontName="Arial")
@@ -219,26 +173,6 @@ insert_worksheet_nh <- function(data
   )
 
 
-  # for (j in c(2:5)){
-  #
-  #   mergeCells(wb, sheet = i, cols = contact:(contact+1), rows = j)
-  #
-  # }
-
-
-  # #Kontakt
-  # openxlsx::writeData(wb, sheet = i,
-  #                     contactdetails,
-  #                     headerStyle = wrap,
-  #                     startRow = 2,
-  #                     startCol = contact)
-  #
-  # #Aktualisierungsdatum
-  # openxlsx::writeData(wb, sheet = i, paste("Aktualisiert am ",
-  #                                          format(Sys.Date(), format="%d.%m.%Y"), " durch: ",
-  #                                          stringr::str_sub(Sys.getenv("USERNAME"),-2)),
-  #                     headerStyle=subtitle, startRow = 5, startCol=contact)
-
   # Daten abfüllen
   openxlsx::writeData(wb
                       ,sheet = i
@@ -249,12 +183,6 @@ insert_worksheet_nh <- function(data
   )
 
   #Füge Formatierungen ein
-
-  # openxlsx::addStyle(wb, sheet = i, headerline, rows = 5, cols = 1:spalten, gridExpand = TRUE,stack = TRUE)
-
-  # openxlsx::addStyle(wb, sheet = i, titleStyle, rows = 7, cols = 1, gridExpand = TRUE)
-
-  # addStyle(wb, sheet = i, header1, rows = datenbereich, cols = 1:spalten, gridExpand = TRUE,stack = TRUE)
 
   openxlsx::addStyle(wb
                      ,sheet = i
@@ -280,21 +208,6 @@ insert_worksheet_nh <- function(data
 
   }
 
-  # #Friere oberste Zeilen ein
-  #
-  # openxlsx::freezePane(wb, sheet=i ,  firstActiveRow = datenbereich+2)
-  #
-  # # bodyStyle <- createStyle(border="TopBottom", borderColour = "#4F81BD")
-  # # addStyle(wb, sheet = 1, bodyStyle, rows = 2:6, cols = 1:11, gridExpand = TRUE)
-  # openxlsx::setColWidths(wb, i, cols=4:spalten, widths = 18, ignoreMergedCells = TRUE) ## set column width for row names column
-  #
-  # # newworkbook<<-wb
-
-  # openxlsx::setColWidths(wb
-  #              ,sheet = i
-  #              ,cols = 1:ncol(data)
-  #              ,widths = "auto"
-  #              )
 
 
 
@@ -302,17 +215,17 @@ insert_worksheet_nh <- function(data
 
 
 
-# # example
+# # # example
 # hi <- openxlsx::createWorkbook("hi")
 #
 #
-# insert_worksheet2(head(mtcars)
+# insert_worksheet_nh(head(mtcars)
 #                   ,hi
 #                   ,"data1"
 #                   ,title = "Title"
 #                   ,source = "Quelle: Statistisches Amt Kanton Zürich"
 #                   ,metadata = "Bemerkung: ...")
-# insert_worksheet2(tail(mtcars)
+# insert_worksheet_nh(tail(mtcars)
 #                   ,hi
 #                   ,"data2"
 #                   ,title = "Title"
