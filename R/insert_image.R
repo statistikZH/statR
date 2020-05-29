@@ -1,7 +1,7 @@
-# function insert_worksheet_image
-#' Title
+# insert an image into a single worksheet
+#' insert_image
 #'
-#' @param image name of the image
+#' @param image image or plot
 #' @param workbook workbook object to write new worksheet in
 #' @param sheetname  name of the sheet tab
 #' @param startrow row coordinate of upper left corner of figure
@@ -24,10 +24,8 @@
 #'                        ,width=3.5
 #'                        ,height=5.5
 #' )
+#'openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")
 #'
-#'
-
-openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")
 
 
 insert_worksheet_image = function(image
@@ -54,16 +52,16 @@ insert_worksheet_image = function(image
   )
 }
 
-# example
-export <- openxlsx::createWorkbook("export")
-
-insert_worksheet_image(image=plot(x = mtcars$wt, y = mtcars$mpg)
-,export
-,"image"
-,startrow=2
-,startcol=2
-,width=3.5
-,height=5.5
-)
-
-openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")
+# # example
+# export <- openxlsx::createWorkbook("export")
+#
+# insert_worksheet_image(image=plot(x = mtcars$wt, y = mtcars$mpg)
+# ,export
+# ,"image"
+# ,startrow=2
+# ,startcol=2
+# ,width=3.5
+# ,height=5.5
+# )
+#
+# openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")

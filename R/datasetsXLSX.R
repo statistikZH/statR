@@ -1,5 +1,4 @@
-# datasetsXLSX: Function to create formatted XLSX file with multiple worksheets automatically
-
+# Function to create formatted XLSX file with multiple worksheets automatically
 #' datasetsXLSX
 #'
 #' Function to create formatted XLSX files automatically
@@ -148,10 +147,10 @@ datasetsXLSX <- function(file
                          ,widths = 1
   )
 
-  # insert images
+  # insert logo
   openxlsx::insertImage(wb
                         ,"Inhalt"
-                        ,"C:/gitrepos/statR/data/Stempel_STAT-01.png"
+                        ,.libPaths(),"/statR/data/Stempel_STAT-01.png",
                         ,startRow = 2
                         ,startCol = 2
                         ,width = 2.5
