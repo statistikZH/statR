@@ -1,6 +1,6 @@
 Package: statR
 Title: statR
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: as.person(c(
     "Andrea Schnell <andrea.schnell@statistik.ji.zh.ch> [aut]", 
     "Thomas Lo Russo <thomas.lorusso@statistik.ji.zh.ch> [aut,cre]"))

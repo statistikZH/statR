@@ -4,8 +4,13 @@
 \alias{scale_color_gradient_stat}
 \title{scale_color_gradient_stat()}
 \usage{
-scale_color_gradient_stat(palette = "zhblueseq", ..., space = "Lab",
-  na.value = "grey50", guide = "colourbar")
+scale_color_gradient_stat(
+  palette = "zhblueseq",
+  ...,
+  space = "Lab",
+  na.value = "grey50",
+  guide = "colourbar"
+)
 }
 \description{
 Stat ZH scales

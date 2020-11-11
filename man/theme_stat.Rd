@@ -7,7 +7,7 @@
 theme_stat(base_size = 11)
 }
 \arguments{
-\item{base_size}{base font size}
+\item{base_size}{base font size, given in pts.}
 }
 \description{
 Stat ZH Theme for ggplot2

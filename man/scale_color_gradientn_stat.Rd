@@ -4,8 +4,15 @@
 \alias{scale_color_gradientn_stat}
 \title{scale_color_gradientn_stat()}
 \usage{
-scale_color_gradientn_stat(..., colours, values = NULL, space = "Lab",
-  na.value = "grey50", guide = "colourbar", colors)
+scale_color_gradientn_stat(
+  ...,
+  colours,
+  values = NULL,
+  space = "Lab",
+  na.value = "grey50",
+  guide = "colourbar",
+  colors
+)
 }
 \description{
 Stat ZH scales

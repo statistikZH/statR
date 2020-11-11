@@ -4,7 +4,9 @@
 \name{stattheme_data}
 \alias{stattheme_data}
 \title{Data used by the stat zh palettes}
-\format{A \code{list}.}
+\format{
+A \code{list}.
+}
 \usage{
 stattheme_data
 }
