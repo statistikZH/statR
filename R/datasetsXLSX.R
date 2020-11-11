@@ -4,7 +4,7 @@
 #' Function to create formatted XLSX files automatically
 #' @param file filename of the XLSX file. No Default.
 #' @param maintitle main title of first sheet "Inhalt".
-#' @param datasets data to be included in the XLSX-table.
+#' @param datasets datasets (dataframes or images) to be included in the XLSX-table.
 #' @param widths width of figure.
 #' @param heights height of figure.
 #' @param startrows row coordinate of upper left corner of figure.
@@ -18,16 +18,14 @@
 #' @export
 #' @examples
 #'
-#' # example with image
-#' library(tmap)
-#' data("World")
+#' # example with image / plot
 #' # create map
-#' map <- tm_shape(World) +
-#'   tm_polygons("HPI")
+#'
+#' plot <- plot(mtcars$mpg)
 #'
 #' datasetsXLSX(file="datasetsXLSX"
 #'             ,maintitle = "nice datasets"
-#'             ,datasets = list(head(mtcars),tail(mtcars),map)
+#'             ,datasets = list(head(mtcars),tail(mtcars),plot)
 #'             ,sheetnames = c("data1","data2","map")
 #'             ,widths = c(0,0,5)
 #'             ,heights = c(0,0,2.5)
@@ -41,6 +39,7 @@
 #'
 #'
 #' # example without image
+#'
 #' datasetsXLSX(file="datasetsXLSX2"
 #' ,maintitle = "nice datasets"
 #' ,datasets = list(head(mtcars),tail(mtcars))
@@ -56,19 +55,20 @@
 
 # function datasetsXLSX
 
-datasetsXLSX <- function(file
-                         ,maintitle
-                         ,datasets
-                         ,widths
-                         ,heights
-                         ,startrows
-                         ,startcols
-                         ,sheetnames
-                         ,titles
-                         ,sources=NULL
-                         ,metadata1=""
-                         ,auftrag_id
-                         ,...
+datasetsXLSX <- function(file,
+                         maintitle,
+                         datasets,
+                         widths,
+                         heights,
+                         startrows,
+                         startcols,
+                         sheetnames,
+                         titles,
+                         logo="statzh",
+                         sources=NULL,
+                         metadata1="",
+                         auftrag_id,
+                         ...
 ){
 
   wb <- openxlsx::createWorkbook("data")
@@ -148,15 +148,21 @@ datasetsXLSX <- function(file
   )
 
   # insert logo
-  openxlsx::insertImage(wb
-                        ,"Inhalt"
-                        ,.libPaths(),"/statR/data/Stempel_STAT-01.png",
-                        ,startRow = 2
-                        ,startCol = 2
-                        ,width = 2.5
-                        ,height = 0.9
-                        ,units = "in"
+
+  if(!is.null(logo)){
+
+    if(logo=="statzh") logo <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
+
+  openxlsx::insertImage(wb,
+                        "Inhalt",
+                        file=logo,
+                        startRow = 2,
+                        startCol = 2,
+                        width = 2.5,
+                        height = 0.9,
+                        units = "in"
   )
+  }
 
   # contact
   contactdetails <- c("Datashop"

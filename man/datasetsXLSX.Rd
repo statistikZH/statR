@@ -4,51 +4,85 @@
 \alias{datasetsXLSX}
 \title{datasetsXLSX}
 \usage{
-datasetsXLSX(file = "test", datasets, sheetnames, titles, sources,
-  metadata1, ...)
+datasetsXLSX(
+  file,
+  maintitle,
+  datasets,
+  widths,
+  heights,
+  startrows,
+  startcols,
+  sheetnames,
+  titles,
+  logo = "statzh",
+  sources = NULL,
+  metadata1 = "",
+  auftrag_id,
+  ...
+)
 }
 \arguments{
-\item{file}{filename of the xlsx-file. No Default.}
+\item{file}{filename of the XLSX file. No Default.}
 
-\item{datasets}{data to be included in the XLSX-table.}
+\item{maintitle}{main title of first sheet "Inhalt".}
 
-\item{name}{title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.}
+\item{datasets}{datasets (dataframes or images) to be included in the XLSX-table.}
 
-\item{sheetvar}{variable which contains the variable to be used to split the data across several sheets.}
+\item{widths}{width of figure.}
 
-\item{source}{source of the data. Defaults to "statzh".}
+\item{heights}{height of figure.}
 
-\item{metadata}{metadata-information to be included. Defaults to NA.}
+\item{startrows}{row coordinate of upper left corner of figure.}
 
-\item{logo}{path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"}
+\item{startcols}{column coordinate of upper left corner of figure.}
 
-\item{contactdetails}{contactdetails of the data publisher. Defaults to "statzh".}
+\item{sheetnames}{name of the sheet tab.}
 
-\item{grouplines}{columns to be separated visually by vertical lines.}
+\item{titles}{title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.}
+
+\item{sources}{source of the data. Defaults to "statzh".}
+
+\item{metadata1}{metadata-information to be included. Defaults to NA.}
+
+\item{auftrag_id}{order number.}
 }
 \description{
-Function to create formatted spreadsheets automatically
+Function to create formatted XLSX files automatically
 }
 \examples{
- \donttest{
 
-# example1
-datasetsXLSX(file="t8",
-           datasets = c(head(mtcars),head(diamonds)),
-           sheetnames = c("t1", "t2"),
-           titles = c("hi", "hey"),
-            sources = c("ji", "hu"),
-           metadata1 = c("gut", "schlecht")
+# example with image / plot
+# create map
+
+plot <- plot(mtcars$mpg)
+
+datasetsXLSX(file="datasetsXLSX"
+            ,maintitle = "nice datasets"
+            ,datasets = list(head(mtcars),tail(mtcars),plot)
+            ,sheetnames = c("data1","data2","map")
+            ,widths = c(0,0,5)
+            ,heights = c(0,0,2.5)
+            ,startrows = c(0,0,10)
+            ,startcols = c(0,0,8)
+            ,titles = c("Title","Title", "Map")
+            ,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung", "Quelle: Strukturerhebung")
+            ,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla", "Bemerkungen: blablabla")
+            ,auftrag_id="A2020_0200"
 )
-sql1 <- head(mtcars)
-sql4 <- head(diamonds)
 
-datasetsXLSX(file="test",
-            datasets = c(sql1, sql2),
-           sheetnames = "t1",
-           titles = "hey",
-           sources = "hu",
-           metadata1 = "gut"
-) }
+
+# example without image
+
+datasetsXLSX(file="datasetsXLSX2"
+,maintitle = "nice datasets"
+,datasets = list(head(mtcars),tail(mtcars))
+,sheetnames = c("data1","data2")
+,titles = c("Title","Title")
+,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung")
+,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla")
+,auftrag_id="AS2020_01"
+)
+
+
 }
 \keyword{datasetsXLSX}
