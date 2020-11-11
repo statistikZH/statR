@@ -173,7 +173,7 @@ statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
 
   for (j in c(2:5)){
 
-    mergeCells(wb, sheet = i, cols = contact:(contact+1), rows = j)
+    openxlsx::mergeCells(wb, sheet = i, cols = contact:(contact+1), rows = j)
 
   }
 
