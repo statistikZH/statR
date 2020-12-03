@@ -12,4 +12,4 @@ statR is a complement to the [**statRmd**](https://github.com/statistikZH/statRm
 
 For examples and instructions please consult the vignette:
 
-Vignette: https://statistikzh.github.io/statR/
+https://statistikzh.github.io/statR/
