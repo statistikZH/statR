@@ -1,6 +1,6 @@
 # statR
 
-This is the github-repository for the **statR** package - the Corporate Design Toolbox for R of the statistical office of the canton of Zurich for corporate design conforming graphics and spreadsheets. It contains:
+The **statR** package is a toolbox for corporate design conforming graphics and spreadsheets of the statistical office of the canton of Zurich . It contains:
 
 - *generic colour palettes for any kind of data-visualization*
 
@@ -13,3 +13,5 @@ statR is a complement to the [**statRmd**](https://github.com/statistikZH/statRm
 For examples and instructions please consult the vignette:
 
 Vignette: https://statistikzh.github.io/statR/
+
+*NEW* Documentation for the development Version: 

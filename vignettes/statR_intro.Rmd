@@ -1,5 +1,5 @@
 ---
-title: "statR_intro"
+title: "Intro"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{statR_intro}
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 
-statR-package enthält:
+Das statR-package enthält:
 
 - Das Stat ZH Theme (stat_theme()) für ggplot2 Grafiken
 - Farbpaletten (zhpal)
@@ -25,23 +25,21 @@ statR-package enthält:
 Zu jeder Funktion ist mittels Hilfe-Befehl (?) eine Beschreibung sowie ein Verwendungsbeispiel aufrufbar (z.B.: ?splitXLSX )
 
 # Installation
-Das Package liegt auf github und kann wiefolgt installiert werden.
-```{r,echo=T,eval=T,message=F,warning=F}
+Die Development Version des Package liegt auf github und kann wiefolgt installiert werden.
+```{r,echo=T,eval=F,message=F,warning=F}
 #Variante 1
 library(downloader)
-download("https://github.com/statistikZH/statR/archive/master.tar.gz", "statR.tar.gz")
+download("https://github.com/statistikZH/statR/archive/dev.tar.gz", "statR.tar.gz")
 install.packages("statR.tar.gz", repos = NULL, type = "source")
 
-#Lade package
-library(statR)
 ```
 
 ```{r,echo=T,eval=F,message=F,warning=F}
 #Variante 2
-
 library(devtools)
 
-install_github("statistikZH/statR")
+devtools::install_github("statistikZH/statR",ref="dev")
+
 
 ```
 
@@ -49,9 +47,13 @@ install_github("statistikZH/statR")
 
 Das ggplot2-theme ist darauf ausgelegt, sich gut ins kantonalen Corporate Design einzufügen. 
 ```{r}
+#Lade package
+library(statR)
 library(ggplot2)
 
-ggplot(mpg, aes(class,fill = drv))+geom_bar()+theme_stat()
+ggplot(mpg, aes(class,fill = drv))+
+  geom_bar()+
+  theme_stat()
 ```
 
 # Farben
@@ -79,7 +81,7 @@ ggplot(mpg, aes(class,fill = drv))+geom_bar()+theme_stat()+scale_fill_manual(val
 
 statR enthält zwei Funktionen welche Daten in formatierte Excel-Dateien abfüllen. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf.
 
-##insert_worksheet
+## insert_worksheet
 
 Schreibt Daten aus R in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.
 ```{r,echo=T,eval=F,error=F}
@@ -95,7 +97,7 @@ openxlsx::saveWorkbook(wb, "file.xlsx", overwrite = TRUE)
 
 ```
 
-##quickXLSX
+## quickXLSX
 
 Schreibt Daten aus R in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.
 ```{r,echo=T,eval=F,error=F}
@@ -106,7 +108,7 @@ Schreibt Daten aus R in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.
 quickXLSX(head(mtcars),"title of the spreadsheet")
 ```
 
-##splitXLSX 
+## splitXLSX 
 
 Die Funktion splitXLSX erlaubt es einen Datensatz aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern abzuspeichern und die Daten über mehrere Tabellenblätter zu verteilen.
 
@@ -120,7 +122,7 @@ splitXLSX(head(mtcars),carb, file="filename",grouplines = c(1,2,3), metadata = "
 
 ```
 
-##datasetsXLSX
+## datasetsXLSX (*NEU*)
 
 Die Funktion datasetsXLSX erlaubt es mehrere Datensätze aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern zu bündeln.
 
