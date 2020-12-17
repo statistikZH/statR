@@ -27,8 +27,6 @@ Zu jeder Funktion ist mittels Hilfe-Befehl (?) eine Beschreibung sowie ein Verwe
 # Installation
 Das Package liegt auf github und kann wiefolgt installiert werden.
 ```{r,echo=T,eval=T,message=F,warning=F}
-library(pacman)
-
 #Variante 1
 library(downloader)
 download("https://github.com/statistikZH/statR/archive/master.tar.gz", "statR.tar.gz")
@@ -110,7 +108,8 @@ quickXLSX(head(mtcars),"title of the spreadsheet")
 
 ##splitXLSX 
 
-Die Funktion splitXLSX erlaubt es Daten aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern abspeichern.
+Die Funktion splitXLSX erlaubt es einen Datensatz aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern abzuspeichern und die Daten über mehrere Tabellenblätter zu verteilen.
+
 Beispiel: Speichere die ersten 10 Zeilen des mtcars-Datemsatzes in mehreren Arbeitsblättern ab, ein Blatt pro Kategorie der 'carb'-Variable. Die Funktion eignet sich für Excel-Files welche pro Jahr oder pro Region etc. jeweils einzelne Arbeitsblätter enthalten sollen.
 ```{r,echo=T,eval=F}
 #Beispiel mit Standardlogo (Logo des Statistischen Amtes ZH)
@@ -121,3 +120,23 @@ splitXLSX(head(mtcars),carb, file="filename",grouplines = c(1,2,3), metadata = "
 
 ```
 
+##datasetsXLSX
+
+Die Funktion datasetsXLSX erlaubt es mehrere Datensätze aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern zu bündeln.
+
+Beispiel: 
+
+
+```{r,echo=T,eval=F}
+
+datasetsXLSX(file="datasetsXLSX2"
+,maintitle = "nice datasets"
+,datasets = list(head(mtcars),tail(mtcars))
+,sheetnames = c("data1","data2")
+,titles = c("Title","Title")
+,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung")
+,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla")
+,auftrag_id="AS2020_01"
+)
+
+```
