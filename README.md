@@ -10,8 +10,10 @@ The **statR** package is a toolbox for corporate design conforming graphics and 
 
 statR is a complement to the [**statRmd**](https://github.com/statistikZH/statRmd) package, which can be used to generate nicely formatted, ready-to-publish .pdf reports.
 
-For examples and instructions please consult the vignette:
+For examples and instructions please consult the *NEW* pkgdown-page (under development):
 
-Vignette: https://statistikzh.github.io/statR/
+https://statistikzh.github.io/statR/
 
-*NEW* Documentation for the development Version: 
+
+
+
