@@ -23,32 +23,32 @@
 #'
 #' plot <- plot(mtcars$mpg)
 #'
-#' datasetsXLSX(file="datasetsXLSX"
-#'             ,maintitle = "nice datasets"
-#'             ,datasets = list(head(mtcars),tail(mtcars),plot)
-#'             ,sheetnames = c("data1","data2","map")
-#'             ,widths = c(0,0,5)
-#'             ,heights = c(0,0,2.5)
-#'             ,startrows = c(0,0,10)
-#'             ,startcols = c(0,0,8)
-#'             ,titles = c("Title","Title", "Map")
-#'             ,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung", "Quelle: Strukturerhebung")
-#'             ,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla", "Bemerkungen: blablabla")
-#'             ,auftrag_id="A2020_0200"
+#' datasetsXLSX(file="datasetsXLSX",
+#'             maintitle = "nice datasets",
+#'             datasets = list(head(mtcars),tail(mtcars),plot),
+#'             sheetnames = c("data1","data2","map"),
+#'             widths = c(0,0,5),
+#'             heights = c(0,0,2.5),
+#'             startrows = c(0,0,10),
+#'             startcols = c(0,0,8),
+#'             titles = c("Title","Title", "Plot"),
+#'             sources = c("Quelle: STATENT", "Quelle: Strukturerhebung", "Quelle: Strukturerhebung"),
+#'             metadata1 = c("Bemerkungen: bla", "Bemerkungen: y", "Bemerkungen: x"),
+#'             auftrag_id="A2020_0200"
 #')
 #'
 #'
 #' # example without image
 #'
-#' datasetsXLSX(file="datasetsXLSX2"
-#' ,maintitle = "nice datasets"
-#' ,datasets = list(head(mtcars),tail(mtcars))
-#' ,sheetnames = c("data1","data2")
-#' ,titles = c("Title","Title")
-#' ,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung")
-#' ,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla")
-#' ,auftrag_id="AS2020_01"
-#' )
+#' datasetsXLSX(file="datasetsXLSX2",
+#'              maintitle = "nice datasets",
+#'              datasets = list(head(mtcars),tail(mtcars)),
+#'              sheetnames = c("data1","data2"),
+#'              titles = c("Title","Title"),
+#'              sources = c("Quelle: STATENT", "Quelle: Strukturerhebung"),
+#'              metadata1 = c("Bemerkungen: y", "Bemerkungen: x"),
+#'              auftrag_id="AS2020_01"
+#'              )
 #'
 #'
 
