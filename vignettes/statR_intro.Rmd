@@ -124,7 +124,7 @@ splitXLSX(head(mtcars),carb, file="filename",grouplines = c(1,2,3), metadata = "
 
 Die Funktion datasetsXLSX erlaubt es mehrere Datensätze aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern zu bündeln.
 
-Beispiel: 
+Beispiel mit zwei Datensätzen:
 
 
 ```{r,echo=T,eval=F}
@@ -135,8 +135,28 @@ datasetsXLSX(file="datasetsXLSX2"
 ,sheetnames = c("data1","data2")
 ,titles = c("Title","Title")
 ,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung")
-,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla")
+,metadata1 = c("Bemerkungen: x", "Bemerkungen: x")
 ,auftrag_id="AS2020_01"
 )
 
+```
+Tabellenblätter können auch Bilder oder Plots enthalten.
+
+```{r,echo=T,eval=F}
+
+plot <- plot(mtcars$mpg)
+
+datasetsXLSX(file="datasetsXLSX",
+            maintitle = "nice datasets",
+             datasets = list(head(mtcars),tail(mtcars),plot),
+            sheetnames = c("data1","data2","map"),
+            widths = c(0,0,5),
+             heights = c(0,0,2.5),
+             startrows = c(0,0,10),
+             startcols = c(0,0,8),
+             titles = c("Title","Title", "Plot"),
+             sources = c("Quelle: STATENT", "Quelle: Strukturerhebung", "Quelle: Strukturerhebung"),
+             metadata1 = c("Bemerkungen: bla", "Bemerkungen: x", "Bemerkungen: x"),
+             auftrag_id="A2020_0200"
+)
 ```
