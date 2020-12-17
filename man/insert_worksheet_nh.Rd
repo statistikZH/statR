@@ -52,7 +52,7 @@ insert_worksheet_nh(head(mtcars)
                   ,export
                   ,"data1"
                  ,title = "Title"
-                  ,source = "Quelle: Statistisches Amt Kanton ZÃ¼rich"
+                  ,source = "Quelle: Statistisches Amt Kanton Zürich"
                   ,metadata = "Bemerkung: ...")
 
  # insert a further worksheet
@@ -60,7 +60,7 @@ insert_worksheet_nh(tail(mtcars)
                    ,export
                    ,"data2"
                    ,title = "Title"
-                   ,source = "Quelle: Statistisches Amt Kanton ZÃ¼rich"
+                   ,source = "Quelle: Statistisches Amt Kanton Zürich"
                    ,metadata = "Bemerkung: ...")
 
  # save workbook
