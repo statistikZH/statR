@@ -170,9 +170,7 @@
 <h1 class="hasAnchor">
 <a href="#formattierte-zh-excel-tabellen-mit-r" class="anchor"></a>Formattierte ZH Excel-Tabellen mit R</h1>
 <p>statR enthält zwei Funktionen welche Daten in formatierte Excel-Dateien abfüllen. Die Funktionen bauen auf dem <a href="https://github.com/awalker89/openxlsx">openxlsx-package</a> auf.</p>
-<div id="insert_worksheet" class="section level2">
-<h2 class="hasAnchor">
-<a href="#insert_worksheet" class="anchor"></a>insert_worksheet</h2>
+<p><strong>insert_worksheet</strong></p>
 <p>Schreibt Daten aus R in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 
@@ -184,10 +182,7 @@
 
 <span class="co">#speichere workbook als xlsx-Datei ab</span>
 <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/saveWorkbook.html">saveWorkbook</a></span><span class="op">(</span><span class="va">wb</span>, <span class="st">"file.xlsx"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
-</div>
-<div id="quickxlsx" class="section level2">
-<h2 class="hasAnchor">
-<a href="#quickxlsx" class="anchor"></a>quickXLSX</h2>
+<p><strong>quickXLSX</strong></p>
 <p>Schreibt Daten aus R in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="co">#Beschreibung &amp; Anwendungsbeispiele via '?'</span>
@@ -195,10 +190,7 @@
 
 <span class="co">#Speichere die obersten Zeilen des mtcars-Datensatzes als formatiertes XLSX File ab</span>
 <span class="fu"><a href="../reference/quickXLSX.html">quickXLSX</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>,<span class="st">"title of the spreadsheet"</span><span class="op">)</span></pre></div>
-</div>
-<div id="splitxlsx" class="section level2">
-<h2 class="hasAnchor">
-<a href="#splitxlsx" class="anchor"></a>splitXLSX</h2>
+<p><strong>splitXLSX</strong></p>
 <p>Die Funktion splitXLSX erlaubt es einen Datensatz aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern abzuspeichern und die Daten über mehrere Tabellenblätter zu verteilen.</p>
 <p>Beispiel: Speichere die ersten 10 Zeilen des mtcars-Datemsatzes in mehreren Arbeitsblättern ab, ein Blatt pro Kategorie der ‘carb’-Variable. Die Funktion eignet sich für Excel-Files welche pro Jahr oder pro Region etc. jeweils einzelne Arbeitsblätter enthalten sollen.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
@@ -207,10 +199,7 @@
 
 <span class="co">#Beispiel mit modifzierten Bemerkungen und eigenem Logo</span>
 <span class="fu"><a href="../reference/splitXLSX.html">splitXLSX</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>,<span class="va">carb</span>, file<span class="op">=</span><span class="st">"filename"</span>,grouplines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>, metadata <span class="op">=</span> <span class="st">"remarks: ...."</span>,source<span class="op">=</span><span class="st">"canton of zurich"</span>,logo<span class="op">=</span><span class="st">"L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png"</span><span class="op">)</span></pre></div>
-</div>
-<div id="datasetsxlsx-neu" class="section level2">
-<h2 class="hasAnchor">
-<a href="#datasetsxlsx-neu" class="anchor"></a>datasetsXLSX (<em>NEU</em>)</h2>
+<p><strong>datasetsXLSX (<em>NEU</em>)</strong></p>
 <p>Die Funktion datasetsXLSX erlaubt es mehrere Datensätze aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern zu bündeln.</p>
 <p>Beispiel mit zwei Datensätzen:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
@@ -243,7 +232,6 @@
              auftrag_id<span class="op">=</span><span class="st">"A2020_0200"</span>
 <span class="op">)</span></pre></div>
 </div>
-</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -255,15 +243,7 @@
 <li><a href="#installation">Installation</a></li>
       <li><a href="#theme">Theme</a></li>
       <li><a href="#farben">Farben</a></li>
-      <li>
-<a href="#formattierte-zh-excel-tabellen-mit-r">Formattierte ZH Excel-Tabellen mit R</a>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#insert_worksheet">insert_worksheet</a></li>
-      <li><a href="#quickxlsx">quickXLSX</a></li>
-      <li><a href="#splitxlsx">splitXLSX</a></li>
-      <li><a href="#datasetsxlsx-neu">datasetsXLSX (<em>NEU</em>)</a></li>
-      </ul>
-</li>
+      <li><a href="#formattierte-zh-excel-tabellen-mit-r">Formattierte ZH Excel-Tabellen mit R</a></li>
       </ul>
 </div>
       <!-- codefund -->

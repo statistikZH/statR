@@ -81,7 +81,7 @@ ggplot(mpg, aes(class,fill = drv))+geom_bar()+theme_stat()+scale_fill_manual(val
 
 statR enthält zwei Funktionen welche Daten in formatierte Excel-Dateien abfüllen. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf.
 
-## insert_worksheet
+__insert_worksheet__
 
 Schreibt Daten aus R in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.
 ```{r,echo=T,eval=F,error=F}
@@ -97,7 +97,7 @@ openxlsx::saveWorkbook(wb, "file.xlsx", overwrite = TRUE)
 
 ```
 
-## quickXLSX
+__quickXLSX__
 
 Schreibt Daten aus R in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.
 ```{r,echo=T,eval=F,error=F}
@@ -108,7 +108,7 @@ Schreibt Daten aus R in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.
 quickXLSX(head(mtcars),"title of the spreadsheet")
 ```
 
-## splitXLSX 
+__splitXLSX__ 
 
 Die Funktion splitXLSX erlaubt es einen Datensatz aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern abzuspeichern und die Daten über mehrere Tabellenblätter zu verteilen.
 
@@ -122,7 +122,7 @@ splitXLSX(head(mtcars),carb, file="filename",grouplines = c(1,2,3), metadata = "
 
 ```
 
-## datasetsXLSX (*NEU*)
+__datasetsXLSX (*NEU*)__
 
 Die Funktion datasetsXLSX erlaubt es mehrere Datensätze aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern zu bündeln.
 
