@@ -8,8 +8,6 @@ The **statR** package is a toolbox for corporate design conforming graphics and 
 
 - *templates for saving data in CD-conforming formated xlsx-spreadsheets*
 
-statR is a complement to the [**statRmd**](https://github.com/statistikZH/statRmd) package, which can be used to generate nicely formatted, ready-to-publish .pdf reports.
-
 For examples and instructions please consult the *NEW* pkgdown-page (under development):
 
 https://statistikzh.github.io/statR/
