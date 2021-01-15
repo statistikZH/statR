@@ -27,7 +27,7 @@ quickXLSX(data, file, ...)
 Function to create a formated single-worksheet XLSX automatically
 }
 \examples{
-quickXLSX(head(mtcars), "mtcars")
+quickXLSX(data=head(mtcars), file="mtcars")
 
 #example with own logo, a custom filename, lines separating selected columns and some remarks
 

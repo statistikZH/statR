@@ -14,7 +14,7 @@
 #' @keywords quickXLSX
 #' @export
 #' @examples
-#' quickXLSX(head(mtcars), "mtcars")
+#' quickXLSX(data=head(mtcars), file="mtcars")
 #'
 #' #example with own logo, a custom filename, lines separating selected columns and some remarks
 #'
