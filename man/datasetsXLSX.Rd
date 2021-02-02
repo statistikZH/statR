@@ -50,7 +50,7 @@ datasetsXLSX(
 Function to create formatted XLSX files automatically
 }
 \examples{
-
+\donttest{
 # example with image / plot
 # create map
 
@@ -70,7 +70,7 @@ datasetsXLSX(file="datasetsXLSX",
             auftrag_id="A2020_0200"
 )
 
-
+}
 # example without image
 
 datasetsXLSX(file="datasetsXLSX2",

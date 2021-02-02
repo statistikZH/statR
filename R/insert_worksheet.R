@@ -12,6 +12,7 @@
 #' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
 #' @param contactdetails contactdetails of the data publisher. Defaults to "statzh".
 #' @param grouplines defaults to FALSE. Can be used to separate grouped variables visually.
+#' @importFrom dplyr "%>%"
 #' @keywords insert_worksheet
 #' @export
 #' @examples
@@ -21,13 +22,8 @@
 #'   # create workbook
 #' wb <- openxlsx::createWorkbook("hello")
 #'
-#' insert_worksheet(mtcars[c(1:10),],wb,"mtcars",c(1:4),carb,grouplines=c(1,5,6))
+#' insert_worksheet(mtcars,wb,"mtcars",c(1:4),carb,grouplines=c(1,5,6))
 
-# Function
-
-#TO DO - insert name of the worksheet dynamicaly, insert warning if WB is not a workbook-object
-
-#remove points?
 
 insert_worksheet <- function(data, workbook, sheetname="data",title="Title", source="statzh", metadata = NA, logo=NULL, grouplines = FALSE, contactdetails="statzh") {
 
@@ -111,7 +107,7 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title", sou
 
   #Logo
 
-statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
+statzh <- paste0(.libPaths(),"/statR/inst/ext/Stempel_STAT-01.png")
 
   # file.exists(paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png"))
 
@@ -153,12 +149,6 @@ statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
 
 
 
-
-
-  # if (file.exists("L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/Stempel_STAT-01.png")) {
-  #   openxlsx::insertImage(wb, paste(sheetname), "L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/Stempel_STAT-01.png",width=2.145, height=0.7865, units="in")
-  # }
-
   #Titel
   openxlsx::writeData(wb, sheet = i,title, headerStyle=titleStyle,startRow = 7)
 
@@ -192,7 +182,7 @@ statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
                                           headerStyle=subtitle, startRow = 5, startCol=contact)
 
   # Daten abfüllen
-  openxlsx::writeData(wb, sheet = i, as.data.frame(data%>%ungroup()), rowNames = FALSE, startRow = datenbereich, withFilter = FALSE)
+  openxlsx::writeData(wb, sheet = i, as.data.frame(data%>%dplyr::ungroup()), rowNames = FALSE, startRow = datenbereich, withFilter = FALSE)
 
   #Füge Formatierungen ein
 

@@ -12,7 +12,7 @@
 #' @export
 #' @examples
 #'
-#' quick_sum(df, var, [grp1, grp2, ...], stats="all", protect=F)
+#' quick_sum(df, var, grp1, grp2, ..., stats="all", protect=F)
 #' df -> data.frame
 #' var -> Auswertungsvariable
 #' grp1 -> Groupingvariable 1 (optional)

@@ -8,47 +8,49 @@
 #' @param startcol column coordinate of upper left corner of figure
 #' @param width width of figure
 #' @param height height of figure
-#'
 #' @return
 #' @export
 #'
 #' @examples
 #' # example
+#' \dontrun{
 #' export <- openxlsx::createWorkbook("export")
 #'
-#' insert_worksheet_image(image=plot(x = mtcars$wt, y = mtcars$mpg)
-#'                        ,export
-#'                        ,"image"
-#'                        ,startrow=2
-#'                        ,startcol=2
-#'                        ,width=3.5
-#'                        ,height=5.5
+#' insert_worksheet_image(image=plot(x = mtcars$wt, y = mtcars$mpg),
+#'                        export,
+#'                        "image",
+#'                        startrow=2,
+#'                        startcol=2,
+#'                        width=3.5,
+#'                        height=5.5
 #' )
 #'openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")
-#'
+#'}
 
 
-insert_worksheet_image = function(image
-                                  ,workbook
-                                  ,sheetname
-                                  ,startrow
-                                  ,startcol
-                                  ,width
-                                  ,height
-){
-  openxlsx::addWorksheet(workbook
-                         ,sheetname
-                         ,gridLines = FALSE
+insert_worksheet_image = function(image,
+                                  workbook,
+                                  sheetname,
+                                  startrow,
+                                  startcol,
+                                  width,
+                                  height){
+
+  openxlsx::addWorksheet(workbook,
+                         sheetname,
+                         gridLines = FALSE
   )
-  print(image)
-  openxlsx::insertPlot(workbook
-                       ,sheetname
-                       ,width = width
-                       ,height = height
-                       ,startRow = startrow
-                       ,startCol = startcol
-                       ,fileType = "png"
-                       ,units = "in"
+
+  # print(image)
+
+  openxlsx::insertPlot(workbook,
+                       sheetname,
+                       width = width,
+                       height = height,
+                       startRow = startrow,
+                       startCol = startcol,
+                       fileType = "png",
+                       units = "in"
   )
 }
 
