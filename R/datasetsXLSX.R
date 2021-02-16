@@ -151,7 +151,10 @@ datasetsXLSX <- function(file,
 
   if(!is.null(logo)){
 
-    if(logo=="statzh") logo <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
+    if(logo=="statzh") logo <- paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png")
+
+    #
+    logo <- logo[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png"))]
 
   openxlsx::insertImage(wb,
                         "Inhalt",
