@@ -109,20 +109,17 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title", sou
   #Logo
 
 
-statzh <- paste0(.libPaths(),"/statR/inst/extdata/Stempel_STAT-01.png")
+statzh <- paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png")
 
-  # file.exists(paste0(.libPaths(),"/statR/inst/extdata/Stempel_STAT-01.png"))
-
+#
+statzh <- statzh[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png"))]
 
  if(is.character(logo)){statzh <- paste0(logo)}
 
 
  if (file.exists(statzh)) {
 
-   # message("logo found and added")
-
-
-    openxlsx::insertImage(wb, i, statzh, width = 2.145, height = 0.7865,
+    openxlsx::insertImage(wb, i, statzh[1], width = 2.145, height = 0.7865,
                           units = "in")
  } else {
 
