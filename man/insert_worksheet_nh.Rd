@@ -28,10 +28,6 @@ insert_worksheet_nh(
 \item{metadata}{metadata-information to be included. Defaults to NA.}
 
 \item{grouplines}{defaults to FALSE. Can be used to separate grouped variables visually.}
-
-\item{logo}{path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"}
-
-\item{contactdetails}{contactdetails of the data publisher. Defaults to "statzh".}
 }
 \description{
 Function to create formatted spreadsheets automatically

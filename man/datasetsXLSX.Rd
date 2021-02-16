@@ -17,8 +17,7 @@ datasetsXLSX(
   logo = "statzh",
   sources = NULL,
   metadata1 = "",
-  auftrag_id,
-  ...
+  auftrag_id
 )
 }
 \arguments{
@@ -39,6 +38,8 @@ datasetsXLSX(
 \item{sheetnames}{name of the sheet tab.}
 
 \item{titles}{title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.}
+
+\item{logo}{filepath to the logo to be included in the index-sheet (default: Logo of the statistical office ZH)}
 
 \item{sources}{source of the data. Defaults to "statzh".}
 

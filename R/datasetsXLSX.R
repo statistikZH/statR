@@ -11,6 +11,7 @@
 #' @param startcols column coordinate of upper left corner of figure.
 #' @param sheetnames name of the sheet tab.
 #' @param titles title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.
+#' @param logo filepath to the logo to be included in the index-sheet (default: Logo of the statistical office ZH)
 #' @param sources source of the data. Defaults to "statzh".
 #' @param metadata1 metadata-information to be included. Defaults to NA.
 #' @param auftrag_id order number.
@@ -67,8 +68,7 @@ datasetsXLSX <- function(file,
                          logo="statzh",
                          sources=NULL,
                          metadata1="",
-                         auftrag_id,
-                         ...
+                         auftrag_id
 ){
 
   wb <- openxlsx::createWorkbook("data")
