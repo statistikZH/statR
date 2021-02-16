@@ -176,7 +176,8 @@ insert_worksheet_nh <- function(data
   # Daten abfüllen
   openxlsx::writeData(wb
                       ,sheet = i
-                      ,as.data.frame(data%>%ungroup())
+                      # ,as.data.frame(dpylr::ungroup())
+                      ,as.data.frame(dplyr::ungroup(data))
                       ,rowNames = FALSE
                       ,startRow = datenbereich
                       ,withFilter = FALSE

@@ -6,15 +6,17 @@ Authors@R: as.person(c(
     "Thomas Lo Russo <thomas.lorusso@statistik.ji.zh.ch> [aut,cre]"))
 Description: statR bundles a variety of functions that allow to generate ready-to-publish plots (ggplot2-theme & colorpalettes) as well as saving data in formated excel-tables. The generated outputs are aligned with the corporate design of the Canton Zurich.
 Depends: R (>= 3.3.0)
-License: MIT
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Imports:
     dplyr,
     ggplot2,
-	  openxlsx,
-	  magrittr
+	openxlsx,
+	magrittr,
+	stats,
+	grDevices
 URL: https://statistikzh.github.io/statR/
 BugReports: https://github.com/statistikZH/statR/issues
 Suggests: 

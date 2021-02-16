@@ -21,7 +21,7 @@
 #'   # create workbook
 #' wb <- openxlsx::createWorkbook("hello")
 #'
-#' insert_worksheet(mtcars[c(1:10),],wb,"mtcars",c(1:4),carb,grouplines=c(1,5,6))
+#' insert_worksheet(mtcars[c(1:10),],wb,"mtcars",c(1:4),"carb",grouplines=c(1,5,6))
 
 # Function
 

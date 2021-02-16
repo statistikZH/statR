@@ -22,10 +22,6 @@ Function to create a formated single-worksheet XLSX automatically
 }
 \examples{
 
-quick_sum(df, var, [grp1, grp2, ...], stats="all", protect=F)
-df -> data.frame
-var -> Auswertungsvariable
-grp1 -> Groupingvariable 1 (optional)
-grp2 -> Groupingvariable 2 (optional)
+quick_sum(df=mtcars, var=cyl, mpg, vs, stats="all", protect=F)
 }
 \keyword{quick_sum}

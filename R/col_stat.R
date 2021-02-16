@@ -205,7 +205,7 @@ stattheme_data <- {
 
 stattheme_pal <- function(palette = "default") {
   if (palette %in% names(x$stattheme_data)) {
-    manual_pal(unname( x$stattheme_data[[palette]]))
+    scales::manual_pal(unname( x$stattheme_data[[palette]]))
   } else {
     stop(sprintf("palette %s not a valid statZH palette.", palette))
   }

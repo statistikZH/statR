@@ -53,7 +53,7 @@ Function to create formatted XLSX files automatically
 
 # example with image / plot
 # create map
-
+\dontrun{
 plot <- plot(mtcars$mpg)
 
 datasetsXLSX(file="datasetsXLSX",
@@ -83,6 +83,6 @@ datasetsXLSX(file="datasetsXLSX2",
              auftrag_id="AS2020_01"
              )
 
-
+}
 }
 \keyword{datasetsXLSX}

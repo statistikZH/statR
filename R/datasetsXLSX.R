@@ -20,7 +20,7 @@
 #'
 #' # example with image / plot
 #' # create map
-#'
+#' \dontrun{
 #' plot <- plot(mtcars$mpg)
 #'
 #' datasetsXLSX(file="datasetsXLSX",
@@ -50,7 +50,7 @@
 #'              auftrag_id="AS2020_01"
 #'              )
 #'
-#'
+#'}
 
 
 # function datasetsXLSX
