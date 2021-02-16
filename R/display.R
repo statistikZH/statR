@@ -5,6 +5,8 @@
 #' preview colors in console
 #' @param col a vector of hex-code colors to be displayed
 #' @keywords display
+#' @importFrom grDevices "colorRampPalette"
+#' @importFrom graphics "rect"
 #' @export
 #' @examples
 #' #display can be used to preview all the palettes included in the 'zhpal'-list:

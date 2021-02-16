@@ -17,7 +17,7 @@
 #' @keywords datasetsXLSX
 #' @export
 #' @examples
-#'
+#'\donttest{
 #' # example with image / plot
 #' # create map
 #' \dontrun{
@@ -37,7 +37,7 @@
 #'             auftrag_id="A2020_0200"
 #')
 #'
-#'
+#'}
 #' # example without image
 #'
 #' datasetsXLSX(file="datasetsXLSX2",

@@ -13,6 +13,7 @@
 #' @param contactdetails contactdetails of the data publisher. Defaults to "statzh".
 #' @param grouplines defaults to FALSE. Can be used to separate grouped variables visually.
 #' @keywords insert_worksheet
+#' @importFrom dplyr "%>%"
 #' @export
 #' @examples
 #'  # insertion of two worksheets in a existing workbook
@@ -47,19 +48,14 @@
 
 # Function
 
-#TO DO - insert name of the worksheet dynamicaly, insert warning if WB is not a workbook-object
-
-#remove points?
-
-
-insert_worksheet_nh <- function(data
-                                ,workbook
-                                ,sheetname="data"
-                                ,title="Title"
-                                ,source="Quelle: Statistisches Amt Kanton Zürich"
-                                ,metadata = NA
+insert_worksheet_nh <- function(data,
+                                workbook,
+                                sheetname="data",
+                                title="Title",
+                                source="Quelle: Statistisches Amt Kanton Zürich",
+                                metadata = NA,
                                 #,logo=NULL
-                                ,grouplines = FALSE
+                                grouplines = FALSE
                                 #,contactdetails="statzh"
 ) {
 
@@ -174,8 +170,8 @@ insert_worksheet_nh <- function(data
 
 
   # Daten abfüllen
-  openxlsx::writeData(wb
-                      ,sheet = i
+  openxlsx::writeData(wb,
+                      sheet = i
                       # ,as.data.frame(dpylr::ungroup())
                       ,as.data.frame(dplyr::ungroup(data))
                       ,rowNames = FALSE
