@@ -62,9 +62,9 @@ insert_worksheet_nh(tail(mtcars)
                    ,title = "Title"
                    ,source = "Quelle: Statistisches Amt Kanton Zürich"
                    ,metadata = "Bemerkung: ...")
-
+\dontrun{
  # save workbook
  openxlsx::saveWorkbook(export,"example.xlsx")
-
+}
 }
 \keyword{insert_worksheet}

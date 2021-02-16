@@ -41,10 +41,10 @@
 #'                    ,title = "Title"
 #'                    ,source = "Quelle: Statistisches Amt Kanton Zürich"
 #'                    ,metadata = "Bemerkung: ...")
-#'
+#'\dontrun{
 #'  # save workbook
 #'  openxlsx::saveWorkbook(export,"example.xlsx")
-#'
+#'}
 
 # Function
 

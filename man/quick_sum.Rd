@@ -4,7 +4,7 @@
 \alias{quick_sum}
 \title{quick_sum}
 \usage{
-quick_sum(df, var, ..., stats = "all", protect = F)
+quick_sum(df, var, ..., stats = "all", protect = FALSE)
 }
 \arguments{
 \item{df}{dataframe}
@@ -22,6 +22,6 @@ Function to create a formated single-worksheet XLSX automatically
 }
 \examples{
 
-quick_sum(df=mtcars, var=cyl, mpg, vs, stats="all", protect=F)
+quick_sum(df=mtcars, var=cyl, mpg, vs, stats="all", protect=FALSE)
 }
 \keyword{quick_sum}

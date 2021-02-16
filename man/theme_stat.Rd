@@ -12,8 +12,4 @@ theme_stat(base_size = 11)
 \description{
 Stat ZH Theme for ggplot2
 }
-\examples{
-theme_stat()
-
-}
 \keyword{theme_stat}
