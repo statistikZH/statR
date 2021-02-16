@@ -97,7 +97,9 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title", sou
   if(nchar(sheetname)>31){warning("sheetname is cut to 31 characters (limit imposed by MS-Excel)")}
 
   ## Add worksheet
-  openxlsx::addWorksheet(wb,paste(substr(sheetname,0,31)))
+ # openxlsx::addWorksheet(wb,paste(substr(sheetname,0,31)))
+
+ suppressWarnings(openxlsx::addWorksheet(wb,paste(substr(sheetname,0,31))))
 
   i <- paste(substr(sheetname,0,31))
 
@@ -111,9 +113,9 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title", sou
 
   #Logo
 
-statzh <- paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png")
+statzh <- paste0(.libPaths(),"/statR/inst/extdata/Stempel_STAT-01.png")
 
-  # file.exists(paste0(.libPaths(),"/statR/data/Stempel_STAT-01.png"))
+  file.exists(paste0(.libPaths(),"/statR/inst/extdata/Stempel_STAT-01.png"))
 
 
  if(is.character(logo)){statzh <- paste0(logo)}
