@@ -42,7 +42,7 @@ Function to create formatted spreadsheets automatically
   # create workbook
 wb <- openxlsx::createWorkbook("hello")
 
-insert_worksheet_nh(mtcars[c(1:10),],wb,"mtcars",c(1:4),carb,grouplines=c(1,5,6))
+insert_worksheet_nh(mtcars[c(1:10),],wb,"mtcars",c(1:4),"carb",grouplines=c(1,5,6))
 
   # create workbook
 export <- openxlsx::createWorkbook("export")
