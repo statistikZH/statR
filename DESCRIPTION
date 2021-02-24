@@ -16,7 +16,12 @@ Imports:
 	openxlsx,
 	magrittr,
 	stats,
-	grDevices
+	grDevices,
+	RColorBrewer,
+    gridExtra,
+    rlang,
+    scales,
+    stringr
 URL: https://statistikzh.github.io/statR/
 BugReports: https://github.com/statistikZH/statR/issues
 Suggests: 

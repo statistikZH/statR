@@ -4,7 +4,7 @@
 \alias{flush_left}
 \title{flush_left}
 \usage{
-flush_left(g, ...)
+flush_left(g)
 }
 \arguments{
 \item{g}{ggplot object}

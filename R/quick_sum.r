@@ -10,6 +10,7 @@
 #' @param protect Apply data protection T/F
 #' @keywords quick_sum
 #' @importFrom dplyr ungroup summarize group_by n
+#' @importFrom stats median quantile sd
 #' @export
 #' @examples
 #'

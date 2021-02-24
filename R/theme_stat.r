@@ -41,7 +41,7 @@ theme_stat <- function(base_size = 11){
 			legend.text = txt ) +
 
 		# ACHSEN
-		theme(
+    ggplot2::theme(
 			axis.title.x = ggplot2::element_text(color=color.axis, vjust= 0),
 			axis.title.y = ggplot2::element_text(color=color.axis, vjust= 1.25),
 			axis.line = ggplot2::element_line(colour = color.axis, size = 0.5),
@@ -58,10 +58,10 @@ theme_stat <- function(base_size = 11){
 		# GITTERNETZLINIEN
 		theme(panel.grid.minor = ggplot2::element_line(colour = color.grid, linetype = "dotted", size = 0.4),
 					panel.grid.major = ggplot2::element_line(colour = color.grid, linetype = "dotted",  size = 0.4)
-				, panel.grid.major.x = element_blank(), panel.grid.minor.x = element_blank()
+				, panel.grid.major.x =  ggplot2::element_blank(), panel.grid.minor.x =  ggplot2::element_blank()
 		) 	+
 
 		# Plot margins
-		theme(plot.margin = unit(c(0.3, 0.3, 0.3, 0.3), "cm")	)
+    ggplot2::theme(plot.margin = unit(c(0.3, 0.3, 0.3, 0.3), "cm")	)
 }
 

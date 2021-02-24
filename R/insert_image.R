@@ -8,9 +8,7 @@
 #' @param startcol column coordinate of upper left corner of figure
 #' @param width width of figure
 #' @param height height of figure
-#' @return
 #' @export
-#'
 #' @examples
 #' # example
 #' \dontrun{
@@ -25,8 +23,8 @@
 #'                        height=5.5
 #' )
 #'openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")
+#'
 #'}
-
 
 insert_worksheet_image = function(image,
                                   workbook,

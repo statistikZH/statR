@@ -29,9 +29,6 @@ insert_worksheet_image(
 
 \item{height}{height of figure}
 }
-\value{
-
-}
 \description{
 insert_image
 }
@@ -49,5 +46,6 @@ insert_worksheet_image(image=plot(x = mtcars$wt, y = mtcars$mpg),
                        height=5.5
 )
 openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")
+
 }
 }

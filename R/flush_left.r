@@ -5,6 +5,7 @@
 #' Function to flush title, subtitle and caption to the lefthand side of the graphics device
 #' @param g ggplot object
 #' @keywords flush left
+#' @importFrom ggplot2 ggplotGrob
 #' @export
 #' @examples
 #'\dontrun{
@@ -14,7 +15,7 @@
 #' }
 
 
-flush_left <- function(g, ...){
+flush_left <- function(g){
 
   xout <- ggplot2::ggplotGrob(g)
 

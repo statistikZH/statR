@@ -6,11 +6,7 @@
 #' @param data data to be included in the XLSX-table.
 #' @param file filename of the xlsx-file. No Default.
 #' @param title title of the table in the worksheet, defaults to "Titel".
-#' @param source source of the data. Defaults to "statzh".
-#' @param metadata metadata-information to be included. Defaults to NA.
-#' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
-#' @param contactdetails contactdetails of the data publisher. Defaults to "statzh".
-#' @param grouplines columns to be separated visually by vertical lines.
+#' @template shared_parameters
 #' @keywords quickXLSX
 #' @export
 #' @examples
@@ -18,22 +14,34 @@
 #'
 #' #example with own logo, a custom filename, lines separating selected columns and some remarks
 #'
-#' quickXLSX(head(mtcars),  file="filename", title="alternative title", source="alternative source",contactdetails="blavla", grouplines = c(1,2,3), metadata = "remarks:",logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
+#' quickXLSX(head(mtcars),
+#' file="filename",
+#' title="alternative title",
+#' source="alternative source",
+#' contactdetails="blavla",
+#' grouplines = c(1,2,3),
+#' metadata = "remarks:",
+#' logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
 
 
-quickXLSX <-function (data, file, ...) {
+quickXLSX <-function (data,
+                      file,
+                      title="Title",
+                      source="statzh",
+                      metadata = NA,
+                      logo=NULL,
+                      grouplines = FALSE,
+                      contactdetails="statzh") {
 
   #create workbook
   wb <- openxlsx::createWorkbook(paste(file))
 
   #insert data
-  insert_worksheet(data, wb, ...)
+  insert_worksheet(data, wb, title=title, source=source, metadata = metadata, logo=logo, grouplines = grouplines, contactdetails=contactdetails)
 
   #save workbook
   openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""),
                          overwrite = TRUE)
-
-  # rm(newworkbook,envir = .GlobalEnv)
 
 
 }

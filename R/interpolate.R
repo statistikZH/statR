@@ -16,20 +16,18 @@
 
 # Function
 
-
 #interpolate function
 interpolate2<-function(palette, color = color, degree=degree,number=number){
   newpalette <- c()
   for (i in palette) {
     intcols <-c(i,color)
-    pal = colorRampPalette(intcols)
+    pal = grDevices::colorRampPalette(intcols)
     #  plotColors(pal, 7)
     intcols<- pal(7)
     newpalette[i] <- intcols[degree]
   }
-  pal = colorRampPalette((newpalette),space="Lab")
+  pal = grDevices::colorRampPalette((newpalette),space="Lab")
   scales::show_col(pal(number))
   pal(number)
 }
-
 

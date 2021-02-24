@@ -1,18 +1,11 @@
-# splitXLSX: Function to create formatted with multiple worksheets spreadsheets automatically
-
 #' splitXLSX
 #'
-#' Function to create formatted spreadsheets automatically
+#' Function to create formatted spreadsheets with multiple worksheets automatically.
 #' @param data data to be included in the XLSX-table.
 #' @param file filename of the xlsx-file. No Default.
-#' @param name title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.
 #' @param sheetvar variable which contains the variable to be used to split the data across several sheets.
-#' @param source source of the data. Defaults to "statzh".
-#' @param metadata metadata-information to be included. Defaults to NA.
-#' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
-#' @param contactdetails contactdetails of the data publisher. Defaults to "statzh".
-#' @param grouplines columns to be separated visually by vertical lines.
-#' @param ... further arguments available via insert_worksheet
+#' @param title title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.
+#' @template shared_parameters
 #' @keywords splitXLSX
 #' @export
 #' @examples
@@ -21,11 +14,26 @@
 #'
 #' splitXLSX(head(mtcars),"mtcars",carb,grouplines=c(1,5,6))
 #'
-#' splitXLSX(head(mtcars),carb, file="filename",grouplines = c(1,2,3), metadata = "remarks: ....",source="canton of zurich",logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
+#' splitXLSX(head(mtcars),
+#' sheetvar=carb,
+#' title="Tabelle",
+#' file="filename",
+#' grouplines = c(1,2,3),
+#' metadata = "remarks: ....",
+#' source="canton of zurich",
+#' logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
 
 # Function
 
-splitXLSX <- function(data, file, sheetvar, ...) {
+splitXLSX <- function(data,
+                      file,
+                      sheetvar,
+                      title="Titel",
+                      source="statzh",
+                      metadata = NA,
+                      logo=NULL,
+                      grouplines = FALSE,
+                      contactdetails="statzh") {
 
   data <- as.data.frame(data)
 
@@ -34,8 +42,6 @@ splitXLSX <- function(data, file, sheetvar, ...) {
 
   # create workbook
   wb <- openxlsx::createWorkbook(file)
-
-
 
   #get values of the variable that is used to split the data
   sheetvalues <- unique(data[,c(deparse(substitute(sheetvar)))])
@@ -46,7 +52,14 @@ splitXLSX <- function(data, file, sheetvar, ...) {
 
     #get data into workheets
     insert_worksheet(as.data.frame(data %>% dplyr::filter((!!col_name) == sheetvalue)%>%ungroup()),
-                                   wb, sheetname = paste(deparse(substitute(sheetvar)), sheetvalue,sep=","), ...)
+                                   wb, sheetname = paste(deparse(substitute(sheetvar)), sheetvalue,sep=","),
+                     #shared params
+                     title=paste(title, sheetvalue),
+                     source=source,
+                     metadata = metadata,
+                     logo=logo,
+                     grouplines = grouplines,
+                     contactdetails=contactdetails)
 
 
   }
