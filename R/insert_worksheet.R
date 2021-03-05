@@ -25,10 +25,10 @@
 insert_worksheet <- function(data, workbook, sheetname="data",title="Title", source="statzh", metadata = NA, logo=NULL, grouplines = FALSE, contactdetails="statzh") {
 
   # Metadata
-  remarks <- if (is.na(metadata)) {
+  remarks <- if (any(is.na(metadata))) {
     "Bemerkungen:"
   }
-  else if (metadata == "HAE") {
+  else if (any(metadata == "HAE")) {
     "Die Zahlen der letzten drei Jahre sind provisorisch."
   }
   else {
