@@ -39,12 +39,10 @@ insert_worksheet(
 Function to create formatted spreadsheets automatically
 }
 \examples{
-# Generation of a spreadsheet with four worksheets (one per 'carb'-category).
-# Can be used to generate worksheets for multiple years.
 
-  # create workbook
+# Generation of a spreadsheet
 wb <- openxlsx::createWorkbook("hello")
 
-insert_worksheet(mtcars[c(1:10),],wb,"mtcars",c(1:4),"carb",grouplines=c(1,5,6))
+insert_worksheet(data = mtcars[c(1:10),], workbook = wb, title = "mtcars", sheetname = "carb")
 }
 \keyword{insert_worksheet}
