@@ -63,7 +63,7 @@ insert_worksheet_nh <- function(data,
 
 
   #Zahlenformat: Tausendertrennzeichen
-  options("openxlsx.numFmt" = "#,###0")
+  # options("openxlsx.numFmt" = "#,###0")
 
   #extrahiere colname
   # col_name <- rlang::enquo(sheetvar)
