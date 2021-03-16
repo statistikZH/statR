@@ -201,7 +201,7 @@ statzh <- statzh[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.
 
   #Friere oberste Zeilen ein
 
-  openxlsx::freezePane(wb, sheet=i ,  firstActiveRow = datenbereich+2)
+  openxlsx::freezePane(wb, sheet=i ,  firstActiveRow = datenbereich+1)
 
   # bodyStyle <- createStyle(border="TopBottom", borderColour = "#4F81BD")
   # addStyle(wb, sheet = 1, bodyStyle, rows = 2:6, cols = 1:11, gridExpand = TRUE)
