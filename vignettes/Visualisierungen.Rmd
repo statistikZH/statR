@@ -21,7 +21,8 @@ library(statR)
 
 # Theme
 
-Das ggplot2-theme ist darauf ausgelegt, sich gut ins kantonalen Corporate Design einzufügen. 
+Das ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale Corporate Design einzufügen. 
+
 ```{r}
 #Lade package
 library(statR)
@@ -33,7 +34,8 @@ ggplot(mpg, aes(class,fill = drv))+
 ```
 
 # Farben
-Das Farbpalettenobjekt zhpal, welches alle StatZH-Farbpaletten enthält, ist mit geladenem statR Package global verfügbar. 
+
+Das Farbpalettenobjekt `zhpal` enthält alle im Package vorhandenen Farbpaletten und ist mit dem geladenen `statR`-Package global verfügbar. 
 
 ```{r,echo=TRUE}
 #Zeige Farben an
