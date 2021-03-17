@@ -1,10 +1,10 @@
 
 # statR
 
-Mit dem `statR`-Package können Visualisierungen und Excel-Tabellen in `R` erstellt werden, die mit dem Corporate Design des Kantons Zürich konform sind. Das Package beinhaltet:
+Mit dem `statR`-Package können mit dem Corporate Design des Kantons Zürich konforme Visualisierungen und Excel-Tabellen in `R` erstellt werden. Das Package beinhaltet:
 
 
-- Funktionen, mit denen Datensätze aus R als XLSX-Datei abgespeichert werden können inklusive Quellenangaben und weitere Zusatzinformationen.
+- Funktionen, mit denen Datensätze aus R als XLSX-Datei abgespeichert werden können (inkl. Quellenangaben und weiteren Zusatzinformationen).
 
 - generische Farbpaletten für Datenvisualisierungen
 
