@@ -16,27 +16,12 @@ knitr::opts_chunk$set(
 
 # Formatierte Excel-Tabellen mit R
 
-statR enthält zwei Funktionen, welche Daten in formatierte Excel-Dateien abfüllen. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf.
-
-__insert_worksheet__
-
-Schreibt Daten aus R in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.
-```{r,echo=T,eval=F,error=F}
-
-#erstelle ein neues Workbook
-wb <- openxlsx::createWorkbook("hello")
-
-#schreibe daten in ein neues sheet im bestehenden Workbook
-insert_worksheet(mtcars[c(1:25),],wb)
-
-#speichere workbook als xlsx-Datei ab
-openxlsx::saveWorkbook(wb, "file.xlsx", overwrite = TRUE)
-
-```
+`statR` enthält mehrere Funktionen, mit welchen Datensätze aus `R` als Excel-Dateien exportiert werden können. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf.
 
 __quickXLSX__
 
-Schreibt Daten aus R in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.
+Schreibt Daten aus `R` in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.
+
 ```{r,echo=T,eval=F,error=F}
 #Beschreibung & Anwendungsbeispiele via '?'
 ?quickXLSX
@@ -47,9 +32,10 @@ quickXLSX(head(mtcars),"title of the spreadsheet")
 
 __splitXLSX__ 
 
-Die Funktion splitXLSX erlaubt es einen Datensatz aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern abzuspeichern und die Daten über mehrere Tabellenblätter zu verteilen.
+Die Funktion `splitXLSX` erlaubt es, einen Datensatz aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern abzuspeichern und die Daten über mehrere Tabellenblätter zu verteilen.
 
 Beispiel: Speichere die ersten 10 Zeilen des mtcars-Datemsatzes in mehreren Arbeitsblättern ab, ein Blatt pro Kategorie der 'carb'-Variable. Die Funktion eignet sich für Excel-Files welche pro Jahr oder pro Region etc. jeweils einzelne Arbeitsblätter enthalten sollen.
+
 ```{r,echo=T,eval=F}
 #Beispiel mit Standardlogo (Logo des Statistischen Amtes ZH)
 splitXLSX(mtcars[c(1:10),],"mtcars",carb,grouplines=c(1,5,6))
@@ -98,4 +84,20 @@ datasetsXLSX(file="datasetsXLSX",
              metadata1 = c("Bemerkungen: bla", "Bemerkungen: x", "Bemerkungen: x"),
              auftrag_id="A2020_0200"
 )
+```
+
+__insert_worksheet__
+
+Schreibt Daten aus R in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.
+```{r,echo=T,eval=F,error=F}
+
+#erstelle ein neues Workbook
+wb <- openxlsx::createWorkbook("hello")
+
+#schreibe daten in ein neues sheet im bestehenden Workbook
+insert_worksheet(mtcars[c(1:25),],wb)
+
+#speichere workbook als xlsx-Datei ab
+openxlsx::saveWorkbook(wb, "file.xlsx", overwrite = TRUE)
+
 ```
