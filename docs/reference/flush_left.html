@@ -102,7 +102,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/statR_intro.html">Intro</a>
+      <a href="../articles/Excel-Tabellen.html">Excel-Tabellen</a>
+    </li>
+    <li>
+      <a href="../articles/Visualisierungen.html">Visualisierungen</a>
     </li>
   </ul>
 </li>
@@ -139,7 +142,7 @@
     <p>Function to flush title, subtitle and caption to the lefthand side of the graphics device</p>
     </div>
 
-    <pre class="usage"><span class='fu'>flush_left</span><span class='op'>(</span><span class='va'>g</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>flush_left</span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,11 +155,12 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'>flush_left</span><span class='op'>(</span><span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>aes</span><span class='op'>(</span> x <span class='op'>=</span> <span class='va'>cyl</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span>
 <span class='fu'>geom_bar</span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span>
 <span class='fu'>labs</span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Titel"</span>, subtitle <span class='op'>=</span> <span class='st'>"Untertitel"</span>, caption <span class='op'>=</span> <span class='st'>"Datenquelle"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in ggplotGrob(g): could not find function "ggplotGrob"</span></div></pre>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -102,7 +102,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/statR_intro.html">Intro</a>
+      <a href="../articles/Excel-Tabellen.html">Excel-Tabellen</a>
+    </li>
+    <li>
+      <a href="../articles/Visualisierungen.html">Visualisierungen</a>
     </li>
   </ul>
 </li>
@@ -152,8 +155,7 @@
   logo <span class='op'>=</span> <span class='st'>"statzh"</span>,
   sources <span class='op'>=</span> <span class='cn'>NULL</span>,
   metadata1 <span class='op'>=</span> <span class='st'>""</span>,
-  <span class='va'>auftrag_id</span>,
-  <span class='va'>...</span>
+  <span class='va'>auftrag_id</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -196,6 +198,10 @@
       <td><p>title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.</p></td>
     </tr>
     <tr>
+      <th>logo</th>
+      <td><p>filepath to the logo to be included in the index-sheet (default: Logo of the statistical office ZH)</p></td>
+    </tr>
+    <tr>
       <th>sources</th>
       <td><p>source of the data. Defaults to "statzh".</p></td>
     </tr>
@@ -211,12 +217,12 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># example with image / plot</span>
 <span class='co'># create map</span>
-
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>plot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>mpg</span><span class='op'>)</span>
-</div><div class='img'><img src='datasetsXLSX-1.png' alt='' width='700' height='433' /></div><div class='input'>
+
 <span class='fu'>datasetsXLSX</span><span class='op'>(</span>file<span class='op'>=</span><span class='st'>"datasetsXLSX"</span>,
             maintitle <span class='op'>=</span> <span class='st'>"nice datasets"</span>,
             datasets <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>,<span class='va'>plot</span><span class='op'>)</span>,
@@ -230,8 +236,8 @@
             metadata1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Bemerkungen: bla"</span>, <span class='st'>"Bemerkungen: y"</span>, <span class='st'>"Bemerkungen: x"</span><span class='op'>)</span>,
             auftrag_id<span class='op'>=</span><span class='st'>"A2020_0200"</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in data %&gt;% ungroup(): could not find function "%&gt;%"</span></div><div class='input'>
 
+<span class='op'>}</span>
 <span class='co'># example without image</span>
 
 <span class='fu'>datasetsXLSX</span><span class='op'>(</span>file<span class='op'>=</span><span class='st'>"datasetsXLSX2"</span>,
@@ -243,8 +249,8 @@
              metadata1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Bemerkungen: y"</span>, <span class='st'>"Bemerkungen: x"</span><span class='op'>)</span>,
              auftrag_id<span class='op'>=</span><span class='st'>"AS2020_01"</span>
              <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in data %&gt;% ungroup(): could not find function "%&gt;%"</span></div><div class='input'>
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: argument 'pattern' has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='error'>Error in openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = "")): File already exists!</span></div><div class='input'>
+<span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

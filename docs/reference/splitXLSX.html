@@ -36,7 +36,7 @@
   
 
 <meta property="og:title" content="splitXLSX — splitXLSX" />
-<meta property="og:description" content="Function to create formatted spreadsheets automatically" />
+<meta property="og:description" content="Function to create formatted spreadsheets with multiple worksheets automatically." />
 <meta name="twitter:card" content="summary" />
 
 <meta name="theme-color" content="#293c55">
@@ -102,7 +102,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/statR_intro.html">Intro</a>
+      <a href="../articles/Excel-Tabellen.html">Excel-Tabellen</a>
+    </li>
+    <li>
+      <a href="../articles/Visualisierungen.html">Visualisierungen</a>
     </li>
   </ul>
 </li>
@@ -136,10 +139,20 @@
     </div>
 
     <div class="ref-description">
-    <p>Function to create formatted spreadsheets automatically</p>
+    <p>Function to create formatted spreadsheets with multiple worksheets automatically.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>splitXLSX</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>file</span>, <span class='va'>sheetvar</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>splitXLSX</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>file</span>,
+  <span class='va'>sheetvar</span>,
+  title <span class='op'>=</span> <span class='st'>"Titel"</span>,
+  source <span class='op'>=</span> <span class='st'>"statzh"</span>,
+  metadata <span class='op'>=</span> <span class='cn'>NA</span>,
+  logo <span class='op'>=</span> <span class='cn'>NULL</span>,
+  grouplines <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  contactdetails <span class='op'>=</span> <span class='st'>"statzh"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,7 +170,7 @@
       <td><p>variable which contains the variable to be used to split the data across several sheets.</p></td>
     </tr>
     <tr>
-      <th>name</th>
+      <th>title</th>
       <td><p>title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.</p></td>
     </tr>
     <tr>
@@ -173,12 +186,12 @@
       <td><p>path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"</p></td>
     </tr>
     <tr>
-      <th>contactdetails</th>
-      <td><p>contactdetails of the data publisher. Defaults to "statzh".</p></td>
-    </tr>
-    <tr>
       <th>grouplines</th>
       <td><p>columns to be separated visually by vertical lines.</p></td>
+    </tr>
+    <tr>
+      <th>contactdetails</th>
+      <td><p>contactdetails of the data publisher. Defaults to "statzh".</p></td>
     </tr>
     </table>
 
@@ -188,9 +201,16 @@
 <span class='co'># Can be used to generate worksheets for multiple years.</span>
 
 <span class='fu'>splitXLSX</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>,<span class='st'>"mtcars"</span>,<span class='va'>carb</span>,grouplines<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in data %&gt;% dplyr::filter((!!col_name) == sheetvalue) %&gt;% ungroup(): could not find function "%&gt;%"</span></div><div class='input'>
-<span class='fu'>splitXLSX</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>,<span class='va'>carb</span>, file<span class='op'>=</span><span class='st'>"filename"</span>,grouplines <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span><span class='op'>)</span>, metadata <span class='op'>=</span> <span class='st'>"remarks: ...."</span>,source<span class='op'>=</span><span class='st'>"canton of zurich"</span>,logo<span class='op'>=</span><span class='st'>"L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in data %&gt;% dplyr::filter((!!col_name) == sheetvalue) %&gt;% ungroup(): could not find function "%&gt;%"</span></div></pre>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='input'>
+<span class='fu'>splitXLSX</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>,
+sheetvar<span class='op'>=</span><span class='va'>carb</span>,
+title<span class='op'>=</span><span class='st'>"Tabelle"</span>,
+file<span class='op'>=</span><span class='st'>"filename"</span>,
+grouplines <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span><span class='op'>)</span>,
+metadata <span class='op'>=</span> <span class='st'>"remarks: ...."</span>,
+source<span class='op'>=</span><span class='st'>"canton of zurich"</span>,
+logo<span class='op'>=</span><span class='st'>"L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>no logo found and / or added</span></div><div class='output co'>#&gt; <span class='message'>no logo found and / or added</span></div><div class='output co'>#&gt; <span class='message'>no logo found and / or added</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
