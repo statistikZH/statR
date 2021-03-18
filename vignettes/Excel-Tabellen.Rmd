@@ -2,7 +2,7 @@
 title: "Excel-Tabellen"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{statR_intro}
+  %\VignetteIndexEntry{Excel-Tabellen}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
