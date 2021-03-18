@@ -107,13 +107,20 @@
 <a href="#formatierte-excel-tabellen-mit-r" class="anchor"></a>Formatierte Excel-Tabellen mit R</h1>
 <p><code>statR</code> enthält mehrere Funktionen, mit welchen Datensätze aus <code>R</code> als Excel-Dateien exportiert werden können. Die Funktionen bauen auf dem <a href="https://github.com/awalker89/openxlsx">openxlsx-package</a> auf.</p>
 <p><strong>quickXLSX</strong></p>
-<p>Schreibt Daten aus <code>R</code> in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.</p>
+<p>Mit der Funktion <code><a href="../reference/quickXLSX.html">quickXLSX()</a></code> kann ein Datensatz aus <code>R</code> als vorformatierte XLSX-Datei exportiert werden. Per Default wird das Logo des Statistischen Amts eingefügt und es werden die Kontaktangaben des Datashops angegeben (<code>contactdetails = statzh</code>). Mit dem Argument <code>grouplines</code> kann man zudem vertikale Linien zwischen ausgewählten Spalten in der Excel-Tabelle einfügen, um die Spalten optisch voneinander zu separieren.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co">#Beschreibung &amp; Anwendungsbeispiele via '?'</span>
-<span class="op">?</span><span class="va">quickXLSX</span>
+<span class="co"># Beispiel anhand des Datensatzes 'mtcars'</span>
+<span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">mtcars</span>
 
-<span class="co">#Speichere die obersten Zeilen des mtcars-Datensatzes als formatiertes XLSX File ab</span>
-<span class="fu"><a href="../reference/quickXLSX.html">quickXLSX</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>,<span class="st">"title of the spreadsheet"</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/quickXLSX.html">quickXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat</span>, 
+          title <span class="op">=</span> <span class="st">"Motor trend car road tests"</span>, 
+          file <span class="op">=</span> <span class="st">"motor_trend_car_road_tests"</span>, <span class="co"># '.xlsx' wird automatisch hinzugefügt</span>
+          source <span class="op">=</span> <span class="st">"Source: Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span>,
+          metadata <span class="op">=</span> <span class="st">"The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."</span>,
+          contactdetails <span class="op">=</span> <span class="st">"statzh"</span>,
+          grouplines <span class="op">=</span> <span class="cn">FALSE</span>,
+          logo <span class="op">=</span> <span class="cn">NULL</span>
+          <span class="op">)</span></pre></div>
 <p><strong>splitXLSX</strong></p>
 <p>Die Funktion <code>splitXLSX</code> erlaubt es, einen Datensatz aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern abzuspeichern und die Daten über mehrere Tabellenblätter zu verteilen.</p>
 <p>Beispiel: Speichere die ersten 10 Zeilen des mtcars-Datemsatzes in mehreren Arbeitsblättern ab, ein Blatt pro Kategorie der ‘carb’-Variable. Die Funktion eignet sich für Excel-Files welche pro Jahr oder pro Region etc. jeweils einzelne Arbeitsblätter enthalten sollen.</p>
@@ -189,7 +196,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Andrea Schnell, Thomas Lo Russo.</p>
+  <p>Developed by Andrea Schnell, Thomas Lo Russo, Michelle Donzallaz.</p>
 </div>
 
 <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#000000 !important;background-color:#FFFFFF !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 0px 9px !important;font-size: 17px !important;letter-spacing:-0.08px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Lato', sans-serif !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#000000 !important;}</style>
