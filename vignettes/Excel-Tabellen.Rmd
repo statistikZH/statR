@@ -20,14 +20,21 @@ knitr::opts_chunk$set(
 
 __quickXLSX__
 
-Schreibt Daten aus `R` in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.
+Mit der Funktion `quickXLSX()` kann ein Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. 
 
 ```{r,echo=T,eval=F,error=F}
 #Beschreibung & Anwendungsbeispiele via '?'
-?quickXLSX
+?quickXLSX()
 
-#Speichere die obersten Zeilen des mtcars-Datensatzes als formatiertes XLSX File ab
-quickXLSX(head(mtcars),"title of the spreadsheet")
+# Beispiel anhand des Datensatzes 'mtcars'
+dat <- mtcars
+
+quickXLSX(data = dat, 
+          title = "Motor trend car road tests", 
+          file = "motor_trend_car_road_tests", # '.xlsx' wird automatisch hinzugefügt
+          source = "Source: Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411.",
+          metadata = "The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).",
+          )
 ```
 
 __splitXLSX__ 
