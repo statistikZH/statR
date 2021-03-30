@@ -16,18 +16,14 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(statR)
+library(tidyverse)
 ```
 
+# theme_stat() für ggplot-Grafiken
 
-# Theme
-
-Das ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale Corporate Design einzufügen. 
+Das **statR**-ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale Corporate Design einzufügen. 
 
 ```{r}
-#Lade package
-library(statR)
-library(ggplot2)
-
 ggplot(mpg, aes(class,fill = drv))+
   geom_bar()+
   theme_stat()
@@ -51,6 +47,106 @@ display(colorRampPalette((zhpal$zhdiagonal),space="Lab")(20))
 display.statcol.all()
 
 #verwende die Paletten für kategoriale Daten mittels 'scale_fill_manual'
-ggplot(mpg, aes(class,fill = drv))+geom_bar()+theme_stat()+scale_fill_manual(values=zhpal$zhblue)
+ggplot(mpg, aes(class,fill = drv))+
+  geom_bar()+
+  theme_stat()+
+  scale_fill_manual(values=zhpal$zhblue)
+
+```
+
+## Barrierefreiheit
+
+Alt Text : Beschreibt was auf der Grafik abgebildet ist und nennt wenn möglich wo die Daten zu finden sind.
+
+- Daten anbieten als csv oder Tabelle
+
+### 1. Farbsehschwächen
+
+Damit Grafiken auch für Personen mit Farbsehschwächen möglichst gut lesbar sind:
+
+- Farben sollten sowohl was die __Farbanteile__ UND die __Sättigung__ angeht variieren (MUSS)
+
+- Wenn möglich sollten Kategorien nicht nur über unterschiedliche Farben sondern auch über Schraffuren oder unterschiedliche Formen (Punkt oder Linientypen) unterscheidbar sein. (Wenn möglich)
+
+### 1.2 Auswahl Farbpaletten
+
+In R können mit dem [dichromat-Package](https://cran.r-project.org/web/packages/dichromat/index.html) diverse Formen von Farbsehschwäche simuliert werden. Dies erlaubt es Farbpaletten auszuwählen, die möglichst Farbsehschwächen-freundlich sind. 
+
+```{r out.width="20%", out.height="20%"}
+library(dichromat)
+# Anzeige der Farbpalette zhdiagonal
+display(zhpal$zhdiagonal)
+# Simulation Grünsehschwäche (Deuteranomalie)
+display(dichromat(zhpal$zhdiagonal))
+# Simulation Blaublindheit (Tritanopie)
+display(dichromat(zhpal$zhdiagonal,type="tritan"))
+```
+
+Die Simulation kann auch anhand von Grafiken vorgenommen werden.
+
+```{r}
+p <- ggplot(diamonds, aes(clarity, fill=cut)) + 
+  geom_bar(position = "stack", width= 0.5)
+
+p + theme_stat() +
+  scale_fill_manual(values=dichromat(zhpal$zhdiagonal,type=c("tritan")))
+```
+
+### 1.3 Unterschiede sichtbar machen
+
+Wenn immer möglich sollten unterschiedliche Kategorien nicht nur über die Farbe, sondern auch über Formen und Linientypen erkenntlich gemacht werden. Siehe: https://bbc.github.io/gel/components/infographics/#recommended-layout
+
+Je nach Plotart kann dies in ggplot2 über verschiedene Linientypen oder Symbole erreicht werden.
+
+- __Liniendiagramme__ : [Linientyp](https://ggplot2.tidyverse.org/reference/aes_linetype_size_shape.html)
+
+- __Säulen / Flächendiagramme__ : [Linientyp](https://ggplot2.tidyverse.org/reference/aes_linetype_size_shape.html) oder [Flächenstruktur](Flächen schraffieren : https://coolbutuseless.github.io/package/ggpattern/articles/pattern-circle.html#the-density-aesthetic-as-a-mapped-aesthetic-1)
+
+- __Scatter / Punkte-Diagramm__ : [Symbole](https://ggplot2.tidyverse.org/reference/aes_linetype_size_shape.html)
+
+
+
+<i class="fa fa-exclamation-circle" aria-hidden="true"></i> funktioniert nur bedingt mit vielen Kategorien.
+
+### Beispiel : Liniengrafik
+```{r}
+data <- read.csv("https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv") %>% 
+  pivot_longer(cols=2:3)
+
+ggplot(data, aes(Jahr, value ,color=name,linetype=name)) + 
+     geom_line()+
+     theme_stat()
+```
+
+### Beispiel : Säulendiagramm
+
+```{r}
+ggplot(mpg, aes(class,fill = drv,linetype=drv))+
+  geom_bar(col ="black")+
+  theme_stat()+
+  scale_fill_manual(values=zhpal$zhblue)+
+  theme(legend.position="right", axis.text.x = element_text(angle=90,vjust = 0.5, hjust=0),
+        panel.grid.major = element_line(colour = "grey", size = 0.1),
+        panel.grid.minor = element_line(colour = "grey", size = 0.2))
+
+```
+
+# Grafiken fürs ZHWeb
+
+- Max Bildgrösse 4000x4000
+- 
+
+```{r}
+
+ggplot(mpg, aes(class,fill = drv))+
+  geom_bar()+
+  theme_stat()+
+  scale_fill_manual(values=zhpal$zhblue)+
+  theme(legend.position="right", axis.text.x = element_text(angle=90,vjust = 0.5, hjust=0),
+        panel.grid.major = element_line(colour = "grey", size = 0.1),
+        panel.grid.minor = element_line(colour = "grey", size = 0.2))
+
+
+ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")
 
 ```
