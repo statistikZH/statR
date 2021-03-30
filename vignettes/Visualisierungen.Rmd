@@ -1,0 +1,56 @@
+---
+title: "Visualisierungen"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Visualisierungen}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(statR)
+```
+
+
+# Theme
+
+Das ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale Corporate Design einzufügen. 
+
+```{r}
+#Lade package
+library(statR)
+library(ggplot2)
+
+ggplot(mpg, aes(class,fill = drv))+
+  geom_bar()+
+  theme_stat()
+```
+
+# Farben
+
+Das Farbpalettenobjekt `zhpal` enthält alle im Package vorhandenen Farbpaletten und ist mit dem geladenen `statR`-Package global verfügbar. 
+
+```{r,echo=TRUE}
+#Zeige Farben an
+display(zhpal$zhdiagonal)
+
+#Mische 20 Farbtöne auf Basis der zhdiagonal-Palette
+colorRampPalette((zhpal$zhdiagonal),space="Lab")(20)
+
+#Zeige die 20 Farben an
+display(colorRampPalette((zhpal$zhdiagonal),space="Lab")(20))
+
+#Alle Paletten auf einen Blick
+display.statcol.all()
+
+#verwende die Paletten für kategoriale Daten mittels 'scale_fill_manual'
+ggplot(mpg, aes(class,fill = drv))+geom_bar()+theme_stat()+scale_fill_manual(values=zhpal$zhblue)
+
+```

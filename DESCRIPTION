@@ -3,8 +3,9 @@ Title: statR
 Version: 1.0.0.9999
 Authors@R: as.person(c(
     "Andrea Schnell <andrea.schnell@statistik.ji.zh.ch> [aut]", 
-    "Thomas Lo Russo <thomas.lorusso@statistik.ji.zh.ch> [aut,cre]"))
-Description: statR bundles a variety of functions that allow to generate ready-to-publish plots (ggplot2-theme & colorpalettes) as well as saving data in formated excel-tables. The generated outputs are aligned with the corporate design of the Canton Zurich.
+    "Thomas Lo Russo <thomas.lorusso@statistik.ji.zh.ch> [aut,cre]",
+    "Michelle Donzallaz <michelle.donzallaz@statistik.ji.zh.ch> [ctb]"))
+Description: statR beinhaltet eine Reihe von Funktionen mit denen publikationsfertige Visualisierungen (mittels ggplot2-themes und Farbpaletten) und formatierte Excel-Tabellen erstellt werden können. Die generierten Visualisierungen und Tabellen sind an das Corporate Design des Kantons Zürich angepasst.
 Depends: R (>= 3.3.0)
 License: GPL-3
 Encoding: UTF-8

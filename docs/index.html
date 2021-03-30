@@ -11,7 +11,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="statR">
-<meta property="og:description" content="statR bundles a variety of functions that allow to generate ready-to-publish plots (ggplot2-theme &amp; colorpalettes) as well as saving data in formated excel-tables. The generated outputs are aligned with the corporate design of the Canton Zurich.">
+<meta property="og:description" content="statR beinhaltet eine Reihe von Funktionen mit denen publikationsfertige Visualisierungen (mittels ggplot2-themes und Farbpaletten) und formatierte Excel-Tabellen erstellt werden können. Die generierten Visualisierungen und Tabellen sind an das Corporate Design des Kantons Zürich angepasst.">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#293c55">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -60,7 +60,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/statR_intro.html">Intro</a>
+      <a href="articles/Excel-Tabellen.html">Excel-Tabellen</a>
+    </li>
+    <li>
+      <a href="articles/Visualisierungen.html">Visualisierungen</a>
     </li>
   </ul>
 </li>
@@ -87,19 +90,35 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+
 <div id="statr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#statr" class="anchor"></a>statR</h1></div>
-<p>The <strong>statR</strong> package is a toolbox for corporate design conforming graphics and spreadsheets of the statistical office of the canton of Zurich . It contains:</p>
+<p>Mit dem <code>statR</code>-Package können mit dem Corporate Design des Kantons Zürich konforme Visualisierungen und Excel-Tabellen in <code>R</code> erstellt werden. Das Package beinhaltet:</p>
 <ul>
-<li><p><em>generic colour palettes for any kind of data-visualization</em></p></li>
-<li><p><em>ggplot2-theme</em></p></li>
-<li><p><em>templates for saving data in CD-conforming formated xlsx-spreadsheets</em></p></li>
+<li><p>Funktionen, mit denen Datensätze aus R als XLSX-Datei abgespeichert werden können (inkl. Quellenangaben und weiteren Zusatzinformationen).</p></li>
+<li><p>generische Farbpaletten für Datenvisualisierungen</p></li>
+<li><p><code>ggplot2</code> themes</p></li>
 </ul>
-<p>statR is a complement to the <a href="https://github.com/statistikZH/statRmd"><strong>statRmd</strong></a> package, which can be used to generate nicely formatted, ready-to-publish .pdf reports.</p>
-<p>For examples and instructions please consult the <em>NEW</em> pkgdown-page (under development):</p>
-<p><a href="https://statistikzh.github.io/statR/" class="uri">https://statistikzh.github.io/statR/</a></p>
+<p>Weitere Informationen zum Package und Beispiele sind auf der pkgdown-Seite zu finden: <a href="https://statistikzh.github.io/statR/" class="uri">https://statistikzh.github.io/statR/</a>.</p>
 </div>
+<div id="installation" class="section level1">
+<h1 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h1>
+<p>Die development-Version des Package liegt auf GitHub. Sie kann auf zwei Arten installiert werden:</p>
+<pre><code><a href="https://github.com/wch/downloader"># Variante 1
+
+library(downloader)
+download("https://github.com/statistikZH/statR/archive/dev.tar.gz", "statR.tar.gz")
+install.packages("statR.tar.gz", repos = NULL, type = "source")
+
+
+# Variante 2
+
+library(devtools)
+devtools::install_github("statistikZH/statR",ref="dev")</a></code></pre>
+</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -118,7 +137,8 @@
 <div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://opensource.org/licenses/mit-license.php">MIT</a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
 </ul>
 </div>
 <div class="developers">
@@ -126,6 +146,7 @@
 <ul class="list-unstyled">
 <li>Andrea Schnell <br><small class="roles"> Author </small>  </li>
 <li>Thomas Lo Russo <br><small class="roles"> Author, maintainer </small>  </li>
+<li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
 

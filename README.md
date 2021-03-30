@@ -1,16 +1,39 @@
+
 # statR
 
-The **statR** package is a toolbox for corporate design conforming graphics and spreadsheets of the statistical office of the canton of Zurich . It contains:
+Mit dem `statR`-Package können mit dem Corporate Design des Kantons Zürich konforme Visualisierungen und Excel-Tabellen in `R` erstellt werden. Das Package beinhaltet:
 
-- *generic colour palettes for any kind of data-visualization*
 
-- *ggplot2-theme*
+- Funktionen, mit denen Datensätze aus R als XLSX-Datei abgespeichert werden können (inkl. Quellenangaben und weiteren Zusatzinformationen).
 
-- *templates for saving data in CD-conforming formated xlsx-spreadsheets*
+- generische Farbpaletten für Datenvisualisierungen
 
-For examples and instructions please consult the *NEW* pkgdown-page (under development):
+- `ggplot2` themes
 
-https://statistikzh.github.io/statR/
+
+
+Weitere Informationen zum Package und Beispiele sind auf der pkgdown-Seite zu finden:  https://statistikzh.github.io/statR/.
+
+
+# Installation
+
+Die development-Version des Package liegt auf GitHub. Sie kann auf zwei Arten installiert werden:
+
+```
+# Variante 1
+
+library(downloader)
+download("https://github.com/statistikZH/statR/archive/dev.tar.gz", "statR.tar.gz")
+install.packages("statR.tar.gz", repos = NULL, type = "source")
+
+
+# Variante 2
+
+library(devtools)
+devtools::install_github("statistikZH/statR",ref="dev")
+```
+
+
 
 
 
