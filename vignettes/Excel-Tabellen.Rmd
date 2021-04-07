@@ -16,11 +16,11 @@ knitr::opts_chunk$set(
 
 # Formatierte Excel-Tabellen mit R
 
-`statR` enthält mehrere Funktionen, mit welchen Datensätze aus `R` als Excel-Dateien exportiert werden können. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf.
+`statR` enthält mehrere Funktionen, mit welchen Datensätze aus `R` als Excel-Dateien exportiert werden können. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf. Per Default wird bei allen Funktionen das Logo des Statistischen Amts eingefügt und es werden die Kontaktangaben des Datashops angegeben (`contactdetails = statzh`).  Mit dem Argument `grouplines` kann man zudem vertikale Linien zwischen ausgewählten Spalten in der Excel-Tabelle einfügen, um die Spalten optisch voneinander zu separieren.
 
-__quickXLSX__
+__quickXLSX()__
 
-Mit der Funktion `quickXLSX()` kann ein Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. Per Default wird das Logo des Statistischen Amts eingefügt und es werden die Kontaktangaben des Datashops angegeben (`contactdetails = statzh`).  Mit dem Argument `grouplines` kann man zudem vertikale Linien zwischen ausgewählten Spalten in der Excel-Tabelle einfügen, um die Spalten optisch voneinander zu separieren.
+Mit der Funktion `quickXLSX()` kann ein Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. 
 
 ```{r,echo=T,eval=F,error=F}
 # Beispiel anhand des Datensatzes 'mtcars'
@@ -29,8 +29,10 @@ dat <- mtcars
 quickXLSX(data = dat, 
           title = "Motor trend car road tests", 
           file = "motor_trend_car_road_tests", # '.xlsx' wird automatisch hinzugefügt
-          source = "Source: Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411.",
-          metadata = "The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).",
+          source = "Source: Henderson and Velleman (1981), 
+          Building multiple regression models interactively. Biometrics, 37, 391–411.",
+          metadata = "The data was extracted from the 1974 Motor Trend US magazine, 
+          and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).",
           contactdetails = "statzh",
           grouplines = FALSE,
           logo = NULL
@@ -40,22 +42,33 @@ quickXLSX(data = dat,
 
 
 
-__splitXLSX__ 
+__splitXLSX()__ 
 
-Die Funktion `splitXLSX` erlaubt es, einen Datensatz aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern abzuspeichern und die Daten über mehrere Tabellenblätter zu verteilen.
+Mit der Funktion `splitXLSX()` kann ein Datensatz aus R in eine XLSX-Datei über mehrere Arbeitsblätter hinweg exportiert werden.
 
-Beispiel: Speichere die ersten 10 Zeilen des mtcars-Datemsatzes in mehreren Arbeitsblättern ab, ein Blatt pro Kategorie der 'carb'-Variable. Die Funktion eignet sich für Excel-Files welche pro Jahr oder pro Region etc. jeweils einzelne Arbeitsblätter enthalten sollen.
+Im Beispiel unten wird der Datensatz nach der Anzahl Zylinder der Autos auf verschiedene Arbeitsblätter verteilt. 
+
 
 ```{r,echo=T,eval=F}
-#Beispiel mit Standardlogo (Logo des Statistischen Amtes ZH)
-splitXLSX(mtcars[c(1:10),],"mtcars",carb,grouplines=c(1,5,6))
+# Beispiel anhand des Datensatzes 'mtcars'
+dat <- mtcars
 
-#Beispiel mit modifzierten Bemerkungen und eigenem Logo
-splitXLSX(head(mtcars),carb, file="filename",grouplines = c(1,2,3), metadata = "remarks: ....",source="canton of zurich",logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
+# Beispiel mit Standardlogo (Logo des Statistischen Amts)
+splitXLSX(data = dat,
+          file = "motor_trend_car_road_tests", # '.xlsx' wird automatisch hinzugefügt
+          sheetvar = cyl, # Variable, nach der die Daten auf die Tabellenblätter aufgeteilt werden sollen
+          source = "Source: Henderson and Velleman (1981), 
+          Building multiple regression models interactively. Biometrics, 37, 391–411.",
+          metadata = "The data was extracted from the 1974 Motor Trend US magazine, 
+          and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).",
+          contactdetails = "statzh",
+          grouplines = FALSE,
+          logo = NULL
+          )
 
 ```
 
-__datasetsXLSX (*NEU*)__
+__datasetsXLSX() (*NEU*)__
 
 Die Funktion datasetsXLSX erlaubt es mehrere Datensätze aus R in einer XLSX-Tabelle mit mehreren Arbeitsblättern zu bündeln.
 
