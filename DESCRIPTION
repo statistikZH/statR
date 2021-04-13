@@ -14,15 +14,17 @@ RoxygenNote: 7.1.1
 Imports:
     dplyr,
     ggplot2,
-	openxlsx,
-	magrittr,
-	stats,
-	grDevices,
-	RColorBrewer,
+    openxlsx,
+    magrittr,
+    stats,
+    grDevices,
+    RColorBrewer,
     gridExtra,
     rlang,
     scales,
-    stringr
+    stringr,
+    tidyr,
+    dichromat
 URL: https://statistikzh.github.io/statR/
 BugReports: https://github.com/statistikZH/statR/issues
 Suggests: 
