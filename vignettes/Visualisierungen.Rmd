@@ -16,10 +16,12 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(statR)
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
 ```
 
-# theme_stat() für ggplot-Grafiken
+# theme_stat() für ggplot-Grafikenuse_package(")
 
 Das **statR**-ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale Corporate Design einzufügen. 
 
