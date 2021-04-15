@@ -16,11 +16,13 @@ knitr::opts_chunk$set(
 
 # Formatierte Excel-Tabellen mit R
 
-`statR` enthält mehrere Funktionen, mit welchen Datensätze aus `R` als Excel-Dateien exportiert werden können. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf. Per Default wird bei allen Funktionen das Logo des Statistischen Amts eingefügt und es werden die Kontaktangaben des Datashops angegeben (`contactdetails = statzh`). Eine weiteres Feature, das bei allen Funktionen vorkommt, ist das Argument `grouplines`. Damit können vertikale Linien zwischen ausgewählten Spalten in der Excel-Tabelle eingefügt werden, um die Spalten optisch voneinander zu separieren.
+`statR` enthält mehrere Funktionen, mit welchen Datensätze aus `R` als Excel-Dateien exportiert werden können. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf.  
+
+Per Default wird bei allen Funktionen das Logo des Statistischen Amts eingefügt und es werden die Kontaktangaben des Datashops angegeben (`contactdetails = statzh, logo = NULL`). Mit den Funktionsargumenten können die Dateinamen, Titel, Quellen sowie Metadaten spezifiziert werden. Um längere Quellen- und Metadatenangaben über mehrere Zeilen eines Arbeitsblatts zu verteilen, kann man sie in verschiedene Vektorelemente aufteilen (Beispiel: `c("Zeile 1, "Zeile 2", "Zeile 3")`. Mit dem Argument `grouplines` werden zudem vertikale Linien zwischen ausgewählten Spalten in der Excel-Tabelle eingefügt und die Spalten optisch voneinander separiert (aktuell nicht möglich bei `datasetsXLSX()`).
 
 __quickXLSX()__
 
-Mit der Funktion `quickXLSX()` kann ein Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. 
+Mit der Funktion `quickXLSX()` kann ein Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. Die Funktion eignet sich, um einzelne Datensätze als Exceldatei zu verschicken.
 
 ```{r,echo=T,eval=F,error=F}
 # Beispiel anhand des Datensatzes 'mtcars'
@@ -40,9 +42,9 @@ quickXLSX(data = dat,
 
 __splitXLSX()__ 
 
-Mit der Funktion `splitXLSX()` kann *ein* Datensatz aus R in eine XLSX-Datei exportiert und auf mehrere Arbeitsblättern verteilt werden.
+Mit der Funktion `splitXLSX()` kann ein Datensatz aus R in eine XLSX-Datei exportiert und auf mehrere Arbeitsblättern verteilt werden. Die Funktion ist besonders dann geeignet, wenn man einen Datensatz für verschiedene Ausprägungen einer Gruppierungsvariable (z.B. Altersklassen) separat darstellen möchte.
 
-Im Beispiel unten wird der Datensatz `mtcars` nach der Anzahl Zylinder der Autos auf verschiedene Arbeitsblätter aufgeteilt. 
+Im Beispiel unten wird ein Arbeitsblatt pro Zylinderanzahl der Autos im `mtcars`-Datensatz generiert.  
 
 
 ```{r,echo=T,eval=F}
@@ -53,10 +55,10 @@ dat <- mtcars
 splitXLSX(data = dat,
           file = "motor_trend_car_road_tests", # '.xlsx' wird automatisch hinzugefügt
           sheetvar = cyl, # Variable, nach der die Daten auf die Tabellenblätter aufgeteilt werden sollen
-          source = "Source: Henderson and Velleman (1981), 
-          Building multiple regression models interactively. Biometrics, 37, 391–411.",
-          metadata = "The data was extracted from the 1974 Motor Trend US magazine, 
-          and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).",
+          source = c("Source: Henderson and Velleman (1981), 
+                     Building multiple regression models interactively. Biometrics, 37, 391–411."),
+          metadata = c("The data was extracted from the 1974 Motor Trend US magazine, 
+                       and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."),
           contactdetails = "statzh",
           grouplines = FALSE,
           logo = NULL)
@@ -65,9 +67,9 @@ splitXLSX(data = dat,
 
 __datasetsXLSX() (*NEU*)__
 
-Die Funktion datasetsXLSX() erlaubt es, mehrere Datensätze und/oder Grafiken aus R in eine XLSX-Datei mit mehreren Arbeitsblättern zu exportieren. Pro Arbeitsblatt wird ein Datensatz/eine Grafik abgespeichert. Es kann auch eine Auftragsnummer hinzugefügt werden.  
+Die Funktion datasetsXLSX() erlaubt es, mehrere Datensätze und/oder Grafiken aus R in eine XLSX-Datei zu exportieren. Pro Arbeitsblatt wird ein Datensatz oder eine Grafik dargestellt. Es kann auch eine Auftragsnummer hinzugefügt werden. Die Funktion eignet sich besonders für Fälle, wo man mehrere Datensätze an eine/n Empfänger/in verschicken möchte.  
 
-Die Datensätze, die zusammen in einer Excel-Datei erscheinen sollen, müssen der Funktion als Liste `datasets = list(dataset1, dataset2, ...)` übergeben werden.
+Die Datensätze, die zusammen in einer Excel-Datei erscheinen sollen, müssen dem Funktionsargument `datasets` als Liste übergeben werden (`datasets = list(dataset1, dataset2, ...)`. 
 
 
 ```{r,echo=T,eval=F}
@@ -76,28 +78,31 @@ dat1 <- mtcars
 dat2 <- PlantGrowth
 
 datasetsXLSX(file="twoDatasets",
-             maintitle = "Autos und Pflanzen",
+             maintitle = "Autos und Pflanzen", # '.xlsx' wird automatisch hinzugefügt
              datasets = list(dat1, dat2),
              sheetnames = c("Autos","Blumen"),
              titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
-             sources = c("Source: Henderson and Velleman (1981), 
-          Building multiple regression models interactively. Biometrics, 37, 391–411.", 
-          "Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall."),
-          metadata1 = c("Bemerkungen zum mtcars-Datensatz: x", 
-                        "Bemerkungen zum PlantGrowth-Datensatz: x"),
-          auftrag_id="A2021_0000")
+             sources = c("Source: Henderson and Velleman (1981),
+                         Building multiple regression models interactively. Biometrics, 37, 391–411.", 
+                         "Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall."),
+             metadata1 = c("Bemerkungen zum mtcars-Datensatz: x", 
+                           "Bemerkungen zum PlantGrowth-Datensatz: x"),
+             auftrag_id="A2021_0000")
 ```
 
 
 Um eine Grafik in die Excel-Datei einzufügen, muss sie der `datasets`-Liste hinzugefügt werden: `datasets = list(dataset1, dataset2, grafik1)`.  
 
-Mit den Argumenten `startrows` und `startcols` kann bestimmt werden, wo im Arbeitsblatt die Grafik platziert werden soll und mit den Argumenten `widths`und `heights` kann die Höhe und die Breite eingestellt werden (aktuell in Inches). Die Argumente benötigen einen Vektor mit je einem Element pro Arbeitsblatt (Datensatz/Grafik). Die Elemente müssen überall `= 0` sein ausser bei den Visualisierungen. Zum Beispiel: Bei zwei Datensätzen und einer Grafik sieht der Vektor folgendermassen aus: `c(0,0,4)`. Hätte man einen Datensatz und zwei Grafiken, sähe der Vektor hingegen so aus: `c(0,4,4)`. `startrows` und `startcols` bestimmen in welcher Zeile bzw. Spalte in der Excel-Datei die obere linke Ecke der Grafik beginnen soll.
-
+Mit den Argumenten `startrows` und `startcols` kann bestimmt werden, wo im Arbeitsblatt die Grafik platziert werden soll und mit `widths` und `heights` kann man die Höhe und die Breite ajustieren (aktuell in Zoll/*inches*, 1 Zoll = 2.54 cm). Die Grösse und Position wird mittels eines Vektors bestimmt, wobei es pro Arbeitsblatt ein Vektorelement gibt. Die Vektorelemente müssen überall auf `= 0` gesetzt sein ausser bei den Visualisierungen. Bei zwei Datensätzen und einer Grafik sieht der Vektor bspw. folgendermassen aus: `c(0,0,4)`. Hätte man einen Datensatz und zwei Grafiken, sähe der Vektor hingegen so aus: `c(0,4,4)`.
 
 ```{r,echo=T,eval=F}
 
+dat1 <- mtcars
+dat2 <- PlantGrowth
+fig <- hist(mtcars$disp)
+
 datasetsXLSX(file="twoDatasetsandFigure",
-             maintitle = "Autos und Pflanzen",
+             maintitle = "Autos und Pflanzen", # '.xlsx' wird automatisch hinzugefügt
              datasets = list(dat1, dat2, fig),
              widths = c(0,0,5),
              heights = c(0,0,5),
@@ -106,25 +111,9 @@ datasetsXLSX(file="twoDatasetsandFigure",
              sheetnames = c("Autos","Blumen", "Histogramm"),
              titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
              sources = c("Source: Henderson and Velleman (1981), 
-          Building multiple regression models interactively. Biometrics, 37, 391–411.", 
+                         Building multiple regression models interactively. Biometrics, 37, 391–411.", 
                          "Source: Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall."),
              metadata1 = c("Bemerkungen zum mtcars-Datensatz: x", 
                            "Bemerkungen zum PlantGrowth-Datensatz: x"),
              auftrag_id="A2021_0000")
-```
-
-__insert_worksheet__
-
-Schreibt Daten aus R in eine XLSX-Tabelle mit einem einzelnen Arbeitsblatt.
-```{r,echo=T,eval=F,error=F}
-
-#erstelle ein neues Workbook
-wb <- openxlsx::createWorkbook("hello")
-
-#schreibe daten in ein neues sheet im bestehenden Workbook
-insert_worksheet(mtcars[c(1:25),],wb)
-
-#speichere workbook als xlsx-Datei ab
-openxlsx::saveWorkbook(wb, "file.xlsx", overwrite = TRUE)
-
 ```
