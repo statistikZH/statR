@@ -1,3 +1,7 @@
+*{
+  font-family: HelveticaNowRegular, Helvetica, sans-serif;
+}
+
 .col-leftmid{
   float: left;
   width: 30%;
@@ -13,7 +17,6 @@
 
  /* Whole document: */
     html {
-    	font-family: HelveticaNowRegular, Helvetica, sans-serif;
     	font-size: 16px;
     	color: #fff;
     	line-height: 1.5;
@@ -22,7 +25,6 @@
     }
 
     body {
-    	font-family: HelveticaNowRegular, Helvetica, sans-serif;
     	font-size: 16px;
     	line-height: 1.5;
     	position: relative;
@@ -42,6 +44,8 @@ h2 {
 
    p {
       margin-left: 5px;
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 20px;
     }
 
 th {
@@ -79,7 +83,6 @@ th {
 
 .js-plotly-plot .plotly, .js-plotly-plot .plotly div {
     direction: ltr;
-    font-family: HelveticaNowRegular, Helvetica, sans-serif;
     margin-left: 25px;
     padding: 0px;
 }
