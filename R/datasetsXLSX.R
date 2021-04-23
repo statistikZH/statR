@@ -122,10 +122,10 @@ datasetsXLSX <- function(file,
       insert_worksheet_image(dataset,
                              wb,
                              sheetnames_def,
-                             widths[i],
-                             heights[i],
-                             startrows[i],
-                             startcols[i])
+                             width = widths[i],
+                             height = heights[i],
+                             startrow = startrows[i],
+                             startcol = startcols[i])
     }
 
   }
