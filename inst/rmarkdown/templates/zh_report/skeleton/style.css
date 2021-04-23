@@ -33,7 +33,7 @@
     	font-family: HelveticaNowBlack,"Arial Black",Helvetica,sans-serif;
     	color: #000;
     }
-    
+
 h2 {
     font-family: HelveticaNowBlack,"Arial Black",Helvetica,sans-serif;
     	color: #0076BD;
@@ -41,7 +41,7 @@ h2 {
 
 
    p {
-      margin-left: 50px;
+      margin-left: 5px;
     }
 
  .container-fluid {
@@ -114,10 +114,8 @@ h4.author, h4.date {
     left:2%;
 }
 
-
 .main-container {
-  max-width: 1800px;
+  max-width: 1800px !important;;
   margin-left: auto;
   margin-right: auto;
-  min-height: 980px;
 }
