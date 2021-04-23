@@ -44,6 +44,10 @@ h2 {
       margin-left: 5px;
     }
 
+th {
+  font-family: HelveticaNowBlack,"Arial Black",Helvetica,sans-serif;
+}
+
  .container-fluid {
         padding-left: 20px;
         padding-right: 20px;
@@ -115,7 +119,7 @@ h4.author, h4.date {
 }
 
 .main-container {
-  max-width: 1800px !important;;
+  max-width: 1800px !important;
   margin-left: auto;
   margin-right: auto;
 }
