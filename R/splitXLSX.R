@@ -53,7 +53,7 @@ splitXLSX <- function (data,
     insert_worksheet(as.data.frame(data %>% dplyr::filter((!!col_name) ==
                                                             sheetvalue) %>% ungroup()), wb, sheetname = sheetvalue,
                      #shared params
-                     title=paste(title, sheetvalue),
+                     title=paste0(title, " (", deparse(substitute(sheetvar)), ": ", sheetvalue, ")"),
                      source=source,
                      metadata = metadata,
                      logo=logo,
