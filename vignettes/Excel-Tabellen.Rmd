@@ -31,14 +31,14 @@ dat <- mtcars
 quickXLSX(data = dat, 
           title = "Motor trend car road tests", 
           file = "motor_trend_car_road_tests", # '.xlsx' wird automatisch hinzugefügt
-          source = "Source: Henderson and Velleman (1981), 
-          Building multiple regression models interactively. Biometrics, 37, 391–411.",
-          metadata = "The data was extracted from the 1974 Motor Trend US magazine, 
-          and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).",
+          source = "Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411.",
+          metadata = c("The data was extracted from the 1974 Motor Trend US magazine and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."),
           contactdetails = "statzh",
           grouplines = FALSE,
           logo = NULL)
 ```
+
+![Screenshot](./output-quickXLSX.PNG){width=100%}
 
 __splitXLSX()__ 
 
