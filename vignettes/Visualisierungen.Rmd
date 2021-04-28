@@ -21,7 +21,7 @@ library(ggplot2)
 library(tidyr)
 ```
 
-# theme_stat() für ggplot-Grafikenuse_package(")
+# theme_stat() für ggplot-Grafiken
 
 Das **statR**-ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale Corporate Design einzufügen. 
 
@@ -61,6 +61,8 @@ ggplot(mpg, aes(class,fill = drv))+
 Alt Text : Beschreibt was auf der Grafik abgebildet ist und nennt wenn möglich wo die Daten zu finden sind.
 
 - Daten anbieten als csv oder Tabelle
+- Farbpaletten wählen die sich für Farbsehschwächen eignen
+- Kategorien nicht nur durch Farbe sondern auch durch direkte Beschriftung oder unterschiedliche Symbol- oder Linientypen voneinander abheben
 
 ### 1. Farbsehschwächen
 
@@ -94,9 +96,9 @@ p + theme_stat() +
   scale_fill_manual(values=dichromat(zhpal$zhdiagonal,type=c("tritan")))
 ```
 
-### 1.3 Unterschiede sichtbar machen
+### 1.3 Form- oder Linientypen 
 
-Wenn immer möglich sollten unterschiedliche Kategorien nicht nur über die Farbe, sondern auch über Formen und Linientypen erkenntlich gemacht werden. Siehe: https://bbc.github.io/gel/components/infographics/#recommended-layout
+Wenn immer möglich sollten unterschiedliche Kategorien nicht nur über die Farbe erkenntlich sein. Eine Möglichkeit ist es, diese auch über unterschiedliche Symbol- oder Linientypen erkenntlich zu machen. Siehe: https://bbc.github.io/gel/components/infographics/#recommended-layout
 
 Je nach Plotart kann dies in ggplot2 über verschiedene Linientypen oder Symbole erreicht werden.
 
@@ -106,21 +108,20 @@ Je nach Plotart kann dies in ggplot2 über verschiedene Linientypen oder Symbole
 
 - __Scatter / Punkte-Diagramm__ : [Symbole](https://ggplot2.tidyverse.org/reference/aes_linetype_size_shape.html)
 
-
-
 <i class="fa fa-exclamation-circle" aria-hidden="true"></i> funktioniert nur bedingt mit vielen Kategorien.
 
-### Beispiel : Liniengrafik
+__Beispiel : Liniengrafik__
+
 ```{r}
 data <- read.csv("https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv") %>% 
   pivot_longer(cols=2:3)
 
-ggplot(data, aes(Jahr, value ,color=name,linetype=name)) + 
+gg_ojuga <- ggplot(data, aes(Jahr, value ,color=name,linetype=name)) + 
      geom_line()+
      theme_stat()
 ```
 
-### Beispiel : Säulendiagramm
+__Beispiel : Säulendiagramm__
 
 ```{r}
 ggplot(mpg, aes(class,fill = drv,linetype=drv))+
@@ -133,10 +134,28 @@ ggplot(mpg, aes(class,fill = drv,linetype=drv))+
 
 ```
 
+### 1.4 Direkte Beschriftung
+
+Bei gewissen Grafiktypen kann die Unterscheidbarkeit von Kategorien durch direkte Beschriftung verbessert werden. Das ´ggrepel´-package verfügt über die notwendigen Funktionen.
+
+```{r}
+library(ggrepel)
+
+data <- read.csv("https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv") %>% 
+  pivot_longer(cols=2:3)
+
+ggplot(data, aes(Jahr, value ,color=name)) + 
+    geom_text_repel(data=data %>% filter(Jahr==max(Jahr)), aes(label=name), direction    = "y") +
+     geom_line()+
+     theme_stat()+
+     guides(color="none")
+```
+
+
 # Grafiken fürs ZHWeb
 
-- Max Bildgrösse 4000x4000
-- 
+- Maximale Bildgrösse 4000x4000
+- Grafik-Titel / Untertitel, Legende, Quelle und Alt-Text können direkt im ZHWeb hinterlegt werden
 
 ```{r}
 

@@ -4,5 +4,7 @@ pkgdown_sha: ~
 articles:
   Excel-Tabellen: Excel-Tabellen.html
   Visualisierungen: Visualisierungen.html
-last_built: 2021-03-18T11:03Z
+  excels_with_statr: excels_with_statr.html
+  hello: hello.html
+last_built: 2021-04-28T12:02Z
 
