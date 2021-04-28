@@ -7,7 +7,7 @@ library(scales)
 #' Data used by the stat zh palettes
 #'
 #' @format A \code{list}.
-#' @export
+#' @noRd
 #'
 stattheme_data <- {
 

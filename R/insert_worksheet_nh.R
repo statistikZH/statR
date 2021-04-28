@@ -12,7 +12,7 @@
 #' @param grouplines defaults to FALSE. Can be used to separate grouped variables visually.
 #' @keywords insert_worksheet
 #' @importFrom dplyr "%>%"
-#' @export
+#' @noRd
 #' @examples
 #'  # insertion of two worksheets in a existing workbook
 #'
