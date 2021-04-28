@@ -165,19 +165,22 @@
 <div id="barrierefreiheit" class="section level2">
 <h2 class="hasAnchor">
 <a href="#barrierefreiheit" class="anchor"></a>Barrierefreiheit</h2>
-<p>Alt Text : Beschreibt was auf der Grafik abgebildet ist und nennt wenn möglich wo die Daten zu finden sind.</p>
+<p>Bei Grafiken ist es besonders wichtig, dass diese ohne Benachteiligung bestimmter Personengruppen, erfasst werden können. Dies betrifft unterschiedliche Zielgruppen, wie Sehbehinderte, Sehgeschwächte, Menschen mit Rot-Grün-Blindheit. Um die Zugänglichkeit zu erhöhen, bieten sich verschiedene Strategien an:</p>
 <ul>
-<li>Daten anbieten als csv oder Tabelle</li>
-<li>Farbpaletten wählen die sich für Farbsehschwächen eignen</li>
-<li>Kategorien nicht nur durch Farbe sondern auch durch direkte Beschriftung oder unterschiedliche Symbol- oder Linientypen voneinander abheben</li>
+<li><p>Daten zur Grafik können zusätzlich als csv oder -html-Tabelle einbinden</p></li>
+<li><p>Einen Alternativtext (alt-Text) hinterlegen welcher beschreibt was auf Grafik abgebildet ist und nennt wo die Daten zu finden sind</p></li>
+<li><p>Farbpaletten wählen für Farbsehschwächen optimiert sind</p></li>
+<li><p>Die Aussage einer Grafik sollte nicht ausschließlich nur über die Farbe wahrnehmbar sein</p></li>
+<li><p>Die Komplexität der Grafiken sollte auf ein Minimum beschränkt werden</p></li>
 </ul>
+<p>Einige dieser Punkte lassen sich bei der Erstellung der Grafiken in R abfangen.</p>
 <div id="farbsehschwächen" class="section level3">
 <h3 class="hasAnchor">
 <a href="#farbsehschw%C3%A4chen" class="anchor"></a>1. Farbsehschwächen</h3>
 <p>Damit Grafiken auch für Personen mit Farbsehschwächen möglichst gut lesbar sind:</p>
 <ul>
 <li><p>Farben sollten sowohl was die <strong>Farbanteile</strong> UND die <strong>Sättigung</strong> angeht variieren (MUSS)</p></li>
-<li><p>Wenn möglich sollten Kategorien nicht nur über unterschiedliche Farben sondern auch über Schraffuren oder unterschiedliche Formen (Punkt oder Linientypen) unterscheidbar sein. (Wenn möglich)</p></li>
+<li><p>Wenn möglich sollten unterschiedliche Kategorien nicht nur über Farben sondern auch über Schraffuren oder unterschiedliche Formen (Punkt oder Linientypen) unterscheidbar sein. Auch die direkte Beschriftung der Kategorien bietet sich hier als Werkzeug an (Wenn möglich).</p></li>
 </ul>
 </div>
 <div id="auswahl-farbpaletten" class="section level3">

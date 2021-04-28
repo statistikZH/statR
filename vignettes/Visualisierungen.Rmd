@@ -58,11 +58,19 @@ ggplot(mpg, aes(class,fill = drv))+
 
 ## Barrierefreiheit
 
-Alt Text : Beschreibt was auf der Grafik abgebildet ist und nennt wenn möglich wo die Daten zu finden sind.
+Bei Grafiken ist es besonders wichtig, dass diese ohne Benachteiligung bestimmter Personengruppen, erfasst werden können. Dies betrifft unterschiedliche Zielgruppen, wie Sehbehinderte, Sehgeschwächte, Menschen mit Rot-Grün-Blindheit. Um die Zugänglichkeit zu erhöhen, bieten sich verschiedene Strategien an:
 
-- Daten anbieten als csv oder Tabelle
-- Farbpaletten wählen die sich für Farbsehschwächen eignen
-- Kategorien nicht nur durch Farbe sondern auch durch direkte Beschriftung oder unterschiedliche Symbol- oder Linientypen voneinander abheben
+- Daten zur Grafik können zusätzlich als csv oder -html-Tabelle einbinden
+
+- Einen Alternativtext (alt-Text) hinterlegen welcher beschreibt was auf Grafik abgebildet ist und nennt wo die Daten zu finden sind
+
+- Farbpaletten wählen für Farbsehschwächen optimiert sind
+
+- Die Aussage einer Grafik sollte nicht ausschließlich nur über die Farbe wahrnehmbar sein
+
+- Die Komplexität der Grafiken sollte auf ein Minimum beschränkt werden
+
+Einige dieser Punkte lassen sich bei der Erstellung der Grafiken in R abfangen.
 
 ### 1. Farbsehschwächen
 
@@ -70,7 +78,7 @@ Damit Grafiken auch für Personen mit Farbsehschwächen möglichst gut lesbar si
 
 - Farben sollten sowohl was die __Farbanteile__ UND die __Sättigung__ angeht variieren (MUSS)
 
-- Wenn möglich sollten Kategorien nicht nur über unterschiedliche Farben sondern auch über Schraffuren oder unterschiedliche Formen (Punkt oder Linientypen) unterscheidbar sein. (Wenn möglich)
+- Wenn möglich sollten unterschiedliche Kategorien nicht nur über Farben sondern auch über Schraffuren oder unterschiedliche Formen (Punkt oder Linientypen) unterscheidbar sein. Auch die direkte Beschriftung der Kategorien bietet sich hier als Werkzeug an (Wenn möglich).
 
 ### 1.2 Auswahl Farbpaletten
 
