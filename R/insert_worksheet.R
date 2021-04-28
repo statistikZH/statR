@@ -53,7 +53,11 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title", sou
   spalten = ncol(data)
 
   #position of contact details
-  contact = if(spalten>4){spalten-2}else{3}
+  contact = if(spalten>=6){
+    spalten-2
+  } else {
+    4
+  }
 
   #styles
   titleStyle <- openxlsx::createStyle(fontSize=14, textDecoration="bold",fontName="Arial")
