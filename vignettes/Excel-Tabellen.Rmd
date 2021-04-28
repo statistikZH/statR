@@ -45,7 +45,7 @@ quickXLSX(data = dat,
 
 ```
 
-![Screenshot des Outputs der quickXLSX()-Funktion im Beispiel oben.](./output-quickXLSX.PNG){width=95%}
+![Screenshot der Datei motor_trend_car_road_tests.xlsx](./output-quickXLSX.PNG){width=95%}
 
 __splitXLSX()__ 
 
@@ -70,6 +70,9 @@ splitXLSX(data = dat,
           logo = NULL)
 ```
 
+![Screenshot der Datei motor_trend_car_road_tests.xlsx](./output-splitXLSX.PNG){width=95%}
+
+
 __datasetsXLSX() (*NEU*)__
 
 Die Funktion datasetsXLSX() erlaubt es, mehrere Datensätze und/oder Grafiken aus R in eine XLSX-Datei zu exportieren. Pro Arbeitsblatt wird ein Datensatz oder eine Grafik dargestellt. Es kann auch eine Auftragsnummer hinzugefügt werden. Die Funktion eignet sich besonders für Fälle, wo man mehrere Datensätze an eine/n Empfänger/in verschicken möchte.  
@@ -82,8 +85,8 @@ Die Datensätze, die zusammen in einer Excel-Datei erscheinen sollen, müssen de
 dat1 <- mtcars
 dat2 <- PlantGrowth
 
-datasetsXLSX(file="twoDatasets",
-             maintitle = "Autos und Pflanzen", # '.xlsx' wird automatisch hinzugefügt
+datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugefügt
+             maintitle = "Autos und Pflanzen", 
              datasets = list(dat1, dat2),
              sheetnames = c("Autos","Blumen"),
              titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
@@ -93,6 +96,10 @@ datasetsXLSX(file="twoDatasets",
                            "Bemerkungen zum PlantGrowth-Datensatz: x"),
              auftrag_id="A2021_0000")
 ```
+
+![Screenshot des Titelblatts der Datei twoDatasets.xlsx](./output-datasetsXLSX1.PNG){width=95%}
+
+![Screenshot des ersten Blatts der Datei twoDatasets.xlsx](./output-datasetsXLSX2.PNG){width=95%}
 
 
 Um eine Grafik in die Excel-Datei einzufügen, muss sie der `datasets`-Liste hinzugefügt werden: `datasets = list(dataset1, dataset2, grafik1)`.  
