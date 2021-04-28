@@ -64,7 +64,7 @@ Bei Grafiken ist es besonders wichtig, dass diese ohne Benachteiligung bestimmte
 
 - Einen Alternativtext (alt-Text) hinterlegen welcher beschreibt was auf Grafik abgebildet ist und nennt wo die Daten zu finden sind
 
-- Farbpaletten wählen für Farbsehschwächen optimiert sind
+- Farbpaletten wählen die für Farbsehschwächen optimiert sind
 
 - Die Aussage einer Grafik sollte nicht ausschließlich nur über die Farbe wahrnehmbar sein
 
