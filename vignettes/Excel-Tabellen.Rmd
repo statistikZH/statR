@@ -14,8 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Formatierte Excel-Tabellen mit R
-
 ## Allgemeine Informationen
 
 `statR` enthält mehrere Funktionen, mit welchen Datensätze aus `R` als Excel-Dateien exportiert werden können. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf.  
@@ -26,7 +24,7 @@ Die Spalteninhalte können bei allen Funktionen entsprechend ihrer Einheit forma
 
 ## Funktionen und Beispiele
 
-__quickXLSX()__
+### quickXLSX()
 
 Mit der Funktion `quickXLSX()` kann ein Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. Die Funktion eignet sich, um einzelne Datensätze als Exceldatei zu verschicken.
 
@@ -47,7 +45,7 @@ quickXLSX(data = dat,
 
 ![Screenshot der Datei motor_trend_car_road_tests.xlsx](./output-quickXLSX.PNG){width=95%}
 
-__splitXLSX()__ 
+### splitXLSX()
 
 Mit der Funktion `splitXLSX()` kann ein Datensatz aus R in eine XLSX-Datei exportiert und auf mehreren Arbeitsblättern verteilt werden. Die Funktion ist besonders dann geeignet, wenn man einen Datensatz für verschiedene Ausprägungen einer Gruppierungsvariable (z.B. Altersklassen) separat aufführen möchte.
 
@@ -73,7 +71,7 @@ splitXLSX(data = dat,
 ![Screenshot der Datei motor_trend_car_road_tests.xlsx](./output-splitXLSX.PNG){width=95%}
 
 
-__datasetsXLSX() (*NEU*)__
+### datasetsXLSX() (*NEU*)
 
 Die Funktion datasetsXLSX() erlaubt es, mehrere Datensätze und/oder Grafiken aus R in eine XLSX-Datei zu exportieren. Pro Arbeitsblatt wird ein Datensatz oder eine Grafik dargestellt. Es kann auch eine Auftragsnummer hinzugefügt werden. Die Funktion eignet sich besonders für Fälle, wo man mehrere Datensätze an eine/n Empfänger/in verschicken möchte.  
 
