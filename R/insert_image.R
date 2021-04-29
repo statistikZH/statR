@@ -8,7 +8,7 @@
 #' @param startcol column coordinate of upper left corner of figure
 #' @param width width of figure
 #' @param height height of figure
-#' @export
+#' @noRd
 #' @examples
 #' # example
 #' \dontrun{

@@ -25,36 +25,35 @@
 
 # Function
 
-splitXLSX <- function(data,
-                      file,
-                      sheetvar,
-                      title="Titel",
-                      source="statzh",
-                      metadata = NA,
-                      logo=NULL,
-                      grouplines = FALSE,
-                      contactdetails="statzh") {
-
+splitXLSX <- function (data,
+                       file,
+                       sheetvar,
+                       title="Titel",
+                       source="statzh",
+                       metadata = NA,
+                       logo=NULL,
+                       grouplines = FALSE,
+                       contactdetails="statzh")
+{
   data <- as.data.frame(data)
 
-  #extract colname
+  # extract column name
   col_name <- rlang::enquo(sheetvar)
 
   # create workbook
   wb <- openxlsx::createWorkbook(file)
 
-  #get values of the variable that is used to split the data
-  sheetvalues <- unique(data[,c(deparse(substitute(sheetvar)))])
+  # get values of the variable that is used to split the data
+  sheetvalues <- unique(data[, c(deparse(substitute(sheetvar)))])
 
-  #Loop to split data across multiple worksheets -------
+  # loop to split values of the variable used to split the data
+  for (sheetvalue in sheetvalues) {
 
-  for (sheetvalue in sheetvalues){
-
-    #get data into workheets
-    insert_worksheet(as.data.frame(data %>% dplyr::filter((!!col_name) == sheetvalue)%>%ungroup()),
-                                   wb, sheetname = paste(deparse(substitute(sheetvar)), sheetvalue,sep=","),
+    # get data into worksheets
+    insert_worksheet(as.data.frame(data %>% dplyr::filter((!!col_name) ==
+                                                            sheetvalue) %>% ungroup()), wb, sheetname = sheetvalue,
                      #shared params
-                     title=paste(title, sheetvalue),
+                     title=paste0(title, " (", deparse(substitute(sheetvar)), ": ", sheetvalue, ")"),
                      source=source,
                      metadata = metadata,
                      logo=logo,
@@ -74,6 +73,9 @@ splitXLSX <- function(data,
   # rm(newworkbook,envir = .GlobalEnv)
 
 }
+
+
+
 
 
 

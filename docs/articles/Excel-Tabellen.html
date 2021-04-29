@@ -45,7 +45,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -74,7 +74,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/statistikZH/statR/">
-    <span class="fab fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -88,7 +88,8 @@
 
       
 
-      </header><script src="Excel-Tabellen_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
+      </header><script src="Excel-Tabellen_files/header-attrs-2.5/header-attrs.js"></script><link href="Excel-Tabellen_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="Excel-Tabellen_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Excel-Tabellen</h1>
@@ -101,15 +102,22 @@
 
     
     
-<div id="formatierte-excel-tabellen-mit-r" class="section level1">
-<h1 class="hasAnchor">
-<a href="#formatierte-excel-tabellen-mit-r" class="anchor"></a>Formatierte Excel-Tabellen mit R</h1>
+<div id="allgemeine-informationen" class="section level2">
+<h2 class="hasAnchor">
+<a href="#allgemeine-informationen" class="anchor"></a>Allgemeine Informationen</h2>
 <p><code>statR</code> enthält mehrere Funktionen, mit welchen Datensätze aus <code>R</code> als Excel-Dateien exportiert werden können. Die Funktionen bauen auf dem <a href="https://github.com/awalker89/openxlsx">openxlsx-package</a> auf.</p>
-<p>Per Default wird bei allen Funktionen das Logo des Statistischen Amts eingefügt und es werden die Kontaktangaben des Datashops angegeben (<code>contactdetails = statzh, logo = NULL</code>). Mit den Funktionsargumenten können die Dateinamen, Titel, Quellen sowie Metadaten spezifiziert werden. Um längere Quellen- und Metadatenangaben über mehrere Zeilen eines Arbeitsblatts zu verteilen, kann man sie in verschiedene Vektorelemente aufteilen (Beispiel: <code>c("Zeile 1, "Zeile 2", "Zeile 3")</code>. Mit dem Argument <code>grouplines</code> werden zudem vertikale Linien zwischen ausgewählten Spalten in der Excel-Tabelle eingefügt und die Spalten optisch voneinander separiert (aktuell nicht möglich bei <code><a href="../reference/datasetsXLSX.html">datasetsXLSX()</a></code>).</p>
-<p><strong>quickXLSX()</strong></p>
+<p>Per Default wird bei allen Funktionen das Logo des Statistischen Amts eingefügt und es werden die Kontaktangaben des Datashops angegeben (<code>contactdetails = statzh, logo = NULL</code>). Mit den Funktionsargumenten können die Dateinamen, Titel, Quellenangaben sowie Metadaten spezifiziert werden. Um längere Quellen- und Metadatenangaben über mehrere Zeilen eines Arbeitsblatts zu verteilen, kann man sie in verschiedene Vektorelemente aufteilen (Beispiel: <code>c("Text Zeile 1, "Text Zeile 2", "Text Zeile 3")</code>. Mit dem Argument <code>grouplines</code> werden zudem vertikale Linien zwischen ausgewählten Spalten in der Excel-Tabelle eingefügt und die Spalten optisch voneinander separiert (aktuell nicht möglich bei <code><a href="../reference/datasetsXLSX.html">datasetsXLSX()</a></code>).</p>
+<p>Die Spalteninhalte können bei allen Funktionen entsprechend ihrer Einheit formatiert werden, indem pro Variablennamen die <code>class</code> festlegt wird. Mit <code>class(data$variable1) &lt;- "percentage"</code> können die Werte der <code>variable1</code> (reichen von 0 bis 1) als Prozent mit Prozentzeichen ausgegeben werden. Weblinks können mit <code>class(data$variable2) &lt;- "hyperlink"</code> aufrufbar gemacht werden und mit <code>class(data$variable3) &lt;- "scientific"</code> können Zahlen in der wissenschaftlichen Notation dargestellt werden.</p>
+</div>
+<div id="funktionen-und-beispiele" class="section level2">
+<h2 class="hasAnchor">
+<a href="#funktionen-und-beispiele" class="anchor"></a>Funktionen und Beispiele</h2>
+<div id="quickxlsx" class="section level3">
+<h3 class="hasAnchor">
+<a href="#quickxlsx" class="anchor"></a>quickXLSX()</h3>
 <p>Mit der Funktion <code><a href="../reference/quickXLSX.html">quickXLSX()</a></code> kann ein Datensatz aus <code>R</code> als vorformatierte XLSX-Datei exportiert werden. Die Funktion eignet sich, um einzelne Datensätze als Exceldatei zu verschicken.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Beispiel anhand des Datensatzes 'mtcars'</span>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co"># Beispiel anhand des Datensatzes 'mtcars'</span>
 <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">mtcars</span>
 
 <span class="fu"><a href="../reference/quickXLSX.html">quickXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat</span>, 
@@ -119,51 +127,64 @@
           metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"The data was extracted from the 1974 Motor Trend US magazine and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."</span><span class="op">)</span>,
           contactdetails <span class="op">=</span> <span class="st">"statzh"</span>,
           grouplines <span class="op">=</span> <span class="cn">FALSE</span>,
-          logo <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+          logo <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></pre></div>
 <div class="figure">
-<img src="output-quickXLSX.PNG" style="width:100.0%" alt=""><p class="caption">Screenshot</p>
+<img src="output-quickXLSX.PNG" style="width:95.0%" alt=""><p class="caption">Screenshot der Datei motor_trend_car_road_tests.xlsx</p>
 </div>
-<p><strong>splitXLSX()</strong></p>
-<p>Mit der Funktion <code><a href="../reference/splitXLSX.html">splitXLSX()</a></code> kann ein Datensatz aus R in eine XLSX-Datei exportiert und auf mehrere Arbeitsblättern verteilt werden. Die Funktion ist besonders dann geeignet, wenn man einen Datensatz für verschiedene Ausprägungen einer Gruppierungsvariable (z.B. Altersklassen) separat darstellen möchte.</p>
+</div>
+<div id="splitxlsx" class="section level3">
+<h3 class="hasAnchor">
+<a href="#splitxlsx" class="anchor"></a>splitXLSX()</h3>
+<p>Mit der Funktion <code><a href="../reference/splitXLSX.html">splitXLSX()</a></code> kann ein Datensatz aus R in eine XLSX-Datei exportiert und auf mehreren Arbeitsblättern verteilt werden. Die Funktion ist besonders dann geeignet, wenn man einen Datensatz für verschiedene Ausprägungen einer Gruppierungsvariable (z.B. Altersklassen) separat aufführen möchte.</p>
 <p>Im Beispiel unten wird ein Arbeitsblatt pro Zylinderanzahl der Autos im <code>mtcars</code>-Datensatz generiert.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Beispiel anhand des Datensatzes 'mtcars'</span>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co"># Beispiel anhand des Datensatzes 'mtcars'</span>
 <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">mtcars</span>
 
 <span class="co"># Beispiel mit Standardlogo (Logo des Statistischen Amts)</span>
 <span class="fu"><a href="../reference/splitXLSX.html">splitXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat</span>,
+          title <span class="op">=</span> <span class="st">"Motor trend car road tests"</span>,
           file <span class="op">=</span> <span class="st">"motor_trend_car_road_tests"</span>, <span class="co"># '.xlsx' wird automatisch hinzugefügt</span>
           sheetvar <span class="op">=</span> <span class="va">cyl</span>, <span class="co"># Variable, nach der die Daten auf die Tabellenblätter aufgeteilt werden sollen</span>
-          source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Source: Henderson and Velleman (1981), 
-                     Building multiple regression models interactively. Biometrics, 37, 391–411."</span><span class="op">)</span>,
-          metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"The data was extracted from the 1974 Motor Trend US magazine, 
-                       and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."</span><span class="op">)</span>,
+          source <span class="op">=</span> <span class="st">"Source: Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span>,
+          metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"The data was extracted from the 1974 Motor Trend US magazine and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."</span><span class="op">)</span>,
           contactdetails <span class="op">=</span> <span class="st">"statzh"</span>,
           grouplines <span class="op">=</span> <span class="cn">FALSE</span>,
-          logo <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
-<p><strong>datasetsXLSX() (<em>NEU</em>)</strong></p>
+          logo <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></pre></div>
+<div class="figure">
+<img src="output-splitXLSX.PNG" style="width:95.0%" alt=""><p class="caption">Screenshot der Datei motor_trend_car_road_tests.xlsx</p>
+</div>
+</div>
+<div id="datasetsxlsx-neu" class="section level3">
+<h3 class="hasAnchor">
+<a href="#datasetsxlsx-neu" class="anchor"></a>datasetsXLSX() (<em>NEU</em>)</h3>
 <p>Die Funktion datasetsXLSX() erlaubt es, mehrere Datensätze und/oder Grafiken aus R in eine XLSX-Datei zu exportieren. Pro Arbeitsblatt wird ein Datensatz oder eine Grafik dargestellt. Es kann auch eine Auftragsnummer hinzugefügt werden. Die Funktion eignet sich besonders für Fälle, wo man mehrere Datensätze an eine/n Empfänger/in verschicken möchte.</p>
 <p>Die Datensätze, die zusammen in einer Excel-Datei erscheinen sollen, müssen dem Funktionsargument <code>datasets</code> als Liste übergeben werden (<code>datasets = list(dataset1, dataset2, ...)</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Beispiel mit zwei Datensätzen:</span>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="co"># Beispiel mit zwei Datensätzen:</span>
 <span class="va">dat1</span> <span class="op">&lt;-</span> <span class="va">mtcars</span>
 <span class="va">dat2</span> <span class="op">&lt;-</span> <span class="va">PlantGrowth</span>
 
-<span class="fu"><a href="../reference/datasetsXLSX.html">datasetsXLSX</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"twoDatasets"</span>,
-             maintitle <span class="op">=</span> <span class="st">"Autos und Pflanzen"</span>, <span class="co"># '.xlsx' wird automatisch hinzugefügt</span>
+<span class="fu"><a href="../reference/datasetsXLSX.html">datasetsXLSX</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"twoDatasets"</span>, <span class="co"># '.xlsx' wird automatisch hinzugefügt</span>
+             maintitle <span class="op">=</span> <span class="st">"Autos und Pflanzen"</span>, 
              datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">dat1</span>, <span class="va">dat2</span><span class="op">)</span>,
              sheetnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Autos"</span>,<span class="st">"Blumen"</span><span class="op">)</span>,
              titles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mtcars-Datensatz"</span>,<span class="st">"PlantGrowth-Datensatz"</span><span class="op">)</span>,
-             sources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Source: Henderson and Velleman (1981),
-                         Building multiple regression models interactively. Biometrics, 37, 391–411."</span>, 
+             sources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411."</span>, 
                          <span class="st">"Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall."</span><span class="op">)</span>,
              metadata1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Bemerkungen zum mtcars-Datensatz: x"</span>, 
                            <span class="st">"Bemerkungen zum PlantGrowth-Datensatz: x"</span><span class="op">)</span>,
-             auftrag_id<span class="op">=</span><span class="st">"A2021_0000"</span><span class="op">)</span></code></pre></div>
+             auftrag_id<span class="op">=</span><span class="st">"A2021_0000"</span><span class="op">)</span></pre></div>
+<div class="figure">
+<img src="output-datasetsXLSX1.PNG" style="width:95.0%" alt=""><p class="caption">Screenshot des Titelblatts der Datei twoDatasets.xlsx</p>
+</div>
+<div class="figure">
+<img src="output-datasetsXLSX2.PNG" style="width:95.0%" alt=""><p class="caption">Screenshot des ersten Blatts der Datei twoDatasets.xlsx</p>
+</div>
 <p>Um eine Grafik in die Excel-Datei einzufügen, muss sie der <code>datasets</code>-Liste hinzugefügt werden: <code>datasets = list(dataset1, dataset2, grafik1)</code>.</p>
 <p>Mit den Argumenten <code>startrows</code> und <code>startcols</code> kann bestimmt werden, wo im Arbeitsblatt die Grafik platziert werden soll und mit <code>widths</code> und <code>heights</code> kann man die Höhe und die Breite ajustieren (aktuell in Zoll/<em>inches</em>, 1 Zoll = 2.54 cm). Die Grösse und Position wird mittels eines Vektors bestimmt, wobei es pro Arbeitsblatt ein Vektorelement gibt. Die Vektorelemente müssen überall auf <code>= 0</code> gesetzt sein ausser bei den Visualisierungen. Bei zwei Datensätzen und einer Grafik sieht der Vektor bspw. folgendermassen aus: <code><a href="https://rdrr.io/r/base/c.html">c(0,0,4)</a></code>. Hätte man einen Datensatz und zwei Grafiken, sähe der Vektor hingegen so aus: <code><a href="https://rdrr.io/r/base/c.html">c(0,4,4)</a></code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
+<div class="sourceCode" id="cb4"><pre class="downlit">
+
 <span class="va">dat1</span> <span class="op">&lt;-</span> <span class="va">mtcars</span>
 <span class="va">dat2</span> <span class="op">&lt;-</span> <span class="va">PlantGrowth</span>
 <span class="va">fig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">disp</span><span class="op">)</span>
@@ -177,12 +198,12 @@
              startcols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">3</span><span class="op">)</span>,
              sheetnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Autos"</span>,<span class="st">"Blumen"</span>, <span class="st">"Histogramm"</span><span class="op">)</span>,
              titles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mtcars-Datensatz"</span>,<span class="st">"PlantGrowth-Datensatz"</span>, <span class="st">"Histogramm"</span><span class="op">)</span>,
-             sources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Source: Henderson and Velleman (1981), 
-                         Building multiple regression models interactively. Biometrics, 37, 391–411."</span>, 
+             sources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411."</span>, 
                          <span class="st">"Source: Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall."</span><span class="op">)</span>,
              metadata1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Bemerkungen zum mtcars-Datensatz: x"</span>, 
                            <span class="st">"Bemerkungen zum PlantGrowth-Datensatz: x"</span><span class="op">)</span>,
-             auftrag_id<span class="op">=</span><span class="st">"A2021_0000"</span><span class="op">)</span></code></pre></div>
+             auftrag_id<span class="op">=</span><span class="st">"A2021_0000"</span><span class="op">)</span></pre></div>
+</div>
 </div>
   </div>
 
@@ -192,7 +213,8 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#formatierte-excel-tabellen-mit-r">Formatierte Excel-Tabellen mit R</a></li>
+<li><a href="#allgemeine-informationen">Allgemeine Informationen</a></li>
+      <li><a href="#funktionen-und-beispiele">Funktionen und Beispiele</a></li>
       </ul>
 </div>
       <!-- codefund -->
