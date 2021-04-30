@@ -33,7 +33,8 @@ splitXLSX <- function (data,
                        metadata = NA,
                        logo=NULL,
                        grouplines = FALSE,
-                       contactdetails="statzh")
+                       contactdetails="statzh",
+                       author = "user")
 {
   data <- as.data.frame(data)
 
@@ -58,7 +59,8 @@ splitXLSX <- function (data,
                      metadata = metadata,
                      logo=logo,
                      grouplines = grouplines,
-                     contactdetails=contactdetails)
+                     contactdetails=contactdetails,
+                     author = author)
 
 
   }

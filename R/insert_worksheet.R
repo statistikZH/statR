@@ -11,6 +11,7 @@
 #' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
 #' @param contactdetails contactdetails of the data publisher. Defaults to "statzh".
 #' @param grouplines defaults to FALSE. Can be used to separate grouped variables visually.
+#' @param author defaults to initials based on user id.
 #' @importFrom dplyr "%>%"
 #' @keywords insert_worksheet
 #' @export
@@ -22,7 +23,10 @@
 #' insert_worksheet(data = mtcars[c(1:10),], workbook = wb, title = "mtcars", sheetname = "carb")
 
 
-insert_worksheet <- function(data, workbook, sheetname="data",title="Title", source="statzh", metadata = NA, logo=NULL, grouplines = FALSE, contactdetails="statzh") {
+insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
+                             source="statzh", metadata = NA, logo=NULL,
+                             grouplines = FALSE, contactdetails="statzh",
+                             author = "user") {
 
   # Metadata
   remarks <- if (any(is.na(metadata))) {
@@ -176,11 +180,19 @@ statzh <- statzh[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.
                       startRow = 2,
                       startCol = contact)
 
+  # User-Kürzel für Kontaktinformationen
+
+  if(author == "user"){
+    contactperson <- stringr::str_sub(Sys.getenv("UID"), start = 1, end = 2)
+  } else {
+    contactperson <- author
+  }
+
   #Aktualisierungsdatum
   openxlsx::writeData(wb, sheet = i, paste("Aktualisiert am ",
-                                           format(Sys.Date(), format="%d.%m.%Y"), " durch: ",
-                                           stringr::str_sub(Sys.getenv("USERNAME"),-2)),
-                                          headerStyle=subtitle, startRow = 5, startCol=contact)
+                                           format(Sys.Date(), format="%d.%m.%Y"),
+                                           " durch: ", contactperson),
+                      headerStyle=subtitle, startRow = 5, startCol=contact)
 
   # Daten abfüllen
   openxlsx::writeData(wb, sheet = i, as.data.frame(data%>%dplyr::ungroup()), rowNames = FALSE, startRow = datenbereich, withFilter = FALSE)

@@ -13,7 +13,8 @@ splitXLSX(
   metadata = NA,
   logo = NULL,
   grouplines = FALSE,
-  contactdetails = "statzh"
+  contactdetails = "statzh",
+  author = "user"
 )
 }
 \arguments{
