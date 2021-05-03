@@ -53,7 +53,7 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
 
   datenbereich = 9 + n_metadata + 3
 
-  #define width of the area in which data is contained for formating
+  #define width of the area in which data is contained for formatting
   spalten = ncol(data)
 
   #position of contact details
@@ -165,12 +165,10 @@ statzh <- statzh[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.
   ##Quelle
   openxlsx::writeData(wb, sheet = i, source, headerStyle=subtitle, startRow = 8+n_metadata)
 
-
-  for (j in c(2:5)){
-
-    openxlsx::mergeCells(wb, sheet = i, cols = contact:(contact+1), rows = j)
-
-  }
+  # Metadaten zusammenmergen
+  purrr::walk(7:(7+length(metadata)+1), ~openxlsx::mergeCells(wb, sheet = i, cols = 1:26, rows = .))
+  # Kontaktdaten zusammenmergen
+  purrr::walk(2:5, ~openxlsx::mergeCells(wb, sheet = i, cols = contact:26, rows = .))
 
 
   #Kontakt
@@ -226,7 +224,12 @@ statzh <- statzh[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.
 
   # bodyStyle <- createStyle(border="TopBottom", borderColour = "#4F81BD")
   # addStyle(wb, sheet = 1, bodyStyle, rows = 2:6, cols = 1:11, gridExpand = TRUE)
-  openxlsx::setColWidths(wb, sheet = i, cols=4:spalten, widths = 18, ignoreMergedCells = TRUE) ## set column width for row names column
+
+  # minmale Spaltenbreite definieren
+  options("openxlsx.minWidth" = 5)
+
+  # automatische Zellenspalten
+  openxlsx::setColWidths(wb, sheet = i, cols=1:spalten, widths = "auto", ignoreMergedCells = TRUE) ## set column width for row names column
 
   # newworkbook<<-wb
 
