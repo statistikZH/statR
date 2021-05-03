@@ -166,7 +166,7 @@ statzh <- statzh[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.
   openxlsx::writeData(wb, sheet = i, source, headerStyle=subtitle, startRow = 8+n_metadata)
 
   # Metadaten zusammenmergen
-  purrr::walk(7:(7+length(metadata)+1), ~openxlsx::mergeCells(wb, sheet = i, cols = 1:26, rows = .))
+  purrr::walk(7:(7+length(metadata)+length(source)), ~openxlsx::mergeCells(wb, sheet = i, cols = 1:26, rows = .))
   # Kontaktdaten zusammenmergen
   purrr::walk(2:5, ~openxlsx::mergeCells(wb, sheet = i, cols = contact:26, rows = .))
 
