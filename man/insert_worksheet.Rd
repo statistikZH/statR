@@ -36,7 +36,7 @@ insert_worksheet(
 
 \item{contactdetails}{contactdetails of the data publisher. Defaults to "statzh".}
 
-\item{author}{defaults to last two numbers of the user name.}
+\item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
 Function to create formatted spreadsheets automatically

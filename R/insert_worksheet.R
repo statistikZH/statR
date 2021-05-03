@@ -11,7 +11,7 @@
 #' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
 #' @param contactdetails contactdetails of the data publisher. Defaults to "statzh".
 #' @param grouplines defaults to FALSE. Can be used to separate grouped variables visually.
-#' @param author defaults to last two numbers of the user name.
+#' @param author defaults to last two letters (initials) or numbers of the user name.
 #' @importFrom dplyr "%>%"
 #' @keywords insert_worksheet
 #' @export
@@ -226,7 +226,7 @@ statzh <- statzh[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.
 
   # bodyStyle <- createStyle(border="TopBottom", borderColour = "#4F81BD")
   # addStyle(wb, sheet = 1, bodyStyle, rows = 2:6, cols = 1:11, gridExpand = TRUE)
-  openxlsx::setColWidths(wb, i, cols=4:spalten, widths = 18, ignoreMergedCells = TRUE) ## set column width for row names column
+  openxlsx::setColWidths(wb, sheet = i, cols=4:spalten, widths = 18, ignoreMergedCells = TRUE) ## set column width for row names column
 
   # newworkbook<<-wb
 
