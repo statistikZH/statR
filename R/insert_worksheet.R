@@ -11,7 +11,7 @@
 #' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
 #' @param contactdetails contactdetails of the data publisher. Defaults to "statzh".
 #' @param grouplines defaults to FALSE. Can be used to separate grouped variables visually.
-#' @param author defaults to initials based on user id.
+#' @param author defaults to last two numbers of the user name.
 #' @importFrom dplyr "%>%"
 #' @keywords insert_worksheet
 #' @export
@@ -181,9 +181,14 @@ statzh <- statzh[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.
                       startCol = contact)
 
   # User-Kürzel für Kontaktinformationen
-
   if(author == "user"){
-    contactperson <- stringr::str_sub(Sys.getenv("UID"), start = 1, end = 2)
+    # für das lokale R
+    if(Sys.getenv("USERNAME")!="") {
+      contactperson <- stringr::str_sub(Sys.getenv("USERNAME"), start = 6, end = 7)
+    } else {
+      # für den R-server
+      contactperson <- stringr::str_sub(Sys.getenv("USER"), start = 6, end = 7)
+    }
   } else {
     contactperson <- author
   }
