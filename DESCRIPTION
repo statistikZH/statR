@@ -25,7 +25,8 @@ Imports:
     scales,
     stringr,
     tidyr,
-    dichromat
+    dichromat,
+    purrr
 URL: https://statistikzh.github.io/statR/
 BugReports: https://github.com/statistikZH/statR/issues
 Suggests: 

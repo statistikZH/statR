@@ -31,13 +31,14 @@ quickXLSX <-function (data,
                       metadata = NA,
                       logo=NULL,
                       grouplines = FALSE,
-                      contactdetails="statzh") {
+                      contactdetails="statzh",
+                      author = "user") {
 
   #create workbook
   wb <- openxlsx::createWorkbook(paste(file))
 
   #insert data
-  insert_worksheet(data, wb, title=title, source=source, metadata = metadata, logo=logo, grouplines = grouplines, contactdetails=contactdetails)
+  insert_worksheet(data, wb, title=title, source=source, metadata = metadata, logo=logo, grouplines = grouplines, contactdetails=contactdetails, author = author)
 
   #save workbook
   openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""),

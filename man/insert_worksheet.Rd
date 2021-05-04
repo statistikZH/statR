@@ -13,7 +13,8 @@ insert_worksheet(
   metadata = NA,
   logo = NULL,
   grouplines = FALSE,
-  contactdetails = "statzh"
+  contactdetails = "statzh",
+  author = "user"
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ insert_worksheet(
 \item{grouplines}{defaults to FALSE. Can be used to separate grouped variables visually.}
 
 \item{contactdetails}{contactdetails of the data publisher. Defaults to "statzh".}
+
+\item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
 Function to create formatted spreadsheets automatically

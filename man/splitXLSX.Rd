@@ -13,7 +13,8 @@ splitXLSX(
   metadata = NA,
   logo = NULL,
   grouplines = FALSE,
-  contactdetails = "statzh"
+  contactdetails = "statzh",
+  author = "user"
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ splitXLSX(
 \item{grouplines}{columns to be separated visually by vertical lines.}
 
 \item{contactdetails}{contactdetails of the data publisher. Defaults to "statzh".}
+
+\item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
 Function to create formatted spreadsheets with multiple worksheets automatically.

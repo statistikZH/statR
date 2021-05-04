@@ -5,3 +5,4 @@
 #' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
 #' @param contactdetails contactdetails of the data publisher. Defaults to "statzh".
 #' @param grouplines columns to be separated visually by vertical lines.
+#' @param author defaults to last two letters (initials) or numbers of the user name.
