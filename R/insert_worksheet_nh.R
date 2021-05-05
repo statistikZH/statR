@@ -78,6 +78,9 @@ insert_worksheet_nh <- function(data,
   #define width of the area in which data is contained for formating
   spalten = ncol(data)
 
+  # increase width of colnames for better auto-fitting of column width
+  colnames(data) <- paste0(colnames(data), "  ", sep = "")
+
   # #position of contact details
   # contact = if(spalten>4){spalten-2}else{3}
 
@@ -97,7 +100,6 @@ insert_worksheet_nh <- function(data,
 
   #wrap
   wrap <- openxlsx::createStyle(wrapText = TRUE)
-
 
   # warning if sheetname is longer than the limit imposed by excel (31 characters)
   if(nchar(sheetname)>31){warning("sheetname is cut to 31 characters (limit imposed by MS-Excel)")}
@@ -165,6 +167,9 @@ insert_worksheet_nh <- function(data,
   )
 
 
+  # Metadaten zusammenmergen
+  purrr::walk(1:(2+length(metadata)+length(source)), ~openxlsx::mergeCells(wb, sheet = i, cols = 1:26, rows = .))
+
   # Daten abfüllen
   openxlsx::writeData(wb,
                       sheet = i
@@ -201,7 +206,11 @@ insert_worksheet_nh <- function(data,
 
   }
 
+  # minmale Spaltenbreite definieren
+  options("openxlsx.minWidth" = 5)
 
+  # automatische Spaltenbreite
+  openxlsx::setColWidths(wb, sheet = i, cols=1:spalten, widths = "auto", ignoreMergedCells = TRUE)
 
 
 }
