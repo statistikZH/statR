@@ -4,10 +4,12 @@
 \alias{theme_stat}
 \title{theme_stat()}
 \usage{
-theme_stat(base_size = 11)
+theme_stat(base_size = 11, axis.label.pos = "top")
 }
 \arguments{
 \item{base_size}{base font size, given in pts.}
+
+\item{axis.label.pos}{position of x and y axis labels, can be "top", "center", or "bottom". Defaults to "top".}
 }
 \description{
 Stat ZH Theme for ggplot2
