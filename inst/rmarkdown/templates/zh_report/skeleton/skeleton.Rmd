@@ -1,5 +1,7 @@
 ---
 title: "Titel"
+author: "Petra Muster"
+date: "01.01.2020"
 output:
   html_document:
     css: style.css
@@ -10,21 +12,22 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## zh.ch style Rmarkdown
+## R Markdown
 
-This file is what a user will see when they select your template. Make sure that you update the fields in the yaml header. In particular you will want to update the `output` field to whatever format your template requires.
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-This is a good place to demonstrate special features that your template provides. Ideally it should knit out-of-the-box, or at least contain clear instructions as to what needs changing.
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-Finally, be sure to remove this message!
+```{r cars}
+summary(cars)
+```
 
-## zh.ch style Rmarkdown
+## Including Plots
 
+You can also embed plots, for example:
 
-This file is what a user will see when they select your template. Make sure that you update the fields in the yaml header. In particular you will want to update the `output` field to whatever format your template requires.
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
 
-This is a good place to demonstrate special features that your template provides. Ideally it should knit out-of-the-box, or at least contain clear instructions as to what needs changing.
-
-Finally, be sure to remove this message!
-
-
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
