@@ -24,7 +24,8 @@ theme_stat(
 \item{minor.grid.lines}{presence of minor grid lines on the y-axis, can be set to TRUE or FALSE.}
 }
 \description{
-This ggplot2 theme is suitable for plots with a categorical variable on the x-axis and a continuous variable on the y-axis.
+This ggplot2 theme is based on ggplot2::theme_minimal(). It controls the non-data related characteristics of a plot (e.g., the font type).
+On top of that, the font size, the presence (or absence) of minor grid lines, axis lines, axis ticks and the axis label positions can be specified.
 }
 \details{
 To use this theme in a R Markdown generated PDF document, insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.

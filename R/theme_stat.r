@@ -1,6 +1,7 @@
 #' theme_stat()
 #'
-#' This ggplot2 theme is suitable for plots with a categorical variable on the x-axis and a continuous variable on the y-axis.
+#' This ggplot2 theme is based on ggplot2::theme_minimal(). It controls the non-data related characteristics of a plot (e.g., the font type).
+#' On top of that, the font size, the presence (or absence) of minor grid lines, axis lines, axis ticks and the axis label positions can be specified.
 #'
 #' To use this theme in a R Markdown generated PDF document, insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
 #' To export a plot using the theme with the function `ggsave()`, specify `device = cairo_pdf`.
