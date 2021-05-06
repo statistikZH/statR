@@ -1,18 +1,24 @@
 #' theme_stat()
 #'
-#' Stat ZH Theme for ggplot2
+#' This ggplot2 theme is suitable for plots with a categorical variable on the x-axis and a continuous variable on the y-axis.
+#'
+#' To use this theme in a R Markdown generated PDF document, insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
+#' To export a plot using the theme with the function `ggsave()`, specify `device = cairo_pdf`.
 #' @inheritParams ggplot2::theme_bw
 #' @param axis.label.pos position of x and y axis labels, can be "top", "center", or "bottom". Defaults to "top".
 #' @keywords theme_stat
 #' @export
 #' @importFrom ggplot2 theme_minimal theme element_blank element_line unit continuous_scale
 #' @examples
-#' #'\donttest{
+#'\donttest{
 #' \dontrun{
+#' library(ggplot2)
+#' library(statR)
 #' ggplot(mpg, aes(class)) +
 #' geom_bar() +
 #' theme_stat(base_size = 12, axis.label.pos = "center") +
 #' labs(title = "Title")
+#' }}
 
 # Function
 theme_stat <- function(base_size = 11, axis.label.pos = "top"){

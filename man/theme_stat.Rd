@@ -12,6 +12,21 @@ theme_stat(base_size = 11, axis.label.pos = "top")
 \item{axis.label.pos}{position of x and y axis labels, can be "top", "center", or "bottom". Defaults to "top".}
 }
 \description{
-Stat ZH Theme for ggplot2
+This ggplot2 theme is suitable for plots with a categorical variable on the x-axis and a continuous variable on the y-axis.
+}
+\details{
+To use this theme in a R Markdown generated PDF document, insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
+To export a plot using the theme with the function `ggsave()`, specify `device = cairo_pdf`.
+}
+\examples{
+\donttest{
+\dontrun{
+library(ggplot2)
+library(statR)
+ggplot(mpg, aes(class)) +
+geom_bar() +
+theme_stat(base_size = 12, axis.label.pos = "center") +
+labs(title = "Title")
+}}
 }
 \keyword{theme_stat}
