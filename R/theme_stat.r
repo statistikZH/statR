@@ -5,7 +5,9 @@
 #' To use this theme in a R Markdown generated PDF document, insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
 #' To export a plot using the theme with the function `ggsave()`, specify `device = cairo_pdf`.
 #' @inheritParams ggplot2::theme_bw
-#' @param axis.label.pos position of x and y axis labels, can be "top", "center", or "bottom". Defaults to "top".
+#' @param axis.label.pos position of x and y axis labels, can be set to "top", "center", or "bottom".
+#' @param axis.lines presence of axis lines, can be set to "x", "y", or "both".
+#' @param ticks presence of axis ticks, can be set to "x", "y", or "both".
 #' @keywords theme_stat
 #' @export
 #' @importFrom ggplot2 theme_minimal theme element_blank element_line unit continuous_scale
@@ -20,13 +22,33 @@
 #' labs(title = "Title")
 #' }}
 
-# Function
-theme_stat <- function(base_size = 11, axis.label.pos = "top"){
+theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
+                       ticks = "x"){
 
   palette <- RColorBrewer::brewer.pal("Greys", n=9)
   color.grid = palette[5]
   color.title = palette[9]
   color.axis = palette[7]
+
+  theme_var <- ggplot2::theme_minimal(base_family = "arial") +
+    # TEXTE
+    ggplot2::theme(
+      text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
+
+      plot.title = ggplot2::element_text(size = base_size*4/3, colour = color.title, face = "bold", family="arialblack"),
+      plot.subtitle = ggplot2::element_text(size = base_size, color = color.title, face = "plain", family = "arial"),
+      plot.caption = ggplot2::element_text(size = base_size, color = color.title, face = "plain", family = "arial", hjust = 0),
+
+      strip.text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
+
+      axis.title = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
+      axis.text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
+
+      legend.title = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
+      legend.text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial")
+    )
+
+  # ACHSEN
 
   ## Achsenposition
   if(axis.label.pos == "top") {
@@ -46,39 +68,77 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top"){
     hjust.y <- 0
   }
 
-  ggplot2::theme_minimal(base_family = "arial") +
-    # TEXTE
-    ggplot2::theme(
-      text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
+  theme_var <- theme_var +
+    ggplot2::theme(axis.title.x = ggplot2::element_text(color=color.axis, vjust= vjust.x, hjust = hjust.x),
+                   axis.title.y = ggplot2::element_text(color=color.axis, vjust= vjust.y, hjust = hjust.y))
 
-      plot.title = ggplot2::element_text(size = base_size*4/3, colour = color.title, face = "bold", family="arialblack"),
-      plot.subtitle = ggplot2::element_text(size = base_size, color = color.title, face = "plain", family = "arial"),
-      plot.caption = ggplot2::element_text(size = base_size, color = color.title, face = "plain", family = "arial", hjust = 0),
+  ## Achsenlinien
 
-      strip.text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
+  if(axis.lines == "both") {
+    theme_var <- theme_var +
+      ggplot2::theme(
+        axis.line = ggplot2::element_line(colour = color.axis, size = 0.2),
+        axis.line.x = ggplot2::element_line(colour = color.axis, size = 0.25),
+        axis.line.y = ggplot2::element_line(colour = color.axis, size = 0.25)
+      )
+  }
 
-      axis.title = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
-      axis.text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
+  if (axis.lines == "x") {
+    theme_var <- theme_var +
+      ggplot2::theme(
+        axis.line = ggplot2::element_line(colour = color.axis, size = 0.2),
+        axis.line.x = ggplot2::element_line(colour = color.axis, size = 0.25),
+        axis.line.y = ggplot2::element_blank()
+      )
+  }
 
-      legend.title = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
-      legend.text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial")
-    ) +
+  if (axis.lines == "y") {
+    theme_var <- theme_var +
+      ggplot2::theme(
+        axis.line = ggplot2::element_line(colour = color.axis, size = 0.2),
+        axis.line.y = ggplot2::element_line(colour = color.axis, size = 0.25),
+        axis.line.x = ggplot2::element_blank(),
+      )
+  }
 
-    # ACHSEN
+  ## Achsenticks
 
-    ggplot2::theme(
-      axis.title.x = ggplot2::element_text(color=color.axis, vjust= vjust.x, hjust = hjust.x),
-      axis.title.y = ggplot2::element_text(color=color.axis, vjust= vjust.y, hjust = hjust.y),
-      axis.line = ggplot2::element_line(colour = color.axis, size = 0.2),
-      axis.line.x = ggplot2::element_line(colour = color.axis, size = 0.25),
-      axis.line.y = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_line(colour = color.axis, size = 0.25),
-      axis.ticks.x = ggplot2::element_line(colour = color.axis, size = 0.25),
-      axis.ticks.y = ggplot2::element_blank(),
-      axis.ticks.length = unit(0.1, "cm")
-    )+
+  if(ticks == "x") {
+    theme_var <- theme_var +
+      ggplot2::theme(
+        axis.ticks = ggplot2::element_line(colour = color.axis, size = 0.25),
+        axis.ticks.x = ggplot2::element_line(colour = color.axis, size = 0.25),
+        axis.ticks.y = ggplot2::element_blank(),
+        axis.ticks.length = unit(0.1, "cm")
+      )
 
-    # GITTERNETZLINIEN
+  }
+
+  if(ticks == "y") {
+    theme_var <- theme_var +
+      ggplot2::theme(
+        axis.ticks = ggplot2::element_line(colour = color.axis, size = 0.25),
+        axis.ticks.y = ggplot2::element_line(colour = color.axis, size = 0.25),
+        axis.ticks.x = ggplot2::element_blank(),
+        axis.ticks.length = unit(0.1, "cm")
+      )
+
+  }
+
+  if(ticks == "both") {
+    theme_var <- theme_var +
+      ggplot2::theme(
+        axis.ticks = ggplot2::element_line(colour = color.axis, size = 0.25),
+        axis.ticks.x = ggplot2::element_line(colour = color.axis, size = 0.25),
+        axis.ticks.y = ggplot2::element_line(colour = color.axis, size = 0.25),
+        axis.ticks.length = unit(0.1, "cm")
+      )
+
+  }
+
+
+  # GITTERNETZLINIEN
+  theme_var +
     ggplot2::theme(
       panel.grid.minor = ggplot2::element_blank(),
       panel.grid.major = ggplot2::element_line(colour = color.grid,  size = 0.2),

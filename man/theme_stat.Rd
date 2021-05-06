@@ -4,12 +4,21 @@
 \alias{theme_stat}
 \title{theme_stat()}
 \usage{
-theme_stat(base_size = 11, axis.label.pos = "top")
+theme_stat(
+  base_size = 11,
+  axis.label.pos = "top",
+  axis.lines = "x",
+  ticks = "x"
+)
 }
 \arguments{
 \item{base_size}{base font size, given in pts.}
 
-\item{axis.label.pos}{position of x and y axis labels, can be "top", "center", or "bottom". Defaults to "top".}
+\item{axis.label.pos}{position of x and y axis labels, can be set to "top", "center", or "bottom".}
+
+\item{axis.lines}{presence of axis lines, can be set to "x", "y", or "both".}
+
+\item{ticks}{presence of axis ticks, can be set to "x", "y", or "both".}
 }
 \description{
 This ggplot2 theme is suitable for plots with a categorical variable on the x-axis and a continuous variable on the y-axis.
