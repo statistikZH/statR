@@ -5,9 +5,10 @@
 #' To use this theme in a R Markdown generated PDF document, insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
 #' To export a plot using the theme with the function `ggsave()`, specify `device = cairo_pdf`.
 #' @inheritParams ggplot2::theme_bw
-#' @param axis.label.pos position of x and y axis labels, can be set to "top", "center", or "bottom".
+#' @param axis.label.pos position of x and y-axis labels, can be set to "top", "center", or "bottom".
 #' @param axis.lines presence of axis lines, can be set to "x", "y", or "both".
 #' @param ticks presence of axis ticks, can be set to "x", "y", or "both".
+#' @param minor.grid.lines presence of minor grid lines on the y-axis, can be set to TRUE or FALSE.
 #' @keywords theme_stat
 #' @export
 #' @importFrom ggplot2 theme_minimal theme element_blank element_line unit continuous_scale
@@ -16,14 +17,15 @@
 #' \dontrun{
 #' library(ggplot2)
 #' library(statR)
+#'
 #' ggplot(mpg, aes(class)) +
 #' geom_bar() +
-#' theme_stat(base_size = 12, axis.label.pos = "center") +
+#' theme_stat() +
 #' labs(title = "Title")
 #' }}
 
 theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
-                       ticks = "x"){
+                       ticks = "x", minor.grid.lines = FALSE){
 
   palette <- RColorBrewer::brewer.pal("Greys", n=9)
   color.grid = palette[5]
@@ -138,16 +140,28 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
 
 
   # GITTERNETZLINIEN
-  theme_var +
-    ggplot2::theme(
-      panel.grid.minor = ggplot2::element_blank(),
-      panel.grid.major = ggplot2::element_line(colour = color.grid,  size = 0.2),
-      panel.grid.major.x = ggplot2::element_blank(), panel.grid.minor.x = ggplot2::element_blank()
 
-    ) 	+
+  if(minor.grid.lines == TRUE) {
+    theme_var <- theme_var +
+      ggplot2::theme(
+        panel.grid.minor = ggplot2::element_line(colour = color.grid,  size = 0.1),
+        panel.grid.major = ggplot2::element_line(colour = color.grid,  size = 0.2),
+        panel.grid.major.x = ggplot2::element_blank(), panel.grid.minor.x = ggplot2::element_blank()
+      )
+
+  } else {
+    theme_var <- theme_var +
+      ggplot2::theme(
+        panel.grid.minor = ggplot2::element_blank(),
+        panel.grid.major = ggplot2::element_line(colour = color.grid,  size = 0.2),
+        panel.grid.major.x = ggplot2::element_blank(), panel.grid.minor.x = ggplot2::element_blank()
+
+      )
+  }
 
     # PANELS
-    ggplot2::theme(
+    theme_var +
+      ggplot2::theme(
       panel.spacing.x = unit(15, "pt"),
       panel.spacing.y = unit(15, "pt"),
       strip.background = ggplot2::element_blank()

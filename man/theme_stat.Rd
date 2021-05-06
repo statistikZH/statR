@@ -8,17 +8,20 @@ theme_stat(
   base_size = 11,
   axis.label.pos = "top",
   axis.lines = "x",
-  ticks = "x"
+  ticks = "x",
+  minor.grid.lines = FALSE
 )
 }
 \arguments{
 \item{base_size}{base font size, given in pts.}
 
-\item{axis.label.pos}{position of x and y axis labels, can be set to "top", "center", or "bottom".}
+\item{axis.label.pos}{position of x and y-axis labels, can be set to "top", "center", or "bottom".}
 
 \item{axis.lines}{presence of axis lines, can be set to "x", "y", or "both".}
 
 \item{ticks}{presence of axis ticks, can be set to "x", "y", or "both".}
+
+\item{minor.grid.lines}{presence of minor grid lines on the y-axis, can be set to TRUE or FALSE.}
 }
 \description{
 This ggplot2 theme is suitable for plots with a categorical variable on the x-axis and a continuous variable on the y-axis.
@@ -32,9 +35,10 @@ To export a plot using the theme with the function `ggsave()`, specify `device =
 \dontrun{
 library(ggplot2)
 library(statR)
+
 ggplot(mpg, aes(class)) +
 geom_bar() +
-theme_stat(base_size = 12, axis.label.pos = "center") +
+theme_stat() +
 labs(title = "Title")
 }}
 }
