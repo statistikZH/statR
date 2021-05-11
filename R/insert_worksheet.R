@@ -56,6 +56,9 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
   #define width of the area in which data is contained for formatting
   spalten = ncol(data)
 
+  # increase width of colnames for better auto-fitting of column width
+  colnames(data) <- paste0(colnames(data), "  ", sep = "")
+
   #position of contact details
   contact = if(spalten>=6){
     spalten-2
