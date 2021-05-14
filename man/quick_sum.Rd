@@ -2,7 +2,7 @@
 % Please edit documentation in R/quick_sum.r
 \name{quick_sum}
 \alias{quick_sum}
-\title{quick_sum}
+\title{quick_sum()}
 \usage{
 quick_sum(df, var, ..., stats = "all", protect = FALSE)
 }
@@ -13,12 +13,20 @@ quick_sum(df, var, ..., stats = "all", protect = FALSE)
 
 \item{...}{grouping variables}
 
-\item{stats}{Which evaluation statistics should be displayed (all, base, mean)?}
+\item{stats}{Which descriptive statistics should be computed? Can be "all", "base", or "mean". See details.}
 
-\item{protect}{Apply data protection T/F}
+\item{protect}{Apply data protection, can be TRUE or FALSE. See details.}
 }
 \description{
-Function to create a formated single-worksheet XLSX automatically
+Function for simple (grouped) descriptive analyses.
+}
+\details{
+If stats is set to "all" (the default), the following descriptive statistics are computed per category of the grouping variable(s): mean, standard deviation,
+10\%-quantile, 25\%-quantile, median, 75\%-quantile, 90\%-quantile.
+If stats is set to "base", the mean, 25\%-quantile, median, and 75\%-quantile are returned.
+stats = "mean" computes the mean and the standard deviation.
+
+If protect is set to TRUE, the mean and the median is only computed for variables/variable categories with four or more observations. For <4 observations, the function returns NA for the respective variable/category. The other descriptives are only computed if there are at least 6 observations per variable (category).
 }
 \examples{
 
