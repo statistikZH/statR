@@ -1,17 +1,16 @@
-# insert_worksheet: add formatted worksheets to an existing Workbook
-#' insert_worksheet
+#' insert_worksheet()
 #'
-#' Function to create formatted spreadsheets automatically
-#' @param data data to be included in the XLSX-table.
-#' @param workbook workbook object to write new worksheet in.
-#' @param title title of the table and the sheet
-#' @param sheetname name of the sheet-tab.
+#' Function to  add formatted worksheets to an existing .xlsx-workbook.
+#' @param data data to be included.
+#' @param workbook workbook object to add new worksheet to.
+#' @param title title to be put above the data.
+#' @param sheetname name of the sheet tab.
 #' @param source source of the data. Defaults to "statzh".
-#' @param metadata metadata-information to be included. Defaults to NA.
+#' @param metadata metadata information to be included. Defaults to NA.
 #' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
-#' @param contactdetails contactdetails of the data publisher. Defaults to "statzh".
+#' @param contactdetails contact details of the data publisher. Defaults to "statzh".
 #' @param grouplines defaults to FALSE. Can be used to separate grouped variables visually.
-#' @param author defaults to last two letters (initials) or numbers of the user name.
+#' @param author defaults to the last two letters (initials) or numbers of the internal user name.
 #' @importFrom dplyr "%>%"
 #' @keywords insert_worksheet
 #' @export

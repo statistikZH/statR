@@ -2,7 +2,7 @@
 % Please edit documentation in R/insert_worksheet.R
 \name{insert_worksheet}
 \alias{insert_worksheet}
-\title{insert_worksheet}
+\title{insert_worksheet()}
 \usage{
 insert_worksheet(
   data,
@@ -18,28 +18,28 @@ insert_worksheet(
 )
 }
 \arguments{
-\item{data}{data to be included in the XLSX-table.}
+\item{data}{data to be included.}
 
-\item{workbook}{workbook object to write new worksheet in.}
+\item{workbook}{workbook object to add new worksheet to.}
 
-\item{sheetname}{name of the sheet-tab.}
+\item{sheetname}{name of the sheet tab.}
 
-\item{title}{title of the table and the sheet}
+\item{title}{title to be put above the data.}
 
 \item{source}{source of the data. Defaults to "statzh".}
 
-\item{metadata}{metadata-information to be included. Defaults to NA.}
+\item{metadata}{metadata information to be included. Defaults to NA.}
 
 \item{logo}{path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"}
 
 \item{grouplines}{defaults to FALSE. Can be used to separate grouped variables visually.}
 
-\item{contactdetails}{contactdetails of the data publisher. Defaults to "statzh".}
+\item{contactdetails}{contact details of the data publisher. Defaults to "statzh".}
 
-\item{author}{defaults to last two letters (initials) or numbers of the user name.}
+\item{author}{defaults to the last two letters (initials) or numbers of the internal user name.}
 }
 \description{
-Function to create formatted spreadsheets automatically
+Function to  add formatted worksheets to an existing .xlsx-workbook.
 }
 \examples{
 
