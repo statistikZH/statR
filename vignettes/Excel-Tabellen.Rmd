@@ -26,7 +26,7 @@ Die Spalteninhalte können bei allen Funktionen entsprechend ihrer Einheit forma
 
 ### quickXLSX()
 
-Mit der Funktion `quickXLSX()` kann ein Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. Die Funktion eignet sich, um einzelne Datensätze als Exceldatei zu verschicken.
+Mit der Funktion `quickXLSX()` kann ein Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. Die Funktion eignet sich, um einzelne Datensätze als Exceldatei zu verschicken. Mit dem Argument `author` kann vermerkt werden, wer die Datei erstellt hat. Per Default werden die Initialen bzw. letzten zwei Ziffern des hinterlegten Benutzernamens eingefügt. 
 
 ```{r,echo=T,eval=F,error=F}
 # Beispiel anhand des Datensatzes 'mtcars'
@@ -48,9 +48,9 @@ quickXLSX(data = dat,
 
 ### splitXLSX()
 
-Mit der Funktion `splitXLSX()` kann ein Datensatz aus R in eine XLSX-Datei exportiert und auf mehreren Arbeitsblättern verteilt werden. Die Funktion ist besonders dann geeignet, wenn man einen Datensatz für verschiedene Ausprägungen einer Gruppierungsvariable (z.B. Altersklassen) separat aufführen möchte.
+Mit der Funktion `splitXLSX()` kann ein Datensatz aus R in eine XLSX-Datei exportiert und auf mehreren Arbeitsblättern verteilt werden. Die Funktion ist besonders dann geeignet, wenn man einen Datensatz für verschiedene Ausprägungen einer Gruppierungsvariable (z.B. Altersklassen) separat aufführen möchte. Mit dem Argument `author` kann vermerkt werden, wer die Datei erstellt hat. Per Default werden die Initialen bzw. letzten zwei Ziffern des hinterlegten Benutzernamens eingefügt.
 
-Im Beispiel unten wird ein Arbeitsblatt pro Zylinderanzahl der Autos im `mtcars`-Datensatz generiert.  
+Im Beispiel unten wird ein Arbeitsblatt pro Zylinderanzahl der Autos im `mtcars`-Datensatz generiert.   
 
 
 ```{r,echo=T,eval=F}
@@ -127,3 +127,4 @@ datasetsXLSX(file="twoDatasetsandFigure",
                            "Bemerkungen zum PlantGrowth-Datensatz: x"),
              auftrag_id="A2021_0000")
 ```
+
