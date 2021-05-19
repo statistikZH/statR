@@ -2,7 +2,7 @@
 % Please edit documentation in R/splitXLSX.R
 \name{splitXLSX}
 \alias{splitXLSX}
-\title{splitXLSX}
+\title{splitXLSX()}
 \usage{
 splitXLSX(
   data,
@@ -18,13 +18,13 @@ splitXLSX(
 )
 }
 \arguments{
-\item{data}{data to be included in the XLSX-table.}
+\item{data}{data to be exported.}
 
-\item{file}{filename of the xlsx-file. No Default.}
+\item{file}{file name of the xlsx-file. The extension ".xlsx" is added automatically.}
 
-\item{sheetvar}{variable which contains the variable to be used to split the data across several sheets.}
+\item{sheetvar}{name of the variable used to split the data and spread them over several sheets.}
 
-\item{title}{title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.}
+\item{title}{title to be put above the data in the worksheet. the sheetvar subcategory is added in brackets.}
 
 \item{source}{source of the data. Defaults to "statzh".}
 
@@ -39,21 +39,26 @@ splitXLSX(
 \item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
-Function to create formatted spreadsheets with multiple worksheets automatically.
+Function to export data from R as formatted .xlsx-file and spread them over several worksheets based on a grouping variable (e.g., year).
 }
 \examples{
-# Generation of a spreadsheet with four worksheets (one per 'carb'-category).
-# Can be used to generate worksheets for multiple years.
 
-splitXLSX(head(mtcars),"mtcars",carb,grouplines=c(1,5,6))
+dat <- mtcars
 
-splitXLSX(head(mtcars),
-sheetvar=carb,
-title="Tabelle",
-file="filename",
-grouplines = c(1,2,3),
-metadata = "remarks: ....",
-source="canton of zurich",
-logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
+splitXLSX(data = dat,
+         title = "Motor trend car road tests",
+         file = "motor_trend_car_road_tests", # '.xlsx' automatically added
+         sheetvar = cyl,
+         source = "Source: Henderson and Velleman (1981),
+         Building multiple regression models interactively.
+         Biometrics, 37, 391–411.",
+         metadata = c("The data was extracted from the 1974
+         Motor Trend US magazine and comprises fuel consumption and
+         10 aspects of automobile design and performance for
+         32 automobiles (1973–74 models)."),
+         contactdetails = "statzh",
+         grouplines = FALSE,
+         logo = NULL,
+         author = "user")
 }
 \keyword{splitXLSX}
