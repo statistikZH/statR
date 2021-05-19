@@ -40,7 +40,7 @@ quickXLSX(data = dat,
           contactdetails = "statzh",
           grouplines = FALSE,
           logo = NULL,
-          author = "user")
+          author = "MD")
 
 ```
 
@@ -67,7 +67,7 @@ splitXLSX(data = dat,
           contactdetails = "statzh",
           grouplines = FALSE,
           logo = NULL,
-          author = "user")
+          author = "MD")
 ```
 
 ![Screenshot der Datei motor_trend_car_road_tests.xlsx](./output-splitXLSX.PNG){width=95%}
@@ -97,9 +97,9 @@ datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugefügt
              auftrag_id="A2021_0000")
 ```
 
-![Screenshot des Titelblatts der Datei twoDatasets.xlsx](./output-datasetsXLSX1.PNG){width=95%}
+![Screenshot des Titelblatts der Datei twoDatasets.xlsx](./output-datasetsXLSX-1.PNG){width=95%}
 
-![Screenshot des ersten Blatts der Datei twoDatasets.xlsx](./output-datasetsXLSX2.PNG){width=95%}
+![Screenshot des ersten Blatts der Datei twoDatasets.xlsx](./output-datasetsXLSX-2.PNG){width=95%}
 
 
 Um eine Grafik in die Excel-Datei einzufügen, muss sie der `datasets`-Liste hinzugefügt werden: `datasets = list(dataset1, dataset2, grafik1)`.  
