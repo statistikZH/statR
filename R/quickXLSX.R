@@ -1,28 +1,31 @@
-# quickXLSX: Function to create formatted spreadsheet with a single worksheet automatically
-
-#' quickXLSX
+#' quickXLSX()
 #'
-#' Function to create a formated single-worksheet XLSX automatically
-#' @param data data to be included in the XLSX-table.
-#' @param file filename of the xlsx-file. No Default.
-#' @param title title of the table in the worksheet, defaults to "Titel".
+#' Function to export data from R as formatted .xlsx-spreadsheet.
+#' @param data data to be exported.
+#' @param file file name of the xlsx-file. The extension ".xlsx" is added automatically.
+#' @param title title to be put above the data in the worksheet.
 #' @template shared_parameters
 #' @keywords quickXLSX
 #' @export
 #' @examples
-#' quickXLSX(data=head(mtcars), file="mtcars")
+#' # Beispiel anhand des Datensatzes 'mtcars'
+#'dat <- mtcars
 #'
-#' #example with own logo, a custom filename, lines separating selected columns and some remarks
+#'quickXLSX(data = dat,
+#'          title = "Motor trend car road tests",
+#'          file = "motor_trend_car_road_tests", # '.xlsx' is automatically added
+#'          source = "Source: Henderson and Velleman (1981). Building multiple
+#'          regression models interactively.
+#'          Biometrics, 37, 391–411.",
+#'          metadata = c("The data was extracted from the 1974 Motor Trend US
+#'          magazine and comprises fuel
+#'          consumption and 10 aspects of automobile design and performance
+#'          for 32 automobiles (1973–74 models)."),
+#'          contactdetails = "statzh",
+#'          grouplines = FALSE,
+#'          logo = NULL,
+#'          author = "user")
 #'
-#' quickXLSX(head(mtcars),
-#' file="filename",
-#' title="alternative title",
-#' source="alternative source",
-#' contactdetails="blavla",
-#' grouplines = c(1,2,3),
-#' metadata = "remarks:",
-#' logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
-
 
 quickXLSX <-function (data,
                       file,
