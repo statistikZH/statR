@@ -4,7 +4,6 @@
 #' On top of that, the font size, the presence (or absence) of minor grid lines, axis lines, axis ticks and the axis label positions can be specified.
 #'
 #' To use this theme in a R Markdown generated PDF document, insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
-#' To export a plot using the theme with the function `ggsave()`, specify `device = cairo_pdf`.
 #' @inheritParams ggplot2::theme_bw
 #' @param axis.label.pos position of x and y-axis labels, can be set to "top", "center", or "bottom".
 #' @param axis.lines presence of axis lines, can be set to "x", "y", or "both".

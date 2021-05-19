@@ -29,7 +29,6 @@ On top of that, the font size, the presence (or absence) of minor grid lines, ax
 }
 \details{
 To use this theme in a R Markdown generated PDF document, insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
-To export a plot using the theme with the function `ggsave()`, specify `device = cairo_pdf`.
 }
 \examples{
 \donttest{
