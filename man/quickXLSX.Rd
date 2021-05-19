@@ -36,7 +36,7 @@ quickXLSX(
 \item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
-Function to export data from R as formatted .xlsx-spreadsheet.
+Function to export data from R to a formatted .xlsx-spreadsheet.
 }
 \examples{
 # Beispiel anhand des Datensatzes 'mtcars'

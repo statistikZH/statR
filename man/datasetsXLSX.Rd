@@ -2,7 +2,7 @@
 % Please edit documentation in R/datasetsXLSX.R
 \name{datasetsXLSX}
 \alias{datasetsXLSX}
-\title{datasetsXLSX}
+\title{datasetsXLSX()}
 \usage{
 datasetsXLSX(
   file,
@@ -21,69 +21,86 @@ datasetsXLSX(
 )
 }
 \arguments{
-\item{file}{filename of the XLSX file. No Default.}
+\item{file}{file name of the spreadsheet. The extension ".xlsx" is added automatically.}
 
-\item{maintitle}{main title of first sheet "Inhalt".}
+\item{maintitle}{Title to be put on the first (overview) sheet.}
 
-\item{datasets}{datasets (dataframes or images) to be included in the XLSX-table.}
+\item{datasets}{datasets or plots to be included.}
 
-\item{widths}{width of figure.}
+\item{widths}{width of figure in inch (1 inch = 2.54 cm). See details.}
 
-\item{heights}{height of figure.}
+\item{heights}{height of figure in inch (1 inch = 2.54 cm). See details.}
 
-\item{startrows}{row coordinate of upper left corner of figure.}
+\item{startrows}{row where upper left corner of figure should be placed. See details.}
 
-\item{startcols}{column coordinate of upper left corner of figure.}
+\item{startcols}{column where upper left corner of figure should be placed. See details.}
 
-\item{sheetnames}{name of the sheet tab.}
+\item{sheetnames}{names of the sheet tabs.}
 
-\item{titles}{title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.}
+\item{titles}{titles of the different sheets.}
 
-\item{logo}{filepath to the logo to be included in the index-sheet (default: Logo of the statistical office ZH)}
+\item{logo}{file path to the logo to be included in the index-sheet (default: Logo of the Statistical Office ZH)}
 
 \item{sources}{source of the data. Defaults to "statzh".}
 
-\item{metadata1}{metadata-information to be included. Defaults to NA.}
+\item{metadata1}{metadata information to be included. Defaults to NA.}
 
 \item{auftrag_id}{order number.}
 }
 \description{
-Function to create formatted XLSX files automatically
+Function to export several datasets and/or figures from R to an .xlsx-file. The function creates an overview sheet and separate sheets
+for each dataset/figure.
+}
+\details{
+When including figures, the heights and widths need to be specified as a vector. For example, say you have two datasets and one figure
+that you would like to export. widths = c(0,0,5) then suggests that the figure will be 5 inches wide and placed in the third (and last) sheet of the file.
+The same logic applies to the specification of `startrows` and `startcols`.
 }
 \examples{
 \donttest{
-# example with image / plot
-# create map
 \dontrun{
 plot <- plot(mtcars$mpg)
 
-datasetsXLSX(file="datasetsXLSX",
-            maintitle = "nice datasets",
-            datasets = list(head(mtcars),tail(mtcars),plot),
-            sheetnames = c("data1","data2","map"),
+# Example with two datasets and no figure
+dat1 <- mtcars
+dat2 <- PlantGrowth
+
+datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugefügt
+            maintitle = "Autos und Pflanzen",
+            datasets = list(dat1, dat2),
+            sheetnames = c("Autos","Blumen"),
+            titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
+            sources = c("Source: Henderson and Velleman (1981).
+            Building multiple regression models interactively. Biometrics, 37, 391–411.",
+                        "Dobson, A. J. (1983) An Introduction to Statistical
+                        Modelling. London: Chapman and Hall."),
+            metadata1 = c("Bemerkungen zum mtcars-Datensatz: x",
+                          "Bemerkungen zum PlantGrowth-Datensatz: x"),
+            auftrag_id="A2021_0000")
+
+# Example with two datasets and one figure
+
+dat1 <- mtcars
+dat2 <- PlantGrowth
+fig <- hist(mtcars$disp)
+
+datasetsXLSX(file="twoDatasetsandFigure",
+            maintitle = "Autos und Pflanzen", # '.xlsx' wird automatisch hinzugefügt
+            datasets = list(dat1, dat2, fig),
             widths = c(0,0,5),
-            heights = c(0,0,2.5),
-            startrows = c(0,0,10),
-            startcols = c(0,0,8),
-            titles = c("Title","Title", "Plot"),
-            sources = c("Quelle: STATENT", "Quelle: Strukturerhebung", "Quelle: Strukturerhebung"),
-            metadata1 = c("Bemerkungen: bla", "Bemerkungen: y", "Bemerkungen: x"),
-            auftrag_id="A2020_0200"
-)
-
+            heights = c(0,0,5),
+            startrows = c(0,0,3),
+            startcols = c(0,0,3),
+            sheetnames = c("Autos","Blumen", "Histogramm"),
+            titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
+            sources = c("Source: Henderson and Velleman (1981).
+            Building multiple regression models interactively. Biometrics, 37, 391–411.",
+                        "Source: Dobson, A. J. (1983) An Introduction to
+                        Statistical Modelling. London: Chapman and Hall."),
+            metadata1 = c("Bemerkungen zum mtcars-Datensatz: x",
+                          "Bemerkungen zum PlantGrowth-Datensatz: x"),
+            auftrag_id="A2021_0000")
 }
-# example without image
-
-datasetsXLSX(file="datasetsXLSX2",
-             maintitle = "nice datasets",
-             datasets = list(head(mtcars),tail(mtcars)),
-             sheetnames = c("data1","data2"),
-             titles = c("Title","Title"),
-             sources = c("Quelle: STATENT", "Quelle: Strukturerhebung"),
-             metadata1 = c("Bemerkungen: y", "Bemerkungen: x"),
-             auftrag_id="AS2020_01"
-             )
-
 }
 }
 \keyword{datasetsXLSX}
