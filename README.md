@@ -1,6 +1,5 @@
 # statR 
 
-
 Mit dem `statR`-Package können mit dem Corporate Design des Kantons Zürich konforme Visualisierungen und Excel-Tabellen in `R` erstellt werden. Das Package beinhaltet:
 
 
@@ -9,7 +8,6 @@ Mit dem `statR`-Package können mit dem Corporate Design des Kantons Zürich kon
 - generische Farbpaletten für Datenvisualisierungen
 
 - `ggplot2` themes
-
 
 
 # Installation
