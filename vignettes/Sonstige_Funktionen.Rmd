@@ -1,0 +1,51 @@
+---
+title: "Sonstige Funktionen"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Sonstige_Funktionen}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Neben Funktionen zur Excel-Dateierzeugung und Visualisierungen beinhaltet `statR` auch
+
+# quick_sum()
+
+Mit der Funktion `quick_sum()` können deskriptive Statistiken berechnet werden. Je nach Spezifikation des `stats`-Arguments wird eine andere Anzahl Statistiken angezeigt (Durchschnitt, Median, Standardabweichung, Quantile, etc.). Siehe `?quick_sum()`.
+
+Im Beispiel unten wird mittels der Funktion berechnet, wie viele `mpg` (Miles/(US) gallon) die Autos abhängig von der Zylinderanzahl (`cyl`) und ihres Motorentyps (`vs`; 'V-shaped' oder 'straight') haben. Ausgegeben werden die Ausprägungen der Gruppierungsvariablen, die Anzahl sowie der Durchschnitt und die Quartile. 
+
+```{r, eval = T, warning = F, message = F}
+library(statR)
+quick_sum(df=mtcars, var=mpg, cyl, vs, stats="base", protect=FALSE)
+```
+
+# interpolate2()
+
+Mit der Funktion `interpolate2()` können neue Farbpaletten erstellt werden, indem `zhpal`-Paletten mit einer oder mehreren Farben interpoliert werden. Die Funktion baut auf `grDevices::colorRamp()` auf. Mit dem Argument `degree` kann die Stärke der Interpolation bestimmt werden (von 1 bis 7) und mit dem Argument `number` die Anzahl der Farben, die die neue Palette enthalten soll.
+
+Im Beispiel unten wird die Palette `zhpal$zhblue` mit schwarz ("#000000") interpoliert.
+
+```{r, results = 'hide', message = F, warning = F}
+new <- interpolate2(palette = zhpal$zhblue, color = c("#000000"), degree = 3, number = 7)
+```
+
+So sieht die ursprüngliche Palette aus:
+
+```{r}
+display(zhpal$zhblue)
+```
+
+Zum direkten Vergleich die interpolierte Palette:
+
+```{r}
+display(new)
+```
+
