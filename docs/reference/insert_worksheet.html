@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>insert_worksheet — insert_worksheet • statR</title>
+<title>insert_worksheet() — insert_worksheet • statR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="insert_worksheet — insert_worksheet" />
-<meta property="og:description" content="Function to create formatted spreadsheets automatically" />
+<meta property="og:title" content="insert_worksheet() — insert_worksheet" />
+<meta property="og:description" content="Function to  add formatted worksheets to an existing .xlsx-workbook." />
 <meta name="twitter:card" content="summary" />
 
 <meta name="theme-color" content="#293c55">
@@ -87,7 +87,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -107,6 +107,9 @@
     <li>
       <a href="../articles/Visualisierungen.html">Visualisierungen</a>
     </li>
+    <li>
+      <a href="../articles/html_report_template.html">HTML Dokumente im ZH.CH-Design</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -116,7 +119,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/statistikZH/statR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -133,13 +136,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>insert_worksheet</h1>
+    <h1>insert_worksheet()</h1>
     <small class="dont-index">Source: <a href='https://github.com/statistikZH/statR/blob/master/R/insert_worksheet.R'><code>R/insert_worksheet.R</code></a></small>
     <div class="hidden name"><code>insert_worksheet.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function to create formatted spreadsheets automatically</p>
+    <p>Function to  add formatted worksheets to an existing .xlsx-workbook.</p>
     </div>
 
     <pre class="usage"><span class='fu'>insert_worksheet</span><span class='op'>(</span>
@@ -151,7 +154,8 @@
   metadata <span class='op'>=</span> <span class='cn'>NA</span>,
   logo <span class='op'>=</span> <span class='cn'>NULL</span>,
   grouplines <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  contactdetails <span class='op'>=</span> <span class='st'>"statzh"</span>
+  contactdetails <span class='op'>=</span> <span class='st'>"statzh"</span>,
+  author <span class='op'>=</span> <span class='st'>"user"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -159,19 +163,19 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>data to be included in the XLSX-table.</p></td>
+      <td><p>data to be included.</p></td>
     </tr>
     <tr>
       <th>workbook</th>
-      <td><p>workbook object to write new worksheet in.</p></td>
+      <td><p>workbook object to add new worksheet to.</p></td>
     </tr>
     <tr>
       <th>sheetname</th>
-      <td><p>name of the sheet-tab.</p></td>
+      <td><p>name of the sheet tab.</p></td>
     </tr>
     <tr>
       <th>title</th>
-      <td><p>title of the table and the sheet</p></td>
+      <td><p>title to be put above the data.</p></td>
     </tr>
     <tr>
       <th>source</th>
@@ -179,7 +183,7 @@
     </tr>
     <tr>
       <th>metadata</th>
-      <td><p>metadata-information to be included. Defaults to NA.</p></td>
+      <td><p>metadata information to be included. Defaults to NA.</p></td>
     </tr>
     <tr>
       <th>logo</th>
@@ -191,7 +195,11 @@
     </tr>
     <tr>
       <th>contactdetails</th>
-      <td><p>contactdetails of the data publisher. Defaults to "statzh".</p></td>
+      <td><p>contact details of the data publisher. Defaults to "statzh".</p></td>
+    </tr>
+    <tr>
+      <th>author</th>
+      <td><p>defaults to the last two letters (initials) or numbers of the internal user name.</p></td>
     </tr>
     </table>
 

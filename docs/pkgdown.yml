@@ -4,5 +4,6 @@ pkgdown_sha: ~
 articles:
   Excel-Tabellen: Excel-Tabellen.html
   Visualisierungen: Visualisierungen.html
-last_built: 2021-04-29T07:31Z
+  html_report_template: html_report_template.html
+last_built: 2021-05-20T12:25Z
 

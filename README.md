@@ -1,8 +1,5 @@
+# statR 
 
-![](https://opendata.swiss/content/uploads/2016/02/kt_zh.png)
-
-
-# statR
 
 Mit dem `statR`-Package können mit dem Corporate Design des Kantons Zürich konforme Visualisierungen und Excel-Tabellen in `R` erstellt werden. Das Package beinhaltet:
 

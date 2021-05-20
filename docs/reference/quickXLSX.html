@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>quickXLSX — quickXLSX • statR</title>
+<title>quickXLSX() — quickXLSX • statR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="quickXLSX — quickXLSX" />
-<meta property="og:description" content="Function to create a formated single-worksheet XLSX automatically" />
+<meta property="og:title" content="quickXLSX() — quickXLSX" />
+<meta property="og:description" content="Function to export data from R to a formatted .xlsx-spreadsheet." />
 <meta name="twitter:card" content="summary" />
 
 <meta name="theme-color" content="#293c55">
@@ -87,7 +87,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -107,6 +107,9 @@
     <li>
       <a href="../articles/Visualisierungen.html">Visualisierungen</a>
     </li>
+    <li>
+      <a href="../articles/html_report_template.html">HTML Dokumente im ZH.CH-Design</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -116,7 +119,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/statistikZH/statR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -133,13 +136,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>quickXLSX</h1>
+    <h1>quickXLSX()</h1>
     <small class="dont-index">Source: <a href='https://github.com/statistikZH/statR/blob/master/R/quickXLSX.R'><code>R/quickXLSX.R</code></a></small>
     <div class="hidden name"><code>quickXLSX.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function to create a formated single-worksheet XLSX automatically</p>
+    <p>Function to export data from R to a formatted .xlsx-spreadsheet.</p>
     </div>
 
     <pre class="usage"><span class='fu'>quickXLSX</span><span class='op'>(</span>
@@ -150,7 +153,8 @@
   metadata <span class='op'>=</span> <span class='cn'>NA</span>,
   logo <span class='op'>=</span> <span class='cn'>NULL</span>,
   grouplines <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  contactdetails <span class='op'>=</span> <span class='st'>"statzh"</span>
+  contactdetails <span class='op'>=</span> <span class='st'>"statzh"</span>,
+  author <span class='op'>=</span> <span class='st'>"user"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -158,15 +162,15 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>data to be included in the XLSX-table.</p></td>
+      <td><p>data to be exported.</p></td>
     </tr>
     <tr>
       <th>file</th>
-      <td><p>filename of the xlsx-file. No Default.</p></td>
+      <td><p>file name of the xlsx-file. The extension ".xlsx" is added automatically.</p></td>
     </tr>
     <tr>
       <th>title</th>
-      <td><p>title of the table in the worksheet, defaults to "Titel".</p></td>
+      <td><p>title to be put above the data in the worksheet.</p></td>
     </tr>
     <tr>
       <th>source</th>
@@ -188,23 +192,33 @@
       <th>contactdetails</th>
       <td><p>contactdetails of the data publisher. Defaults to "statzh".</p></td>
     </tr>
+    <tr>
+      <th>author</th>
+      <td><p>defaults to last two letters (initials) or numbers of the user name.</p></td>
+    </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>quickXLSX</span><span class='op'>(</span>data<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>, file<span class='op'>=</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='input'>
-<span class='co'>#example with own logo, a custom filename, lines separating selected columns and some remarks</span>
+    <pre class="examples"><div class='input'><span class='co'># Beispiel anhand des Datensatzes 'mtcars'</span>
+<span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='va'>mtcars</span>
 
-<span class='fu'>quickXLSX</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>,
-file<span class='op'>=</span><span class='st'>"filename"</span>,
-title<span class='op'>=</span><span class='st'>"alternative title"</span>,
-source<span class='op'>=</span><span class='st'>"alternative source"</span>,
-contactdetails<span class='op'>=</span><span class='st'>"blavla"</span>,
-grouplines <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span><span class='op'>)</span>,
-metadata <span class='op'>=</span> <span class='st'>"remarks:"</span>,
-logo<span class='op'>=</span><span class='st'>"L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>no logo found and / or added</span></div></pre>
+<span class='fu'>quickXLSX</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>dat</span>,
+         title <span class='op'>=</span> <span class='st'>"Motor trend car road tests"</span>,
+         file <span class='op'>=</span> <span class='st'>"motor_trend_car_road_tests"</span>, <span class='co'># '.xlsx' is automatically added</span>
+         source <span class='op'>=</span> <span class='st'>"Source: Henderson and Velleman (1981). Building multiple
+         regression models interactively.
+         Biometrics, 37, 391–411."</span>,
+         metadata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"The data was extracted from the 1974 Motor Trend US
+         magazine and comprises fuel
+         consumption and 10 aspects of automobile design and performance
+         for 32 automobiles (1973–74 models)."</span><span class='op'>)</span>,
+         contactdetails <span class='op'>=</span> <span class='st'>"statzh"</span>,
+         grouplines <span class='op'>=</span> <span class='cn'>FALSE</span>,
+         logo <span class='op'>=</span> <span class='cn'>NULL</span>,
+         author <span class='op'>=</span> <span class='st'>"user"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

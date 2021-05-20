@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>quick_sum — quick_sum • statR</title>
+<title>quick_sum() — quick_sum • statR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="quick_sum — quick_sum" />
-<meta property="og:description" content="Function to create a formated single-worksheet XLSX automatically" />
+<meta property="og:title" content="quick_sum() — quick_sum" />
+<meta property="og:description" content="Function for simple (grouped) descriptive analyses." />
 <meta name="twitter:card" content="summary" />
 
 <meta name="theme-color" content="#293c55">
@@ -87,7 +87,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -107,6 +107,9 @@
     <li>
       <a href="../articles/Visualisierungen.html">Visualisierungen</a>
     </li>
+    <li>
+      <a href="../articles/html_report_template.html">HTML Dokumente im ZH.CH-Design</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -116,7 +119,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/statistikZH/statR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -133,13 +136,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>quick_sum</h1>
+    <h1>quick_sum()</h1>
     <small class="dont-index">Source: <a href='https://github.com/statistikZH/statR/blob/master/R/quick_sum.r'><code>R/quick_sum.r</code></a></small>
     <div class="hidden name"><code>quick_sum.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function to create a formated single-worksheet XLSX automatically</p>
+    <p>Function for simple (grouped) descriptive analyses.</p>
     </div>
 
     <pre class="usage"><span class='fu'>quick_sum</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>var</span>, <span class='va'>...</span>, stats <span class='op'>=</span> <span class='st'>"all"</span>, protect <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
@@ -161,32 +164,39 @@
     </tr>
     <tr>
       <th>stats</th>
-      <td><p>Which evaluation statistics should be displayed (all, base, mean)?</p></td>
+      <td><p>Which descriptive statistics should be computed? Can be "all", "base", or "mean". See details.</p></td>
     </tr>
     <tr>
       <th>protect</th>
-      <td><p>Apply data protection T/F</p></td>
+      <td><p>Apply data protection, can be TRUE or FALSE. See details.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If stats is set to "all" (the default), the following descriptive statistics are computed per category of the grouping variable(s): mean, standard deviation,
+10%-quantile, 25%-quantile, median, 75%-quantile, 90%-quantile.
+If stats is set to "base", the mean, 25%-quantile, median, and 75%-quantile are returned.
+stats = "mean" computes the mean and the standard deviation.</p>
+<p>If protect is set to TRUE, the mean and the median is only computed for variables/variable categories with four or more observations. For &lt;4 observations, the function returns NA for the respective variable/category. The other descriptives are only computed if there are at least 6 observations per variable (category).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'>quick_sum</span><span class='op'>(</span>df<span class='op'>=</span><span class='va'>mtcars</span>, var<span class='op'>=</span><span class='va'>cyl</span>, <span class='va'>mpg</span>, <span class='va'>vs</span>, stats<span class='op'>=</span><span class='st'>"all"</span>, protect<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 26 x 10</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 26 x 10</span><span>
 #&gt;      mpg    vs Anzahl mean_cyl sd_cyl q10_cyl q25_cyl med_cyl q75_cyl q90_cyl
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  10.4     0      2        8      0       8       8       8       8       8
-#&gt; </span><span style='color: #555555;'> 2</span><span>  13.3     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
-#&gt; </span><span style='color: #555555;'> 3</span><span>  14.3     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
-#&gt; </span><span style='color: #555555;'> 4</span><span>  14.7     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
-#&gt; </span><span style='color: #555555;'> 5</span><span>  15       0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
-#&gt; </span><span style='color: #555555;'> 6</span><span>  15.2     0      2        8      0       8       8       8       8       8
-#&gt; </span><span style='color: #555555;'> 7</span><span>  15.5     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
-#&gt; </span><span style='color: #555555;'> 8</span><span>  15.8     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
-#&gt; </span><span style='color: #555555;'> 9</span><span>  16.4     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
-#&gt; </span><span style='color: #555555;'>10</span><span>  17.3     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
-#&gt; </span><span style='color: #555555;'># … with 16 more rows</span><span></div></span></pre>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>  10.4     0      2        8      0       8       8       8       8       8
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  13.3     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  14.3     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  14.7     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>  15       0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  15.2     0      2        8      0       8       8       8       8       8
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>  15.5     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  15.8     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  16.4     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  17.3     0      1        8     </span><span style='color: #BB0000;'>NA</span><span>       8       8       8       8       8
+#&gt; </span><span style='color: #949494;'># … with 16 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
