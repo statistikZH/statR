@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-Neben Funktionen zur Excel-Dateierzeugung und Visualisierungen beinhaltet `statR` auch zwei weitere Hilfsfunktionen. Die eine erleichtert das Erstellen von deskriptiven Übersichtstabellen. Die andere kann zur Generierung von individualisierten Farbpaletten verwendet werden.
+Neben Funktionen zur Excel-Dateierzeugung und Visualisierungen beinhaltet `statR` auch zwei weitere Hilfsfunktionen. `quick_sum()` erleichtert das Erstellen von deskriptiven Übersichtstabellen. `interpolate2()` kann zur Generierung von individualisierten Farbpaletten verwendet werden.
 
 # quick_sum()
 
