@@ -82,9 +82,13 @@ datasetsXLSX <- function(file,
                          sheetnames,
                          titles,
                          logo="statzh",
+                         titlesource = "statzh",
                          sources=NULL,
                          metadata1="",
-                         auftrag_id
+                         auftrag_id,
+                         contact = "statzh",
+                         homepage = "statzh",
+                         openinghours = "statzh"
 ){
 
   wb <- openxlsx::createWorkbook("data")
@@ -184,34 +188,61 @@ datasetsXLSX <- function(file,
   }
 
   # contact
-  contactdetails <- c("Datashop"
-                      ,"Tel.:  +41 43 259 75 00",
-                      "datashop@statistik.zh.ch")
-  openxlsx::writeData(wb
-                      ,sheet = "Inhalt"
-                      ,contactdetails
-                      ,xy = c("O", 2)
-  )
+  if(contact == "statzh") {
+    contact <- c("Datashop"
+                        ,"Tel.:  +41 43 259 75 00",
+                        "datashop@statistik.zh.ch")
+    openxlsx::writeData(wb
+                        ,sheet = "Inhalt"
+                        ,contact
+                        ,xy = c("O", 2)
+    )
+  } else {
+    openxlsx::writeData(wb
+                        ,sheet = "Inhalt"
+                        ,contact
+                        ,xy = c("O", 2))
+  }
 
-  homepage <- "http://www.statistik.zh.ch"
-  class(homepage) <- 'hyperlink'
-  openxlsx::writeData(wb
-                      ,"Inhalt"
-                      ,x = homepage
-                      ,xy = c("O", 5)
-  )
+  if(homepage == "statzh") {
 
-  openinghours <- c("Bürozeiten"
-                    ,"Montag bis Freitag"
-                    ,"09:00 bis 12:00"
-                    ,"13:00 bis 16:00")
+    homepage <- "http://www.statistik.zh.ch"
+    class(homepage) <- 'hyperlink'
+    openxlsx::writeData(wb
+                        ,"Inhalt"
+                        ,x = homepage
+                        ,xy = c("O", 5))
+  } else {
+    class(homepage) <- 'hyperlink'
+    openxlsx::writeData(wb
+                        ,"Inhalt"
+                        ,x = homepage
+                        ,xy = c("O", 5))
+  }
 
-  openxlsx::writeData(wb
-                      ,sheet = "Inhalt"
-                      ,openinghours
-                      ,xy = c("R", 2)
+  if(openinghours == "statzh") {
 
-  )
+    openinghours <- c("Bürozeiten"
+                      ,"Montag bis Freitag"
+                      ,"09:00 bis 12:00"
+                      ,"13:00 bis 16:00")
+
+    openxlsx::writeData(wb
+                        ,sheet = "Inhalt"
+                        ,openinghours
+                        ,xy = c("R", 2)
+
+    )
+
+  } else {
+
+    openxlsx::writeData(wb
+                        ,sheet = "Inhalt"
+                        ,openinghours
+                        ,xy = c("R", 2))
+
+  }
+
 
 
   # headerline
@@ -260,12 +291,27 @@ datasetsXLSX <- function(file,
                       ,xy = c("C", 10)
   )
 
-  # source
-  openxlsx::writeData(wb
-                      ,"Inhalt"
-                      ,"Quelle: Statistisches Amt des Kantons Zürich"
-                      ,xy = c("C", 11)
-  )
+
+  if(titlesource=="statzh"){
+
+    # source
+    openxlsx::writeData(wb
+                        ,"Inhalt"
+                        ,"Quelle: Statistisches Amt des Kantons Zürich"
+                        ,xy = c("C", 11)
+    )
+
+  }else {
+
+    openxlsx::writeData(wb
+                        ,"Inhalt"
+                        , titlesource
+                        ,xy = c("C", 11))
+
+  }
+
+
+
 
   # subtitle
   subtitleStyle <- openxlsx::createStyle(fontSize=11, textDecoration="bold",fontName="Arial", halign = "left")
