@@ -17,9 +17,13 @@
 #' @param sheetnames names of the sheet tabs.
 #' @param titles titles of the different sheets.
 #' @param logo file path to the logo to be included in the index-sheet (default: Logo of the Statistical Office ZH)
+#' @param titlesource source to be mentioned on the title sheet beneath the title
 #' @param sources source of the data. Defaults to "statzh".
 #' @param metadata1 metadata information to be included. Defaults to NA.
 #' @param auftrag_id order number.
+#' @param contact contact information on the title sheet. Defaults to statzh
+#' @param homepage web address to be put on the title sheet. Default to statzh
+#' @param openinghours openinghours written on the title sheet. Defaults to Data Shop
 #' @keywords datasetsXLSX
 #' @export
 #' @examples
@@ -188,61 +192,75 @@ datasetsXLSX <- function(file,
   }
 
   # contact
-  if(contact == "statzh") {
-    contact <- c("Datashop"
-                        ,"Tel.:  +41 43 259 75 00",
-                        "datashop@statistik.zh.ch")
-    openxlsx::writeData(wb
-                        ,sheet = "Inhalt"
-                        ,contact
-                        ,xy = c("O", 2)
-    )
-  } else {
-    openxlsx::writeData(wb
-                        ,sheet = "Inhalt"
-                        ,contact
-                        ,xy = c("O", 2))
-  }
 
-  if(homepage == "statzh") {
-
-    homepage <- "http://www.statistik.zh.ch"
-    class(homepage) <- 'hyperlink'
-    openxlsx::writeData(wb
-                        ,"Inhalt"
-                        ,x = homepage
-                        ,xy = c("O", 5))
-  } else {
-    class(homepage) <- 'hyperlink'
-    openxlsx::writeData(wb
-                        ,"Inhalt"
-                        ,x = homepage
-                        ,xy = c("O", 5))
-  }
-
-  if(openinghours == "statzh") {
-
-    openinghours <- c("Bürozeiten"
-                      ,"Montag bis Freitag"
-                      ,"09:00 bis 12:00"
-                      ,"13:00 bis 16:00")
-
-    openxlsx::writeData(wb
-                        ,sheet = "Inhalt"
-                        ,openinghours
-                        ,xy = c("R", 2)
-
-    )
-
-  } else {
-
-    openxlsx::writeData(wb
-                        ,sheet = "Inhalt"
-                        ,openinghours
-                        ,xy = c("R", 2))
+  if(!is.null(contact)){
+    if(any(grepl(contact, pattern = "statzh"))) {
+      contact <- c("Datashop"
+                   ,"Tel.:  +41 43 259 75 00",
+                   "datashop@statistik.zh.ch")
+      openxlsx::writeData(wb
+                          ,sheet = "Inhalt"
+                          ,contact
+                          ,xy = c("O", 2)
+      )
+    } else {
+      openxlsx::writeData(wb
+                          ,sheet = "Inhalt"
+                          ,contact
+                          ,xy = c("O", 2))
+    }
 
   }
 
+
+  if(!is.null(homepage)){
+
+    if(any(grepl(homepage, pattern = "statzh"))) {
+
+      homepage <- "http://www.statistik.zh.ch"
+      class(homepage) <- 'hyperlink'
+      openxlsx::writeData(wb
+                          ,"Inhalt"
+                          ,x = homepage
+                          ,xy = c("O", 5))
+    } else {
+      class(homepage) <- 'hyperlink'
+      openxlsx::writeData(wb
+                          ,"Inhalt"
+                          ,x = homepage
+                          ,xy = c("O", 5))
+    }
+
+  }
+
+
+
+  if(!is.null(openinghours)){
+
+    if(any(grepl(openinghours, pattern = "statzh"))) {
+
+      openinghours <- c("Bürozeiten"
+                        ,"Montag bis Freitag"
+                        ,"09:00 bis 12:00"
+                        ,"13:00 bis 16:00")
+
+      openxlsx::writeData(wb
+                          ,sheet = "Inhalt"
+                          ,openinghours
+                          ,xy = c("R", 2)
+
+      )
+
+    } else {
+
+      openxlsx::writeData(wb
+                          ,sheet = "Inhalt"
+                          ,openinghours
+                          ,xy = c("R", 2))
+
+    }
+
+  }
 
 
   # headerline
@@ -292,7 +310,7 @@ datasetsXLSX <- function(file,
   )
 
 
-  if(titlesource=="statzh"){
+  if(any(grepl(titlesource, pattern = "statzh"))){
 
     # source
     openxlsx::writeData(wb

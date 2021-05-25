@@ -15,9 +15,13 @@ datasetsXLSX(
   sheetnames,
   titles,
   logo = "statzh",
+  titlesource = "statzh",
   sources = NULL,
   metadata1 = "",
-  auftrag_id
+  auftrag_id,
+  contact = "statzh",
+  homepage = "statzh",
+  openinghours = "statzh"
 )
 }
 \arguments{
@@ -41,11 +45,19 @@ datasetsXLSX(
 
 \item{logo}{file path to the logo to be included in the index-sheet (default: Logo of the Statistical Office ZH)}
 
+\item{titlesource}{source to be mentioned on the title sheet beneath the title}
+
 \item{sources}{source of the data. Defaults to "statzh".}
 
 \item{metadata1}{metadata information to be included. Defaults to NA.}
 
 \item{auftrag_id}{order number.}
+
+\item{contact}{contact information on the title sheet. Defaults to statzh}
+
+\item{homepage}{web address to be put on the title sheet. Default to statzh}
+
+\item{openinghours}{openinghours written on the title sheet. Defaults to Data Shop}
 }
 \description{
 Function to export several datasets and/or figures from R to an .xlsx-file. The function creates an overview sheet and separate sheets
