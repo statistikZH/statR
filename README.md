@@ -7,7 +7,9 @@ Mit dem `statR`-Package können mit dem Corporate Design des Kantons Zürich kon
 
 - generische Farbpaletten für Datenvisualisierungen
 
-- `ggplot2` themes
+- ein `ggplot2` theme
+
+- ein Template für Html-Berichte
 
 
 # Installation
