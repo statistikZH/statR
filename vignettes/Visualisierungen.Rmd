@@ -35,7 +35,8 @@ ggplot(mpg, aes(class,fill = drv))+
              axis.label.pos = "top",
              axis.lines = "x",
              ticks = "x",
-             minor.grid.lines = FALSE)
+             minor.grid.lines = FALSE) +
+  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
 ```
 
 # Farbpaletten
