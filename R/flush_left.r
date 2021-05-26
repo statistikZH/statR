@@ -6,7 +6,6 @@
 #' @param g ggplot object
 #' @keywords flush left
 #' @importFrom ggplot2 ggplotGrob
-#' @export
 #' @examples
 #'\dontrun{
 #' flush_left(ggplot(mtcars, aes( x = cyl))+

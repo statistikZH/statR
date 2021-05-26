@@ -3,7 +3,6 @@
 export(datasetsXLSX)
 export(display)
 export(display.statcol.all)
-export(flush_left)
 export(insert_worksheet)
 export(interpolate2)
 export(quickXLSX)
