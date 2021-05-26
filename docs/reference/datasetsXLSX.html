@@ -161,9 +161,13 @@ for each dataset/figure.</p>
   <span class='va'>sheetnames</span>,
   <span class='va'>titles</span>,
   logo <span class='op'>=</span> <span class='st'>"statzh"</span>,
+  titlesource <span class='op'>=</span> <span class='st'>"statzh"</span>,
   sources <span class='op'>=</span> <span class='cn'>NULL</span>,
   metadata1 <span class='op'>=</span> <span class='st'>""</span>,
-  <span class='va'>auftrag_id</span>
+  <span class='va'>auftrag_id</span>,
+  contact <span class='op'>=</span> <span class='st'>"statzh"</span>,
+  homepage <span class='op'>=</span> <span class='st'>"statzh"</span>,
+  openinghours <span class='op'>=</span> <span class='st'>"statzh"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -210,6 +214,10 @@ for each dataset/figure.</p>
       <td><p>file path to the logo to be included in the index-sheet (default: Logo of the Statistical Office ZH)</p></td>
     </tr>
     <tr>
+      <th>titlesource</th>
+      <td><p>source to be mentioned on the title sheet beneath the title</p></td>
+    </tr>
+    <tr>
       <th>sources</th>
       <td><p>source of the data. Defaults to "statzh".</p></td>
     </tr>
@@ -220,6 +228,18 @@ for each dataset/figure.</p>
     <tr>
       <th>auftrag_id</th>
       <td><p>order number.</p></td>
+    </tr>
+    <tr>
+      <th>contact</th>
+      <td><p>contact information on the title sheet. Defaults to statzh</p></td>
+    </tr>
+    <tr>
+      <th>homepage</th>
+      <td><p>web address to be put on the title sheet. Default to statzh</p></td>
+    </tr>
+    <tr>
+      <th>openinghours</th>
+      <td><p>openinghours written on the title sheet. Defaults to Data Shop</p></td>
     </tr>
     </table>
 
