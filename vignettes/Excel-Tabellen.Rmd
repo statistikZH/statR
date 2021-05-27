@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 `statR` enthält mehrere Funktionen, mit welchen Datensätze aus `R` als Excel-Dateien exportiert werden können. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf.  
 
-Per Default wird bei allen Funktionen das Logo des Statistischen Amts eingefügt und es werden die Kontaktangaben des Datashops angegeben (`contactdetails = statzh, logo = NULL`). Mit den Funktionsargumenten können die Dateinamen, Titel, Quellenangaben sowie Metadaten und Namenskürzel spezifiziert werden. Um längere Quellen- und Metadatenangaben über mehrere Zeilen eines Arbeitsblatts zu verteilen, kann man sie in verschiedene Vektorelemente aufteilen (Beispiel: `c("Text Zeile 1, "Text Zeile 2", "Text Zeile 3")`. Mit dem Argument `grouplines` werden zudem vertikale Linien zwischen ausgewählten Spalten in der Excel-Tabelle eingefügt und die Spalten optisch voneinander separiert (aktuell nicht möglich bei `datasetsXLSX()`).   
+Per Default wird bei allen Funktionen das Logo des Statistischen Amts eingefügt und es werden die Kontaktangaben des Datashops angegeben (`contactdetails = statzh, logo = statzh`). Mit den Funktionsargumenten können die Dateinamen, Titel, Quellenangaben sowie Metadaten und Namenskürzel spezifiziert werden. Um längere Quellen- und Metadatenangaben über mehrere Zeilen eines Arbeitsblatts zu verteilen, kann man sie in verschiedene Vektorelemente aufteilen (Beispiel: `c("Text Zeile 1, "Text Zeile 2", "Text Zeile 3")`. Mit dem Argument `grouplines` werden zudem vertikale Linien zwischen ausgewählten Spalten in der Excel-Tabelle eingefügt und die Spalten optisch voneinander separiert (aktuell nicht möglich bei `datasetsXLSX()`).   
 
 Die Spalteninhalte können bei allen Funktionen entsprechend ihrer Einheit formatiert werden, indem pro Variablennamen die `class` festlegt wird. Mit `class(data$variable1) <- "percentage"` können die Werte der `variable1` (reichen von 0 bis 1) als Prozent mit Prozentzeichen ausgegeben werden. Weblinks können mit `class(data$variable2) <- "hyperlink"` aufrufbar gemacht werden und mit `class(data$variable3) <- "scientific"` können Zahlen in der wissenschaftlichen Notation dargestellt werden.
 
@@ -38,6 +38,7 @@ quickXLSX(data = dat,
           source = "Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411.",
           metadata = c("The data was extracted from the 1974 Motor Trend US magazine and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."),
           contactdetails = "statzh",
+          logo = "statzh",
           grouplines = FALSE,
           author = "MD")
 
@@ -65,7 +66,7 @@ splitXLSX(data = dat,
           metadata = c("The data was extracted from the 1974 Motor Trend US magazine and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."),
           contactdetails = "statzh",
           grouplines = FALSE,
-          logo = NULL,
+          logo = "statzh",
           author = "MD")
 ```
 
@@ -93,7 +94,8 @@ datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugefügt
                          "Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall."),
              metadata1 = c("Bemerkungen zum mtcars-Datensatz: x", 
                            "Bemerkungen zum PlantGrowth-Datensatz: x"),
-             auftrag_id="A2021_0000")
+             auftrag_id="A2021_0000", 
+             logo = "statzh")
 ```
 
 ![Screenshot des Titelblatts der Datei twoDatasets.xlsx](./output-datasetsXLSX-1.PNG){width=95%}
@@ -119,6 +121,7 @@ datasetsXLSX(file="twoDatasetsandFigure",
              startrows = c(0,0,3),
              startcols = c(0,0,3),
              sheetnames = c("Autos","Blumen", "Histogramm"),
+             logo = "statzh",
              titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
              sources = c("Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411.", 
                          "Source: Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall."),
