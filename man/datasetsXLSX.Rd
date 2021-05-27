@@ -43,7 +43,7 @@ datasetsXLSX(
 
 \item{titles}{titles of the different sheets.}
 
-\item{logo}{file path to the logo to be included in the index-sheet. (default: Logo of the Statistical Office ZH)}
+\item{logo}{file path to the logo to be included in the index-sheet. Can be "statzh" or "zh". Defaults to "statzh".}
 
 \item{titlesource}{source to be mentioned on the title sheet beneath the title}
 
@@ -53,9 +53,9 @@ datasetsXLSX(
 
 \item{auftrag_id}{order number.}
 
-\item{contact}{contact information on the title sheet. Defaults to statzh}
+\item{contact}{contact information on the title sheet. Defaults to "statzh"}
 
-\item{homepage}{web address to be put on the title sheet. Default to statzh}
+\item{homepage}{web address to be put on the title sheet. Default to "statzh"}
 
 \item{openinghours}{openinghours written on the title sheet. Defaults to Data Shop}
 }
@@ -67,6 +67,7 @@ for each dataset/figure.
 When including figures, the heights and widths need to be specified as a vector. For example, say you have two datasets and one figure
 that you would like to export. widths = c(0,0,5) then suggests that the figure will be 5 inches wide and placed in the third (and last) sheet of the file.
 The same logic applies to the specification of `startrows` and `startcols`.
+To include a ggplot2-plot, put a print statement around the ggplot2-object: list(..., ..., print(plot)).
 }
 \examples{
 \donttest{

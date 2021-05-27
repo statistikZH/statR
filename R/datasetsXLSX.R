@@ -6,6 +6,7 @@
 #' When including figures, the heights and widths need to be specified as a vector. For example, say you have two datasets and one figure
 #' that you would like to export. widths = c(0,0,5) then suggests that the figure will be 5 inches wide and placed in the third (and last) sheet of the file.
 #' The same logic applies to the specification of `startrows` and `startcols`.
+#' To include a ggplot2-plot, put a print statement around the ggplot2-object: list(..., ..., print(plot)).
 #'
 #' @param file file name of the spreadsheet. The extension ".xlsx" is added automatically.
 #' @param maintitle Title to be put on the first (overview) sheet.
@@ -16,13 +17,13 @@
 #' @param startcols column where upper left corner of figure should be placed. See details.
 #' @param sheetnames names of the sheet tabs.
 #' @param titles titles of the different sheets.
-#' @param logo file path to the logo to be included in the index-sheet. (default: Logo of the Statistical Office ZH)
+#' @param logo file path to the logo to be included in the index-sheet. Can be "statzh" or "zh". Defaults to "statzh".
 #' @param titlesource source to be mentioned on the title sheet beneath the title
 #' @param sources source of the data. Defaults to "statzh".
 #' @param metadata1 metadata information to be included. Defaults to NA.
 #' @param auftrag_id order number.
-#' @param contact contact information on the title sheet. Defaults to statzh
-#' @param homepage web address to be put on the title sheet. Default to statzh
+#' @param contact contact information on the title sheet. Defaults to "statzh"
+#' @param homepage web address to be put on the title sheet. Default to "statzh"
 #' @param openinghours openinghours written on the title sheet. Defaults to Data Shop
 #' @keywords datasetsXLSX
 #' @export
