@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 `statR` enthält mehrere Funktionen, mit welchen Datensätze aus `R` als Excel-Dateien exportiert werden können. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf.  
 
-Per Default wird bei allen Funktionen das Logo des Statistischen Amts eingefügt und es werden die Kontaktangaben des Datashops angegeben (`contactdetails = statzh, logo = statzh`). Mit den Funktionsargumenten können die Dateinamen, Titel, Quellenangaben sowie Metadaten und Namenskürzel spezifiziert werden. Um längere Quellen- und Metadatenangaben über mehrere Zeilen eines Arbeitsblatts zu verteilen, kann man sie in verschiedene Vektorelemente aufteilen (Beispiel: `c("Text Zeile 1, "Text Zeile 2", "Text Zeile 3")`. Mit dem Argument `grouplines` werden zudem vertikale Linien zwischen ausgewählten Spalten in der Excel-Tabelle eingefügt und die Spalten optisch voneinander separiert (aktuell nicht möglich bei `datasetsXLSX()`).   
+Per Default wird bei allen Funktionen das Logo des Statistischen Amts eingefügt und es werden die Kontaktangaben des Data Shops angegeben (`contactdetails = "statzh", logo = "statzh", source = "statzh"`). Mit den Funktionsargumenten können die Dateinamen, Titel, Quellenangaben sowie Metadaten und Namenskürzel spezifiziert werden. Um längere Quellen- und Metadatenangaben über mehrere Zeilen eines Arbeitsblatts zu verteilen, kann man sie in verschiedene Vektorelemente aufteilen (Beispiel: `c("Text Zeile 1, "Text Zeile 2", "Text Zeile 3")`. Mit dem Argument `grouplines` werden zudem vertikale Linien zwischen ausgewählten Spalten in der Excel-Tabelle eingefügt und die Spalten optisch voneinander separiert (aktuell nicht möglich bei `datasetsXLSX()`).   
 
 Die Spalteninhalte können bei allen Funktionen entsprechend ihrer Einheit formatiert werden, indem pro Variablennamen die `class` festlegt wird. Mit `class(data$variable1) <- "percentage"` können die Werte der `variable1` (reichen von 0 bis 1) als Prozent mit Prozentzeichen ausgegeben werden. Weblinks können mit `class(data$variable2) <- "hyperlink"` aufrufbar gemacht werden und mit `class(data$variable3) <- "scientific"` können Zahlen in der wissenschaftlichen Notation dargestellt werden.
 
@@ -95,7 +95,11 @@ datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugefügt
              metadata1 = c("Bemerkungen zum mtcars-Datensatz: x", 
                            "Bemerkungen zum PlantGrowth-Datensatz: x"),
              auftrag_id="A2021_0000", 
-             logo = "statzh")
+             logo = "statzh",
+             homepage = "statzh",
+             contact = "statzh",
+             openinghours = "statzh",
+             titlesource = "Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411.")
 ```
 
 ![Screenshot des Titelblatts der Datei twoDatasets.xlsx](./output-datasetsXLSX-1.PNG){width=95%}
@@ -105,7 +109,8 @@ datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugefügt
 
 Um eine Grafik in die Excel-Datei einzufügen, muss sie der `datasets`-Liste hinzugefügt werden: `datasets = list(dataset1, dataset2, grafik1)`.  
 
-Mit den Argumenten `startrows` und `startcols` kann bestimmt werden, wo im Arbeitsblatt die Grafik platziert werden soll und mit `widths` und `heights` kann man die Höhe und die Breite ajustieren (aktuell in Zoll/*inches*, 1 Zoll = 2.54 cm). Die Grösse und Position wird mittels eines Vektors bestimmt, wobei es pro Arbeitsblatt ein Vektorelement gibt. Die Vektorelemente müssen überall auf `= 0` gesetzt sein ausser bei den Visualisierungen. Bei zwei Datensätzen und einer Grafik sieht der Vektor bspw. folgendermassen aus: `c(0,0,4)`. Hätte man einen Datensatz und zwei Grafiken, sähe der Vektor hingegen so aus: `c(0,4,4)`.
+Mit den Argumenten `startrows` und `startcols` kann bestimmt werden, wo im Arbeitsblatt die Grafik platziert werden soll und mit `widths` und `heights` kann man die Höhe und die Breite adjustieren (aktuell in Zoll/*inches*, 1 Zoll = 2.54 cm). Die Grösse und Position wird mittels eines Vektors bestimmt, wobei es pro Arbeitsblatt ein Vektorelement gibt. Die Vektorelemente müssen überall auf `= 0` gesetzt sein ausser bei den Visualisierungen. Bei zwei Datensätzen und einer Grafik sieht der Vektor bspw. folgendermassen aus: `c(0,0,4)`. Hätte man einen Datensatz und zwei Grafiken, sähe der Vektor hingegen so aus: `c(0,4,4)`.  
+
 
 ```{r,echo=T,eval=F}
 
@@ -127,6 +132,9 @@ datasetsXLSX(file="twoDatasetsandFigure",
                          "Source: Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall."),
              metadata1 = c("Bemerkungen zum mtcars-Datensatz: x", 
                            "Bemerkungen zum PlantGrowth-Datensatz: x"),
-             auftrag_id="A2021_0000")
+             auftrag_id="A2021_0000",
+             contact = "statzh",
+             openinghours = "statzh",
+             titlesource = "Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411.")
 ```
 
