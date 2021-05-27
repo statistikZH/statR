@@ -23,7 +23,7 @@
 
 
 insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
-                             source="statzh", metadata = NA, logo=NULL,
+                             source="statzh", metadata = NA, logo= "statzh",
                              grouplines = FALSE, contactdetails="statzh",
                              author = "user") {
 
@@ -100,9 +100,9 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
   if(nchar(sheetname)>31){warning("sheetname is cut to 31 characters (limit imposed by MS-Excel)")}
 
   ## Add worksheet
- # openxlsx::addWorksheet(wb,paste(substr(sheetname,0,31)))
+  # openxlsx::addWorksheet(wb,paste(substr(sheetname,0,31)))
 
- suppressWarnings(openxlsx::addWorksheet(wb,paste(substr(sheetname,0,31))))
+  suppressWarnings(openxlsx::addWorksheet(wb,paste(substr(sheetname,0,31))))
 
   i <- paste(substr(sheetname,0,31))
 
@@ -116,30 +116,38 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
 
   #Logo
 
+  if(!is.null(logo)){
 
-statzh <- paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png")
+    if(logo == "statzh") {
 
-#
-statzh <- statzh[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png"))]
+      statzh <- paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png")
+      openxlsx::insertImage(wb, i, statzh[1], width = 2.145, height = 0.7865,
+                            units = "in")
+    } else if(logo == "zh"){
 
- if(is.character(logo)){statzh <- paste0(logo)}
+      zh <- paste0(.libPaths(),"/statR/extdata/Stempel_Kanton_ZH.png")
+
+      openxlsx::insertImage(wb, i, zh[1], width = 2.145, height = 0.7865,
+                            units = "in")
+    } else if((logo != "statzh" | logo != "zh") & file.exists(logo)) {
+
+      openxlsx::insertImage(wb, i, logo, width = 2.145, height = 0.7865,
+                            units = "in")
+    } else {
+
+      message("no logo found and / or added")
+    }
+  }
 
 
- if (file.exists(statzh)) {
-
-    openxlsx::insertImage(wb, i, statzh[1], width = 2.145, height = 0.7865,
-                          units = "in")
- } else {
-
-   message("no logo found and / or added")}
 
 
   #standard contactdetails
   if(contactdetails=="statzh"){
 
     contactdetails <- c("Datashop, Tel: 0432597500",
-                       "datashop@statistik.ji.zh.ch",
-                       "http://www.statistik.zh.ch")
+                        "datashop@statistik.ji.zh.ch",
+                        "http://www.statistik.zh.ch")
 
   }else {contactdetails}
 
