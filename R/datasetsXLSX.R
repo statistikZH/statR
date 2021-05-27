@@ -16,7 +16,7 @@
 #' @param startcols column where upper left corner of figure should be placed. See details.
 #' @param sheetnames names of the sheet tabs.
 #' @param titles titles of the different sheets.
-#' @param logo file path to the logo to be included in the index-sheet (default: Logo of the Statistical Office ZH)
+#' @param logo file path to the logo to be included in the index-sheet. (default: Logo of the Statistical Office ZH)
 #' @param titlesource source to be mentioned on the title sheet beneath the title
 #' @param sources source of the data. Defaults to "statzh".
 #' @param metadata1 metadata information to be included. Defaults to NA.
@@ -38,6 +38,7 @@
 #'datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugefügt
 #'             maintitle = "Autos und Pflanzen",
 #'             datasets = list(dat1, dat2),
+#'             logo = "statzh",
 #'             sheetnames = c("Autos","Blumen"),
 #'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
 #'             sources = c("Source: Henderson and Velleman (1981).
@@ -175,20 +176,49 @@ datasetsXLSX <- function(file,
 
   if(!is.null(logo)){
 
-    if(logo=="statzh") logo <- paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png")
+    if(logo=="statzh") {
 
-    #
-    logo <- logo[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png"))]
+      logo <- paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png")
 
-  openxlsx::insertImage(wb,
-                        "Inhalt",
-                        file=logo,
-                        startRow = 2,
-                        startCol = 2,
-                        width = 2.5,
-                        height = 0.9,
-                        units = "in"
-  )
+      #
+      logo <- logo[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png"))]
+
+      openxlsx::insertImage(wb,
+                            "Inhalt",
+                            file=logo,
+                            startRow = 2,
+                            startCol = 2,
+                            width = 2.5,
+                            height = 0.9,
+                            units = "in")
+
+    } else if(logo == "zh"){
+
+      logo <- paste0(.libPaths(),"/statR/extdata/Stempel_Kanton_ZH.png")
+
+      #
+      logo <- logo[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_Kanton_ZH.png"))]
+
+      openxlsx::insertImage(wb,
+                            "Inhalt",
+                            file=logo,
+                            startRow = 2,
+                            startCol = 2,
+                            width = 2.5,
+                            height = 0.9,
+                            units = "in")
+
+
+    } else if(file.exists(logo)) {
+
+      openxlsx::insertImage(wb, i, logo, width = 2.145, height = 0.7865,
+                            units = "in")
+    }
+    if(!file.exists(logo)) {
+
+      message("no logo found and / or added")
+    }
+
   }
 
   # contact

@@ -43,7 +43,7 @@ datasetsXLSX(
 
 \item{titles}{titles of the different sheets.}
 
-\item{logo}{file path to the logo to be included in the index-sheet (default: Logo of the Statistical Office ZH)}
+\item{logo}{file path to the logo to be included in the index-sheet. (default: Logo of the Statistical Office ZH)}
 
 \item{titlesource}{source to be mentioned on the title sheet beneath the title}
 
@@ -80,6 +80,7 @@ dat2 <- PlantGrowth
 datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugefügt
             maintitle = "Autos und Pflanzen",
             datasets = list(dat1, dat2),
+            logo = "statzh",
             sheetnames = c("Autos","Blumen"),
             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
             sources = c("Source: Henderson and Velleman (1981).
