@@ -11,7 +11,7 @@ insert_worksheet(
   title = "Title",
   source = "statzh",
   metadata = NA,
-  logo = NULL,
+  logo = "statzh",
   grouplines = FALSE,
   contactdetails = "statzh",
   author = "user"

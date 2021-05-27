@@ -11,7 +11,7 @@ splitXLSX(
   title = "Titel",
   source = "statzh",
   metadata = NA,
-  logo = NULL,
+  logo = "statzh",
   grouplines = FALSE,
   contactdetails = "statzh",
   author = "user"
@@ -58,7 +58,7 @@ splitXLSX(data = dat,
          32 automobiles (1973–74 models)."),
          contactdetails = "statzh",
          grouplines = FALSE,
-         logo = NULL,
+         logo = "statzh",
          author = "user")
 }
 \keyword{splitXLSX}

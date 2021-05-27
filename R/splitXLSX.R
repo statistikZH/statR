@@ -25,7 +25,7 @@
 #'          32 automobiles (1973–74 models)."),
 #'          contactdetails = "statzh",
 #'          grouplines = FALSE,
-#'          logo = NULL,
+#'          logo = "statzh",
 #'          author = "user")
 
 # Function
@@ -36,7 +36,7 @@ splitXLSX <- function (data,
                        title="Titel",
                        source="statzh",
                        metadata = NA,
-                       logo=NULL,
+                       logo="statzh",
                        grouplines = FALSE,
                        contactdetails="statzh",
                        author = "user")
