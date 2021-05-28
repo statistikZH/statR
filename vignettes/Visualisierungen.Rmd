@@ -166,8 +166,10 @@ ggplot(data, aes(Jahr, value ,color=name)) +
 
 # Grafiken fürs ZHWeb
 
+Bei Grafiken, welche auf [zh.ch](zh.ch) Publiziert werden sollen, gilt es folgendes zu berücksichtigen:
+
 - Maximale Bildgrösse 4000x4000
-- Grafik-Titel / Untertitel, Legende, Quelle und Alt-Text können direkt im ZHWeb hinterlegt werden
+- Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden
 
 ```{r}
 

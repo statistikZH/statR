@@ -211,7 +211,7 @@ for each dataset/figure.</p>
     </tr>
     <tr>
       <th>logo</th>
-      <td><p>file path to the logo to be included in the index-sheet (default: Logo of the Statistical Office ZH)</p></td>
+      <td><p>file path to the logo to be included in the index-sheet. Can be "statzh" or "zh". Defaults to "statzh".</p></td>
     </tr>
     <tr>
       <th>titlesource</th>
@@ -231,11 +231,11 @@ for each dataset/figure.</p>
     </tr>
     <tr>
       <th>contact</th>
-      <td><p>contact information on the title sheet. Defaults to statzh</p></td>
+      <td><p>contact information on the title sheet. Defaults to "statzh"</p></td>
     </tr>
     <tr>
       <th>homepage</th>
-      <td><p>web address to be put on the title sheet. Default to statzh</p></td>
+      <td><p>web address to be put on the title sheet. Default to "statzh"</p></td>
     </tr>
     <tr>
       <th>openinghours</th>
@@ -247,7 +247,8 @@ for each dataset/figure.</p>
 
     <p>When including figures, the heights and widths need to be specified as a vector. For example, say you have two datasets and one figure
 that you would like to export. widths = c(0,0,5) then suggests that the figure will be 5 inches wide and placed in the third (and last) sheet of the file.
-The same logic applies to the specification of `startrows` and `startcols`.</p>
+The same logic applies to the specification of `startrows` and `startcols`.
+To include a ggplot2-plot, put a print statement around the ggplot2-object: list(..., ..., print(plot)).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
@@ -261,6 +262,7 @@ The same logic applies to the specification of `startrows` and `startcols`.</p>
 <span class='fu'>datasetsXLSX</span><span class='op'>(</span>file<span class='op'>=</span><span class='st'>"twoDatasets"</span>, <span class='co'># '.xlsx' wird automatisch hinzugefügt</span>
             maintitle <span class='op'>=</span> <span class='st'>"Autos und Pflanzen"</span>,
             datasets <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>dat1</span>, <span class='va'>dat2</span><span class='op'>)</span>,
+            logo <span class='op'>=</span> <span class='st'>"statzh"</span>,
             sheetnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Autos"</span>,<span class='st'>"Blumen"</span><span class='op'>)</span>,
             titles <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mtcars-Datensatz"</span>,<span class='st'>"PlantGrowth-Datensatz"</span><span class='op'>)</span>,
             sources <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Source: Henderson and Velleman (1981).

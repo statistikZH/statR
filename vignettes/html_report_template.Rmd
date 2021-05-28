@@ -14,9 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(statR)
-```
+
+<i class="fa fa-exclamation-circle" aria-hidden="true"></i> __Alpha-Version__<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+
 
 Das statR-Package enthält ein Template für html-Berichte, die dem kantonalen Corporate Design entsprechen.  
 
