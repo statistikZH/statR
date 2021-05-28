@@ -1,23 +1,32 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway|Ubuntu+Mono');
 
-h1, h2, h3, h4, h5{
-  color: #293c55;
+h1, h2, h3, h4 {
+    	font-family: HelveticaNowBlack,"Arial Black",Helvetica,sans-serif;
+    	color: #000;
+    }
+
+
+*{
+  font-family: HelveticaNowRegular, Helvetica, sans-serif;
 }
 
-body{
-  font-family: 'Raleway', sans-serif;
-}
+body {
+    	font-size: 16px;
+    	line-height: 1.5;
+    	position: relative;
+    	text-decoration: none;
+    }
 
 code{
   font-family: 'Ubuntu Mono', monospace;
 }
 
 p>a {
-  color: #FF6B00;
+  color:  #66c4ff;
 }
 
 li>a {
-  color: #FF6B00;
+  color:  #66c4ff;
 }
 
 .sourceCode>a{
@@ -74,25 +83,25 @@ pre {
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
-    color: #FF6B00;
+    color: #66c4ff;
     background-color: #293c55;
 }
 
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-    color: #FF5400;
+    color: #66c4ff;
 }
 
  .navbar-default .navbar-nav .open .dropdown-menu>li>a, .navbar-default .navbar-nav .open .dropdown-menu {
   border-color: #FFFFFF;
   background-color: #293c55;
-  color : #FF6B00;
+  color : #66c4ff;
 }
 
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
     color: #293c55;
-    background-color: #FF6B00;
+    background-color: #66c4ff;
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
