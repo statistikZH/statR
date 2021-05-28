@@ -17,7 +17,7 @@ datasetsXLSX(
   logo = "statzh",
   titlesource = "statzh",
   sources = "statzh",
-  metadata1 = "",
+  metadata1 = NA,
   auftrag_id = NULL,
   contact = "statzh",
   homepage = "statzh",
