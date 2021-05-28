@@ -50,7 +50,7 @@ insert_worksheet_nh <- function(data,
                                 workbook,
                                 sheetname="data",
                                 title="Title",
-                                source="Quelle: Statistisches Amt Kanton Zürich",
+                                source="statzh",
                                 metadata = NA,
                                 grouplines = FALSE
 ) {
@@ -135,6 +135,13 @@ insert_worksheet_nh <- function(data,
 
 
   ##Quelle
+  if(source=="statzh"){
+
+    source <- "Quelle: Statistisches Amt des Kantons Zürich"
+
+  } else {source}
+
+
   openxlsx::addStyle(wb
                      ,sheet = i
                      ,subtitle
@@ -168,7 +175,7 @@ insert_worksheet_nh <- function(data,
 
 
   # Metadaten zusammenmergen
-  purrr::walk(1:(2+length(metadata)+length(source)), ~openxlsx::mergeCells(wb, sheet = i, cols = 1:26, rows = .))
+  purrr::walk(1:(4+length(metadata)), ~openxlsx::mergeCells(wb, sheet = i, cols = 1:26, rows = .))
 
   # Daten abfüllen
   openxlsx::writeData(wb,
