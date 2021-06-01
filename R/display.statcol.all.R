@@ -29,10 +29,10 @@ display.statcol.all<-function() {
     ggplot2::guides(color=FALSE)+
     ggplot2::theme_minimal()+
     ggplot2::theme(axis.ticks=ggplot2::element_blank(),
-                   axis.text=ggplot2::element_blank(),
-                   axis.title=ggplot2::element_blank(),
-                   panel.grid=ggplot2::element_blank())
+                   axis.text=ggplot2::element_blank()) +
+    ggplot2::xlab("") +
+    ggplot2::ylab("")
 
-  gg1
+  print(gg1)
 
 }
