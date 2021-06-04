@@ -2,18 +2,29 @@
 % Please edit documentation in R/splitXLSX.R
 \name{splitXLSX}
 \alias{splitXLSX}
-\title{splitXLSX}
+\title{splitXLSX()}
 \usage{
-splitXLSX(data, file, sheetvar, ...)
+splitXLSX(
+  data,
+  file,
+  sheetvar,
+  title = "Titel",
+  source = "statzh",
+  metadata = NA,
+  logo = "statzh",
+  grouplines = FALSE,
+  contactdetails = "statzh",
+  author = "user"
+)
 }
 \arguments{
-\item{data}{data to be included in the XLSX-table.}
+\item{data}{data to be exported.}
 
-\item{file}{filename of the xlsx-file. No Default.}
+\item{file}{file name of the xlsx-file. The extension ".xlsx" is added automatically.}
 
-\item{sheetvar}{variable which contains the variable to be used to split the data across several sheets.}
+\item{sheetvar}{name of the variable used to split the data and spread them over several sheets.}
 
-\item{name}{title of the table in the worksheet, defaults to "Titel" + the value of the variable used to split the dataset across sheets.}
+\item{title}{title to be put above the data in the worksheet. the sheetvar subcategory is added in brackets.}
 
 \item{source}{source of the data. Defaults to "statzh".}
 
@@ -21,19 +32,33 @@ splitXLSX(data, file, sheetvar, ...)
 
 \item{logo}{path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"}
 
+\item{grouplines}{columns to be separated visually by vertical lines.}
+
 \item{contactdetails}{contactdetails of the data publisher. Defaults to "statzh".}
 
-\item{grouplines}{columns to be separated visually by vertical lines.}
+\item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
-Function to create formatted spreadsheets automatically
+Function to export data from R as formatted .xlsx-file and spread them over several worksheets based on a grouping variable (e.g., year).
 }
 \examples{
-# Generation of a spreadsheet with four worksheets (one per 'carb'-category).
-# Can be used to generate worksheets for multiple years.
 
-splitXLSX(mtcars[c(1:10),],"mtcars",carb,grouplines=c(1,5,6))
+dat <- mtcars
 
-splitXLSX(head(mtcars),carb, file="filename",grouplines = c(1,2,3), metadata = "remarks: ....",source="canton of zurich",logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
+splitXLSX(data = dat,
+         title = "Motor trend car road tests",
+         file = "motor_trend_car_road_tests", # '.xlsx' automatically added
+         sheetvar = cyl,
+         source = "Source: Henderson and Velleman (1981),
+         Building multiple regression models interactively.
+         Biometrics, 37, 391–411.",
+         metadata = c("The data was extracted from the 1974
+         Motor Trend US magazine and comprises fuel consumption and
+         10 aspects of automobile design and performance for
+         32 automobiles (1973–74 models)."),
+         contactdetails = "statzh",
+         grouplines = FALSE,
+         logo = "statzh",
+         author = "user")
 }
 \keyword{splitXLSX}

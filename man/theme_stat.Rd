@@ -4,16 +4,42 @@
 \alias{theme_stat}
 \title{theme_stat()}
 \usage{
-theme_stat(base_size = 11)
+theme_stat(
+  base_size = 11,
+  axis.label.pos = "top",
+  axis.lines = "x",
+  ticks = "x",
+  minor.grid.lines = FALSE
+)
 }
 \arguments{
-\item{base_size}{base font size}
+\item{base_size}{base font size, given in pts.}
+
+\item{axis.label.pos}{position of x and y-axis labels, can be set to "top", "center", or "bottom".}
+
+\item{axis.lines}{presence of axis lines, can be set to "x", "y", or "both".}
+
+\item{ticks}{presence of axis ticks, can be set to "x", "y", or "both".}
+
+\item{minor.grid.lines}{presence of minor grid lines on the y-axis, can be set to TRUE or FALSE.}
 }
 \description{
-Stat ZH Theme for ggplot2
+This ggplot2 theme is based on ggplot2::theme_minimal(). It controls the non-data related characteristics of a plot (e.g., the font type).
+On top of that, the font size, the presence (or absence) of minor grid lines, axis lines, axis ticks and the axis label positions can be specified.
+}
+\details{
+To use this theme in a R Markdown generated PDF document, insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
 }
 \examples{
-theme_stat()
+\donttest{
+\dontrun{
+library(ggplot2)
+library(statR)
 
+ggplot(mpg, aes(class)) +
+geom_bar() +
+theme_stat() +
+labs(title = "Title")
+}}
 }
 \keyword{theme_stat}

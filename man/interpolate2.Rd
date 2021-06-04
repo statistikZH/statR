@@ -7,20 +7,20 @@
 interpolate2(palette, color = color, degree = degree, number = number)
 }
 \arguments{
-\item{palette}{a vector of colors to be interpolated to the same degree with the same color to generate uniform color palettes}
+\item{palette}{a vector of colors to be interpolated}
 
-\item{color}{a single color (hex-code) to be mixed with the colors in the 'palette'.}
+\item{color}{color (hex-code) to be mixed with the colors in the 'palette'.}
 
 \item{degree}{degree of interpolation, range: 1 (slight interpolation) - 7 (strong interpolation).}
 
-\item{number}{number of colours to be generated.}
+\item{number}{number of colors to be generated.}
 }
 \description{
-generate new palettes by interpolation
+Function to generate new color palettes by interpolation.
 }
 \examples{
-#interpolate the 'zhblue'-palette with black and generate 11 new hues.
-interpolate2(zhpal$zhblue,"#000000",3,11)
+#interpolate the 'zhblue'-palette with black and generate 7 new ones
+interpolate2(palette = zhpal$zhblue, color = c("#000000"), degree = 3, number = 7)
 
 }
 \keyword{interpolate2}

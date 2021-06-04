@@ -4,7 +4,9 @@
 \name{zhpal}
 \alias{zhpal}
 \title{Data used by the stat zh palettes}
-\format{A \code{list}.}
+\format{
+A \code{list}.
+}
 \usage{
 zhpal
 }

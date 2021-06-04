@@ -7,7 +7,7 @@ library(scales)
 #' Data used by the stat zh palettes
 #'
 #' @format A \code{list}.
-#' @export
+#' @noRd
 #'
 stattheme_data <- {
 
@@ -197,191 +197,17 @@ stattheme_data <- {
 #'
 #' Stat ZH scales
 #' @keywords stattheme_pal
-#' @examples
-#' stattheme_pal()
+#' @noRd
 #'
 
 #Funktion für Palettenauswahl (ord./kat.)
 
 stattheme_pal <- function(palette = "default") {
   if (palette %in% names(x$stattheme_data)) {
-    manual_pal(unname( x$stattheme_data[[palette]]))
+    scales::manual_pal(unname( x$stattheme_data[[palette]]))
   } else {
     stop(sprintf("palette %s not a valid statZH palette.", palette))
   }
-}
-
-# scale_fill_stat()
-
-#' scale_fill_stat()
-#'
-#' Stat ZH scales
-#' @param
-#' @keywords scale_fill_stat
-#' @examples
-#' scale_fill_stat()
-#'
-# Funktion für Palettenauswahl (ord./kat.)
-
-scale_fill_stat <- function(palette = "zh",...) {
-
-  discrete_scale("fill", "stat", stattheme_pal(palette), ...)
-
-}
-
-# scale_colour_stat()
-
-#' scale_colour_stat()
-#'
-#' Stat ZH scales
-#' @keywords scale_colour_stat
-#' @examples
-#' scale_colour_stat()
-#'
-# Funktion für Palettenauswahl (ord./kat.)
-
-scale_color_stat <- scale_colour_stat <- function(palette = "zh",...) {
-
-  discrete_scale("colour", "stat", stattheme_pal(palette), ...)
-
-}
-
-#' scale_seq_gradient()
-#'
-#' Stat ZH scales
-#' @param
-#' @keywords scale_seq_gradient
-#' @examples
-#' scale_seq_gradient()
-#'
-# Funktion für sequentielle Paletten
-
-stat_seq_gradient_pal <- function(palette = "zhblue", space = "Lab") {
-  if (palette %in% names(x$stattheme_data[["sequential"]])) {
-    manual_pal(unname(x$stattheme_data[["sequential"]][[palette]]))
-  } else {
-    stop(sprintf("palette %s not a valid statZH palette.", palette))
-  }
-  pal <- x$stattheme_data[["sequential"]][[palette]]
-  seq_gradient_pal(low = pal["low"], high = pal["high"]
-  )
-}
-
-#' scale_color_gradient_stat()
-#'
-#' Stat ZH scales
-#' @param
-#' @keywords scale_color_gradient_stat
-#' @examples
-#' scale_color_gradient_stat()
-#'
-# Funktion für sequentielle Paletten
-
-scale_color_gradient_stat<- scale_colour_gradient_stat <- function(palette = "zhblueseq",
-                                                                   ...,
-                                                                   space = "Lab",
-                                                                   na.value = "grey50",
-                                                                   guide = "colourbar") {
-  continuous_scale("colour", "stat",
-                   stat_seq_gradient_pal(palette, space),
-                   na.value = na.value,
-                   guide = guide,
-                   ...)
-}
-
-#' scale_fill_gradient_stat()
-#'
-#' Stat ZH scales
-#' @param
-#' @keywords scale_fill_gradient_stat
-#' @examples
-#' scale_fill_gradient_stat()
-#'
-# Funktion für sequentielle Paletten
-
-scale_fill_gradient_stat<- function(palette = "zhblueseq",
-                                    ..., space = "Lab",
-                                    na.value = "grey50",
-                                    guide = "colourbar") {
-  continuous_scale("fill", "stat",
-                   stat_seq_gradient_pal(palette, space),
-                   na.value = na.value,
-                   guide = guide,
-                   ...)
-}
-
-#' mid_rescaler()
-#'
-#' Stat ZH scales
-#' @param
-#' @keywords mid_rescaler
-#' @examples
-#' mid_rescaler()
-#'
-# Function to define midpoint (diverging scales)
-
-mid_rescaler <- function(mid) {
-  function(x, to = c(0, 1), from = range(x, na.rm = TRUE)) {
-    rescale_mid(x, to, from, mid)
-  }
-}
-
-#' stat_div_gradient_pal()
-#'
-#' Stat ZH scales
-#' @param
-#' @keywords stat_div_gradient_pal
-#' @examples
-#' stat_div_gradient_pal()
-#'
-# Function to define midpoint (diverging scales)
-
-stat_div_gradient_pal <- function(palette = "zhbluered", space = "Lab") {
-  if (palette %in% names(x$stattheme_data[["diverging"]])) {
-    manual_pal(unname(x$stattheme_data[["diverging"]][[palette]]))
-  } else {
-    stop(sprintf("palette %s not a valid statZH palette.", palette))
-  }
-
-  pal <- x$stattheme_data[["diverging"]][[palette]]
-  div_gradient_pal(low = pal["low"], mid = pal["mid"], high = pal["high"],
-                   space = space)
-}
-
-#' scale_color_gradient2_stat()
-#'
-#' Stat ZH scales
-#' @param
-#' @keywords scale_color_gradient2_stat
-#' @examples
-#' scale_color_gradient2_stat()
-#'
-# Function for diverging scales
-
-scale_color_gradient2_stat <- scale_colour_gradient2_stat <- function(palette = "zhbluered",
-                                                                      ..., space = "Lab",
-                                                                      na.value = "grey50",
-                                                                      guide = "colourbar",
-                                                                      midpoint=0) {
-  continuous_scale("colour", "stat2",
-                   stat_div_gradient_pal(palette, space),
-                   na.value = na.value,
-                   guide = guide,
-                   rescaler = mid_rescaler(mid = midpoint),
-                   ...)
-}
-
-
-scale_fill_gradient2_stat <- function(palette = "zhbluered",
-                                      ..., space = "Lab",
-                                      na.value = "grey50",
-                                      guide = "colourbar", midpoint=0) {
-  continuous_scale("fill", "stat2",
-                   stat_div_gradient_pal(palette, space),
-                   na.value = na.value,
-                   guide = guide,
-                   rescaler = mid_rescaler(mid = midpoint),
-                   ...)
 }
 
 
@@ -392,36 +218,3 @@ scale_fill_gradient2_stat <- function(palette = "zhbluered",
 #'
 
 zhpal <- x$stattheme_data
-
-
-#' scale_color_gradientn_stat()
-#'
-#' Stat ZH scales
-#' @param
-#' @keywords scale_color_gradientn_stat
-#' @examples
-#' scale_color_gradientn_stat()
-#'
-# Function for customized scales with multiple hues
-
-
-scale_color_gradientn_stat <- scale_colour_gradientn_stat <- function(..., colours, values = NULL, space = "Lab", na.value = "grey50", guide = "colourbar", colors) {
-
-  if(missing(colours)) colours <- c("#FFE16F","#56BFB9","#003B5E")
-
-  colours <- if (missing(colours)) colors else colours
-
-  continuous_scale("colour", "gradientn",
-                   gradient_n_pal(colours, values, space), na.value = na.value, guide = guide, ...)
-}
-
-
-scale_fill_gradientn_stat <- function(..., colours, values = NULL, space = "Lab", na.value = "grey50", guide = "colourbar", colors) {
-
-  if(missing(colours)) colours <- c("#FFE16F","#56BFB9","#003B5E")
-
-  colours <- if (missing(colours)) colors else colours
-
-  continuous_scale("fill", "gradientn",
-                   gradient_n_pal(colours, values, space), na.value = na.value, guide = guide, ...)
-}

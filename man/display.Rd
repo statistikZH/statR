@@ -8,6 +8,10 @@ display(col, border = "light gray", ...)
 }
 \arguments{
 \item{col}{a vector of hex-code colors to be displayed}
+
+\item{border}{border color}
+
+\item{...}{further arguments that can be passed to the plot()-function}
 }
 \description{
 preview colors in console

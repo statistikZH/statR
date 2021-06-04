@@ -4,7 +4,11 @@
 #'
 #' preview colors in console
 #' @param col a vector of hex-code colors to be displayed
+#' @param border border color
+#' @param ... further arguments that can be passed to the plot()-function
 #' @keywords display
+#' @importFrom grDevices "colorRampPalette"
+#' @importFrom graphics "rect"
 #' @export
 #' @examples
 #' #display can be used to preview all the palettes included in the 'zhpal'-list:

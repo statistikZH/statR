@@ -1,0 +1,135 @@
+*{
+  font-family: HelveticaNowRegular, Helvetica, sans-serif;
+}
+
+.col-leftmid{
+  float: left;
+  width: 30%;
+  text-align: left;
+}
+
+.col-rightmid{
+  float: right;
+  width: 70%;
+  text-align: left;
+}
+
+
+ /* Whole document: */
+    html {
+    	font-size: 16px;
+    	color: #fff;
+    	line-height: 1.5;
+    	position: relative;
+    	text-decoration: none;
+    }
+
+    body {
+    	font-size: 16px;
+    	line-height: 1.5;
+    	position: relative;
+    	text-decoration: none;
+    }
+
+    h1, h2, h3, h4 {
+    	font-family: HelveticaNowBlack,"Arial Black",Helvetica,sans-serif;
+    	color: #000;
+    }
+
+h2 {
+    font-family: HelveticaNowBlack,"Arial Black",Helvetica,sans-serif;
+    	color: #0076BD;
+    }
+
+
+p {
+      margin-left: 5px;
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 20px;
+    }
+
+th {
+  font-family: HelveticaNowBlack,"Arial Black",Helvetica,sans-serif;
+}
+
+ .container-fluid {
+        padding-left: 20px;
+        padding-right: 20px;
+        position: relative;
+        margin-left: 0;
+    }
+
+
+.nav-tabs > li > a {
+    margin-right: 2px;
+    line-height: 1.42857143;
+    border: none;
+    border-radius: 4px 4px 4px 4px;
+    font-family: "Arial Black";
+}
+
+.nav-tabs {
+    border-bottom: none;
+}
+
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    color: #ffffff;
+    cursor: default;
+    background-color: #0076BD;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+
+.js-plotly-plot .plotly, .js-plotly-plot .plotly div {
+    direction: ltr;
+    margin-left: 25px;
+    padding: 0px;
+}
+
+
+.col-rightmid {
+    float: right;
+    width: 69.5%;
+    text-align: left;
+}
+
+#header {
+  overflow: hidden;
+  background-color: #0076BD;
+  padding: 20px 10px;
+  text-align: center;
+  color: white;
+}
+
+
+h1.title {
+    font-size: 38px;
+    color: white;
+}
+
+h4.author, h4.date {
+    color: white;
+    font-family: HelveticaNowRegular,Helvetica,sans-serif;
+}
+
+.logo {
+    width: 5%;
+    height: auto;
+    min-width: 10px;
+    position:absolute;
+    left:2%;
+}
+
+.main-container {
+  max-width: 1800px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#header ~ * {
+  max-width: 1042px;
+  margin-left: 15%;
+  margin-right: 15%;
+  display: inline-block;
+}

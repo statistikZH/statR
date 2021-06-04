@@ -1,0 +1,31 @@
+---
+title: "HTML Dokumente im ZH.CH-Design"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{html_report_template}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+<i class="fa fa-exclamation-circle" aria-hidden="true"></i> __Alpha-Version__<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+
+
+Das statR-Package enthält ein Template für html-Berichte, die dem kantonalen Corporate Design entsprechen.  
+
+Dieses ist in R Studio im Menü unter __'File > New File > R Markdown'__ verfügbar.
+
+![Auswahl des Templates](./rmd_template.PNG)
+
+Im Auswahlfenster kann das __ZH Report__-Template ausgewählt werden. 
+
+![zh-Report](./zh_report.PNG)
+
+![sample zh-Report](./sample_report.PNG)

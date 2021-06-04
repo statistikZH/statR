@@ -2,16 +2,26 @@
 % Please edit documentation in R/quickXLSX.R
 \name{quickXLSX}
 \alias{quickXLSX}
-\title{quickXLSX}
+\title{quickXLSX()}
 \usage{
-quickXLSX(data, file, ...)
+quickXLSX(
+  data,
+  file,
+  title = "Title",
+  source = "statzh",
+  metadata = NA,
+  logo = "statzh",
+  grouplines = FALSE,
+  contactdetails = "statzh",
+  author = "user"
+)
 }
 \arguments{
-\item{data}{data to be included in the XLSX-table.}
+\item{data}{data to be exported.}
 
-\item{file}{filename of the xlsx-file. No Default.}
+\item{file}{file name of the xlsx-file. The extension ".xlsx" is added automatically.}
 
-\item{name}{title of the table in the worksheet, defaults to "Titel".}
+\item{title}{title to be put above the data in the worksheet.}
 
 \item{source}{source of the data. Defaults to "statzh".}
 
@@ -19,18 +29,33 @@ quickXLSX(data, file, ...)
 
 \item{logo}{path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"}
 
+\item{grouplines}{columns to be separated visually by vertical lines.}
+
 \item{contactdetails}{contactdetails of the data publisher. Defaults to "statzh".}
 
-\item{grouplines}{columns to be separated visually by vertical lines.}
+\item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
-Function to create a formated single-worksheet XLSX automatically
+Function to export data from R to a formatted .xlsx-spreadsheet.
 }
 \examples{
-quickXLSX(head(mtcars), "mtcars")
+# Beispiel anhand des Datensatzes 'mtcars'
+dat <- mtcars
 
-#example with own logo, a custom filename, lines separating selected columns and some remarks
+quickXLSX(data = dat,
+         title = "Motor trend car road tests",
+         file = "motor_trend_car_road_tests", # '.xlsx' is automatically added
+         source = "Source: Henderson and Velleman (1981). Building multiple
+         regression models interactively.
+         Biometrics, 37, 391–411.",
+         metadata = c("The data was extracted from the 1974 Motor Trend US
+         magazine and comprises fuel
+         consumption and 10 aspects of automobile design and performance
+         for 32 automobiles (1973–74 models)."),
+         contactdetails = "statzh",
+         grouplines = FALSE,
+         logo = "statzh",
+         author = "user")
 
-quickXLSX(head(mtcars),  file="filename", title="alternative title", source="alternative source",contactdetails="blavla", grouplines = c(1,2,3), metadata = "remarks:",logo="L:/STAT/08_DS/06_Diffusion/Logos_Bilder/LOGOS/STAT_LOGOS/nacht_map.png")
 }
 \keyword{quickXLSX}

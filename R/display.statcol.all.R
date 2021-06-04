@@ -7,23 +7,32 @@
 #' @export
 #' @examples
 #' display.statcol.all()
-#' 
+#'
 
 # Function
 
 display.statcol.all<-function() {
-  
+
   df <- data.frame(unlist(x$stattheme_data))
-  
-  df$pal <- row.names(df)
-  
-  colnames(df) <- c("col","palette")
-  
-  df$palette<-gsub('(.mid|.low|.high|.high|\\d$)','', df$palette)
+
+  df$pal_col <- row.names(df)
+
+  colnames(df) <- c("col","pal_col")
+
+  df$palette<-gsub('(.mid|.low|.high|.high|\\d$)','', df$pal_col)
+
   df$palette<-gsub('\\d$','', df$palette)
-  
-  gg1<-ggplot(df, aes(x=seq_along(col), y=0, color=col))+geom_point(size=20,shape=15)+facet_wrap(~palette, ncol=3,scales="free")+guides(color=FALSE)+scale_color_manual(values = levels(df$col))+theme_minimal()+theme(axis.ticks=element_blank(),axis.text=element_blank(),axis.title=element_blank(), panel.grid  =element_blank())
-  
-  gg1
-  
+
+  gg1 <- ggplot2::ggplot(df, ggplot2::aes(x=pal_col, y=0, color=I(col)))+
+    ggplot2::geom_point(size=20,shape=15)+
+    ggplot2::facet_wrap(~palette, ncol=3,scales="free")+
+    ggplot2::guides(color=FALSE)+
+    ggplot2::theme_minimal()+
+    ggplot2::theme(axis.ticks=ggplot2::element_blank(),
+                   axis.text=ggplot2::element_blank()) +
+    ggplot2::xlab("") +
+    ggplot2::ylab("")
+
+  print(gg1)
+
 }
