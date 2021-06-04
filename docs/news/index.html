@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">statR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -141,11 +141,18 @@
       <small>Source: <a href='https://github.com/statistikZH/statR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="statr-100" class="section level1">
-<h1 class="page-header" data-toc-text="1.0.0">
-<a href="#statr-100" class="anchor"></a>statR 1.0.0</h1>
+    <div id="statr-200" class="section level1">
+<h1 class="page-header" data-toc-text="2.0.0">
+<a href="#statr-200" class="anchor"></a>statR 2.0.0</h1>
 <ul>
-<li>datasetXLSX function added that allows to save different datasets to multi-sheet Excel-Files with an index sheet</li>
+<li>An R Markdown template <code>ZH report</code> for .html-reports is now available.<br>
+</li>
+<li>New function <code><a href="../reference/datasetsXLSX.html">datasetsXLSX()</a></code>: several datasets and/or figures can now be exported from R to a single .xlsx-file. The function creates an overview sheet and separate sheets for each dataset/figure.</li>
+<li>Additional function arguments for <code><a href="../reference/quickXLSX.html">quickXLSX()</a></code>, <code><a href="../reference/splitXLSX.html">splitXLSX()</a></code>, and <code><a href="../reference/datasetsXLSX.html">datasetsXLSX()</a></code> have been implemented, for example the author’s initials and individual contact details can be specified and the logo of the canton of Zurich can be added.</li>
+<li>The column widths in the output of <code><a href="../reference/quickXLSX.html">quickXLSX()</a></code>, <code><a href="../reference/splitXLSX.html">splitXLSX()</a></code>, and <code><a href="../reference/datasetsXLSX.html">datasetsXLSX()</a></code> are set automatically and the first row no longer freezes.</li>
+<li>The documentation has been extended.</li>
+<li>
+<code><a href="../reference/theme_stat.html">theme_stat()</a></code> has been revised and a couple of theme arguments have been added for increased flexibility (e.g., axis ticks, position of axis labels)</li>
 </ul>
 </div>
   </div>
