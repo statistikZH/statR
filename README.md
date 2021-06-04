@@ -23,12 +23,12 @@ Die development-Version des Package liegt auf GitHub. Sie kann auf zwei Arten in
 # Variante 1
 
 library(downloader)
-download("https://github.com/statistikZH/statR/archive/dev.tar.gz", "statR.tar.gz")
+download("https://github.com/statistikZH/statR/archive/refs/heads/master.tar.gz", "statR.tar.gz")
 install.packages("statR.tar.gz", repos = NULL, type = "source")
 
 
 # Variante 2
 
 library(devtools)
-devtools::install_github("statistikZH/statR",ref="dev")
+devtools::install_github("statistikZH/statR")
 ```
