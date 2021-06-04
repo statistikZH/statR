@@ -72,7 +72,7 @@ To include a ggplot2-plot, put a print statement around the ggplot2-object: list
 \examples{
 \donttest{
 \dontrun{
-plot <- plot(mtcars$mpg)
+
 
 # Example with two datasets and no figure
 dat1 <- mtcars

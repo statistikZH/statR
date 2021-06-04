@@ -30,7 +30,7 @@
 #' @examples
 #'\donttest{
 #' \dontrun{
-#' plot <- plot(mtcars$mpg)
+#'
 #'
 #'# Example with two datasets and no figure
 #'dat1 <- mtcars
