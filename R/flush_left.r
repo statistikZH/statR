@@ -1,13 +1,13 @@
 # flush_left: schiebt title, subtitle und caption an den linken Grafikrand
 
-#' flush_left
+#' flush_left()
 #'
 #' Function to flush title, subtitle and caption to the lefthand side of the graphics device
 #' @param g ggplot object
 #' @keywords flush left
 #' @importFrom ggplot2 ggplotGrob
-#' @examples
 #' @export
+#' @examples
 #'\dontrun{
 #' flush_left(ggplot(mtcars, aes( x = cyl))+
 #' geom_bar()+
