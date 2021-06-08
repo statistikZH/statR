@@ -12,12 +12,5 @@ flush_left(g)
 \description{
 Function to flush title, subtitle and caption to the lefthand side of the graphics device
 }
-\examples{
-\dontrun{
-flush_left(ggplot(mtcars, aes( x = cyl))+
-geom_bar()+
-labs(title = "Titel", subtitle = "Untertitel", caption = "Datenquelle"))
-}
-}
 \keyword{flush}
 \keyword{left}

@@ -7,6 +7,7 @@
 #' @keywords flush left
 #' @importFrom ggplot2 ggplotGrob
 #' @examples
+#' @export
 #'\dontrun{
 #' flush_left(ggplot(mtcars, aes( x = cyl))+
 #' geom_bar()+
