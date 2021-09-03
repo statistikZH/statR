@@ -17,7 +17,7 @@
 #' # Generation of a spreadsheet
 #' wb <- openxlsx::createWorkbook("hello")
 #'
-#' insert_metadata_sheet(workbook = wb, title = "mtcars", sheetname = "Metadaten", source = "statzh")
+#' insert_metadata_sheet(wb, title = "Title of mtcars", metadata = c("Meta data information."))
 
 
 insert_metadata_sheet <- function(wb, sheetname="Metadaten",title="Title",
