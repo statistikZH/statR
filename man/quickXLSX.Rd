@@ -5,7 +5,7 @@
 \title{quickXLSX()}
 \usage{
 quickXLSX(
-  data,
+  data = NA,
   file,
   title = "Title",
   source = "statzh",
