@@ -405,25 +405,3 @@ datasetsXLSX <- function(file,
 
 
 
-# # # example
-# pacman::p_load(tidyverse,tmap)
-# data("World")
-# # create map
-# map <- tm_shape(World) +
-#   tm_polygons("HPI")
-#
-# datasetsXLSX(file="datasetsXLSX"
-#              ,maintitle = "nice datasets"
-#              ,datasets = list(head(mtcars),tail(mtcars),map)
-#              ,sheetnames = c("data1","data2","map")
-#              ,widths = c(0,0,10)
-#              ,heights = c(0,0,8.5)
-#              ,startrows = c(0,0,10)
-#              ,startcols = c(0,0,8)
-#              ,titles = c("Title","Title", "Map")
-#              ,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung", "Quelle: Strukturerhebung")
-#              ,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla", "Bemerkungen: blablabla")
-#              ,auftrag_id="A2020_0200"
-# )
-
-
