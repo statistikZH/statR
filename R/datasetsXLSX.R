@@ -128,7 +128,7 @@ datasetsXLSX <- function(file,
 
     # #dynamisch mit sheetvar!
     # statR::insert_worksheet2(data=dataset,
-    #                         workbook=wb,
+    #                         wb=wb,
     #                         sheetname = sheetnames_def,
     #                         title = title_def,
     #                         source = source_def,
@@ -138,7 +138,7 @@ datasetsXLSX <- function(file,
     #dynamisch mit sheetvar!
     if(is.data.frame(dataset)){
       insert_worksheet_nh(data=dataset
-                        ,workbook=wb
+                        ,wb=wb
                         ,sheetname = sheetnames_def
                         ,title = title_def
                         ,source = source_def
