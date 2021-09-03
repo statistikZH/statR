@@ -14,14 +14,13 @@
 #' @importFrom dplyr "%>%"
 #' @noRd
 #' @examples
-#'  # insertion of two worksheets in a existing workbook
 #'
-#'   # create workbook
+#' # create workbook
 #' wb <- openxlsx::createWorkbook("hello")
 #'
 #' insert_worksheet_nh(mtcars[c(1:10),],wb,"mtcars",c(1:4),"carb",grouplines=c(1,5,6))
 #'
-#'   # create workbook
+#'# create workbook
 #' export <- openxlsx::createWorkbook("export")
 #'
 #' # insert a new worksheet
@@ -55,84 +54,60 @@ insert_worksheet_nh <- function(data,
                                 grouplines = FALSE
 ) {
 
-  # data-container from row 5
+  # number of rows filled with metadata
   if(is.na(metadata)){
     n_metadata <- 0
   } else
     n_metadata <- length(metadata)
 
-  datenbereich = 2 + n_metadata + 3
+  datenbereich <- 2 + n_metadata + 3
 
-  #define width of the area in which data is contained for formating
-  spalten = ncol(data)
+  # number of data columns
+  spalten <- ncol(data)
 
-  # increase width of colnames for better auto-fitting of column width
+  # increase width of column names for better auto-fitting of column width
   colnames(data) <- paste0(colnames(data), "  ", sep = "")
 
-  # #position of contact details
-  # contact = if(spalten>4){spalten-2}else{3}
-
-
-  # header1 <- createStyle(fontSize = 14, fontColour = "#FFFFFF", halign = "center",
-  #                        fgFill = "#3F98CC", border="TopBottom", borderColour = "#4F81BD")
-
-  # header2 <- createStyle(fontSize = 12, fontColour = "#FFFFFF", halign = "center",
-  #                        fgFill = "#407B9F", border="TopBottom", borderColour = "#4F81BD")
-
-  # headerline <- openxlsx::createStyle(border="Bottom", borderColour = "#009ee0",borderStyle = getOption("openxlsx.borderStyle", "thick"))
-
-  #Linien
-  bottomline <- openxlsx::createStyle(border="Bottom", borderColour = "#009ee0")
-
-  leftline <- openxlsx::createStyle(border="Left", borderColour = "#4F81BD")
-
-  #wrap
-  wrap <- openxlsx::createStyle(wrapText = TRUE)
-
-  # warning if sheetname is longer than the limit imposed by excel (31 characters)
-  if(nchar(sheetname)>31){warning("sheetname is cut to 31 characters (limit imposed by MS-Excel)")}
+  if(nchar(sheetname)>31){
+    warning("sheetname is cut to 31 characters (limit imposed by MS-Excel)")
+    }
 
   ## Add worksheet
   openxlsx::addWorksheet(wb,paste(substr(sheetname,0,31)))
 
   i <- paste(substr(sheetname,0,31))
 
+  # define styles --------------------------------------------------------------
+  style_title <- openxlsx::createStyle(fontSize=14, textDecoration="bold",
+                                       fontName="Arial")
+  style_subtitle <- openxlsx::createStyle(fontSize=11, fontName="Calibri")
+  style_header <- openxlsx::createStyle(fontSize = 12, fontName="Calibri",
+                                        fontColour = "#000000",  halign = "left",
+                                        border="Bottom",  borderColour = "#009ee0",
+                                        textDecoration = "bold")
+  style_leftline <- openxlsx::createStyle(border="Left", borderColour = "#4F81BD")
 
-  #styles
-  titleStyle <- openxlsx::createStyle(fontSize=14, textDecoration="bold",fontName="Arial")
 
-  subtitle <- openxlsx::createStyle(fontSize=11, fontName="Calibri")
-
-  header <- openxlsx::createStyle(fontSize = 12, fontName="Calibri", fontColour = "#000000",  halign = "left", border="Bottom",  borderColour = "#009ee0",textDecoration = "bold")
-
-
-  #Titel
+  # fill in data ---------------------------------------------------------------
+  ## Titel
   openxlsx::addStyle(wb
                      ,sheet = i
-                     ,titleStyle
+                     ,style_title
                      ,rows = 2
-                     ,cols = 1
-                     #,gridExpand = TRUE
-  )
+                     ,cols = 1)
   openxlsx::writeData(wb
                       ,sheet = i
                       ,title
-                      ,headerStyle=titleStyle
-                      ,startRow = 2
-  )
+                      ,headerStyle=style_title
+                      ,startRow = 2)
 
-
-  ##Quelle
+  ## Quelle
   if(source=="statzh"){
-
     source <- "Quelle: Statistisches Amt des Kantons Zürich"
-
-  } else {source}
-
-
+  }
   openxlsx::addStyle(wb
                      ,sheet = i
-                     ,subtitle
+                     ,style_subtitle
                      ,rows = 3
                      ,cols = 1
                      ,gridExpand = TRUE
@@ -140,16 +115,14 @@ insert_worksheet_nh <- function(data,
   openxlsx::writeData(wb
                       ,sheet = i
                       ,source
-                      ,headerStyle=subtitle
+                      ,headerStyle=style_subtitle
                       ,startRow = 3
   )
-
-
 
   ##Metadata
   openxlsx::addStyle(wb
                      ,sheet = i
-                     ,subtitle
+                     ,style_subtitle
                      ,rows = 4
                      ,cols = 1
                      ,gridExpand = TRUE
@@ -157,15 +130,23 @@ insert_worksheet_nh <- function(data,
   openxlsx::writeData(wb
                       ,sheet = i
                       ,metadata
-                      ,headerStyle=subtitle
+                      ,headerStyle=style_subtitle
                       ,startRow = 4
   )
 
-
-  # Metadaten zusammenmergen
+  ### Metadaten zusammenmergen
   purrr::walk(1:(4+n_metadata), ~openxlsx::mergeCells(wb, sheet = i, cols = 1:26, rows = .))
 
-  # Daten abfüllen
+  # Daten
+  openxlsx::addStyle(wb
+                     ,sheet = i
+                     ,style_header
+                     ,rows = datenbereich
+                     ,cols = 1:spalten
+                     ,gridExpand = TRUE
+                     ,stack = TRUE
+  )
+
   openxlsx::writeData(wb,
                       sheet = i
                       # ,as.data.frame(dpylr::ungroup())
@@ -175,24 +156,11 @@ insert_worksheet_nh <- function(data,
                       ,withFilter = FALSE
   )
 
-  #Füge Formatierungen ein
-
-  openxlsx::addStyle(wb
-                     ,sheet = i
-                     ,header
-                     ,rows = datenbereich
-                     ,cols = 1:spalten
-                     ,gridExpand = TRUE
-                     ,stack = TRUE
-  )
-
   if (!is.null(grouplines)){
-
-    datenbereich_end <-nrow(data)+datenbereich
-
+    datenbereich_end <- nrow(data)+datenbereich
     openxlsx::addStyle(wb
                        ,sheet = i
-                       ,leftline
+                       ,style_leftline
                        ,rows=datenbereich:datenbereich_end
                        ,cols = grouplines
                        ,gridExpand = TRUE
@@ -206,6 +174,4 @@ insert_worksheet_nh <- function(data,
 
   # automatische Spaltenbreite
   openxlsx::setColWidths(wb, sheet = i, cols=1:spalten, widths = "auto", ignoreMergedCells = TRUE)
-
-
 }
