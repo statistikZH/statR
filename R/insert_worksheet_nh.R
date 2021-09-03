@@ -47,31 +47,19 @@
 # Function
 
 insert_worksheet_nh <- function(data,
-                                workbook,
-                                sheetname="data",
+                                wb,
+                                sheetname="Daten",
                                 title="Title",
                                 source="statzh",
                                 metadata = NA,
                                 grouplines = FALSE
 ) {
 
-  # Metadata
-  remarks <- if (is.na(metadata)) {
-    "Bemerkungen:"}
-  else if (metadata == "HAE") {"Die Zahlen der letzten drei Jahre sind provisorisch."}
-  else {metadata}
-
-
-  #Zahlenformat: Tausendertrennzeichen
-  # options("openxlsx.numFmt" = "#,###0")
-
-  #extrahiere colname
-  # col_name <- rlang::enquo(sheetvar)
-
-  wb <- workbook
-
   # data-container from row 5
-  n_metadata <- length(metadata)
+  if(is.na(metadata)){
+    n_metadata <- 0
+  } else
+    n_metadata <- length(metadata)
 
   datenbereich = 2 + n_metadata + 3
 
@@ -175,7 +163,7 @@ insert_worksheet_nh <- function(data,
 
 
   # Metadaten zusammenmergen
-  purrr::walk(1:(4+length(metadata)), ~openxlsx::mergeCells(wb, sheet = i, cols = 1:26, rows = .))
+  purrr::walk(1:(4+n_metadata), ~openxlsx::mergeCells(wb, sheet = i, cols = 1:26, rows = .))
 
   # Daten abfüllen
   openxlsx::writeData(wb,
