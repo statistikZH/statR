@@ -1,6 +1,10 @@
 #' aXLSX()
 #'
-#' Function to export data from R to a formatted .xlsx-spreadsheet.
+#' Function to export data from R to a formatted .xlsx-file.
+#'
+#' The data is exported
+#' to the first sheet. Metadata information is exported to the second sheet.
+#'
 #' @param data data to be exported.
 #' @param file file name of the xlsx-file. The extension ".xlsx" is added automatically.
 #' @param title title to be put above the data in the worksheet.

@@ -36,7 +36,11 @@ aXLSX(
 \item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
-Function to export data from R to a formatted .xlsx-spreadsheet.
+Function to export data from R to a formatted .xlsx-file.
+}
+\details{
+The data is exported
+to the first sheet. Metadata information is exported to the second sheet.
 }
 \examples{
 # Beispiel anhand des Datensatzes 'mtcars'
