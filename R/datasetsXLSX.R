@@ -36,7 +36,7 @@
 #'dat1 <- mtcars
 #'dat2 <- PlantGrowth
 #'
-#'datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugefügt
+#'datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugef\u00fcgt
 #'             maintitle = "Autos und Pflanzen",
 #'             datasets = list(dat1, dat2),
 #'             logo = "statzh",
@@ -57,7 +57,7 @@
 #'fig <- hist(mtcars$disp)
 #'
 #'datasetsXLSX(file="twoDatasetsandFigure",
-#'             maintitle = "Autos und Pflanzen", # '.xlsx' wird automatisch hinzugefügt
+#'             maintitle = "Autos und Pflanzen", # '.xlsx' wird automatisch hinzugef\u00fcgt
 #'             datasets = list(dat1, dat2, fig),
 #'             widths = c(0,0,5),
 #'             heights = c(0,0,5),
@@ -270,7 +270,7 @@ datasetsXLSX <- function(file,
 
     if(any(grepl(openinghours, pattern = "statzh"))) {
 
-      openinghours <- c("Bürozeiten"
+      openinghours <- c("B\u00fcrozeiten"
                         ,"Montag bis Freitag"
                         ,"09:00 bis 12:00"
                         ,"13:00 bis 16:00")
@@ -346,7 +346,7 @@ datasetsXLSX <- function(file,
     # source
     openxlsx::writeData(wb
                         ,"Inhalt"
-                        ,"Quelle: Statistisches Amt des Kantons Zürich"
+                        ,"Quelle: Statistisches Amt des Kantons Z\u00fcrich"
                         ,xy = c("C", 11)
     )
 

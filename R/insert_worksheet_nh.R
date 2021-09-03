@@ -28,7 +28,7 @@
 #'                   ,export
 #'                   ,"data1"
 #'                  ,title = "Title"
-#'                   ,source = "Quelle: Statistisches Amt Kanton Zürich"
+#'                   ,source = "Quelle: Statistisches Amt Kanton Z\u00fcrich"
 #'                   ,metadata = "Bemerkung: ...")
 #'
 #'  # insert a further worksheet
@@ -36,7 +36,7 @@
 #'                    ,export
 #'                    ,"data2"
 #'                    ,title = "Title"
-#'                    ,source = "Quelle: Statistisches Amt Kanton Zürich"
+#'                    ,source = "Quelle: Statistisches Amt Kanton Z\u00fcrich"
 #'                    ,metadata = "Bemerkung: ...")
 #'\dontrun{
 #'  # save workbook
@@ -103,7 +103,7 @@ insert_worksheet_nh <- function(data,
 
   ## Quelle
   if(source=="statzh"){
-    source <- "Quelle: Statistisches Amt des Kantons Zürich"
+    source <- "Quelle: Statistisches Amt des Kantons Z\u00fcrich"
   }
   openxlsx::addStyle(wb
                      ,sheet = i

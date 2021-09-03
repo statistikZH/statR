@@ -94,7 +94,7 @@ insert_metadata_sheet <- function(wb, sheetname="Metadaten",title="Title",
 
   ## Source
   if(source == "statzh"){
-    source <- "Statistisches Amt des Kantons Zürich"
+    source <- "Statistisches Amt des Kantons Z\u00fcrich"
   }
   openxlsx::writeData(wb, sheet = i, "Datenquelle:", headerStyle=style_subtitle, startRow = 9)
   openxlsx::writeData(wb, sheet = i, source, startRow = 10)
@@ -105,11 +105,11 @@ insert_metadata_sheet <- function(wb, sheetname="Metadaten",title="Title",
 
   ## User
   if(author == "user"){
-    # für das lokale R
+    # for the local R setup
     if(Sys.getenv("USERNAME")!="") {
       contactperson <- stringr::str_sub(Sys.getenv("USERNAME"), start = 6, end = 7)
     } else {
-      # für den R-server
+      # for the R server setup
       contactperson <- stringr::str_sub(Sys.getenv("USER"), start = 6, end = 7)
     }
   } else {
@@ -122,7 +122,7 @@ insert_metadata_sheet <- function(wb, sheetname="Metadaten",title="Title",
                                            " durch: ", contactperson),
                       startRow = 5, startCol=12)
 
-  # Füge Formatierungen ein
+  # add formatting
   openxlsx::addStyle(wb, sheet = i, style_header, rows = 5, cols = 1:26, gridExpand = TRUE, stack = TRUE)
   openxlsx::addStyle(wb, sheet = i, style_title, rows = 7, cols = 1, gridExpand = TRUE)
   openxlsx::addStyle(wb, sheet = i, style_subtitle, rows = 9, cols = 1, gridExpand = TRUE)

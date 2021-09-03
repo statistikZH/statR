@@ -158,7 +158,7 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
 
   if(source=="statzh"){
 
-    source="Quelle: Statistisches Amt des Kantons Zürich"
+    source="Quelle: Statistisches Amt des Kantons Z\u00fcrich"
 
   }else {source}
 
@@ -188,13 +188,13 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
                       startRow = 2,
                       startCol = contact)
 
-  # User-Kürzel für Kontaktinformationen
+  # User-K\u00fcrzel f\u00fcr Kontaktinformationen
   if(author == "user"){
-    # für das lokale R
+    # f\u00fcr das lokale R
     if(Sys.getenv("USERNAME")!="") {
       contactperson <- stringr::str_sub(Sys.getenv("USERNAME"), start = 6, end = 7)
     } else {
-      # für den R-server
+      # f\u00fcr den R-server
       contactperson <- stringr::str_sub(Sys.getenv("USER"), start = 6, end = 7)
     }
   } else {
@@ -207,10 +207,10 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
                                            " durch: ", contactperson),
                       headerStyle=subtitle, startRow = 5, startCol=contact)
 
-  # Daten abfüllen
+  # Daten abf\u00fcllen
   openxlsx::writeData(wb, sheet = i, as.data.frame(data%>%dplyr::ungroup()), rowNames = FALSE, startRow = datenbereich, withFilter = FALSE)
 
-  #Füge Formatierungen ein
+  #F\u00fcge Formatierungen ein
 
   openxlsx::addStyle(wb, sheet = i, headerline, rows = 5, cols = 1:spalten, gridExpand = TRUE,stack = TRUE)
 
