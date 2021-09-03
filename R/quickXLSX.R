@@ -27,7 +27,7 @@
 #'          author = "user")
 #'
 
-quickXLSX <-function (data,
+quickXLSX <-function (data = NA,
                       file,
                       title="Title",
                       source="statzh",
@@ -41,7 +41,7 @@ quickXLSX <-function (data,
   wb <- openxlsx::createWorkbook(paste(file))
 
   #insert data
-  insert_worksheet(data, wb, title=title, source=source, metadata = metadata, logo=logo, grouplines = grouplines, contactdetails=contactdetails, author = author)
+  insert_worksheet(data=data, wb, title=title, source=source, metadata = metadata, logo=logo, grouplines = grouplines, contactdetails=contactdetails, author = author)
 
   #save workbook
   openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""),
