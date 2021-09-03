@@ -24,14 +24,13 @@ insert_metadata_sheet <- function(wb, sheetname="Metadaten",title="Title",
                              source="statzh", metadata = NA, logo= "statzh",
                              contactdetails="statzh", author = "user") {
 
+  # number of metadata rows
   n_metadata <- length(metadata)
 
   # warning if sheetname is longer than the limit imposed by excel (31 characters)
   if(nchar(sheetname)>31){
     warning("sheetname is cut to 31 characters (limit imposed by MS-Excel)")
     }
-
-  ## Add metadata sheet
 
   suppressWarnings(openxlsx::addWorksheet(wb,paste(substr(sheetname,0,31))))
   # sheet name
@@ -40,7 +39,6 @@ insert_metadata_sheet <- function(wb, sheetname="Metadaten",title="Title",
 
   # Style definitions ---------------------
 
-  ## title, subtitle & Header
   style_title <- openxlsx::createStyle(fontSize=14, textDecoration="bold",fontName="Arial")
   style_subtitle <- openxlsx::createStyle(fontSize=12, textDecoration="bold",fontName="Arial")
   style_header <- openxlsx::createStyle(border="Bottom", borderColour = "#009ee0",
