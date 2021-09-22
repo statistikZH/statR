@@ -185,8 +185,7 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
     # MAP: no grid lines etc. for maps
     if(isTRUE(map)){
       theme_var <- theme_var +
-        theme(text = ggplot2::element_text(color = "black"),
-              line = ggplot2::element_blank(),
+        theme(line = ggplot2::element_blank(),
               axis.line.x = ggplot2::element_blank(),
               axis.ticks.x = ggplot2::element_blank(),
               axis.line = ggplot2::element_blank(),
@@ -196,8 +195,8 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
               panel.grid.major = ggplot2::element_blank(),
               panel.grid.minor = ggplot2::element_blank()) +
         theme(legend.position ='right',
-              legend.title = ggplot2::element_text(size = base_size, color = "black"),
-              legend.text = ggplot2::element_text(size = base_size, color = "black"))
+              legend.title = ggplot2::element_text(size = base_size),
+              legend.text = ggplot2::element_text(size = base_size))
     }
     theme_var
 }
