@@ -201,7 +201,7 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
               plot.background = ggplot2::element_rect(fill = "white", colour = "white")) +
         theme(legend.position ='right',
               legend.title = ggplot2::element_text(size = base_size, color = "black"),
-              legend.text = ggplot2::element_text(size = base_size, color = "black"))
+              legend.text = ggplot2::element_text(size = base_size*(3/4), color = "black"))
     }
     theme_var
 }
