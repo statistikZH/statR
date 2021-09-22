@@ -26,8 +26,7 @@
 #' }}
 
 theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
-                       ticks = "x", minor.grid.lines = FALSE,
-                       map = FALSE){
+                       ticks = "x", minor.grid.lines = FALSE, map = FALSE){
 
   palette <- RColorBrewer::brewer.pal("Greys", n=9)
   color.grid = palette[5]
