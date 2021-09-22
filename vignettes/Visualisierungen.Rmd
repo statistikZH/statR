@@ -39,6 +39,28 @@ ggplot(mpg, aes(class,fill = drv))+
   labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
 ```
 
+# theme_stat() für Karten
+
+Für Karten kann die Option `map` auf `TRUE` gesetzt werden.
+```{r}
+downloader::download("https://www.web.statistik.zh.ch/data/KTZH_151_Gemeinde2020.zip","geodata.zip")
+
+zip::unzip("geodata.zip")
+
+shape <- sf::st_read("GEN_A4_GEMEINDEN_2020_shp")
+
+map <- ggplot(shape,aes(fill=BFS))+
+  geom_sf()+
+  theme_stat(map=TRUE)+
+  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
+
+map
+
+ggsave("map.png")
+```
+
+
+
 # Farbpaletten
 
 Das Farbpalettenobjekt `zhpal` enthält alle im Package vorhandenen Farbpaletten und ist mit dem geladenen `statR`-Package global verfügbar. 
