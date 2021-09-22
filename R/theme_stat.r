@@ -193,11 +193,8 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
               axis.text = ggplot2::element_blank(),
               axis.ticks = ggplot2::element_blank(),
               axis.title = ggplot2::element_blank(),
-              panel.background = ggplot2::element_rect(fill = "white", colour = "white"),
-              panel.border = ggplot2::element_blank(),
               panel.grid.major = ggplot2::element_blank(),
-              panel.grid.minor = ggplot2::element_blank(),
-              plot.background = ggplot2::element_rect(fill = "white", colour = "white")) +
+              panel.grid.minor = ggplot2::element_blank()) +
         theme(legend.position ='right',
               legend.title = ggplot2::element_text(size = base_size, color = "black"),
               legend.text = ggplot2::element_text(size = base_size, color = "black"))
