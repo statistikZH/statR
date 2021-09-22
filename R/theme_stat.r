@@ -183,6 +183,7 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
     # PLOT MARGINS
     ggplot2::theme(plot.margin = unit(c(0.3, 0.3, 0.3, 0.3), "cm"))
 
+    # MAP: no grid lines etc. for maps
     if(isTRUE(map)){
       theme_var <- theme_var +
         theme(text = element_text(color = "black"),
