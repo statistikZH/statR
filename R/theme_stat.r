@@ -8,7 +8,8 @@
 #' @param axis.label.pos position of x and y-axis labels, can be set to "top", "center", or "bottom".
 #' @param axis.lines presence of axis lines, can be set to "x", "y", or "both".
 #' @param ticks presence of axis ticks, can be set to "x", "y", or "both".
-#' @param minor.grid.lines presence of minor grid lines on the y-axis, can be set to TRUE or FALSE.
+#' @param major.grid.lines presence of major grid lines, can be set to "x", "y", or "both".
+#' @param minor.grid.lines presence of minor grid lines, can be set to "x", "y", or "both".
 #' @param map whether the theme should be optimized for maps, can be set to TRUE or FALSE.
 #' @keywords theme_stat
 #' @export
@@ -26,7 +27,8 @@
 #' }}
 
 theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
-                       ticks = "x", minor.grid.lines = FALSE, map = FALSE){
+                       ticks = "x", major.grid.lines = "y", minor.grid.lines = "none",
+                       map = FALSE){
 
   palette <- RColorBrewer::brewer.pal("Greys", n=9)
   color.grid = palette[5]
@@ -142,27 +144,68 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
 
   # GITTERNETZLINIEN
 
-  if(minor.grid.lines == TRUE) {
-    theme_var <- theme_var +
-      ggplot2::theme(
-        panel.grid.minor = ggplot2::element_line(colour = color.grid,  size = 0.1),
-        panel.grid.major = ggplot2::element_line(colour = color.grid,  size = 0.2),
-        panel.grid.major.x = ggplot2::element_blank(), panel.grid.minor.x = ggplot2::element_blank()
-      )
+  # keine Gitternetzlinien
+  theme_var <- theme_var +
+    theme(panel.grid.major.x = ggplot2::element_blank(),
+          panel.grid.minor.x = ggplot2::element_blank(),
+          panel.grid.major.y = ggplot2::element_blank(),
+          panel.grid.minor.y = ggplot2::element_blank())
 
-  } else {
-    theme_var <- theme_var +
-      ggplot2::theme(
-        panel.grid.minor = ggplot2::element_blank(),
-        panel.grid.major = ggplot2::element_line(colour = color.grid,  size = 0.2),
-        panel.grid.major.x = ggplot2::element_blank(), panel.grid.minor.x = ggplot2::element_blank()
+  # kleine Gitternetzlinien
+  if(minor.grid.lines != "none"){
 
-      )
+    if(minor.grid.lines == "x") {
+      theme_var <- theme_var +
+        ggplot2::theme(
+          panel.grid.minor.x = ggplot2::element_line(colour = color.grid,  size = 0.1)
+        )
+    }
+
+    if(minor.grid.lines == "y") {
+      theme_var <- theme_var +
+        ggplot2::theme(
+          panel.grid.minor.y = ggplot2::element_line(colour = color.grid,  size = 0.1)
+        )
+    }
+
+    if(minor.grid.lines == "both") {
+      theme_var <- theme_var +
+        ggplot2::theme(
+          panel.grid.minor.y = ggplot2::element_line(colour = color.grid,  size = 0.1),
+          panel.grid.minor.x = ggplot2::element_line(colour = color.grid,  size = 0.1)
+        )
+    }
   }
 
-    # PANELS
-    theme_var <- theme_var +
-      ggplot2::theme(
+  # grosse Gitternetzlinien
+  if(major.grid.lines != "none"){
+
+    if(major.grid.lines == "x") {
+      theme_var <- theme_var +
+        ggplot2::theme(
+          panel.grid.major.x = ggplot2::element_line(colour = color.grid,  size = 0.2)
+        )
+    }
+
+    if(major.grid.lines == "y") {
+      theme_var <- theme_var +
+        ggplot2::theme(
+          panel.grid.major.y = ggplot2::element_line(colour = color.grid,  size = 0.2)
+        )
+    }
+
+    if(major.grid.lines == "both") {
+      theme_var <- theme_var +
+        ggplot2::theme(
+          panel.grid.major.y = ggplot2::element_line(colour = color.grid,  size = 0.2),
+          panel.grid.major.x = ggplot2::element_line(colour = color.grid,  size = 0.2)
+        )
+    }
+  }
+
+  # PANELS
+  theme_var <- theme_var +
+    ggplot2::theme(
       panel.spacing.x = unit(15, "pt"),
       panel.spacing.y = unit(15, "pt"),
       strip.background = ggplot2::element_blank()
@@ -182,22 +225,22 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
     # PLOT MARGINS
     ggplot2::theme(plot.margin = unit(c(0.3, 0.3, 0.3, 0.3), "cm"))
 
-    # MAP: no grid lines etc. for maps
-    if(isTRUE(map)){
-      theme_var <- theme_var +
-        theme(line = ggplot2::element_blank(),
-              axis.line.x = ggplot2::element_blank(),
-              axis.ticks.x = ggplot2::element_blank(),
-              axis.line.y = ggplot2::element_blank(),
-              axis.ticks.y = ggplot2::element_blank(),
-              axis.text = ggplot2::element_blank(),
-              axis.title = ggplot2::element_blank(),
-              panel.grid.major = ggplot2::element_blank(),
-              panel.grid.minor = ggplot2::element_blank()) +
-        theme(legend.position ='right',
-              legend.title = ggplot2::element_text(size = base_size),
-              legend.text = ggplot2::element_text(size = base_size))
-    }
-    theme_var
+  # MAP: no grid lines etc. for maps
+  if(isTRUE(map)){
+    theme_var <- theme_var +
+      theme(line = ggplot2::element_blank(),
+            axis.line.x = ggplot2::element_blank(),
+            axis.ticks.x = ggplot2::element_blank(),
+            axis.line.y = ggplot2::element_blank(),
+            axis.ticks.y = ggplot2::element_blank(),
+            axis.text = ggplot2::element_blank(),
+            axis.title = ggplot2::element_blank(),
+            panel.grid.major = ggplot2::element_blank(),
+            panel.grid.minor = ggplot2::element_blank()) +
+      theme(legend.position ='right',
+            legend.title = ggplot2::element_text(size = base_size),
+            legend.text = ggplot2::element_text(size = base_size))
+  }
+  theme_var
 }
 
