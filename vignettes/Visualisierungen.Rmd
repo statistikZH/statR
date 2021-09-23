@@ -56,7 +56,7 @@ map <- ggplot(shape,aes(fill=BFS))+
 
 map
 
-ggsave("map.png")
+# ggsave("map.png")
 ```
 
 
