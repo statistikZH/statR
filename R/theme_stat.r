@@ -9,6 +9,7 @@
 #' @param axis.lines presence of axis lines, can be set to "x", "y", or "both".
 #' @param ticks presence of axis ticks, can be set to "x", "y", or "both".
 #' @param minor.grid.lines presence of minor grid lines on the y-axis, can be set to TRUE or FALSE.
+#' @param map whether the theme should be optimized for maps, can be set to TRUE or FALSE.
 #' @keywords theme_stat
 #' @export
 #' @importFrom ggplot2 theme_minimal theme element_blank element_line unit continuous_scale
@@ -25,7 +26,7 @@
 #' }}
 
 theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
-                       ticks = "x", minor.grid.lines = FALSE){
+                       ticks = "x", minor.grid.lines = FALSE, map = FALSE){
 
   palette <- RColorBrewer::brewer.pal("Greys", n=9)
   color.grid = palette[5]
@@ -160,7 +161,7 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
   }
 
     # PANELS
-    theme_var +
+    theme_var <- theme_var +
       ggplot2::theme(
       panel.spacing.x = unit(15, "pt"),
       panel.spacing.y = unit(15, "pt"),
@@ -180,5 +181,23 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
 
     # PLOT MARGINS
     ggplot2::theme(plot.margin = unit(c(0.3, 0.3, 0.3, 0.3), "cm"))
+
+    # MAP: no grid lines etc. for maps
+    if(isTRUE(map)){
+      theme_var <- theme_var +
+        theme(line = ggplot2::element_blank(),
+              axis.line.x = ggplot2::element_blank(),
+              axis.ticks.x = ggplot2::element_blank(),
+              axis.line.y = ggplot2::element_blank(),
+              axis.ticks.y = ggplot2::element_blank(),
+              axis.text = ggplot2::element_blank(),
+              axis.title = ggplot2::element_blank(),
+              panel.grid.major = ggplot2::element_blank(),
+              panel.grid.minor = ggplot2::element_blank()) +
+        theme(legend.position ='right',
+              legend.title = ggplot2::element_text(size = base_size),
+              legend.text = ggplot2::element_text(size = base_size))
+    }
+    theme_var
 }
 

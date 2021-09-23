@@ -9,7 +9,8 @@ theme_stat(
   axis.label.pos = "top",
   axis.lines = "x",
   ticks = "x",
-  minor.grid.lines = FALSE
+  minor.grid.lines = FALSE,
+  map = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ theme_stat(
 \item{ticks}{presence of axis ticks, can be set to "x", "y", or "both".}
 
 \item{minor.grid.lines}{presence of minor grid lines on the y-axis, can be set to TRUE or FALSE.}
+
+\item{map}{whether the theme should be optimized for maps, can be set to TRUE or FALSE.}
 }
 \description{
 This ggplot2 theme is based on ggplot2::theme_minimal(). It controls the non-data related characteristics of a plot (e.g., the font type).
