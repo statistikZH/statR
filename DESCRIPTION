@@ -26,7 +26,10 @@ Imports:
     stringr,
     tidyr,
     dichromat,
-    purrr
+    purrr,
+    downloader,
+    zip,
+    sf
 URL: https://statistikzh.github.io/statR/
 BugReports: https://github.com/statistikZH/statR/issues
 Suggests: 
