@@ -1,15 +1,15 @@
 #' theme_stat()
 #'
 #' This ggplot2 theme is based on ggplot2::theme_minimal(). It controls the non-data related characteristics of a plot (e.g., the font type).
-#' On top of that, the font size, the presence (or absence) of minor grid lines, axis lines, axis ticks and the axis label positions can be specified.
+#' On top of that, the font size, the major and minor grid lines, axis lines, axis ticks and the axis label positions can be specified.
 #'
 #' To use this theme in a R Markdown generated PDF document, insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
-#' @inheritParams ggplot2::theme_bw
+#' @inheritParams ggplot2::theme_minimal
 #' @param axis.label.pos position of x and y-axis labels, can be set to "top", "center", or "bottom".
-#' @param axis.lines presence of axis lines, can be set to "x", "y", or "both".
-#' @param ticks presence of axis ticks, can be set to "x", "y", or "both".
-#' @param major.grid.lines presence of major grid lines, can be set to "x", "y", or "both".
-#' @param minor.grid.lines presence of minor grid lines, can be set to "x", "y", or "both".
+#' @param axis.lines presence of axis lines, can be set to "x", "y", "both", or "none".
+#' @param ticks presence of axis ticks, can be set to "x", "y", "both", or "none".
+#' @param major.grid.lines presence of major grid lines, can be set to "x", "y", "both", or "none".
+#' @param minor.grid.lines presence of minor grid lines, can be set to "x", "y", "both", or "none".
 #' @param map whether the theme should be optimized for maps, can be set to TRUE or FALSE.
 #' @keywords theme_stat
 #' @export
@@ -79,68 +79,68 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
 
   ## Achsenlinien
 
-  if(axis.lines == "both") {
-    theme_var <- theme_var +
-      ggplot2::theme(
-        axis.line = ggplot2::element_line(colour = color.axis, size = 0.2),
-        axis.line.x = ggplot2::element_line(colour = color.axis, size = 0.25),
-        axis.line.y = ggplot2::element_line(colour = color.axis, size = 0.25)
-      )
-  }
+  if(axis.lines != "none"){
 
-  if (axis.lines == "x") {
-    theme_var <- theme_var +
-      ggplot2::theme(
-        axis.line = ggplot2::element_line(colour = color.axis, size = 0.2),
-        axis.line.x = ggplot2::element_line(colour = color.axis, size = 0.25),
-        axis.line.y = ggplot2::element_blank()
-      )
-  }
+    if(axis.lines == "both") {
+      theme_var <- theme_var +
+        ggplot2::theme(
+          axis.line = ggplot2::element_line(colour = color.axis, size = 0.2),
+          axis.line.x = ggplot2::element_line(colour = color.axis, size = 0.25),
+          axis.line.y = ggplot2::element_line(colour = color.axis, size = 0.25)
+        )
+    }
 
-  if (axis.lines == "y") {
-    theme_var <- theme_var +
-      ggplot2::theme(
-        axis.line = ggplot2::element_line(colour = color.axis, size = 0.2),
-        axis.line.y = ggplot2::element_line(colour = color.axis, size = 0.25),
-        axis.line.x = ggplot2::element_blank(),
-      )
+    if (axis.lines == "x") {
+      theme_var <- theme_var +
+        ggplot2::theme(
+          axis.line = ggplot2::element_line(colour = color.axis, size = 0.2),
+          axis.line.x = ggplot2::element_line(colour = color.axis, size = 0.25),
+          axis.line.y = ggplot2::element_blank()
+        )
+    }
+
+    if (axis.lines == "y") {
+      theme_var <- theme_var +
+        ggplot2::theme(
+          axis.line = ggplot2::element_line(colour = color.axis, size = 0.2),
+          axis.line.y = ggplot2::element_line(colour = color.axis, size = 0.25),
+          axis.line.x = ggplot2::element_blank(),
+        )
+    }
+
   }
 
   ## Achsenticks
 
-  if(ticks == "x") {
-    theme_var <- theme_var +
-      ggplot2::theme(
-        axis.ticks = ggplot2::element_line(colour = color.axis, size = 0.25),
-        axis.ticks.x = ggplot2::element_line(colour = color.axis, size = 0.25),
-        axis.ticks.y = ggplot2::element_blank(),
-        axis.ticks.length = unit(0.1, "cm")
-      )
+  if(ticks != "none"){
+    if(ticks == "x") {
+      theme_var <- theme_var +
+        ggplot2::theme(
+          #axis.ticks = ggplot2::element_line(colour = color.axis, size = 0.25),
+          axis.ticks.x = ggplot2::element_line(colour = color.axis, size = 0.25),
+          axis.ticks.length = unit(0.1, "cm")
+        )
+    }
 
+    if(ticks == "y") {
+      theme_var <- theme_var +
+        ggplot2::theme(
+          #axis.ticks = ggplot2::element_line(colour = color.axis, size = 0.25),
+          axis.ticks.y = ggplot2::element_line(colour = color.axis, size = 0.25),
+          axis.ticks.length = unit(0.1, "cm")
+        )
+    }
+
+    if(ticks == "both") {
+      theme_var <- theme_var +
+        ggplot2::theme(
+          #axis.ticks = ggplot2::element_line(colour = color.axis, size = 0.25),
+          axis.ticks.x = ggplot2::element_line(colour = color.axis, size = 0.25),
+          axis.ticks.y = ggplot2::element_line(colour = color.axis, size = 0.25),
+          axis.ticks.length = unit(0.1, "cm")
+        )
+    }
   }
-
-  if(ticks == "y") {
-    theme_var <- theme_var +
-      ggplot2::theme(
-        axis.ticks = ggplot2::element_line(colour = color.axis, size = 0.25),
-        axis.ticks.y = ggplot2::element_line(colour = color.axis, size = 0.25),
-        axis.ticks.x = ggplot2::element_blank(),
-        axis.ticks.length = unit(0.1, "cm")
-      )
-
-  }
-
-  if(ticks == "both") {
-    theme_var <- theme_var +
-      ggplot2::theme(
-        axis.ticks = ggplot2::element_line(colour = color.axis, size = 0.25),
-        axis.ticks.x = ggplot2::element_line(colour = color.axis, size = 0.25),
-        axis.ticks.y = ggplot2::element_line(colour = color.axis, size = 0.25),
-        axis.ticks.length = unit(0.1, "cm")
-      )
-
-  }
-
 
   # GITTERNETZLINIEN
 
