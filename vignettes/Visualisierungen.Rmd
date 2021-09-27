@@ -30,7 +30,7 @@ library(ggrepel)
 
 Das **statR**-ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale Corporate Design einzufügen. Es basiert auf dem ggplot2-theme 'minimal' und bestimmt diejenigen Grafikeigenschaften, die nichts mit den Daten an sich zu tun haben (z.B. die Schriftart).  
 
-Innerhalb des themes kann die Schriftgrösse, die Position der Achsenbeschriftungen sowie das Vorhandensein von Achsenlinien, Achsen-Ticks und Gitterlinien bestimmt werden.
+Innerhalb des themes kann die Schriftgrösse, die Position der Achsenbeschriftungen sowie das Vorhandensein von Achsenlinien, Achsen-Ticks und Gitterlinien bestimmt werden (siehe `?theme_stat()`).
 
 ```{r}
 ggplot(mpg, aes(class,fill = drv))+
@@ -168,9 +168,7 @@ ggplot(mpg, aes(class,fill = drv,linetype=drv))+
   geom_bar(col ="black")+
   theme_stat()+
   scale_fill_manual(values=zhpal$zhblue)+
-  theme(legend.position="right", axis.text.x = element_text(angle=90,vjust = 0.5, hjust=0),
-        panel.grid.major = element_line(colour = "grey", size = 0.1),
-        panel.grid.minor = element_line(colour = "grey", size = 0.2))
+  theme(legend.position="right", axis.text.x = element_text(angle=90,vjust = 0.5, hjust=0))
 
 ```
 
@@ -204,8 +202,7 @@ Bei Grafiken, welche auf [zh.ch](zh.ch) Publiziert werden sollen, gilt es folgen
 ggplot(mpg, aes(class,fill = drv))+
   geom_bar()+
   theme_stat()+
-  scale_fill_manual(values=zhpal$zhblue)+
-  theme(axis.text.x = element_text(angle=90,vjust = 0.5, hjust=0))
+  scale_fill_manual(values=zhpal$zhblue)
 
 
 # ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")
