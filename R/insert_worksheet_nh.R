@@ -11,6 +11,7 @@
 #' @param metadata metadata-information to be included. Defaults to NA.
 #' @param grouplines defaults to FALSE. Can be used to separate grouped variables visually.
 #' @keywords insert_worksheet
+#' @export
 #' @importFrom dplyr "%>%"
 #' @noRd
 #' @examples
