@@ -39,6 +39,24 @@ ggplot(mpg, aes(class,fill = drv))+
   labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
 ```
 
+
+Mit der Funktion `flush_left()` können Titel, Untertitel und Fussnote nach links verschoben werden, sodass sie bündig sind mit der y-Achse der Grafik:
+
+```{r}
+p <- ggplot(mpg, aes(class,fill = drv))+
+  geom_bar()+
+  # Default-Spezifikationen innerhalb theme_stat()
+  theme_stat(base_size = 11,
+             axis.label.pos = "top",
+             axis.lines = "x",
+             ticks = "x",
+             minor.grid.lines = FALSE) +
+  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
+
+flush_left(p)
+```
+
+
 # theme_stat() für Karten
 
 Für Karten kann die Option `map` auf `TRUE` gesetzt werden.
