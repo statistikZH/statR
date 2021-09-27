@@ -1,6 +1,6 @@
 #' insert_metadata_sheet()
 #'
-#' Function to  add formatted worksheets to an existing .xlsx-workbook.
+#' Function to  add formatted metadata information to an existing .xlsx-workbook.
 #' @param wb workbook object to add new worksheet to.
 #' @param title title to be put above the data.
 #' @param sheetname name of the sheet tab.

@@ -33,7 +33,7 @@ insert_metadata_sheet(
 \item{author}{defaults to the last two letters (initials) or numbers of the internal user name.}
 }
 \description{
-Function to  add formatted worksheets to an existing .xlsx-workbook.
+Function to  add formatted metadata information to an existing .xlsx-workbook.
 }
 \examples{
 
