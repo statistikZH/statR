@@ -60,7 +60,7 @@ insert_worksheet_nh <- function(data,
   } else
     n_metadata <- length(metadata)
 
-  datenbereich <- 2 + n_metadata + 3
+  datenbereich <- 1 + n_metadata + 3
 
   # number of data columns
   spalten <- ncol(data)
@@ -93,18 +93,33 @@ insert_worksheet_nh <- function(data,
   openxlsx::addStyle(wb
                      ,sheet = i
                      ,style_title
-                     ,rows = 2
+                     ,rows = 1
                      ,cols = 1)
   openxlsx::writeData(wb
                       ,sheet = i
                       ,title
                       ,headerStyle=style_title
-                      ,startRow = 2)
+                      ,startRow = 1)
 
   ## Quelle
   if(source=="statzh"){
     source <- "Quelle: Statistisches Amt des Kantons Z\u00fcrich"
   }
+  openxlsx::addStyle(wb
+                     ,sheet = i
+                     ,style_subtitle
+                     ,rows = 2
+                     ,cols = 1
+                     ,gridExpand = TRUE
+  )
+  openxlsx::writeData(wb
+                      ,sheet = i
+                      ,source
+                      ,headerStyle=style_subtitle
+                      ,startRow = 2
+  )
+
+  ##Metadata
   openxlsx::addStyle(wb
                      ,sheet = i
                      ,style_subtitle
@@ -114,28 +129,13 @@ insert_worksheet_nh <- function(data,
   )
   openxlsx::writeData(wb
                       ,sheet = i
-                      ,source
+                      ,metadata
                       ,headerStyle=style_subtitle
                       ,startRow = 3
   )
 
-  ##Metadata
-  openxlsx::addStyle(wb
-                     ,sheet = i
-                     ,style_subtitle
-                     ,rows = 4
-                     ,cols = 1
-                     ,gridExpand = TRUE
-  )
-  openxlsx::writeData(wb
-                      ,sheet = i
-                      ,metadata
-                      ,headerStyle=style_subtitle
-                      ,startRow = 4
-  )
-
   ### Metadaten zusammenmergen
-  purrr::walk(1:(4+n_metadata), ~openxlsx::mergeCells(wb, sheet = i, cols = 1:26, rows = .))
+  purrr::walk(1:(2+n_metadata), ~openxlsx::mergeCells(wb, sheet = i, cols = 1:26, rows = .))
 
   # Daten
   openxlsx::addStyle(wb
