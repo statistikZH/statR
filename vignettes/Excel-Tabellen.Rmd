@@ -26,7 +26,7 @@ Die Spalteninhalte können bei allen Funktionen entsprechend ihrer Einheit forma
 
 ### aXLSX() *NEU*
 
-Mit der Funktion `aXLSX()` kann ein Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. Die Funktion eignet sich, um einzelne Datensätze als Excel-Datei zu verschicken. Mit dem Argument `author` kann vermerkt werden, wer die Datei erstellt hat. Per Default werden die Initialen bzw. letzten zwei Ziffern des hinterlegten Benutzernamens eingefügt. Die Funktion hat zum Ziel, möglichst barrierefreie, formatierte Excel-Tabellen zu erstellen (siehe https://statistikzh.github.io/axguide/grafiken.html#components), indem die Daten und Metadateninformationen in separate Arbeitsblätter abgefüllt werden. Das erste Arbeitsblatt beinhaltet einen Titel, eine Quellenangabe und die Daten, das zweite Arbeitsblatt Hinweise zu den Daten sowie Kontaktinformationen. 
+Mit der Funktion `aXLSX()` kann ein einzelner Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. Die Funktion hat zum Ziel, möglichst __barrierefreie__ Excel-Tabellen zu erstellen, die sich auch für die Publikation auf [zh.ch](zh.ch) eignen (siehe: https://statistikzh.github.io/axguide/grafiken.html#components), indem die Daten und Metadateninformationen in separate Arbeitsblätter abgefüllt werden. Das erste Arbeitsblatt beinhaltet einen Titel, eine Quellenangabe und die Daten, das zweite Arbeitsblatt Hinweise zu den Daten sowie Kontaktinformationen. Mit dem Argument `author` kann vermerkt werden, wer die Datei erstellt hat. Per Default werden die Initialen bzw. letzten zwei Ziffern des hinterlegten Benutzernamens eingefügt.  
 
 ```{r,echo=T,eval=F}
 dat <- mtcars
@@ -46,7 +46,7 @@ aXLSX(data = dat,
 
 ![Screenshot des Metadatenblatts der Datei motor_trend_car_road_tests.xlsx](./output-aXLSX-2.PNG){width=95%}
 
-### quickXLSX()
+### quickXLSX() 
 
 Mit der Funktion `quickXLSX()` kann -- wie mit `aXLSX()` -- ein Datensatz aus `R` als vorformatierte Excel-Datei exportiert werden. Der Unterschied zu `aXLSX()` besteht darin, dass `quickXLSX()` die Metadaten und die Daten auf ein einzelnes Excel-Sheet exportiert, während `aXLSX()` die Daten und Metadaten voneinander trennt, indem sie auf zwei Excel-Sheets verteilt werden.  
 
