@@ -1,10 +1,9 @@
-# insert_worksheet_nh: add formatted worksheets without header to an existing Workbook
-
 #' insert_worksheet_nh
 #'
-#' Function to create formatted spreadsheets automatically
+#' Function to add formatted worksheets without headers to an existing workbook
+#'
 #' @param data data to be included in the XLSX-table.
-#' @param workbook workbook object to write new worksheet in.
+#' @param wb workbook object to write new worksheet in.
 #' @param title title of the table and the sheet
 #' @param sheetname name of the sheet-tab.
 #' @param source source of the data. Defaults to "statzh".
@@ -13,7 +12,6 @@
 #' @keywords insert_worksheet
 #' @export
 #' @importFrom dplyr "%>%"
-#' @noRd
 #' @examples
 #'
 #' # create workbook
