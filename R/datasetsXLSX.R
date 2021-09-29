@@ -36,7 +36,7 @@
 #'dat1 <- mtcars
 #'dat2 <- PlantGrowth
 #'
-#'datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugefügt
+#'datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugef\u00fcgt
 #'             maintitle = "Autos und Pflanzen",
 #'             datasets = list(dat1, dat2),
 #'             logo = "statzh",
@@ -57,7 +57,7 @@
 #'fig <- hist(mtcars$disp)
 #'
 #'datasetsXLSX(file="twoDatasetsandFigure",
-#'             maintitle = "Autos und Pflanzen", # '.xlsx' wird automatisch hinzugefügt
+#'             maintitle = "Autos und Pflanzen", # '.xlsx' wird automatisch hinzugef\u00fcgt
 #'             datasets = list(dat1, dat2, fig),
 #'             widths = c(0,0,5),
 #'             heights = c(0,0,5),
@@ -128,7 +128,7 @@ datasetsXLSX <- function(file,
 
     # #dynamisch mit sheetvar!
     # statR::insert_worksheet2(data=dataset,
-    #                         workbook=wb,
+    #                         wb=wb,
     #                         sheetname = sheetnames_def,
     #                         title = title_def,
     #                         source = source_def,
@@ -138,7 +138,7 @@ datasetsXLSX <- function(file,
     #dynamisch mit sheetvar!
     if(is.data.frame(dataset)){
       insert_worksheet_nh(data=dataset
-                        ,workbook=wb
+                        ,wb=wb
                         ,sheetname = sheetnames_def
                         ,title = title_def
                         ,source = source_def
@@ -270,7 +270,7 @@ datasetsXLSX <- function(file,
 
     if(any(grepl(openinghours, pattern = "statzh"))) {
 
-      openinghours <- c("Bürozeiten"
+      openinghours <- c("B\u00fcrozeiten"
                         ,"Montag bis Freitag"
                         ,"09:00 bis 12:00"
                         ,"13:00 bis 16:00")
@@ -346,7 +346,7 @@ datasetsXLSX <- function(file,
     # source
     openxlsx::writeData(wb
                         ,"Inhalt"
-                        ,"Quelle: Statistisches Amt des Kantons Zürich"
+                        ,"Quelle: Statistisches Amt des Kantons Z\u00fcrich"
                         ,xy = c("C", 11)
     )
 
@@ -403,27 +403,5 @@ datasetsXLSX <- function(file,
 
 }
 
-
-
-# # # example
-# pacman::p_load(tidyverse,tmap)
-# data("World")
-# # create map
-# map <- tm_shape(World) +
-#   tm_polygons("HPI")
-#
-# datasetsXLSX(file="datasetsXLSX"
-#              ,maintitle = "nice datasets"
-#              ,datasets = list(head(mtcars),tail(mtcars),map)
-#              ,sheetnames = c("data1","data2","map")
-#              ,widths = c(0,0,10)
-#              ,heights = c(0,0,8.5)
-#              ,startrows = c(0,0,10)
-#              ,startcols = c(0,0,8)
-#              ,titles = c("Title","Title", "Map")
-#              ,sources = c("Quelle: STATENT", "Quelle: Strukturerhebung", "Quelle: Strukturerhebung")
-#              ,metadata1 = c("Bemerkungen: bla", "Bemerkungen: blabla", "Bemerkungen: blablabla")
-#              ,auftrag_id="A2020_0200"
-# )
 
 

@@ -78,7 +78,7 @@ To include a ggplot2-plot, put a print statement around the ggplot2-object: list
 dat1 <- mtcars
 dat2 <- PlantGrowth
 
-datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugefügt
+datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugef\u00fcgt
             maintitle = "Autos und Pflanzen",
             datasets = list(dat1, dat2),
             logo = "statzh",
@@ -99,7 +99,7 @@ dat2 <- PlantGrowth
 fig <- hist(mtcars$disp)
 
 datasetsXLSX(file="twoDatasetsandFigure",
-            maintitle = "Autos und Pflanzen", # '.xlsx' wird automatisch hinzugefügt
+            maintitle = "Autos und Pflanzen", # '.xlsx' wird automatisch hinzugef\u00fcgt
             datasets = list(dat1, dat2, fig),
             widths = c(0,0,5),
             heights = c(0,0,5),

@@ -24,9 +24,31 @@ Die Spalteninhalte können bei allen Funktionen entsprechend ihrer Einheit forma
 
 ## Funktionen und Beispiele
 
-### quickXLSX()
+### aXLSX() *NEU*
 
-Mit der Funktion `quickXLSX()` kann ein Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. Die Funktion eignet sich, um einzelne Datensätze als Exceldatei zu verschicken. Mit dem Argument `author` kann vermerkt werden, wer die Datei erstellt hat. Per Default werden die Initialen bzw. letzten zwei Ziffern des hinterlegten Benutzernamens eingefügt. 
+Mit der Funktion `aXLSX()` kann ein einzelner Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. Die Funktion hat zum Ziel, möglichst __barrierefreie__ Excel-Tabellen zu erstellen, die sich auch für die Publikation auf [zh.ch](zh.ch) eignen (siehe: https://statistikzh.github.io/axguide/grafiken.html#components), indem die Daten und Metadateninformationen in separate Arbeitsblätter abgefüllt werden. Das erste Arbeitsblatt beinhaltet einen Titel, eine Quellenangabe und die Daten, das zweite Arbeitsblatt Hinweise zu den Daten sowie Kontaktinformationen. Mit dem Argument `author` kann vermerkt werden, wer die Datei erstellt hat. Per Default werden die Initialen bzw. letzten zwei Ziffern des hinterlegten Benutzernamens eingefügt.  
+
+```{r,echo=T,eval=F}
+dat <- mtcars
+aXLSX(data = dat,
+         title = "Motor trend car road tests",
+         file = "motor_trend_car_road_tests", # '.xlsx' is automatically added
+         source = "Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411.",
+         metadata = c("The data was extracted from the 1974 Motor Trend US magazine and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."),
+         contactdetails = "statzh",
+         grouplines = FALSE,
+         logo = "statzh",
+         author = "MD")
+```
+
+
+![Screenshot des Datenblatts in der Datei motor_trend_car_road_tests.xlsx](./output-aXLSX-1.PNG){width=95%}
+
+![Screenshot des Metadatenblatts der Datei motor_trend_car_road_tests.xlsx](./output-aXLSX-2.PNG){width=95%}
+
+### quickXLSX() 
+
+Mit der Funktion `quickXLSX()` kann -- wie mit `aXLSX()` -- ein Datensatz aus `R` als vorformatierte Excel-Datei exportiert werden. Der Unterschied zu `aXLSX()` besteht darin, dass `quickXLSX()` die Metadaten und die Daten auf ein einzelnes Excel-Sheet exportiert, während `aXLSX()` die Daten und Metadaten voneinander trennt, indem sie auf zwei Excel-Sheets verteilt werden.  
 
 ```{r,echo=T,eval=F,error=F}
 # Beispiel anhand des Datensatzes 'mtcars'
@@ -43,6 +65,7 @@ quickXLSX(data = dat,
           author = "MD")
 
 ```
+
 
 ![Screenshot der Datei motor_trend_car_road_tests.xlsx](./output-quickXLSX.PNG){width=95%}
 
@@ -73,9 +96,9 @@ splitXLSX(data = dat,
 ![Screenshot der Datei motor_trend_car_road_tests.xlsx](./output-splitXLSX.PNG){width=95%}
 
 
-### datasetsXLSX() (*NEU*)
+### datasetsXLSX()
 
-Die Funktion datasetsXLSX() erlaubt es, mehrere Datensätze und/oder Grafiken aus R in eine XLSX-Datei zu exportieren. Pro Arbeitsblatt wird ein Datensatz oder eine Grafik dargestellt. Es kann auch eine Auftragsnummer hinzugefügt werden. Die Funktion eignet sich besonders für Fälle, wo man mehrere Datensätze an eine/n Empfänger/in verschicken möchte.  
+Die Funktion `datasetsXLSX()` erlaubt es, mehrere Datensätze und/oder Grafiken aus R in eine XLSX-Datei zu exportieren. Pro Arbeitsblatt wird ein Datensatz oder eine Grafik dargestellt. Es kann auch eine Auftragsnummer hinzugefügt werden. Die Funktion eignet sich besonders für Fälle, wo man mehrere Datensätze an eine/n Empfänger/in verschicken möchte.  
 
 Die Datensätze, die zusammen in einer Excel-Datei erscheinen sollen, müssen dem Funktionsargument `datasets` als Liste übergeben werden (`datasets = list(dataset1, dataset2, ...)`. 
 
