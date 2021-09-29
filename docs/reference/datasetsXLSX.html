@@ -80,7 +80,7 @@ for each dataset/figure." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">statR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.0</span>
       </span>
     </div>
 
@@ -259,7 +259,7 @@ To include a ggplot2-plot, put a print statement around the ggplot2-object: list
 <span class='va'>dat1</span> <span class='op'>&lt;-</span> <span class='va'>mtcars</span>
 <span class='va'>dat2</span> <span class='op'>&lt;-</span> <span class='va'>PlantGrowth</span>
 
-<span class='fu'>datasetsXLSX</span><span class='op'>(</span>file<span class='op'>=</span><span class='st'>"twoDatasets"</span>, <span class='co'># '.xlsx' wird automatisch hinzugefügt</span>
+<span class='fu'>datasetsXLSX</span><span class='op'>(</span>file<span class='op'>=</span><span class='st'>"twoDatasets"</span>, <span class='co'># '.xlsx' wird automatisch hinzugef\u00fcgt</span>
             maintitle <span class='op'>=</span> <span class='st'>"Autos und Pflanzen"</span>,
             datasets <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>dat1</span>, <span class='va'>dat2</span><span class='op'>)</span>,
             logo <span class='op'>=</span> <span class='st'>"statzh"</span>,
@@ -280,7 +280,7 @@ To include a ggplot2-plot, put a print statement around the ggplot2-object: list
 <span class='va'>fig</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>disp</span><span class='op'>)</span>
 
 <span class='fu'>datasetsXLSX</span><span class='op'>(</span>file<span class='op'>=</span><span class='st'>"twoDatasetsandFigure"</span>,
-            maintitle <span class='op'>=</span> <span class='st'>"Autos und Pflanzen"</span>, <span class='co'># '.xlsx' wird automatisch hinzugefügt</span>
+            maintitle <span class='op'>=</span> <span class='st'>"Autos und Pflanzen"</span>, <span class='co'># '.xlsx' wird automatisch hinzugef\u00fcgt</span>
             datasets <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>dat1</span>, <span class='va'>dat2</span>, <span class='va'>fig</span><span class='op'>)</span>,
             widths <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>5</span><span class='op'>)</span>,
             heights <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>5</span><span class='op'>)</span>,
@@ -309,7 +309,7 @@ To include a ggplot2-plot, put a print statement around the ggplot2-object: list
 
       <footer>
       <div class="copyright">
-  <p>Developed by Andrea Schnell, Thomas Lo Russo.</p>
+  <p>Developed by Andrea Schnell, Michelle Donzallaz, Thomas Lo Russo.</p>
 </div>
 
 <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#000000 !important;background-color:#FFFFFF !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 0px 9px !important;font-size: 17px !important;letter-spacing:-0.08px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Lato', sans-serif !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#000000 !important;}</style><link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet">

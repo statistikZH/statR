@@ -37,7 +37,7 @@
 
 <meta property="og:title" content="theme_stat() — theme_stat" />
 <meta property="og:description" content="This ggplot2 theme is based on ggplot2::theme_minimal(). It controls the non-data related characteristics of a plot (e.g., the font type).
-On top of that, the font size, the presence (or absence) of minor grid lines, axis lines, axis ticks and the axis label positions can be specified." />
+On top of that, the font size, the major and minor grid lines, axis lines, axis ticks and the axis label positions can be specified." />
 <meta name="twitter:card" content="summary" />
 
 <meta name="theme-color" content="#293c55">
@@ -80,7 +80,7 @@ On top of that, the font size, the presence (or absence) of minor grid lines, ax
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">statR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.0</span>
       </span>
     </div>
 
@@ -147,7 +147,7 @@ On top of that, the font size, the presence (or absence) of minor grid lines, ax
 
     <div class="ref-description">
     <p>This ggplot2 theme is based on ggplot2::theme_minimal(). It controls the non-data related characteristics of a plot (e.g., the font type).
-On top of that, the font size, the presence (or absence) of minor grid lines, axis lines, axis ticks and the axis label positions can be specified.</p>
+On top of that, the font size, the major and minor grid lines, axis lines, axis ticks and the axis label positions can be specified.</p>
     </div>
 
     <pre class="usage"><span class='fu'>theme_stat</span><span class='op'>(</span>
@@ -155,7 +155,9 @@ On top of that, the font size, the presence (or absence) of minor grid lines, ax
   axis.label.pos <span class='op'>=</span> <span class='st'>"top"</span>,
   axis.lines <span class='op'>=</span> <span class='st'>"x"</span>,
   ticks <span class='op'>=</span> <span class='st'>"x"</span>,
-  minor.grid.lines <span class='op'>=</span> <span class='cn'>FALSE</span>
+  major.grid.lines <span class='op'>=</span> <span class='st'>"y"</span>,
+  minor.grid.lines <span class='op'>=</span> <span class='st'>"none"</span>,
+  map <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -171,15 +173,23 @@ On top of that, the font size, the presence (or absence) of minor grid lines, ax
     </tr>
     <tr>
       <th>axis.lines</th>
-      <td><p>presence of axis lines, can be set to "x", "y", or "both".</p></td>
+      <td><p>presence of axis lines, can be set to "x", "y", "both", or "none".</p></td>
     </tr>
     <tr>
       <th>ticks</th>
-      <td><p>presence of axis ticks, can be set to "x", "y", or "both".</p></td>
+      <td><p>presence of axis ticks, can be set to "x", "y", "both", or "none".</p></td>
+    </tr>
+    <tr>
+      <th>major.grid.lines</th>
+      <td><p>presence of major grid lines, can be set to "x", "y", "both", or "none".</p></td>
     </tr>
     <tr>
       <th>minor.grid.lines</th>
-      <td><p>presence of minor grid lines on the y-axis, can be set to TRUE or FALSE.</p></td>
+      <td><p>presence of minor grid lines, can be set to "x", "y", "both", or "none".</p></td>
+    </tr>
+    <tr>
+      <th>map</th>
+      <td><p>whether the theme should be optimized for maps, can be set to TRUE or FALSE.</p></td>
     </tr>
     </table>
 
@@ -210,7 +220,7 @@ On top of that, the font size, the presence (or absence) of minor grid lines, ax
 
       <footer>
       <div class="copyright">
-  <p>Developed by Andrea Schnell, Thomas Lo Russo.</p>
+  <p>Developed by Andrea Schnell, Michelle Donzallaz, Thomas Lo Russo.</p>
 </div>
 
 <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#000000 !important;background-color:#FFFFFF !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 0px 9px !important;font-size: 17px !important;letter-spacing:-0.08px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Lato', sans-serif !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#000000 !important;}</style><link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet">
