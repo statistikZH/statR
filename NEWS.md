@@ -1,3 +1,11 @@
+# statR 2.1.0
+
+* New function `aXLSX()`: exports data from R to a formatted excel file optimized for accessbility, separating contact info and additional metadata (other than the source and title) from the data
+* Updated `theme_stat()`: `theme_stat(map = TRUE)` optimizes the theme for maps
+* Updated `theme_stat()`: additional function arguments to add or remove major and minor grid lines
+* Extended documentation, (e.g., added `flush_left()` to the vignette on visualizations, a function that allows one to align the title, subtitle, and caption with the y-axis of a plot)
+* New function `insert_metadata_sheet()`: adds formatted metadata to an existing .xlsx-workbook
+
 # statR 2.0.0
 
 * An R Markdown template `ZH report` for .html-reports is now available.  
