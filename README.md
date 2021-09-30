@@ -17,18 +17,36 @@ Mit dem `statR`-Package können mit dem Corporate Design des Kantons Zürich kon
 
 # Installation
 
-Die development-Version des Package liegt auf GitHub. Sie kann auf zwei Arten installiert werden:
+Das Package liegt auf GitHub. Es kann auf zwei Arten installiert werden:
 
 ```
 # Variante 1
+
+library(devtools)
+devtools::install_github("statistikZH/statR")
+
+# Variante 2
 
 library(downloader)
 download("https://github.com/statistikZH/statR/archive/refs/heads/master.tar.gz", "statR.tar.gz")
 install.packages("statR.tar.gz", repos = NULL, type = "source")
 
 
-# Variante 2
+```
+
+Die Development-Variante kann folgendermassen installiert werden:
+
+```
+# Variante 1
 
 library(devtools)
-devtools::install_github("statistikZH/statR")
+devtools::install_github("statistikZH/statR", ref = "dev")
+
+# Variante 2
+
+library(downloader)
+download("https://github.com/statistikZH/statR/archive/refs/heads/dev.tar.gz", "statR.tar.gz")
+install.packages("statR.tar.gz", repos = NULL, type = "source")
+
 ```
+
