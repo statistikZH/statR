@@ -34,7 +34,7 @@ install.packages("statR.tar.gz", repos = NULL, type = "source")
 
 ```
 
-Die Development-Variante kann folgendermassen installiert werden:
+Die Development-Version kann folgendermassen installiert werden:
 
 ```
 # Variante 1
