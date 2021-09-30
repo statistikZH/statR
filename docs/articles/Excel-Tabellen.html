@@ -94,7 +94,7 @@
 
       
 
-      </header><script src="Excel-Tabellen_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><script src="Excel-Tabellen_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Excel-Tabellen</h1>
@@ -122,8 +122,8 @@
 <a href="#axlsx-neu" class="anchor"></a>aXLSX() <em>NEU</em>
 </h3>
 <p>Mit der Funktion <code><a href="../reference/aXLSX.html">aXLSX()</a></code> kann ein einzelner Datensatz aus <code>R</code> als vorformatierte XLSX-Datei exportiert werden. Die Funktion hat zum Ziel, möglichst <strong>barrierefreie</strong> Excel-Tabellen zu erstellen, die sich auch für die Publikation auf <a href="zh.ch">zh.ch</a> eignen (siehe: <a href="https://statistikzh.github.io/axguide/grafiken.html#components" class="uri">https://statistikzh.github.io/axguide/grafiken.html#components</a>), indem die Daten und Metadateninformationen in separate Arbeitsblätter abgefüllt werden. Das erste Arbeitsblatt beinhaltet einen Titel, eine Quellenangabe und die Daten, das zweite Arbeitsblatt Hinweise zu den Daten sowie Kontaktinformationen. Mit dem Argument <code>author</code> kann vermerkt werden, wer die Datei erstellt hat. Per Default werden die Initialen bzw. letzten zwei Ziffern des hinterlegten Benutzernamens eingefügt.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">mtcars</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">mtcars</span>
 <span class="fu"><a href="../reference/aXLSX.html">aXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat</span>,
          title <span class="op">=</span> <span class="st">"Motor trend car road tests"</span>,
          file <span class="op">=</span> <span class="st">"motor_trend_car_road_tests"</span>, <span class="co"># '.xlsx' is automatically added</span>
@@ -132,7 +132,7 @@
          contactdetails <span class="op">=</span> <span class="st">"statzh"</span>,
          grouplines <span class="op">=</span> <span class="cn">FALSE</span>,
          logo <span class="op">=</span> <span class="st">"statzh"</span>,
-         author <span class="op">=</span> <span class="st">"MD"</span><span class="op">)</span></pre></div>
+         author <span class="op">=</span> <span class="st">"MD"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="output-aXLSX-1.PNG" style="width:95.0%" alt=""><p class="caption">Screenshot des Datenblatts in der Datei motor_trend_car_road_tests.xlsx</p>
 </div>
@@ -144,8 +144,8 @@
 <h3 class="hasAnchor">
 <a href="#quickxlsx" class="anchor"></a>quickXLSX()</h3>
 <p>Mit der Funktion <code><a href="../reference/quickXLSX.html">quickXLSX()</a></code> kann – wie mit <code><a href="../reference/aXLSX.html">aXLSX()</a></code> – ein Datensatz aus <code>R</code> als vorformatierte Excel-Datei exportiert werden. Der Unterschied zu <code><a href="../reference/aXLSX.html">aXLSX()</a></code> besteht darin, dass <code><a href="../reference/quickXLSX.html">quickXLSX()</a></code> die Metadaten und die Daten auf ein einzelnes Excel-Sheet exportiert, während <code><a href="../reference/aXLSX.html">aXLSX()</a></code> die Daten und Metadaten voneinander trennt, indem sie auf zwei Excel-Sheets verteilt werden.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="co"># Beispiel anhand des Datensatzes 'mtcars'</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Beispiel anhand des Datensatzes 'mtcars'</span>
 <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">mtcars</span>
 
 <span class="fu"><a href="../reference/quickXLSX.html">quickXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat</span>, 
@@ -156,7 +156,7 @@
           contactdetails <span class="op">=</span> <span class="st">"statzh"</span>,
           logo <span class="op">=</span> <span class="st">"statzh"</span>,
           grouplines <span class="op">=</span> <span class="cn">FALSE</span>,
-          author <span class="op">=</span> <span class="st">"MD"</span><span class="op">)</span></pre></div>
+          author <span class="op">=</span> <span class="st">"MD"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="output-quickXLSX.PNG" style="width:95.0%" alt=""><p class="caption">Screenshot der Datei motor_trend_car_road_tests.xlsx</p>
 </div>
@@ -166,8 +166,8 @@
 <a href="#splitxlsx" class="anchor"></a>splitXLSX()</h3>
 <p>Mit der Funktion <code><a href="../reference/splitXLSX.html">splitXLSX()</a></code> kann ein Datensatz aus R in eine XLSX-Datei exportiert und auf mehreren Arbeitsblättern verteilt werden. Die Funktion ist besonders dann geeignet, wenn man einen Datensatz für verschiedene Ausprägungen einer Gruppierungsvariable (z.B. Altersklassen) separat aufführen möchte. Mit dem Argument <code>author</code> kann vermerkt werden, wer die Datei erstellt hat. Per Default werden die Initialen bzw. letzten zwei Ziffern des hinterlegten Benutzernamens eingefügt.</p>
 <p>Im Beispiel unten wird ein Arbeitsblatt pro Zylinderanzahl der Autos im <code>mtcars</code>-Datensatz generiert.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="co"># Beispiel anhand des Datensatzes 'mtcars'</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Beispiel anhand des Datensatzes 'mtcars'</span>
 <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">mtcars</span>
 
 <span class="co"># Beispiel mit Standardlogo (Logo des Statistischen Amts)</span>
@@ -180,7 +180,7 @@
           contactdetails <span class="op">=</span> <span class="st">"statzh"</span>,
           grouplines <span class="op">=</span> <span class="cn">FALSE</span>,
           logo <span class="op">=</span> <span class="st">"statzh"</span>,
-          author <span class="op">=</span> <span class="st">"MD"</span><span class="op">)</span></pre></div>
+          author <span class="op">=</span> <span class="st">"MD"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="output-splitXLSX.PNG" style="width:95.0%" alt=""><p class="caption">Screenshot der Datei motor_trend_car_road_tests.xlsx</p>
 </div>
@@ -190,8 +190,8 @@
 <a href="#datasetsxlsx" class="anchor"></a>datasetsXLSX()</h3>
 <p>Die Funktion <code><a href="../reference/datasetsXLSX.html">datasetsXLSX()</a></code> erlaubt es, mehrere Datensätze und/oder Grafiken aus R in eine XLSX-Datei zu exportieren. Pro Arbeitsblatt wird ein Datensatz oder eine Grafik dargestellt. Es kann auch eine Auftragsnummer hinzugefügt werden. Die Funktion eignet sich besonders für Fälle, wo man mehrere Datensätze an eine/n Empfänger/in verschicken möchte.</p>
 <p>Die Datensätze, die zusammen in einer Excel-Datei erscheinen sollen, müssen dem Funktionsargument <code>datasets</code> als Liste übergeben werden (<code>datasets = list(dataset1, dataset2, ...)</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="co"># Beispiel mit zwei Datensätzen:</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Beispiel mit zwei Datensätzen:</span>
 <span class="va">dat1</span> <span class="op">&lt;-</span> <span class="va">mtcars</span>
 <span class="va">dat2</span> <span class="op">&lt;-</span> <span class="va">PlantGrowth</span>
 
@@ -209,7 +209,7 @@
              homepage <span class="op">=</span> <span class="st">"statzh"</span>,
              contact <span class="op">=</span> <span class="st">"statzh"</span>,
              openinghours <span class="op">=</span> <span class="st">"statzh"</span>,
-             titlesource <span class="op">=</span> <span class="st">"Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411."</span><span class="op">)</span></pre></div>
+             titlesource <span class="op">=</span> <span class="st">"Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411."</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="output-datasetsXLSX-1.PNG" style="width:95.0%" alt=""><p class="caption">Screenshot des Titelblatts der Datei twoDatasets.xlsx</p>
 </div>
@@ -218,8 +218,8 @@
 </div>
 <p>Um eine Grafik in die Excel-Datei einzufügen, muss sie der <code>datasets</code>-Liste hinzugefügt werden: <code>datasets = list(dataset1, dataset2, grafik1)</code>.</p>
 <p>Mit den Argumenten <code>startrows</code> und <code>startcols</code> kann bestimmt werden, wo im Arbeitsblatt die Grafik platziert werden soll und mit <code>widths</code> und <code>heights</code> kann man die Höhe und die Breite adjustieren (aktuell in Zoll/<em>inches</em>, 1 Zoll = 2.54 cm). Die Grösse und Position wird mittels eines Vektors bestimmt, wobei es pro Arbeitsblatt ein Vektorelement gibt. Die Vektorelemente müssen überall auf <code>= 0</code> gesetzt sein ausser bei den Visualisierungen. Bei zwei Datensätzen und einer Grafik sieht der Vektor bspw. folgendermassen aus: <code><a href="https://rdrr.io/r/base/c.html">c(0,0,4)</a></code>. Hätte man einen Datensatz und zwei Grafiken, sähe der Vektor hingegen so aus: <code><a href="https://rdrr.io/r/base/c.html">c(0,4,4)</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
 <span class="va">dat1</span> <span class="op">&lt;-</span> <span class="va">mtcars</span>
 <span class="va">dat2</span> <span class="op">&lt;-</span> <span class="va">PlantGrowth</span>
 <span class="va">fig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">disp</span><span class="op">)</span>
@@ -241,7 +241,7 @@
              auftrag_id<span class="op">=</span><span class="st">"A2021_0000"</span>,
              contact <span class="op">=</span> <span class="st">"statzh"</span>,
              openinghours <span class="op">=</span> <span class="st">"statzh"</span>,
-             titlesource <span class="op">=</span> <span class="st">"Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411."</span><span class="op">)</span></pre></div>
+             titlesource <span class="op">=</span> <span class="st">"Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411."</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
   </div>

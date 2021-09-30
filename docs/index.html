@@ -114,18 +114,31 @@
 <div id="installation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h1>
-<p>Die development-Version des Package liegt auf GitHub. Sie kann auf zwei Arten installiert werden:</p>
-<pre><code><a href="https://github.com/wch/downloader"># Variante 1
+<p>Das Package liegt auf GitHub. Es kann auf zwei Arten installiert werden:</p>
+<pre><code><a href="https://devtools.r-lib.org/"># Variante 1
+
+library(devtools)
+devtools::install_github("statistikZH/statR")
+
+# Variante 2
 
 library(downloader)
 download("https://github.com/statistikZH/statR/archive/refs/heads/master.tar.gz", "statR.tar.gz")
 install.packages("statR.tar.gz", repos = NULL, type = "source")
 
+</a></code></pre>
+<p>Die Development-Version kann folgendermassen installiert werden:</p>
+<pre><code><a href="https://devtools.r-lib.org/"># Variante 1
+
+library(devtools)
+devtools::install_github("statistikZH/statR", ref = "dev")
 
 # Variante 2
 
-library(devtools)
-devtools::install_github("statistikZH/statR")</a></code></pre>
+library(downloader)
+download("https://github.com/statistikZH/statR/archive/refs/heads/dev.tar.gz", "statR.tar.gz")
+install.packages("statR.tar.gz", repos = NULL, type = "source")
+</a></code></pre>
 </div>
 
   </div>
