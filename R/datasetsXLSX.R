@@ -439,9 +439,9 @@ insert_hyperlinks <- function(wb, sheetname, title, sheet_row){
   field_f <- wb$worksheets[[worksheet]]$sheet_data$f
   field_f[length(field_f)] <- paste0("<f>=HYPERLINK(&quot;#&apos;",sheetname,"&apos;!A1&quot;, &quot;",title,"&quot;)</f>")
 
-  wb$worksheets[[3]]$sheet_data$t <- as.integer(field_t)
-  wb$worksheets[[3]]$sheet_data$v <- field_v
-  wb$worksheets[[3]]$sheet_data$f <- field_f
+  wb$worksheets[[worksheet]]$sheet_data$t <- as.integer(field_t)
+  wb$worksheets[[worksheet]]$sheet_data$v <- field_v
+  wb$worksheets[[worksheet]]$sheet_data$f <- field_f
 }
 
 
