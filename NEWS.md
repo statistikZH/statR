@@ -1,3 +1,7 @@
+# statR 2.1.1
+
+* fix `datasetXLSX()` which generated broken Links in the index-sheet
+
 # statR 2.1.0
 
 * New function `aXLSX()`: exports data from R to a formatted excel file optimized for accessbility, separating contact info and additional metadata (other than the source and title) from the data
