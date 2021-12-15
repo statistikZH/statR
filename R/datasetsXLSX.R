@@ -380,18 +380,28 @@ datasetsXLSX <- function(file,
   )
 
   ## writing internal hyperlinks
-  openxlsx::writeFormula(wb
-                         ,sheet = "Inhalt"
-                         ,x = openxlsx::makeHyperlinkString(sheet = sheetnames
-                                                            #,row = 1
-                                                            #,col = 1
-                                                            ,text = titles # soll arguments titles entsprechen
-                         )
-                         ,xy = c("C", 15)
-  )
-
+  # openxlsx::writeFormula(wb
+  #                        ,sheet = "Inhalt"
+  #                        ,x = openxlsx::makeHyperlinkString(sheet = sheetnames
+  #                                                           #,row = 1
+  #                                                           #,col = 1
+  #                                                           ,text = titles # soll arguments titles entsprechen
+  #                        )
+  #                        ,xy = c("C", 15)
+  # )
 
   openxlsx::worksheetOrder(wb) <- c(length(names(wb)),1:(length(names(wb))-1))
+
+  hyperlink_table <- data.frame(
+    sheetnames = sheetnames,
+    titles = titles,
+    sheet_row = c(seq(15,15+length(sheetnames)-1))
+  )
+
+  purrr::pwalk(hyperlink_table, ~insert_hyperlinks(wb, ..1, ..2, ..3))
+
+
+
 
 
   if(missing(metadata1)) {
@@ -401,6 +411,48 @@ datasetsXLSX <- function(file,
 
   openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""))
 
+}
+
+
+insert_hyperlinks <- function(wb, sheetname, title, sheet_row){
+  openxlsx::writeData(wb,
+                      sheet = "Inhalt",
+                      x = title,
+                      xy = c("C", sheet_row)
+  )
+
+  openxlsx::addStyle(wb
+                     ,sheet = "Inhalt"
+                     ,style = hyperlink_style()
+                     ,rows = sheet_row
+                     ,cols = 3
+  )
+
+  worksheet <- wb$sheetOrder[1]
+
+  field_t <- wb$worksheets[[worksheet]]$sheet_data$t
+  field_t[length(field_t)] <- 3
+
+  field_v <- wb$worksheets[[worksheet]]$sheet_data$v
+  field_v[length(field_v)] <- NA
+
+  field_f <- wb$worksheets[[worksheet]]$sheet_data$f
+  field_f[length(field_f)] <- paste0("<f>=HYPERLINK(&quot;#&apos;",sheetname,"&apos;!A1&quot;, &quot;",title,"&quot;)</f>")
+
+  wb$worksheets[[3]]$sheet_data$t <- as.integer(field_t)
+  wb$worksheets[[3]]$sheet_data$v <- field_v
+  wb$worksheets[[3]]$sheet_data$f <- field_f
+}
+
+
+hyperlink_style <- function(){
+  openxlsx::createStyle(
+    fontName = "Calibri",
+    fontSize = 11,
+    fontColour = "blue",
+    textDecoration = "underline"
+
+  )
 }
 
 
