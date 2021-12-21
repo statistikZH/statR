@@ -39,17 +39,30 @@ insert_worksheet_image = function(image,
                          gridLines = FALSE
   )
 
-  # print(image)
+  temp <- tempfile()
+  #p2 <- image
+  ggplot2::ggsave(
+    temp,
+    plot = image,
+    width = width,
+    height = height,
+    dpi = 300,
+    device = "png"
+    )
 
-  openxlsx::insertPlot(workbook,
-                       sheetname,
-                       width = width,
-                       height = height,
-                       startRow = startrow,
-                       startCol = startcol,
-                       fileType = "png",
-                       units = "in"
+  openxlsx::insertImage(
+    wb = workbook,
+    sheet = sheetname,
+    file = temp,
+    width = width,
+    height = height,
+    startRow = startrow,
+    startCol = startcol,
+    units = "in",
+    dpi = 300
   )
+
+  file.remove(temp)
 }
 
 # # example
