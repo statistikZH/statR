@@ -61,8 +61,6 @@
 #'             datasets = list(dat1, dat2, fig),
 #'             widths = c(0,0,5),
 #'             heights = c(0,0,5),
-#'             startrows = c(0,0,3),
-#'             startcols = c(0,0,3),
 #'             sheetnames = c("Autos","Blumen", "Histogramm"),
 #'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
 #'             sources = c("Source: Henderson and Velleman (1981).
@@ -81,10 +79,8 @@
 datasetsXLSX <- function(file,
                          maintitle,
                          datasets,
-                         widths = NULL,
-                         heights = NULL,
-                         startrows = NULL,
-                         startcols = NULL,
+                         plot_widths = NULL,
+                         plot_heights = NULL,
                          sheetnames,
                          titles,
                          logo="statzh",
@@ -99,61 +95,53 @@ datasetsXLSX <- function(file,
 
   wb <- openxlsx::createWorkbook("data")
 
-  i<-0
+  dataframes_index <- which(vapply(datasets, is.data.frame, TRUE))
 
-  for (dataset in datasets){
-
-    i <- i+1
-
-    sheetnames_def <- if(length(sheetnames)>1) {
-      sheetnames[i]
-    } else {i
-    }
-
-    title_def <- if(length(titles)>1) {
-      titles[i]
-    } else {titles
-    }
-
-    source_def <- if(length(sources)>1) {
-      sources[i]
-    } else {sources
-    }
-
-    metadata_def <- if(length(metadata1)>1) {
-      metadata1[i]
-    } else {metadata1
-    }
+  dataframe_datasets <- datasets[dataframes_index]
+  dataframe_sheetnames <- sheetnames[dataframes_index]
+  dataframe_titles <- titles[dataframes_index]
+  dataframe_sources <- sources[dataframes_index]
+  dataframe_metadata1 <- metadata1[dataframes_index]
 
 
-    # #dynamisch mit sheetvar!
-    # statR::insert_worksheet2(data=dataset,
-    #                         wb=wb,
-    #                         sheetname = sheetnames_def,
-    #                         title = title_def,
-    #                         source = source_def,
-    #                         metadata = metadata_def
-    # )
+  plot_index <- which(vapply(datasets, function(x) length(setdiff(class(x), c("gg", "ggplot", "histogram"))) == 0, TRUE))
 
-    #dynamisch mit sheetvar!
-    if(is.data.frame(dataset)){
-      insert_worksheet_nh(data=dataset
-                        ,wb=wb
-                        ,sheetname = sheetnames_def
-                        ,title = title_def
-                        ,source = source_def
-                        ,metadata = metadata_def
-      )
-    }else{ # image
-      insert_worksheet_image(dataset,
-                             wb,
-                             sheetnames_def,
-                             width = widths[i],
-                             height = heights[i],
-                             startrow = startrows[i],
-                             startcol = startcols[i])
-    }
+  plot_datasets <- datasets[plot_index]
+  plot_sheetnames <- sheetnames[plot_index]
 
+
+  if(length(dataframes_index) > 0){
+
+    purrr::pwalk(list(
+      dataframe_datasets,
+      dataframe_sheetnames,
+      dataframe_titles,
+      dataframe_sources,
+      dataframe_metadata1),
+      ~insert_worksheet_nh(
+        data = ..1,
+        wb = wb,
+        sheetname = ..2,
+        title = ..3,
+        source = ..4,
+        metadata = ..5
+      ))
+
+  }
+
+  if(length(plot_index)>0){
+
+    purrr::pwalk(list(
+      plot_datasets,
+      plot_sheetnames,
+      plot_widths,
+      plot_heights
+    ), ~insert_worksheet_image(
+      image = ..1,
+      wb = wb,
+      sheetname = ..2,
+      width = ..3,
+      height = ..4))
   }
 
 
@@ -379,16 +367,6 @@ datasetsXLSX <- function(file,
                       ,xy = c("C", 13)
   )
 
-  ## writing internal hyperlinks
-  # openxlsx::writeFormula(wb
-  #                        ,sheet = "Inhalt"
-  #                        ,x = openxlsx::makeHyperlinkString(sheet = sheetnames
-  #                                                           #,row = 1
-  #                                                           #,col = 1
-  #                                                           ,text = titles # soll arguments titles entsprechen
-  #                        )
-  #                        ,xy = c("C", 15)
-  # )
 
   openxlsx::worksheetOrder(wb) <- c(length(names(wb)),1:(length(names(wb))-1))
 
