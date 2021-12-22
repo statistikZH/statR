@@ -1,4 +1,4 @@
-# insert an image into a single worksheet
+#' insert an image into a single worksheet
 #' insert_image
 #'
 #' @param image image or plot
@@ -27,19 +27,17 @@
 #'}
 
 insert_worksheet_image = function(image,
-                                  workbook,
+                                  wb,
                                   sheetname,
-                                  startrow,
-                                  startcol,
                                   width,
                                   height){
 
-  openxlsx::addWorksheet(workbook,
+  openxlsx::addWorksheet(wb,
                          sheetname,
                          gridLines = FALSE
   )
 
-  temp <- tempfile()
+  temp <- tempfile(fileext = ".png")
   #p2 <- image
   ggplot2::ggsave(
     temp,
@@ -51,13 +49,13 @@ insert_worksheet_image = function(image,
     )
 
   openxlsx::insertImage(
-    wb = workbook,
+    wb = wb,
     sheet = sheetname,
     file = temp,
     width = width,
     height = height,
-    startRow = startrow,
-    startCol = startcol,
+    startRow = 3,
+    startCol = 3,
     units = "in",
     dpi = 300
   )
