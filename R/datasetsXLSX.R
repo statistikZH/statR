@@ -90,7 +90,9 @@ datasetsXLSX <- function(file,
                          auftrag_id = NULL,
                          contact = "statzh",
                          homepage = "statzh",
-                         openinghours = "statzh"
+                         openinghours = "statzh",
+                         grouplines = NA,
+                         overwrite
 ){
 
   wb <- openxlsx::createWorkbook("data")
@@ -102,6 +104,7 @@ datasetsXLSX <- function(file,
   dataframe_titles <- titles[dataframes_index]
   dataframe_sources <- sources[dataframes_index]
   dataframe_metadata1 <- metadata1[dataframes_index]
+  dataframe_grouplines <- grouplines[dataframes_index]
 
 
   plot_index <- which(vapply(datasets, function(x) length(setdiff(class(x), c("gg", "ggplot", "histogram"))) == 0, TRUE))
@@ -119,14 +122,17 @@ datasetsXLSX <- function(file,
       dataframe_sheetnames,
       dataframe_titles,
       dataframe_sources,
-      dataframe_metadata1),
+      dataframe_metadata1,
+      dataframe_grouplines
+      ),
       ~insert_worksheet_nh(
         data = ..1,
         wb = wb,
         sheetname = ..2,
         title = ..3,
         source = ..4,
-        metadata = ..5
+        metadata = ..5,
+        grouplines = ..6
       ))
 
   }
@@ -155,7 +161,7 @@ datasetsXLSX <- function(file,
 
   purrr::pwalk(hyperlink_table, ~insert_hyperlinks(wb, ..1, ..2, ..3))
 
-  openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""))
+  openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""), overwrite = overwrite)
 
 }
 
@@ -173,6 +179,8 @@ insert_hyperlinks <- function(wb, sheetname, title, sheet_row){
                      ,rows = sheet_row
                      ,cols = 3
   )
+
+  openxlsx::mergeCells(wb, sheet = "Inhalt", cols = 3:8, rows = sheet_row)
 
   worksheet <- wb$sheetOrder[1]
 
