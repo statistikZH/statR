@@ -93,7 +93,7 @@ datasetsXLSX <- function(file,
                          openinghours = "statzh",
                          grouplines = NA,
                          second_header_names = NA,
-                         overwrite
+                         overwrite = F
 ){
 
   if(!is.na(second_header_names) & is.na(grouplines)){
