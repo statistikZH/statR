@@ -50,7 +50,8 @@ insert_worksheet_nh <- function(data,
                                 title="Title",
                                 source="statzh",
                                 metadata = NA,
-                                grouplines = NA
+                                grouplines = NA,
+                                second_header_names = NA
 ) {
 
 
@@ -107,6 +108,19 @@ insert_worksheet_nh <- function(data,
   ### Metadaten zusammenmergen
   purrr::walk(1:merge_end_row, ~openxlsx::mergeCells(wb, sheet = sheetname, cols = 1:26, rows = .))
 
+
+  # Zweite header Zeile einfügen
+  if(is.null(second_header_names)){
+    second_header_names <- NA
+  }
+
+  if(!is.na(second_header_names)){
+    insert_second_header(wb, sheetname, data_start_row, second_header_names, grouplines, data)
+
+    data_start_row <- data_start_row + 1
+  }
+
+
   # Daten
 
 
@@ -133,41 +147,32 @@ insert_worksheet_nh <- function(data,
   }
 
   if (any(!is.na(grouplines))){
-    if (is.numeric(grouplines)){
+    if(!is.na(second_header_names)){
+      data_start_row <- data_start_row - 1
+      data_end_row <- nrow(data)+data_start_row +1
+    }else{
       data_end_row <- nrow(data)+data_start_row
-      openxlsx::addStyle(wb
-                         ,sheet = sheetname
-                         ,style_leftline()
-                         ,rows=data_start_row:data_end_row
-                         ,cols = grouplines
-                         ,gridExpand = TRUE
-                         ,stack = TRUE
-      )
-    }else if(is.character(grouplines)){
-
-      get_lowest_col <- function(groupline, data){
-        groupline_numbers_single <- which(grepl(groupline, names(data)))
-
-        out <- min(groupline_numbers_single)
-
-        return(out)
-      }
-
-      groupline_numbers <- unlist(lapply(grouplines, function(x) get_lowest_col(x, data)))
-
-
-
-      data_end_row <- nrow(data)+data_start_row
-      openxlsx::addStyle(wb
-                         ,sheet = sheetname
-                         ,style_leftline()
-                         ,rows=data_start_row:data_end_row
-                         ,cols = groupline_numbers
-                         ,gridExpand = TRUE
-                         ,stack = TRUE
-      )
     }
 
+
+
+    if (is.numeric(grouplines)){
+      groupline_numbers <- grouplines
+
+    }else if(is.character(grouplines)){
+
+      groupline_numbers <- get_groupline_index_by_pattern(grouplines, data)
+
+    }
+
+    openxlsx::addStyle(wb
+                       ,sheet = sheetname
+                       ,style_leftline()
+                       ,rows=data_start_row:data_end_row
+                       ,cols = groupline_numbers
+                       ,gridExpand = TRUE
+                       ,stack = TRUE
+    )
 
   }
 
@@ -176,6 +181,23 @@ insert_worksheet_nh <- function(data,
 
   # automatische Spaltenbreite
   openxlsx::setColWidths(wb, sheet = sheetname, cols=1:spalten, widths = "auto", ignoreMergedCells = TRUE)
+}
+
+
+get_groupline_index_by_pattern <- function(grouplines, data){
+
+  get_lowest_col <- function(groupline, data){
+    groupline_numbers_single <- which(grepl(groupline, names(data)))
+
+    out <- min(groupline_numbers_single)
+
+    return(out)
+  }
+
+
+  groupline_numbers <- unlist(lapply(grouplines, function(x) get_lowest_col(x, data)))
+
+  return(groupline_numbers)
 }
 
 
@@ -248,11 +270,35 @@ style_header <- function(){
 style_leftline <- function(){
   openxlsx::createStyle(
     border="Left",
-    borderColour = "#4F81BD"
+    borderColour = "#009ee0"
   )
 }
 
 
+insert_second_header <- function(wb, sheetname, data_start_row, second_header_names, grouplines, data){
+
+  if(is.character(grouplines)){
+    groupline_numbers <- get_groupline_index_by_pattern(grouplines, data)
+  }else if(is.numeric(grouplines)){
+    groupline_numbers <- grouplines
+  }
+
+  openxlsx::addStyle(wb,
+                     sheet = sheetname,
+                     style_header(),
+                     rows = data_start_row,
+                     cols = 1:ncol(data)
+  )
+
+  purrr::walk2(groupline_numbers,second_header_names, ~openxlsx::writeData(wb,
+                                                      sheet = sheetname,
+                                                      x = .y,
+                                                      startCol = .x,
+                                                      colNames = F,
+                                                      startRow = data_start_row
+  ))
+
+}
 
 
 

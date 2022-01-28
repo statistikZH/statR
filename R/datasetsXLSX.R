@@ -92,8 +92,13 @@ datasetsXLSX <- function(file,
                          homepage = "statzh",
                          openinghours = "statzh",
                          grouplines = NA,
+                         second_header_names = NA,
                          overwrite
 ){
+
+  if(!is.na(second_header_names) & is.na(grouplines)){
+    stop("if a second header is wanted, the grouplines have to be specified")
+  }
 
   wb <- openxlsx::createWorkbook("data")
 
@@ -105,6 +110,7 @@ datasetsXLSX <- function(file,
   dataframe_sources <- sources[dataframes_index]
   dataframe_metadata1 <- metadata1[dataframes_index]
   dataframe_grouplines <- grouplines[dataframes_index]
+  dataframe_second_header_names <- second_header_names[dataframes_index]
 
 
   plot_index <- which(vapply(datasets, function(x) length(setdiff(class(x), c("gg", "ggplot", "histogram"))) == 0, TRUE))
@@ -123,7 +129,8 @@ datasetsXLSX <- function(file,
       dataframe_titles,
       dataframe_sources,
       dataframe_metadata1,
-      dataframe_grouplines
+      dataframe_grouplines,
+      dataframe_second_header_names
       ),
       ~insert_worksheet_nh(
         data = ..1,
@@ -132,7 +139,8 @@ datasetsXLSX <- function(file,
         title = ..3,
         source = ..4,
         metadata = ..5,
-        grouplines = ..6
+        grouplines = ..6,
+        second_header_names = ..7
       ))
 
   }
