@@ -127,7 +127,7 @@ insert_worksheet_nh <- function(data,
                       ,startRow = data_start_row
                       ,withFilter = FALSE
   )
-browser()
+
   if(is.null(grouplines)){
     grouplines <- NA
   }
