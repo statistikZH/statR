@@ -50,7 +50,7 @@ insert_worksheet_nh <- function(data,
                                 title="Title",
                                 source="statzh",
                                 metadata = NA,
-                                grouplines = FALSE
+                                grouplines = NA
 ) {
 
 
@@ -127,17 +127,47 @@ insert_worksheet_nh <- function(data,
                       ,startRow = data_start_row
                       ,withFilter = FALSE
   )
+browser()
+  if(is.null(grouplines)){
+    grouplines <- NA
+  }
 
-  if (!is.null(grouplines)){
-    data_end_row <- nrow(data)+data_start_row
-    openxlsx::addStyle(wb
-                       ,sheet = sheetname
-                       ,style_leftline()
-                       ,rows=data_start_row:data_end_row
-                       ,cols = grouplines
-                       ,gridExpand = TRUE
-                       ,stack = TRUE
-    )
+  if (any(!is.na(grouplines))){
+    if (is.numeric(grouplines)){
+      data_end_row <- nrow(data)+data_start_row
+      openxlsx::addStyle(wb
+                         ,sheet = sheetname
+                         ,style_leftline()
+                         ,rows=data_start_row:data_end_row
+                         ,cols = grouplines
+                         ,gridExpand = TRUE
+                         ,stack = TRUE
+      )
+    }else if(is.character(grouplines)){
+
+      get_lowest_col <- function(groupline, data){
+        groupline_numbers_single <- which(grepl(groupline, names(data)))
+
+        out <- min(groupline_numbers_single)
+
+        return(out)
+      }
+
+      groupline_numbers <- unlist(lapply(grouplines, function(x) get_lowest_col(x, data)))
+
+
+
+      data_end_row <- nrow(data)+data_start_row
+      openxlsx::addStyle(wb
+                         ,sheet = sheetname
+                         ,style_leftline()
+                         ,rows=data_start_row:data_end_row
+                         ,cols = groupline_numbers
+                         ,gridExpand = TRUE
+                         ,stack = TRUE
+      )
+    }
+
 
   }
 
@@ -176,13 +206,13 @@ prep_source <- function(source){
 
   source <- sub("statzh", "Statistisches Amt des Kantons Z\u00fcrich", source)
 
-  sources = c("Quelle:", source)
+  sources = paste0("Quelle: ", paste0(source, collapse = "; "))
 }
 
 
 prep_metadata <- function(metadata){
 
-  metadata = c("Metadaten:", metadata)
+  metadata = paste0("Metadaten: ", paste0(metadata, collapse = "; "))
 
 }
 
