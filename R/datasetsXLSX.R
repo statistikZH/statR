@@ -147,7 +147,7 @@ datasetsXLSX <- function(file,
 
   if(length(plot_index)>0){
 
-    purrr::pwalk(list(
+    temp_list <- purrr::pmap(list(
       plot_datasets,
       plot_sheetnames,
       plot_widths,
@@ -158,6 +158,8 @@ datasetsXLSX <- function(file,
       sheetname = ..2,
       width = ..3,
       height = ..4))
+  }else{
+    temp_list <- NA
   }
 
 
@@ -171,6 +173,9 @@ datasetsXLSX <- function(file,
 
   openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""), overwrite = overwrite)
 
+  if(!is.na(temp_list)){
+    walk(temp_list, unlink)
+  }
 }
 
 

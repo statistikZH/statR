@@ -60,19 +60,8 @@ insert_worksheet_image = function(image,
     dpi = 300
   )
 
-  file.remove(temp)
+  return(temp)
+
 }
 
-# # example
-# export <- openxlsx::createWorkbook("export")
-#
-# insert_worksheet_image(image=plot(x = mtcars$wt, y = mtcars$mpg)
-# ,export
-# ,"image"
-# ,startrow=2
-# ,startcol=2
-# ,width=3.5
-# ,height=5.5
-# )
-#
-# openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")
+
