@@ -11,10 +11,8 @@
 #' @param file file name of the spreadsheet. The extension ".xlsx" is added automatically.
 #' @param maintitle Title to be put on the first (overview) sheet.
 #' @param datasets datasets or plots to be included.
-#' @param widths width of figure in inch (1 inch = 2.54 cm). See details.
-#' @param heights height of figure in inch (1 inch = 2.54 cm). See details.
-#' @param startrows row where upper left corner of figure should be placed. See details.
-#' @param startcols column where upper left corner of figure should be placed. See details.
+#' @param plot_widths width of figure in inch (1 inch = 2.54 cm). See details.
+#' @param plot_heights height of figure in inch (1 inch = 2.54 cm). See details.
 #' @param sheetnames names of the sheet tabs.
 #' @param titles titles of the different sheets.
 #' @param logo file path to the logo to be included in the index-sheet. Can be "statzh" or "zh". Defaults to "statzh".
@@ -25,6 +23,9 @@
 #' @param contact contact information on the title sheet. Defaults to "statzh"
 #' @param homepage web address to be put on the title sheet. Default to "statzh"
 #' @param openinghours openinghours written on the title sheet. Defaults to Data Shop
+#' @param grouplines Column for second header(s). Format: List e.g list(c(2,4,6))
+#' @param second_header_names Names of the second header(s). Format: List e.g list(c("title 1", "title 2", "title 3"))
+#' @param overwrite overwrites the existing excel files with the same file name. default to FALSE
 #' @keywords datasetsXLSX
 #' @export
 #' @examples
@@ -32,67 +33,81 @@
 #' \dontrun{
 #'
 #'
+#'
 #'# Example with two datasets and no figure
 #'dat1 <- mtcars
 #'dat2 <- PlantGrowth
 #'
 #'datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugef\u00fcgt
-#'             maintitle = "Autos und Pflanzen",
 #'             datasets = list(dat1, dat2),
-#'             logo = "statzh",
-#'             sheetnames = c("Autos","Blumen"),
 #'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
+#'             grouplines = list(c(1)),
+#'             second_header_names = list(c("name_of_second_header")),  #produces a second header in the first sheet
 #'             sources = c("Source: Henderson and Velleman (1981).
 #'             Building multiple regression models interactively. Biometrics, 37, 391–411.",
 #'                         "Dobson, A. J. (1983) An Introduction to Statistical
 #'                         Modelling. London: Chapman and Hall."),
 #'             metadata1 = c("Bemerkungen zum mtcars-Datensatz: x",
 #'                           "Bemerkungen zum PlantGrowth-Datensatz: x"),
-#'             auftrag_id="A2021_0000")
+#'             sheetnames = c("Autos","Blumen"),
+#'             maintitle = "Autos und Pflanzen",
+#'             titlesource = "statzh",
+#'             logo = "statzh",
+#'             auftrag_id="A2021_0000",
+#'             contact = "statzh",
+#'             homepage = "statzh",
+#'             openinghours = "statzh",
+#'             overwrite = T)
 #'
 #'# Example with two datasets and one figure
 #'
 #'dat1 <- mtcars
 #'dat2 <- PlantGrowth
-#'fig <- hist(mtcars$disp)
+#'fig <- ggplot(mtcars, aes(x=disp))+
+#'                  geom_histogram()
 #'
-#'datasetsXLSX(file="twoDatasetsandFigure",
-#'             maintitle = "Autos und Pflanzen", # '.xlsx' wird automatisch hinzugef\u00fcgt
+#'datasetsXLSX(file="twoDatasetsandFigure",        # '.xlsx' wird automatisch hinzugef\u00fcgt
 #'             datasets = list(dat1, dat2, fig),
-#'             widths = c(0,0,5),
-#'             heights = c(0,0,5),
-#'             sheetnames = c("Autos","Blumen", "Histogramm"),
 #'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
+#'             plot_widths = c(5),
+#'             plot_heights = c(5),
 #'             sources = c("Source: Henderson and Velleman (1981).
 #'             Building multiple regression models interactively. Biometrics, 37, 391–411.",
 #'                         "Source: Dobson, A. J. (1983) An Introduction to
 #'                         Statistical Modelling. London: Chapman and Hall."),
 #'             metadata1 = c("Bemerkungen zum mtcars-Datensatz: x",
-#'                           "Bemerkungen zum PlantGrowth-Datensatz: x"),
-#'             auftrag_id="A2021_0000")
+#'                          "Bemerkungen zum PlantGrowth-Datensatz: x"),
+#'             sheetnames = c("Autos","Blumen", "Histogramm"),
+#'             maintitle = "Autos und Pflanzen",
+#'             titlesource = "statzh",
+#'             logo="statzh",
+#'             auftrag_id="A2021_0000",
+#'             contact = "statzh",
+#'             homepage = "statzh",
+#'             openinghours = "statzh",
+#'             overwrite = T)
 #'}
 #'}
 
 
-# function datasetsXLSX
 
 datasetsXLSX <- function(file,
-                         maintitle,
                          datasets,
+                         titles,
                          plot_widths = NULL,
                          plot_heights = NULL,
-                         sheetnames,
-                         titles,
-                         logo="statzh",
-                         titlesource = "statzh",
+                         grouplines = NA,
+                         second_header_names = NA,
                          sources= "statzh",
                          metadata1=NA,
+                         sheetnames,
+                         maintitle,
+                         titlesource = "statzh",
+                         logo="statzh",
                          auftrag_id = NULL,
                          contact = "statzh",
                          homepage = "statzh",
                          openinghours = "statzh",
-                         grouplines = NA,
-                         second_header_names = NA,
                          overwrite = F
 ){
 
