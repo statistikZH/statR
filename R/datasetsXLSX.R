@@ -24,7 +24,7 @@
 #' @param homepage web address to be put on the title sheet. Default to "statzh"
 #' @param openinghours openinghours written on the title sheet. Defaults to Data Shop
 #' @param grouplines Column for second header(s). Format: List e.g list(c(2,4,6))
-#' @param second_header_names Names of the second header(s). Format: List e.g list(c("title 1", "title 2", "title 3"))
+#' @param second_header_names Name(s) of the second header(s). Format: List e.g list(c("title 1", "title 2", "title 3"))
 #' @param overwrite overwrites the existing excel files with the same file name. default to FALSE
 #' @keywords datasetsXLSX
 #' @export
@@ -67,7 +67,7 @@
 #'                  geom_histogram()
 #'
 #'datasetsXLSX(file="twoDatasetsandFigure",        # '.xlsx' wird automatisch hinzugef\u00fcgt
-#'             datasets = list(dat1, dat2, fig),
+#'             datasets = list(dat1, dat2, fig),   # fig als ggplot Objekt oder File Path
 #'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
 #'             plot_widths = c(5),
 #'             plot_heights = c(5),
