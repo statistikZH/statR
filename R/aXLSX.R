@@ -12,6 +12,8 @@
 #' @keywords aXLSX
 #' @export
 #' @examples
+#' \donttest{
+#' \dontrun{
 #' # Beispiel anhand des Datensatzes 'mtcars'
 #'dat <- mtcars
 #'
@@ -29,7 +31,8 @@
 #'          grouplines = FALSE,
 #'          logo = "statzh",
 #'          author = "user")
-#'
+#' }
+#' }
 
 aXLSX <-function (data, file, title="Title", source="statzh", metadata = NA,
                       logo="statzh", grouplines = FALSE, contactdetails="statzh",
