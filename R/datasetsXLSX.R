@@ -5,7 +5,7 @@
 #'
 #' When including figures, the heights and widths need to be specified as a vector. For example, say you have one dataset and two figures
 #' that you would like to export. widths = c(5,6) then suggests that the first figure will be 5 inches wide, the second 6. To include a figure either
-#' save it as a ggplot object or indicate a file path to an existing file (e.g png).
+#' save it as a ggplot object or indicate a file path to an existing file (possible formats: png, jpg, bmp).
 #'
 #' @param file file name of the spreadsheet. The extension ".xlsx" is added automatically.
 #' @param maintitle Title to be put on the first (overview) sheet.
