@@ -9,6 +9,7 @@
 #' @param source source of the data. Defaults to "statzh".
 #' @param metadata metadata-information to be included. Defaults to NA.
 #' @param grouplines defaults to FALSE. Can be used to separate grouped variables visually.
+#' @param group_names Name(s) of the second header(s). Format: List e.g list(c("title 1", "title 2", "title 3"))
 #' @keywords insert_worksheet
 #' @export
 #' @importFrom dplyr "%>%"
@@ -51,7 +52,7 @@ insert_worksheet_nh <- function(data,
                                 source="statzh",
                                 metadata = NA,
                                 grouplines = NA,
-                                second_header_names = NA
+                                group_names = NA
 ) {
 
 
@@ -110,12 +111,12 @@ insert_worksheet_nh <- function(data,
 
 
   # Zweite header Zeile einfügen
-  if(is.null(second_header_names)){
-    second_header_names <- NA
+  if(is.null(group_names)){
+    group_names <- NA
   }
 
-  if(!is.na(second_header_names)){
-    insert_second_header(wb, sheetname, data_start_row, second_header_names, grouplines, data)
+  if(!is.na(group_names)){
+    insert_second_header(wb, sheetname, data_start_row, group_names, grouplines, data)
 
     data_start_row <- data_start_row + 1
   }
@@ -147,7 +148,7 @@ insert_worksheet_nh <- function(data,
   }
 
   if (any(!is.na(grouplines))){
-    if(!is.na(second_header_names)){
+    if(!is.na(group_names)){
       data_start_row <- data_start_row - 1
       data_end_row <- nrow(data)+data_start_row +1
     }else{
@@ -275,7 +276,7 @@ style_leftline <- function(){
 }
 
 
-insert_second_header <- function(wb, sheetname, data_start_row, second_header_names, grouplines, data){
+insert_second_header <- function(wb, sheetname, data_start_row, group_names, grouplines, data){
 
   if(is.character(grouplines)){
     groupline_numbers <- get_groupline_index_by_pattern(grouplines, data)
@@ -290,7 +291,7 @@ insert_second_header <- function(wb, sheetname, data_start_row, second_header_na
                      cols = 1:ncol(data)
   )
 
-  purrr::walk2(groupline_numbers,second_header_names, ~openxlsx::writeData(wb,
+  purrr::walk2(groupline_numbers,group_names, ~openxlsx::writeData(wb,
                                                       sheet = sheetname,
                                                       x = .y,
                                                       startCol = .x,
