@@ -23,7 +23,7 @@
 #' @param homepage web address to be put on the title sheet. Default to "statzh"
 #' @param openinghours openinghours written on the title sheet. Defaults to Data Shop
 #' @param grouplines Column for second header(s). Format: List e.g list(c(2,4,6))
-#' @param second_header_names Name(s) of the second header(s). Format: List e.g list(c("title 1", "title 2", "title 3"))
+#' @param group_names Name(s) of the second header(s). Format: List e.g list(c("title 1", "title 2", "title 3"))
 #' @param overwrite overwrites the existing excel files with the same file name. default to FALSE
 #' @keywords datasetsXLSX
 #' @export
@@ -41,7 +41,7 @@
 #'             datasets = list(dat1, dat2),
 #'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
 #'             grouplines = list(c(1)),
-#'             second_header_names = list(c("name_of_second_header")),  #produces a second header in the first sheet
+#'             group_names = list(c("name_of_second_header")),  #produces a second header in the first sheet
 #'             sources = c("Source: Henderson and Velleman (1981).
 #'             Building multiple regression models interactively. Biometrics, 37, 391–411.",
 #'                         "Dobson, A. J. (1983) An Introduction to Statistical
@@ -96,7 +96,7 @@ datasetsXLSX <- function(file,
                          plot_widths = NULL,
                          plot_heights = NULL,
                          grouplines = NA,
-                         second_header_names = NA,
+                         group_names = NA,
                          sources= "statzh",
                          metadata1=NA,
                          sheetnames,
@@ -110,7 +110,7 @@ datasetsXLSX <- function(file,
                          overwrite = F
 ){
 
-  if(!is.na(second_header_names) & is.na(grouplines)){
+  if(!is.na(group_names) & is.na(grouplines)){
     stop("if a second header is wanted, the grouplines have to be specified")
   }
 
@@ -124,7 +124,7 @@ datasetsXLSX <- function(file,
   dataframe_sources <- sources[dataframes_index]
   dataframe_metadata1 <- metadata1[dataframes_index]
   dataframe_grouplines <- grouplines[dataframes_index]
-  dataframe_second_header_names <- second_header_names[dataframes_index]
+  dataframe_group_names <- group_names[dataframes_index]
 
 
   plot_index <- which(vapply(datasets, function(x) length(setdiff(class(x), c("gg", "ggplot", "histogram", "character"))) == 0, TRUE))
@@ -144,7 +144,7 @@ datasetsXLSX <- function(file,
       dataframe_sources,
       dataframe_metadata1,
       dataframe_grouplines,
-      dataframe_second_header_names
+      dataframe_group_names
       ),
       ~insert_worksheet_nh(
         data = ..1,
@@ -154,7 +154,7 @@ datasetsXLSX <- function(file,
         source = ..4,
         metadata = ..5,
         grouplines = ..6,
-        second_header_names = ..7
+        group_names = ..7
       ))
 
   }
