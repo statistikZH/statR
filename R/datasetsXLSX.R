@@ -128,7 +128,7 @@ datasetsXLSX <- function(file,
   dataframe_second_header_names <- second_header_names[dataframes_index]
 
 
-  plot_index <- which(vapply(datasets, function(x) length(setdiff(class(x), c("gg", "ggplot", "histogram"))) == 0, TRUE))
+  plot_index <- which(vapply(datasets, function(x) length(setdiff(class(x), c("gg", "ggplot", "histogram", "character"))) == 0, TRUE))
 
   plot_datasets <- datasets[plot_index]
   plot_sheetnames <- sheetnames[plot_index]
@@ -189,7 +189,7 @@ datasetsXLSX <- function(file,
   openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""), overwrite = overwrite)
 
   if(!is.na(temp_list)){
-    walk(temp_list, unlink)
+    purrr::walk(temp_list, unlink)
   }
 }
 
