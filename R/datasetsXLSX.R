@@ -3,10 +3,9 @@
 #' Function to export several datasets and/or figures from R to an .xlsx-file. The function creates an overview sheet and separate sheets
 #' for each dataset/figure.
 #'
-#' When including figures, the heights and widths need to be specified as a vector. For example, say you have two datasets and one figure
-#' that you would like to export. widths = c(0,0,5) then suggests that the figure will be 5 inches wide and placed in the third (and last) sheet of the file.
-#' The same logic applies to the specification of `startrows` and `startcols`.
-#' To include a ggplot2-plot, put a print statement around the ggplot2-object: list(..., ..., print(plot)).
+#' When including figures, the heights and widths need to be specified as a vector. For example, say you have one dataset and two figures
+#' that you would like to export. widths = c(5,6) then suggests that the first figure will be 5 inches wide, the second 6. To include a figure either
+#' save it as a ggplot object or indicate a file path to an existing file (e.g png).
 #'
 #' @param file file name of the spreadsheet. The extension ".xlsx" is added automatically.
 #' @param maintitle Title to be put on the first (overview) sheet.
