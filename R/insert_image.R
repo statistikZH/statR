@@ -37,21 +37,33 @@ insert_worksheet_image = function(image,
                          gridLines = FALSE
   )
 
-  temp <- tempfile(fileext = ".png")
-  #p2 <- image
-  ggplot2::ggsave(
-    temp,
-    plot = image,
-    width = width,
-    height = height,
-    dpi = 300,
-    device = "png"
+if(class(image) %in% c("gg", "ggplot")){
+
+    image_path <- tempfile(fileext = ".png")
+    #p2 <- image
+    ggplot2::ggsave(
+      image_path,
+      plot = image,
+      width = width,
+      height = height,
+      dpi = 300,
+      device = "png"
     )
+
+  } else if (class(image) == "character" ){
+
+    image_path <- image
+
+  } else{
+    stop(" Plot muss als ggplot Objekt oder als Filepath vorliegen.")
+
+  }
+
 
   openxlsx::insertImage(
     wb = wb,
     sheet = sheetname,
-    file = temp,
+    file = image_path,
     width = width,
     height = height,
     startRow = 3,
@@ -60,7 +72,7 @@ insert_worksheet_image = function(image,
     dpi = 300
   )
 
-  return(temp)
+  return(image_path)
 
 }
 
