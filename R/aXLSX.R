@@ -32,7 +32,7 @@
 #'
 
 aXLSX <-function (data, file, title="Title", source="statzh", metadata = NA,
-                      logo="statzh", grouplines = FALSE, contactdetails="statzh",
+                      logo="statzh", grouplines = NA, contactdetails="statzh",
                       author = "user"){
 
   #create workbook
