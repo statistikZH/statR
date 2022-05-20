@@ -11,7 +11,7 @@ aXLSX(
   source = "statzh",
   metadata = NA,
   logo = "statzh",
-  grouplines = FALSE,
+  grouplines = NA,
   contactdetails = "statzh",
   author = "user"
 )

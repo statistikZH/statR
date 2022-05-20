@@ -11,7 +11,8 @@ insert_worksheet_nh(
   title = "Title",
   source = "statzh",
   metadata = NA,
-  grouplines = FALSE
+  grouplines = NA,
+  group_names = NA
 )
 }
 \arguments{
