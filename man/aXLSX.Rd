@@ -43,6 +43,8 @@ The data is exported
 to the first sheet. Metadata information is exported to the second sheet.
 }
 \examples{
+\donttest{
+\dontrun{
 # Beispiel anhand des Datensatzes 'mtcars'
 dat <- mtcars
 
@@ -60,6 +62,7 @@ aXLSX(data = dat,
          grouplines = FALSE,
          logo = "statzh",
          author = "user")
-
+}
+}
 }
 \keyword{aXLSX}

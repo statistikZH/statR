@@ -9,6 +9,7 @@
 #' @param source source of the data. Defaults to "statzh".
 #' @param metadata metadata-information to be included. Defaults to NA.
 #' @param grouplines defaults to FALSE. Can be used to separate grouped variables visually.
+#' @param group_names Name(s) of the second header(s). Format: List e.g list(c("title 1", "title 2", "title 3"))
 #' @keywords insert_worksheet
 #' @export
 #' @importFrom dplyr "%>%"
