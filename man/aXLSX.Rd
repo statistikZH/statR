@@ -59,7 +59,7 @@ aXLSX(data = dat,
          consumption and 10 aspects of automobile design and performance
          for 32 automobiles (1973–74 models)."),
          contactdetails = "statzh",
-         grouplines = FALSE,
+         grouplines = NA,
          logo = "statzh",
          author = "user")
 }
