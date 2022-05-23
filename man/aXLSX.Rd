@@ -11,7 +11,7 @@ aXLSX(
   source = "statzh",
   metadata = NA,
   logo = "statzh",
-  grouplines = FALSE,
+  grouplines = NA,
   contactdetails = "statzh",
   author = "user"
 )
@@ -43,6 +43,8 @@ The data is exported
 to the first sheet. Metadata information is exported to the second sheet.
 }
 \examples{
+\donttest{
+\dontrun{
 # Beispiel anhand des Datensatzes 'mtcars'
 dat <- mtcars
 
@@ -57,9 +59,10 @@ aXLSX(data = dat,
          consumption and 10 aspects of automobile design and performance
          for 32 automobiles (1973–74 models)."),
          contactdetails = "statzh",
-         grouplines = FALSE,
+         grouplines = NA,
          logo = "statzh",
          author = "user")
-
+}
+}
 }
 \keyword{aXLSX}

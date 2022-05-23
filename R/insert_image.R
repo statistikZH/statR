@@ -1,4 +1,4 @@
-# insert an image into a single worksheet
+#' insert an image into a single worksheet
 #' insert_image
 #'
 #' @param image image or plot
@@ -27,41 +27,53 @@
 #'}
 
 insert_worksheet_image = function(image,
-                                  workbook,
+                                  wb,
                                   sheetname,
-                                  startrow,
-                                  startcol,
                                   width,
                                   height){
 
-  openxlsx::addWorksheet(workbook,
+  openxlsx::addWorksheet(wb,
                          sheetname,
                          gridLines = FALSE
   )
 
-  # print(image)
+if(class(image) %in% c("gg", "ggplot")){
 
-  openxlsx::insertPlot(workbook,
-                       sheetname,
-                       width = width,
-                       height = height,
-                       startRow = startrow,
-                       startCol = startcol,
-                       fileType = "png",
-                       units = "in"
+    image_path <- tempfile(fileext = ".png")
+    #p2 <- image
+    ggplot2::ggsave(
+      image_path,
+      plot = image,
+      width = width,
+      height = height,
+      dpi = 300,
+      device = "png"
+    )
+
+  } else if (class(image) == "character" ){
+
+    image_path <- image
+
+  } else{
+    stop(" Plot muss als ggplot Objekt oder als Filepath vorliegen.")
+
+  }
+
+
+  openxlsx::insertImage(
+    wb = wb,
+    sheet = sheetname,
+    file = image_path,
+    width = width,
+    height = height,
+    startRow = 3,
+    startCol = 3,
+    units = "in",
+    dpi = 300
   )
+
+  return(image_path)
+
 }
 
-# # example
-# export <- openxlsx::createWorkbook("export")
-#
-# insert_worksheet_image(image=plot(x = mtcars$wt, y = mtcars$mpg)
-# ,export
-# ,"image"
-# ,startrow=2
-# ,startcol=2
-# ,width=3.5
-# ,height=5.5
-# )
-#
-# openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")
+
