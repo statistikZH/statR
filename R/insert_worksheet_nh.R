@@ -111,11 +111,11 @@ insert_worksheet_nh <- function(data,
 
 
   # Zweite header Zeile einfügen
-  if(is.null(group_names)){
+  if(any(is.null(group_names))){
     group_names <- NA
   }
 
-  if(!is.na(group_names)){
+  if(!any(is.na(group_names))){
     insert_second_header(wb, sheetname, data_start_row, group_names, grouplines, data)
 
     data_start_row <- data_start_row + 1
@@ -148,7 +148,7 @@ insert_worksheet_nh <- function(data,
   }
 
   if (any(!is.na(grouplines))){
-    if(!is.na(group_names)){
+    if(!any(is.na(group_names))){
       data_start_row <- data_start_row - 1
       data_end_row <- nrow(data)+data_start_row +1
     }else{
