@@ -228,9 +228,6 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
 
   }
 
-  #Friere oberste Zeilen ein
-
-  openxlsx::freezePane(wb, sheet=i ,  firstActiveRow = datenbereich+1)
 
   # bodyStyle <- createStyle(border="TopBottom", borderColour = "#4F81BD")
   # addStyle(wb, sheet = 1, bodyStyle, rows = 2:6, cols = 1:11, gridExpand = TRUE)
