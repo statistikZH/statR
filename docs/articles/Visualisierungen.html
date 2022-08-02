@@ -120,8 +120,14 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">dichromat</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span></code></pre></div>
-<p>Das <strong>statR</strong>-ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale Corporate Design einzufügen. Es basiert auf dem ggplot2-theme ‘minimal’ und bestimmt diejenigen Grafikeigenschaften, die nichts mit den Daten an sich zu tun haben (z.B. die Schriftart).</p>
-<p>Innerhalb des themes kann die Schriftgrösse, die Position der Achsenbeschriftungen sowie das Vorhandensein von Achsenlinien, Achsen-Ticks und Gitterlinien bestimmt werden (siehe <code>?theme_stat()</code>).</p>
+<p>Das <strong>statR</strong>-ggplot2-theme ist darauf ausgelegt, sich
+gut ins kantonale Corporate Design einzufügen. Es basiert auf dem
+ggplot2-theme ‘minimal’ und bestimmt diejenigen Grafikeigenschaften, die
+nichts mit den Daten an sich zu tun haben (z.B. die Schriftart).</p>
+<p>Innerhalb des themes kann die Schriftgrösse, die Position der
+Achsenbeschriftungen sowie das Vorhandensein von Achsenlinien,
+Achsen-Ticks und Gitterlinien bestimmt werden (siehe
+<code>?theme_stat()</code>).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">class</span>,fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
@@ -134,7 +140,9 @@
              major.grid.lines <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title"</span>, subtitle <span class="op">=</span> <span class="st">"Subtitle"</span>, caption <span class="op">=</span> <span class="st">"Caption"</span><span class="op">)</span></code></pre></div>
 <p><img src="Visualisierungen_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
-<p>Mit der Funktion <code><a href="../reference/flush_left.html">flush_left()</a></code> können Titel, Untertitel und Fussnote nach links verschoben werden, sodass sie bündig sind mit der y-Achse der Grafik:</p>
+<p>Mit der Funktion <code><a href="../reference/flush_left.html">flush_left()</a></code> können Titel, Untertitel
+und Fussnote nach links verschoben werden, sodass sie bündig sind mit
+der y-Achse der Grafik:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">class</span>,fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
@@ -152,21 +160,22 @@
 <div id="theme_stat-für-karten" class="section level1">
 <h1 class="hasAnchor">
 <a href="#theme_stat-f%C3%BCr-karten" class="anchor"></a>theme_stat() für Karten</h1>
-<p>Für Karten kann die Option <code>map</code> auf <code>TRUE</code> gesetzt werden.</p>
+<p>Für Karten kann die Option <code>map</code> auf <code>TRUE</code>
+gesetzt werden.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">downloader</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/downloader/man/download.html">download</a></span><span class="op">(</span><span class="st">"https://www.web.statistik.zh.ch/data/KTZH_151_Gemeinde2020.zip"</span>,<span class="st">"geodata.zip"</span><span class="op">)</span>
 
 <span class="fu">zip</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zip/man/unzip.html">unzip</a></span><span class="op">(</span><span class="st">"geodata.zip"</span><span class="op">)</span>
 
 <span class="va">shape</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="st">"GEN_A4_GEMEINDEN_2020_shp"</span><span class="op">)</span>
-<span class="co">#&gt; Multiple layers are present in data source /home/b105plr@ji.ktzh.ch/gitrepos/statR_new/vignettes/GEN_A4_GEMEINDEN_2020_shp, reading layer `GEN_A4_GEMEINDEN_2020'.</span>
+<span class="co">#&gt; Multiple layers are present in data source /home/b105p01@ji.ktzh.ch/gitrepos/statR/vignettes/GEN_A4_GEMEINDEN_2020_shp, reading layer `GEN_A4_GEMEINDEN_2020'.</span>
 <span class="co">#&gt; Use `st_layers' to list all layer names and their type in a data source.</span>
 <span class="co">#&gt; Set the `layer' argument in `st_read' to read a particular layer.</span>
 <span class="co">#&gt; Warning in evalq((function (..., call. = TRUE, immediate. = FALSE, noBreaks. =</span>
 <span class="co">#&gt; FALSE, : automatically selected the first layer in a data source containing more</span>
 <span class="co">#&gt; than one.</span>
 <span class="co">#&gt; Reading layer `GEN_A4_GEMEINDEN_2020' from data source </span>
-<span class="co">#&gt;   `/home/b105plr@ji.ktzh.ch/gitrepos/statR_new/vignettes/GEN_A4_GEMEINDEN_2020_shp' </span>
+<span class="co">#&gt;   `/home/b105p01@ji.ktzh.ch/gitrepos/statR/vignettes/GEN_A4_GEMEINDEN_2020_shp' </span>
 <span class="co">#&gt;   using driver `ESRI Shapefile'</span>
 <span class="co">#&gt; Simple feature collection with 162 features and 5 fields</span>
 <span class="co">#&gt; Geometry type: POLYGON</span>
@@ -189,12 +198,17 @@
 <div id="farbpaletten" class="section level1">
 <h1 class="hasAnchor">
 <a href="#farbpaletten" class="anchor"></a>Farbpaletten</h1>
-<p>Das Farbpalettenobjekt <code>zhpal</code> enthält alle im Package vorhandenen Farbpaletten und ist mit dem geladenen <code>statR</code>-Package global verfügbar.</p>
-<p>Mit der Funktion <code><a href="../reference/display.html">display()</a></code> kann man sich die Farben einer Palette anschauen:</p>
+<p>Das Farbpalettenobjekt <code>zhpal</code> enthält alle im Package
+vorhandenen Farbpaletten und ist mit dem geladenen
+<code>statR</code>-Package global verfügbar.</p>
+<p>Mit der Funktion <code><a href="../reference/display.html">display()</a></code> kann man sich die Farben
+einer Palette anschauen:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhdiagonal</span><span class="op">)</span></code></pre></div>
 <p><img src="Visualisierungen_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<p>Mit der Funktion <code><a href="https://rdrr.io/r/grDevices/colorRamp.html">grDevices::colorRampPalette()</a></code> kann eine beliebige Anzahl Farbtöne basierend auf einer statR-Farbpalette erstellt werden:</p>
+<p>Mit der Funktion <code><a href="https://rdrr.io/r/grDevices/colorRamp.html">grDevices::colorRampPalette()</a></code> kann eine
+beliebige Anzahl Farbtöne basierend auf einer statR-Farbpalette erstellt
+werden:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Mische 20 Farbtöne auf Basis der zhdiagonal-Palette</span>
 <span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span><span class="op">(</span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhdiagonal</span><span class="op">)</span>,space<span class="op">=</span><span class="st">"Lab"</span><span class="op">)</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -210,24 +224,43 @@
 <div id="barrierefreie-grafiken" class="section level2">
 <h2 class="hasAnchor">
 <a href="#barrierefreie-grafiken" class="anchor"></a>Barrierefreie Grafiken</h2>
-<p>Bei der Erstellung von Grafiken ist es besonders wichtig darauf zu achten, dass die Grafiken auch für Personen mit (Farb-)Sehschwächen und Sehbehinderungen interpretierbar sind. Um solche barrierefreie Grafiken zu erstellen, bieten sich im Allgemeinen verschiedene Strategien an:</p>
+<p>Bei der Erstellung von Grafiken ist es besonders wichtig darauf zu
+achten, dass die Grafiken auch für Personen mit (Farb-)Sehschwächen und
+Sehbehinderungen interpretierbar sind. Um solche barrierefreie Grafiken
+zu erstellen, bieten sich im Allgemeinen verschiedene Strategien an:</p>
 <ul>
-<li><p>Daten, die der Grafik zugrunde liegen, zusätzlich als csv oder -html-Tabelle einbinden</p></li>
-<li><p>Einen Alternativtext (alt-Text) hinterlegen, der beschreibt, was auf der Grafik abgebildet ist und wo die Daten zu finden sind</p></li>
-<li><p>Farbpaletten wählen, die für Farbsehschwächen optimiert sind</p></li>
-<li><p>Die Grafik soll nicht ausschliesslich aufgrund einer Farbpalette interpretierbar sein</p></li>
-<li><p>Die Komplexität der Grafiken sollte auf ein Minimum beschränkt werden</p></li>
+<li><p>Daten, die der Grafik zugrunde liegen, zusätzlich als csv oder
+-html-Tabelle einbinden</p></li>
+<li><p>Einen Alternativtext (alt-Text) hinterlegen, der beschreibt, was
+auf der Grafik abgebildet ist und wo die Daten zu finden sind</p></li>
+<li><p>Farbpaletten wählen, die für Farbsehschwächen optimiert
+sind</p></li>
+<li><p>Die Grafik soll nicht ausschliesslich aufgrund einer Farbpalette
+interpretierbar sein</p></li>
+<li><p>Die Komplexität der Grafiken sollte auf ein Minimum beschränkt
+werden</p></li>
 </ul>
-<p>Einige dieser Punkte können direkt bei der Erstellung der Grafiken in R berücksichtigt werden.</p>
+<p>Einige dieser Punkte können direkt bei der Erstellung der Grafiken in
+R berücksichtigt werden.</p>
 <div id="farbsehschwächen" class="section level3">
 <h3 class="hasAnchor">
 <a href="#farbsehschw%C3%A4chen" class="anchor"></a>1. Farbsehschwächen</h3>
-<p>Damit Grafiken auch für Personen mit Farbsehschwächen möglichst gut interpretierbar sind, sollten Farben in Grafiken sowohl bezüglich der <em>Farbanteile</em> als auch der <em>Farbsättigung</em> variiert werden. Wenn möglich, sollten unterschiedliche Datenkategorien zudem nicht nur über die Farben sondern auch über unterschiedliche Darstellungsformen unterscheidbar sein (z.B. Schraffuren, Punkt- oder Linientypen; siehe 1.3). Auch die direkte Beschriftung von Kategorien bietet sich hier als Mittel an (siehe 1.4).</p>
+<p>Damit Grafiken auch für Personen mit Farbsehschwächen möglichst gut
+interpretierbar sind, sollten Farben in Grafiken sowohl bezüglich der
+<em>Farbanteile</em> als auch der <em>Farbsättigung</em> variiert
+werden. Wenn möglich, sollten unterschiedliche Datenkategorien zudem
+nicht nur über die Farben sondern auch über unterschiedliche
+Darstellungsformen unterscheidbar sein (z.B. Schraffuren, Punkt- oder
+Linientypen; siehe 1.3). Auch die direkte Beschriftung von Kategorien
+bietet sich hier als Mittel an (siehe 1.4).</p>
 </div>
 <div id="auswahl-farbpaletten" class="section level3">
 <h3 class="hasAnchor">
 <a href="#auswahl-farbpaletten" class="anchor"></a>1.2 Auswahl Farbpaletten</h3>
-<p>In R können mit dem <a href="https://cran.r-project.org/web/packages/dichromat/index.html">dichromat-Package</a> diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt es Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich sind.</p>
+<p>In R können mit dem <a href="https://cran.r-project.org/web/packages/dichromat/index.html">dichromat-Package</a>
+diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt
+es Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich
+sind.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">dichromat</span><span class="op">)</span>
 <span class="co"># Anzeige der Farbpalette zhdiagonal</span>
@@ -253,16 +286,21 @@
 <div id="form--oder-linientypen" class="section level3">
 <h3 class="hasAnchor">
 <a href="#form--oder-linientypen" class="anchor"></a>1.3 Form- oder Linientypen</h3>
-<p>Wenn immer möglich sollten unterschiedliche Kategorien nicht nur mit unterschiedlichen Farben gekennzeichnet werden, sondern auch mit unterschiedlichen Schraffuren, Symbol- oder Linientypen (siehe: <a href="https://bbc.github.io/gel/components/infographics/#recommended-layout" class="uri">https://bbc.github.io/gel/components/infographics/#recommended-layout</a>). Ja nach Grafiktyp eignen sich andere Ansätze:</p>
+<p>Wenn immer möglich sollten unterschiedliche Kategorien nicht nur mit
+unterschiedlichen Farben gekennzeichnet werden, sondern auch mit
+unterschiedlichen Schraffuren, Symbol- oder Linientypen (siehe: <a href="https://bbc.github.io/gel/components/infographics/#recommended-layout" class="uri">https://bbc.github.io/gel/components/infographics/#recommended-layout</a>).
+Ja nach Grafiktyp eignen sich andere Ansätze:</p>
 <ul>
 <li><p><strong>Liniendiagramme</strong>: <a href="https://ggplot2.tidyverse.org/reference/aes_linetype_size_shape.html">Linientyp</a></p></li>
-<li><p><strong>Säulen / Flächendiagramme</strong>: <a href="https://ggplot2.tidyverse.org/reference/aes_linetype_size_shape.html">Linientyp</a> oder <a href="Fl%C3%A4chen%20schraffieren%20:%20https://coolbutuseless.github.io/package/ggpattern/articles/pattern-circle.html#the-density-aesthetic-as-a-mapped-aesthetic-1">Flächenstruktur</a></p></li>
+<li><p><strong>Säulen / Flächendiagramme</strong>: <a href="https://ggplot2.tidyverse.org/reference/aes_linetype_size_shape.html">Linientyp</a>
+oder <a href="Fl%C3%A4chen%20schraffieren%20:%20https://coolbutuseless.github.io/package/ggpattern/articles/pattern-circle.html#the-density-aesthetic-as-a-mapped-aesthetic-1">Flächenstruktur</a></p></li>
 <li><p><strong>Scatter / Punkte-Diagramm</strong>: <a href="https://ggplot2.tidyverse.org/reference/aes_linetype_size_shape.html">Symbole</a></p></li>
 </ul>
-<p><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Ab einer gewissen Anzahl an Kategorien, wird die Grafik unübersichtlich.</p>
+<p><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Ab einer
+gewissen Anzahl an Kategorien, wird die Grafik unübersichtlich.</p>
 <p><strong>Beispiel : Liniengrafik</strong></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols<span class="op">=</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
 
 <span class="va">gg_ojuga</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Jahr</span>, <span class="va">value</span> ,color<span class="op">=</span><span class="va">name</span>,linetype<span class="op">=</span><span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
@@ -280,15 +318,18 @@
 <div id="direkte-beschriftung" class="section level3">
 <h3 class="hasAnchor">
 <a href="#direkte-beschriftung" class="anchor"></a>1.4 Direkte Beschriftung</h3>
-<p>Bei gewissen Grafiktypen kann die Unterscheidbarkeit von Kategorien auch durch direkte Beschriftung verbessert werden. Das ´ggrepel´-package verfügt über die notwendigen Funktionen. Beispielsweise sorgt es dafür, dass die Beschriftungen nicht überlappen.</p>
+<p>Bei gewissen Grafiktypen kann die Unterscheidbarkeit von Kategorien
+auch durch direkte Beschriftung verbessert werden. Das ´ggrepel´-package
+verfügt über die notwendigen Funktionen. Beispielsweise sorgt es dafür,
+dass die Beschriftungen nicht überlappen.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span>
 
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols<span class="op">=</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Jahr</span>, <span class="va">value</span> ,color<span class="op">=</span><span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">data</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Jahr</span><span class="op">==</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Jahr</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">name</span><span class="op">)</span>, direction <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Jahr</span><span class="op">==</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Jahr</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">name</span><span class="op">)</span>, direction <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span> <span class="op">+</span>
      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
      <span class="fu"><a href="../reference/theme_stat.html">theme_stat</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></code></pre></div>
@@ -299,10 +340,13 @@
 <div id="grafiken-fürs-zhweb" class="section level1">
 <h1 class="hasAnchor">
 <a href="#grafiken-f%C3%BCrs-zhweb" class="anchor"></a>Grafiken fürs ZHWeb</h1>
-<p>Bei Grafiken, welche auf <a href="zh.ch">zh.ch</a> Publiziert werden sollen, gilt es folgendes zu berücksichtigen:</p>
+<p>Bei Grafiken, welche auf <a href="zh.ch">zh.ch</a> Publiziert werden
+sollen, gilt es folgendes zu berücksichtigen:</p>
 <ul>
 <li>Maximale Bildgrösse 4000x4000</li>
-<li>Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden</li>
+<li>Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt
+im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber
+integriert werden</li>
 </ul>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -324,12 +368,15 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#theme_stat-f%C3%BCr-ggplot2-grafiken">theme_stat() für ggplot2-Grafiken</a></li>
-      <li><a href="#theme_stat-f%C3%BCr-karten">theme_stat() für Karten</a></li>
+<li><a href="#theme_stat-f%C3%BCr-ggplot2-grafiken">theme_stat() für
+      ggplot2-Grafiken</a></li>
+      <li><a href="#theme_stat-f%C3%BCr-karten">theme_stat() für
+      Karten</a></li>
       <li>
 <a href="#farbpaletten">Farbpaletten</a>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#barrierefreie-grafiken">Barrierefreie Grafiken</a></li>
+<li><a href="#barrierefreie-grafiken">Barrierefreie
+      Grafiken</a></li>
       </ul>
 </li>
       <li><a href="#grafiken-f%C3%BCrs-zhweb">Grafiken fürs ZHWeb</a></li>
@@ -345,7 +392,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Andrea Schnell, Michelle Donzallaz, Thomas Knecht, Thomas Lo Russo.</p>
+  <p>Developed by Andrea Schnell, Michelle Donzallaz, Lara Theiler, Thomas Knecht, Thomas Lo Russo.</p>
 </div>
 
 <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#000000 !important;background-color:#FFFFFF !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 0px 9px !important;font-size: 17px !important;letter-spacing:-0.08px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Lato', sans-serif !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#000000 !important;}</style>

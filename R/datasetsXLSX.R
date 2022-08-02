@@ -110,7 +110,7 @@ datasetsXLSX <- function(file,
                          overwrite = F
 ){
 
-  if(!is.na(group_names) & is.na(grouplines)){
+  if(!any(is.na(group_names)) & any(is.na(grouplines))){
     stop("if a second header is wanted, the grouplines have to be specified")
   }
 
