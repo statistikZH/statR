@@ -67,9 +67,9 @@ flush_left(p)
 
 Für Karten kann die Option `map` auf `TRUE` gesetzt werden.
 ```{r}
-downloader::download("https://www.web.statistik.zh.ch/data/KTZH_151_Gemeinde2020.zip","geodata.zip")
-
-zip::unzip("geodata.zip")
+# Data downloaded previously and stored
+# downloader::download("https://www.web.statistik.zh.ch/data/KTZH_151_Gemeinde2020.zip","geodata.zip")
+# zip::unzip("geodata.zip")
 
 shape <- sf::st_read("GEN_A4_GEMEINDEN_2020_shp")
 
@@ -171,7 +171,10 @@ Wenn immer möglich sollten unterschiedliche Kategorien nicht nur mit unterschie
 __Beispiel : Liniengrafik__
 
 ```{r}
-data <- read.csv("https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv") %>% 
+
+# Datenzugriff von: https://www.zh.ch/de/politik-staat/opendata.zhweb-noredirect.zhweb-cache.html?keywords=ogd#/datasets/544@oberjugendanwaltschaft-kanton-zuerich/distributions/1031
+
+data <- read.csv("daten/KTZH_00000544_00001031.csv") %>% 
   pivot_longer(cols=2:3)
 
 gg_ojuga <- ggplot(data, aes(Jahr, value ,color=name,linetype=name)) + 
@@ -197,7 +200,7 @@ Bei gewissen Grafiktypen kann die Unterscheidbarkeit von Kategorien auch durch d
 ```{r}
 library(ggrepel)
 
-data <- read.csv("https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv") %>% 
+data <- read.csv("daten/KTZH_00000544_00001031.csv") %>% 
   pivot_longer(cols=2:3)
 
 ggplot(data, aes(Jahr, value ,color=name)) + 
