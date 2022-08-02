@@ -35,22 +35,22 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
   color.title = palette[9]
   color.axis = palette[7]
 
-  theme_var <- ggplot2::theme_minimal(base_family = "arial") +
+  theme_var <- ggplot2::theme_minimal(base_family = "Arial") +
     # TEXTE
     ggplot2::theme(
-      text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
+      text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "Arial"),
 
-      plot.title = ggplot2::element_text(size = base_size*4/3, colour = color.title, face = "bold", family="arialblack"),
-      plot.subtitle = ggplot2::element_text(size = base_size, color = color.title, face = "plain", family = "arial"),
-      plot.caption = ggplot2::element_text(size = base_size, color = color.title, face = "plain", family = "arial", hjust = 0),
+      plot.title = ggplot2::element_text(size = base_size*4/3, colour = color.title, face = "bold", family="Arial Black"),
+      plot.subtitle = ggplot2::element_text(size = base_size, color = color.title, face = "plain", family = "Arial"),
+      plot.caption = ggplot2::element_text(size = base_size, color = color.title, face = "plain", family = "Arial", hjust = 0),
 
-      strip.text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
+      strip.text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "Arial"),
 
-      axis.title = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
-      axis.text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
+      axis.title = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "Arial"),
+      axis.text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "Arial"),
 
-      legend.title = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial"),
-      legend.text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "arial")
+      legend.title = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "Arial"),
+      legend.text = ggplot2::element_text(size = base_size, color = color.axis, face = "plain", family = "Arial")
     )
 
   # ACHSEN
