@@ -12,8 +12,9 @@ library(scales)
 stattheme_data <- {
 
   x <- list()
-
   #standard
+  x$stattheme_data$zhtest<- c("#009ee0", "#0070B4", "#7F3DA7", "#D40053", "#B01657", "#DC7700","#00797B", "#1A7F1F")
+
   x$stattheme_data$zhcd<- c("#009ee0", "#0076bd", "#885ea0", "#e30059", "#e2001a","#ffcc00", "#00a1a3","#3ea743")
 
   ### 1. Ordinale / kategoriale Paletten
@@ -21,6 +22,8 @@ stattheme_data <- {
   #Farbmatrixpaletten (horizontal)
 
   #standard
+  x$stattheme_data$zhinfografik<- c("#0070B4", "#00407C", "#00407C", "#00797B", "#8A8C00", "#00544C", "#DC7700", "#D93C1A", "#96170F", "#D40053", "#B01657", "#7A0049", "#9572D5", "#54268E", "#CCCCCC", "#949494", "#666666", "#333333" )
+
   x$stattheme_data$zhdarker<- c("#407B9F", "#409292", "#5F9463", "#B2A558", "#B77346", "#B24A4C", "#857091")
 
   x$stattheme_data$zhdark<- c("#3F8AB4", "#3FA5A5", "#65A96A", "#CEBE5B", "#D27F46", "#CD4B4E", "#9479A4")
@@ -29,9 +32,8 @@ stattheme_data <- {
 
   x$stattheme_data$zhlight<- c("#5FA9D3", "#5FC3C3","#84C788", "#EDDD79", "#F29F64", "#EC686C", "#B399C3")
 
-  x$stattheme_data$zhpastel <- c( "#7FB9DD", "#7FCECE", "#9DD2A0", "#F1E494", "#F4B283", "#F1868B", "#C3ACCE")
-
   x$stattheme_data$zhextralight <- c("#9FCBE5", "#9FDADA" ,"#B4DEB8", "#F3EBAE", "#F7C5A1", "#F3A5A7", "#D2C1DA")
+  # fgdfgd
 
   x$stattheme_data$zhultralight <- c("#BFDCED" ,"#BFE6E6", "#CDE9D0" ,"#F8F1CA" ,"#F9D8C0", "#F8C3C4", "#E0D6E6")
 
@@ -43,25 +45,14 @@ stattheme_data <- {
 
   x$stattheme_data$zhblue <- c("#407B9F","#3F8AB4","#3F98CC","#5FA9D3","#7FB9DD","#9FCBE5","#BFDCED")
 
-  x$stattheme_data$zhbluemh<- c('#386a87','#528489','#699b8f','#7fb19d','#96c3b0','#add3cb','#c5dfed')
-
   # x$stattheme_data$zhblue <- c('#407b9f','#4c97c1','#71b2d8','#a0cbe5','#d0e5f2')
 
   #x$stattheme_data$zhblue <- c('#407b9f','#71b2d8','#d0e5f2')
 
   x$stattheme_data$zhgreen <-c("#527F54", "#669F6A", "#7ABF7F","#90C993","#A5D3A9","#BBDFBF","#D2E9D3")
 
-  x$stattheme_data$zhturqoise <-c("#409292", "#3FA5A5", "#3FB8B8","#5FC3C3","#7FCECE","#9FDADA","#BFE6E6")
-
-  x$stattheme_data$zhyellow<-c("#B2A558", "#CEBE5B", "#EBD760","#EDDD79","#F1E494","#F3EBAE","#F8F1CA")
-
   x$stattheme_data$zhorange <-c("#B77346", "#D27F46", "#F08D47","#F29f64","#f4b283","#f7c5a1","#f9d8c0")
 
-  x$stattheme_data$zhred <- c('#983844','#b74451','#d84f60','#e76c7b','#ec8c99','#f1a8b2','#f6c5cb')
-
-  x$stattheme_data$zhviolet <-c('#715f7a','#857190','#9a83a7','#af96bc','#c0acc9','#d0c2d8','#e3d9e6')
-
-  x$stattheme_data$zhvioletmh<-c('#715f7a','#877375','#9a8874','#ae9e77','#c1b284','#d4c6a1','#e3d9e6')
 
   #diagonal palette
 
@@ -73,25 +64,9 @@ stattheme_data <- {
 
   x$stattheme_data$zhbyg<- c( "#003B5E", "#006EB1" ,"#5FA9D5","#FFE16F","#C2D37B", "#86CEB8", "#56BFB9", "#9DB99E", "#656564")
 
-  x$stattheme_data$zhbyglight<- c("#2A5A78", "#2A85BE", "#79B7DC" ,"#FFE586" ,"#CCD991", "#99D6C3" ,"#72C9C4", "#ACC4AD" ,"#7E7E7D")
-
   #zhlake
 
   x$stattheme_data$zhlake<-c("#002338","#004671","#0076BD","#3F94BA" ,"#7FB2B7", "#BFD0B4","#DAEBCC", "#FFEFB2")
-
-  x$stattheme_data$zhlakelight<-c("#2A4659", "#2A6487", "#2A8CC7", "#5FA5C5", "#93BEC3", "#C9D7BF" ,"#DFEDD3", "#FFF1BE")
-
-  #likert-paletten
-
-  #zhlikert Benchmarking mit Kantonsrot / Kantonsgr?n - '#e2001a', "#3ea743"
-
-  x$stattheme_data$zhlikert5gr <- c( "#F09B7A", "#E93F53","#6EBD72", "#B3DA8A", "#F8F7A2")
-
-  x$stattheme_data$zhlikert5br <- c("#F09B7A","#E93F53","#3F98CD", "#9BC7B7", "#F8F7A2")
-
-  x$stattheme_data$zhlikert6gr <- c("#6EBD72", "#A5D485" ,"#DCEB98" ,"#f2a975", "#EF8872" ,"#E93F53")
-
-  x$stattheme_data$zhlikert6br <- c("#3F98CD" ,"#7FB9DD", "#9FDADA", "#F7C5A1", "#EF8872", "#E93F53")
 
 
   #BENCHMARKING-PALETTEN
@@ -218,3 +193,5 @@ stattheme_pal <- function(palette = "default") {
 #'
 
 zhpal <- x$stattheme_data
+
+
