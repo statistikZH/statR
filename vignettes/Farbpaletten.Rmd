@@ -165,13 +165,14 @@ Bei Grafiken, welche auf [zh.ch](zh.ch) Publiziert werden sollen, gilt es folgen
 
 - Maximale Bildgrösse 4000x4000
 - Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden
+- die Palette 'zhwebdataviz' enthält die Farben, die auf dem Web genutzt werden sollen
+- die Palette 'zhwebaccent' enthält die Akkzentfarben des Designsystems. Diese sollten ber vor allem für Hintergründ everwendet werden und nicht für Visualisierungen, da sie nicht barrierefrei sind.
 
 ```{r}
-
 ggplot(mpg, aes(class,fill = drv))+
   geom_bar()+
   theme_stat()+
-  scale_fill_manual(values=zhpal$zhblue)
+  scale_fill_manual(values=zhpal$zhwebdataViz[11:13])
 
 
 # ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")
