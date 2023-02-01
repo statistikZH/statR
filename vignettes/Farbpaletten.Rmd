@@ -1,8 +1,8 @@
 ---
-title: "Visualisierungen"
+title: "Farbpaletten"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Visualisierungen}
+  %\VignetteIndexEntry{Farbpaletten}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# theme_stat() für ggplot2-Grafiken
 
 ```{r setup, warning = F, message = F}
 library(statR)
@@ -28,68 +27,11 @@ library(dichromat)
 library(ggrepel)
 ```
 
-Das **statR**-ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale Corporate Design einzufügen. Es basiert auf dem ggplot2-theme 'minimal' und bestimmt diejenigen Grafikeigenschaften, die nichts mit den Daten an sich zu tun haben (z.B. die Schriftart).  
-
-Innerhalb des themes kann die Schriftgrösse, die Position der Achsenbeschriftungen sowie das Vorhandensein von Achsenlinien, Achsen-Ticks und Gitterlinien bestimmt werden (siehe `?theme_stat()`).
-
-```{r}
-ggplot(mpg, aes(class,fill = drv))+
-  geom_bar()+
-  # Default-Spezifikationen innerhalb theme_stat()
-  theme_stat(base_size = 11,
-             axis.label.pos = "top",
-             axis.lines = "x",
-             ticks = "x",
-             minor.grid.lines = "y",
-             major.grid.lines = "y") +
-  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
-```
-
-
-Mit der Funktion `flush_left()` können Titel, Untertitel und Fussnote nach links verschoben werden, sodass sie bündig sind mit der y-Achse der Grafik:
-
-```{r}
-p <- ggplot(mpg, aes(class,fill = drv))+
-  geom_bar()+
-  # Default-Spezifikationen innerhalb theme_stat()
-  theme_stat(base_size = 11,
-             axis.label.pos = "top",
-             axis.lines = "x",
-             ticks = "x",
-             minor.grid.lines = FALSE) +
-  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
-
-flush_left(p)
-```
-
-
-# theme_stat() für Karten
-
-Für Karten kann die Option `map` auf `TRUE` gesetzt werden.
-```{r}
-# Data downloaded previously and stored
-# downloader::download("https://www.web.statistik.zh.ch/data/KTZH_151_Gemeinde2020.zip","geodata.zip")
-# zip::unzip("geodata.zip")
-
-shape <- sf::st_read("GEN_A4_GEMEINDEN_2020_shp")
-
-map <- ggplot(shape,aes(fill=BFS))+
-  geom_sf()+
-  theme_stat(map=TRUE)+
-  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
-
-map
-
-ggsave("map.png")
-```
-
-
-
 # Farbpaletten
 
 Das Farbpalettenobjekt `zhpal` enthält alle im Package vorhandenen Farbpaletten und ist mit dem geladenen `statR`-Package global verfügbar. 
 
-Mit der Funktion `display.statcol.all()` können alle vorhandenen Farbpaletten angezeigt werden:
+Mit der Funktion `display.statcol.all()` können alle Farbpaletten angezeigt werden:
 
 ```{r}
 display.statcol.all()
@@ -140,7 +82,7 @@ Damit Grafiken auch für Personen mit Farbsehschwächen möglichst gut interpret
 
 ### 1.2 Auswahl Farbpaletten
 
-In R können mit dem [dichromat-Package](https://cran.r-project.org/web/packages/dichromat/index.html) diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt es Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich sind. Je heller die Paletten sind, desto weniger geeingnet sind sie. Das trifft vor allem auf die Farbpaletten zhextralight oder zhultralight zu.
+In R können mit dem [dichromat-Package](https://cran.r-project.org/web/packages/dichromat/index.html) diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt es Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich sind.
 
 ```{r out.width="20%", out.height="20%"}
 library(dichromat)
@@ -219,15 +161,12 @@ ggplot(data, aes(Jahr, value ,color=name)) +
 
 # Grafiken fürs ZHWeb
 
-
-# Grafiken fürs ZHWeb
-
-Bei Grafiken, welche auf [zh.ch](zh.ch) publiziert werden sollen, gilt es folgendes zu berücksichtigen:
+Bei Grafiken, welche auf [zh.ch](zh.ch) Publiziert werden sollen, gilt es folgendes zu berücksichtigen:
 
 - Maximale Bildgrösse 4000x4000
 - Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden
-- die Palette 'zhwebdataviz' enthält die Farben, die im Web genutzt werden sollen
-- die Palette 'zhwebaccent' enthält die Akzentfarben des Designsystems. Diese sollten ber vor allem für Hintergründe verwendet werden und nicht für Visualisierungen, da sie nicht barrierefrei sind.
+- die Palette 'zhwebdataviz' enthält die Farben, die auf dem Web genutzt werden sollen
+- die Palette 'zhwebaccent' enthält die Akkzentfarben des Designsystems. Diese sollten ber vor allem für Hintergründ everwendet werden und nicht für Visualisierungen, da sie nicht barrierefrei sind.
 
 ```{r}
 ggplot(mpg, aes(class,fill = drv))+

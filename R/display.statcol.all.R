@@ -26,7 +26,7 @@ display.statcol.all<-function() {
   gg1 <- ggplot2::ggplot(df, ggplot2::aes(x=pal_col, y=0, color=I(col)))+
     ggplot2::geom_point(size=20,shape=15)+
     ggplot2::facet_wrap(~palette, ncol=3,scales="free")+
-    ggplot2::guides(color=FALSE)+
+    ggplot2::guides(color="none")+
     ggplot2::theme_minimal()+
     ggplot2::theme(axis.ticks=ggplot2::element_blank(),
                    axis.text=ggplot2::element_blank()) +

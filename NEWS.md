@@ -1,3 +1,10 @@
+# statR 2.1.2
+
+* implemented new color palettes
+* removes old and not accessible palettes
+* the documentation has been update 
+  * bugs in the documentation fixed
+
 # statR 2.1.1
 
 * fix `datasetXLSX()` which generated broken Links in the index-sheet
