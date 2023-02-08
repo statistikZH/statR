@@ -1,10 +1,10 @@
-pandoc: 2.17.1.1
-pkgdown: 1.6.1
+pandoc: 2.19.2
+pkgdown: 2.0.4
 pkgdown_sha: ~
 articles:
   Excel-Tabellen: Excel-Tabellen.html
   Sonstige_Funktionen: Sonstige_Funktionen.html
   Visualisierungen: Visualisierungen.html
   html_report_template: html_report_template.html
-last_built: 2022-05-23T13:51Z
+last_built: 2023-02-08T09:15Z
 
