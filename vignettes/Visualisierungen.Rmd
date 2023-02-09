@@ -140,7 +140,7 @@ Damit Grafiken auch für Personen mit Farbsehschwächen möglichst gut interpret
 
 ### 1.2 Auswahl Farbpaletten
 
-In R können mit dem [dichromat-Package](https://cran.r-project.org/web/packages/dichromat/index.html) diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt es Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich sind. Je heller die Paletten sind, desto weniger geeingnet sind sie. Das trifft vor allem auf die Farbpaletten zhextralight oder zhultralight zu.
+In R können mit dem [dichromat-Package](https://cran.r-project.org/web/packages/dichromat/index.html) diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt es Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich sind. Je heller die Paletten sind, desto weniger geeignet sind sie. Das trifft vor allem auf Farbpaletten wie *zhextralight* oder *zhultralight* zu.
 
 ```{r out.width="20%", out.height="20%"}
 library(dichromat)
@@ -225,9 +225,9 @@ ggplot(data, aes(Jahr, value ,color=name)) +
 Bei Grafiken, welche auf [zh.ch](zh.ch) publiziert werden sollen, gilt es folgendes zu berücksichtigen:
 
 - Maximale Bildgrösse 4000x4000
-- Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden
-- die Palette 'zhwebdataviz' enthält die Farben, die im Web genutzt werden sollen
-- die Palette 'zhwebaccent' enthält die Akzentfarben des Designsystems. Diese sollten aber vor allem für Hintergründe oder Schriften verwendet werden und nicht für Visualisierungen, da sie nicht barrierefrei sind.
+- Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden.
+- Die Palette 'zhwebdataviz' enthält die Farben, die für Infografiken und Visualisierungen im Web genutzt werden sollen.
+- Die Palette 'zhwebaccent' enthält die Akzentfarben des Designsystems. Diese sollten aber vor allem für Hintergründe oder Schriften und nicht für Visualisierungen verwendet werden, da sie nicht optimiert sind für barrierefreie Grafiken.
 
 ```{r}
 ggplot(mpg, aes(class,fill = drv))+

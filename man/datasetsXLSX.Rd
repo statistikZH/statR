@@ -85,7 +85,8 @@ datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugef\u00fcgt
             datasets = list(dat1, dat2),
             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
             grouplines = list(c(1)),
-            group_names = list(c("name_of_second_header")),  # adds a second header in the first sheet
+            # adds a second header in the first sheet
+            group_names = list(c("name_of_second_header")),
             sources = c("Source: Henderson and Velleman (1981).
             Building multiple regression models interactively. Biometrics, 37, 391–411.",
                         "Dobson, A. J. (1983) An Introduction to Statistical

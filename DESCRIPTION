@@ -17,7 +17,6 @@ Imports:
     dplyr,
     ggplot2,
     openxlsx,
-    magrittr,
     stats,
     grDevices,
     RColorBrewer,
@@ -25,12 +24,13 @@ Imports:
     rlang,
     scales,
     stringr,
-    tidyr,
     purrr
 URL: https://statistikzh.github.io/statR/
 BugReports: https://github.com/statistikZH/statR/issues
 Suggests: 
     knitr,
     rmarkdown,
-    ggrepel
+    ggrepel,
+    tidyr,
+    magrittr
 VignetteBuilder: knitr
