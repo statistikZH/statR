@@ -98,14 +98,14 @@ display.statcol.all()
 Mit der Funktion `display()` kann man sich die Farben einer Palette anschauen:
 
 ```{r}
-display(zhpal$zhdiagonal)
+display(zhpal$zhwebdataviz)
 ```
 
 Mit der Funktion `grDevices::colorRampPalette()` kann eine beliebige Anzahl Farbtöne basierend auf einer statR-Farbpalette erstellt werden:
 
 ```{r}
 #Mische 20 Farbtöne auf Basis der zhdiagonal-Palette
-display(grDevices::colorRampPalette((zhpal$zhdiagonal),space="Lab")(20))
+display(grDevices::colorRampPalette((zhpal$zhwebdataviz),space="Lab")(20))
 ```
 
 Anwendungsbeispiel mit kategorialen Daten:
@@ -115,8 +115,29 @@ Anwendungsbeispiel mit kategorialen Daten:
 ggplot(mpg, aes(class,fill = drv))+
   geom_bar()+
   theme_stat()+
-  scale_fill_manual(values=zhpal$zhblue)
+  scale_fill_manual(values=zhpal$zhwebdataviz)
 ```
+
+## Grafiken fürs ZHWeb
+
+Bei Grafiken, welche auf [zh.ch](zh.ch) publiziert werden sollen, gilt es folgendes zu berücksichtigen:
+
+- Maximale Bildgrösse 4000x4000
+- Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden.
+- Die Palette *zhwebdataviz* enthält die Farben, die für Infografiken und Visualisierungen im Web genutzt werden sollen.
+- Die Palette *zhwebaccent* enthält die Akzentfarben des Designsystems. Diese sollten aber vor allem für Hintergründe oder Schriften und nicht für Visualisierungen verwendet werden, da sie nicht optimiert sind für barrierefreie Grafiken.
+
+```{r}
+ggplot(mpg, aes(class,fill = drv))+
+  geom_bar()+
+  theme_stat()+
+  scale_fill_manual(values=zhpal$zhwebdataviz[11:13])
+
+
+# ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")
+
+```
+
 
 ## Barrierefreie Grafiken
 
@@ -216,26 +237,3 @@ ggplot(data, aes(Jahr, value ,color=name)) +
      guides(color="none")
 ```
 
-
-# Grafiken fürs ZHWeb
-
-
-# Grafiken fürs ZHWeb
-
-Bei Grafiken, welche auf [zh.ch](zh.ch) publiziert werden sollen, gilt es folgendes zu berücksichtigen:
-
-- Maximale Bildgrösse 4000x4000
-- Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden.
-- Die Palette 'zhwebdataviz' enthält die Farben, die für Infografiken und Visualisierungen im Web genutzt werden sollen.
-- Die Palette 'zhwebaccent' enthält die Akzentfarben des Designsystems. Diese sollten aber vor allem für Hintergründe oder Schriften und nicht für Visualisierungen verwendet werden, da sie nicht optimiert sind für barrierefreie Grafiken.
-
-```{r}
-ggplot(mpg, aes(class,fill = drv))+
-  geom_bar()+
-  theme_stat()+
-  scale_fill_manual(values=zhpal$zhwebdataViz[11:13])
-
-
-# ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")
-
-```
