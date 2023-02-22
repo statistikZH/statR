@@ -25,8 +25,6 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,12 +37,18 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">statR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -75,7 +79,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/statistikZH/statR/" class="external-link">
+  <a href="https://github.com/statistikZH/statR/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -93,45 +97,54 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div class="section level1">
-<div class="page-header"><h1 id="statr">statR<a class="anchor" aria-label="anchor" href="#statr"></a>
-</h1></div>
+<div id="statr" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#statr" class="anchor"></a>statR</h1></div>
 <p align="left">
 </p>
 <p><img src="https://raw.githubusercontent.com/statistikZH/statR/dev/inst/extdata/Stempel_STAT-01.png" alt="" width="220"></p>
-<p>Mit dem <code>statR</code>-Package können mit dem Corporate Design des Kantons Zürich konforme Visualisierungen, Excel-Tabellen und Html-Berichte in <code>R</code> erstellt werden. Das Package beinhaltet:</p>
+<p>Mit dem <code>statR</code>-Package können mit dem Corporate Design
+des Kantons Zürich konforme Visualisierungen, Excel-Tabellen und
+Html-Berichte in <code>R</code> erstellt werden. Das Package
+beinhaltet:</p>
 <ul>
-<li><p>Funktionen, mit denen Datensätze aus R als XLSX-Datei abgespeichert werden können (inkl. Quellenangaben und weiteren Zusatzinformationen).</p></li>
+<li><p>Funktionen, mit denen Datensätze aus R als XLSX-Datei
+abgespeichert werden können (inkl. Quellenangaben und weiteren
+Zusatzinformationen).</p></li>
 <li><p>generische Farbpaletten für Datenvisualisierungen</p></li>
 <li><p>ein <code>ggplot2</code> theme</p></li>
 <li><p>ein Template für Html-Berichte</p></li>
 </ul>
 </div>
-<div class="section level1">
-<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h1>
-<p>Das Package liegt auf GitHub. Es kann auf zwei Arten installiert werden:</p>
-<pre><code><span class="co"># Variante 1</span>
+<div id="installation" class="section level1">
+<h1 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h1>
+<p>Das Package liegt auf GitHub. Es kann auf zwei Arten installiert
+werden:</p>
+<pre><code><a href="https://devtools.r-lib.org/"># Variante 1
 
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"statistikZH/statR"</span><span class="op">)</span>
+library(devtools)
+devtools::install_github("statistikZH/statR")
 
-<span class="co"># Variante 2</span>
+# Variante 2
 
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wch/downloader" class="external-link">downloader</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/downloader/man/download.html" class="external-link">download</a></span><span class="op">(</span><span class="st">"https://github.com/statistikZH/statR/archive/refs/heads/master.tar.gz"</span>, <span class="st">"statR.tar.gz"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"statR.tar.gz"</span>, repos <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"source"</span><span class="op">)</span></code></pre>
+library(downloader)
+download("https://github.com/statistikZH/statR/archive/refs/heads/master.tar.gz", "statR.tar.gz")
+install.packages("statR.tar.gz", repos = NULL, type = "source")
+
+</a></code></pre>
 <p>Die Development-Version kann folgendermassen installiert werden:</p>
-<pre><code><span class="co"># Variante 1</span>
+<pre><code><a href="https://devtools.r-lib.org/"># Variante 1
 
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"statistikZH/statR"</span>, ref <span class="op">=</span> <span class="st">"dev"</span><span class="op">)</span>
+library(devtools)
+devtools::install_github("statistikZH/statR", ref = "dev")
 
-<span class="co"># Variante 2</span>
+# Variante 2
 
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wch/downloader" class="external-link">downloader</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/downloader/man/download.html" class="external-link">download</a></span><span class="op">(</span><span class="st">"https://github.com/statistikZH/statR/archive/refs/heads/dev.tar.gz"</span>, <span class="st">"statR.tar.gz"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"statR.tar.gz"</span>, repos <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"source"</span><span class="op">)</span></code></pre>
+library(downloader)
+download("https://github.com/statistikZH/statR/archive/refs/heads/dev.tar.gz", "statR.tar.gz")
+install.packages("statR.tar.gz", repos = NULL, type = "source")
+</a></code></pre>
 </div>
 
   </div>
@@ -141,31 +154,23 @@
  <!-- <div id="codefund"><!-- fallback content </div>-->
 <!--  <script src="https://codefund.app/properties/148/funder.js" async="async"></script>-->
     <div class="links">
-<h2 data-toc-skip>Links</h2>
+<h2>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/statistikZH/statR/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/statistikZH/statR/issues" class="external-link">Report a bug</a></li>
+<li>Browse source code at <br><a href="https://github.com/statistikZH/statR/">https://​github.com/​statistikZH/​statR/​</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/statistikZH/statR/issues">https://​github.com/​statistikZH/​statR/​issues</a>
+</li>
 </ul>
 </div>
-
 <div class="license">
-<h2 data-toc-skip>License</h2>
+<h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></small></li>
+<li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
 </ul>
 </div>
-
-
-<div class="citation">
-<h2 data-toc-skip>Citation</h2>
-<ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing statR</a></li>
-</ul>
-</div>
-
 <div class="developers">
-<h2 data-toc-skip>Developers</h2>
+<h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Andrea Schnell <br><small class="roles"> Author </small>  </li>
 <li>Michelle Donzallaz <br><small class="roles"> Author </small>  </li>
@@ -175,20 +180,18 @@
 </ul>
 </div>
 
-
-
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by .</p>
+  <p>Developed by Andrea Schnell, Michelle Donzallaz, Lara Theiler, Thomas Knecht, Thomas Lo Russo.</p>
 </div>
 
 <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#000000 !important;background-color:#FFFFFF !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 0px 9px !important;font-size: 17px !important;letter-spacing:-0.08px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Lato', sans-serif !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#000000 !important;}</style>
 <link href="https://fonts.googleapis.com/css?family=Lato&amp;subset=latin,latin-ext" rel="stylesheet">
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> .</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -196,8 +199,6 @@
 
   
 
-
-  
 
   </body>
 </html>
