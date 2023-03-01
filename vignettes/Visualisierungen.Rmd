@@ -14,7 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-# theme_stat() für ggplot2-Grafiken
+# Theme für Grafiken im Corporate Design
+
+## Das `theme_stat` für ggplot2 - Grafiken
 
 ```{r setup, warning = F, message = F}
 library(statR)
@@ -42,7 +44,8 @@ ggplot(mpg, aes(class,fill = drv))+
              ticks = "x",
              minor.grid.lines = "y",
              major.grid.lines = "y") +
-  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
+  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")+
+  scale_fill_manual(values=zhpal$zhwebdataViz[11:13])
 ```
 
 
@@ -57,21 +60,24 @@ p <- ggplot(mpg, aes(class,fill = drv))+
              axis.lines = "x",
              ticks = "x",
              minor.grid.lines = FALSE) +
-  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
+  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")+
+  scale_fill_manual(values=zhpal$zhwebdataViz[11:13])
 
 flush_left(p)
 ```
 
 
-# theme_stat() für Karten
+## Das `theme_stat()` für Karten
 
 Für Karten kann die Option `map` auf `TRUE` gesetzt werden.
 ```{r}
-# Data downloaded previously and stored
-# downloader::download("https://www.web.statistik.zh.ch/data/KTZH_151_Gemeinde2020.zip","geodata.zip")
-# zip::unzip("geodata.zip")
+# Datensatz mit politischen 
+downloader::download("https://www.web.statistik.zh.ch/ogd/daten/ressourcen/KTZH_00000151_00001653.zip","geodata.zip")
+zip::unzip("geodata.zip")
 
 shape <- sf::st_read("GEN_A4_GEMEINDEN_2020_shp")
+
+# plot(shape)
 
 map <- ggplot(shape,aes(fill=BFS))+
   geom_sf()+
@@ -85,7 +91,7 @@ ggsave("map.png")
 
 
 
-# Farbpaletten
+# Farbpaletten & Barrierefreiheit
 
 Das Farbpalettenobjekt `zhpal` enthält alle im Package vorhandenen Farbpaletten und ist mit dem geladenen `statR`-Package global verfügbar. 
 
@@ -116,6 +122,33 @@ ggplot(mpg, aes(class,fill = drv))+
   geom_bar()+
   theme_stat()+
   scale_fill_manual(values=zhpal$zhblue)
+```
+
+
+## Grafiken fürs ZHWeb
+
+Bei Grafiken, welche auf [zh.ch](zh.ch) publiziert werden sollen, gilt es folgendes zu berücksichtigen:
+
+- Maximale Bildgrösse 4000x4000
+- Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden
+- es muss eine auf Farbsehschwächen optimierte Farbpalette verwendet werden
+
+Im [Designsystem](https://www.zh.ch/de/webangebote-entwickeln-und-gestalten/inhalt/barrierefreiheit/vorgaben-zur-barrierefreiheit/barrierefreiheit-von-infografiken-und-visualisierungen.zhweb-noredirect.zhweb-cache.html?node-id=21442%3A184215&node-id=21330%3A183551&node-id=21297%3A183984) ist die offizielle Farbpalette für Grafiken im Web publiziert.
+
+Die offiziellen Farbpaletten sind im statR-Package integriert.
+
+- die Palette __zhwebdataviz__ enthält die Farben, die im Web genutzt werden sollen
+- die Palette __zhwebaccent__ enthält die Akzentfarben des Designsystems. Diese sollten ber vor allem für Hintergründe verwendet werden und nicht für Visualisierungen. Diese Palette ist nicht auf Barrierefreiheit ausgelegt.
+
+```{r}
+
+ggplot(mpg, aes(class,fill = drv))+
+  geom_bar()+
+  theme_stat()+
+  scale_fill_manual(values=zhpal$zhwebdataViz[11:13])
+
+# ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")
+
 ```
 
 ## Barrierefreie Grafiken
@@ -214,28 +247,4 @@ ggplot(data, aes(Jahr, value ,color=name)) +
      geom_line()+
      theme_stat()+
      guides(color="none")
-```
-
-
-# Grafiken fürs ZHWeb
-
-
-# Grafiken fürs ZHWeb
-
-Bei Grafiken, welche auf [zh.ch](zh.ch) publiziert werden sollen, gilt es folgendes zu berücksichtigen:
-
-- Maximale Bildgrösse 4000x4000
-- Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden
-- die Palette 'zhwebdataviz' enthält die Farben, die im Web genutzt werden sollen
-- die Palette 'zhwebaccent' enthält die Akzentfarben des Designsystems. Diese sollten ber vor allem für Hintergründe verwendet werden und nicht für Visualisierungen, da sie nicht barrierefrei sind.
-
-```{r}
-ggplot(mpg, aes(class,fill = drv))+
-  geom_bar()+
-  theme_stat()+
-  scale_fill_manual(values=zhpal$zhwebdataViz[11:13])
-
-
-# ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")
-
 ```

@@ -6,6 +6,7 @@ Authors@R: as.person(c(
     "Michelle Donzallaz <michelle.donzallaz@statistik.ji.zh.ch> [aut]",
     "Lara Theiler <lara.theiler@statistik.ji.zh.ch> [aut]",
     "Thomas Knecht <thomas.knecht@statistik.ji.zh.ch> [aut]",
+    "Alexandra Würmli <alexandra.wuermli@statistik.ji.zh.ch> [aut]",
     "Thomas Lo Russo <thomas.lorusso@statistik.ji.zh.ch> [aut,cre]"))
 Description: statR beinhaltet eine Reihe von Funktionen mit denen unter anderem publikationsfertige Visualisierungen (mittels ggplot2-themes und Farbpaletten) und formatierte Excel-Tabellen erstellt werden können. Die generierten Visualisierungen und Tabellen sind an das Corporate Design des Kantons Zürich angepasst.
 Depends: R (>= 3.3.0)
@@ -27,7 +28,8 @@ Imports:
     scales,
     stringr,
     tidyr,
-    purrr
+    purrr,
+    pxweb
 URL: https://statistikzh.github.io/statR/
 BugReports: https://github.com/statistikZH/statR/issues
 Suggests: 
