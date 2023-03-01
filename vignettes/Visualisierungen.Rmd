@@ -71,7 +71,7 @@ flush_left(p)
 
 Für Karten kann die Option `map` auf `TRUE` gesetzt werden.
 ```{r}
-# Datensatz mit politischen 
+# Bezug der Geodaten mit den Gemeindegrenzen (Stand 2020)
 downloader::download("https://www.web.statistik.zh.ch/ogd/daten/ressourcen/KTZH_00000151_00001653.zip","geodata.zip")
 zip::unzip("geodata.zip")
 
