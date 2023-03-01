@@ -80,7 +80,7 @@ for each dataset/figure." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">statR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.0</span>
       </span>
     </div>
 
@@ -255,66 +255,66 @@ that you would like to export. widths = c(5,6) then suggests that the first figu
 save it as a ggplot object or indicate a file path to an existing file (possible formats: png, jpg, bmp).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'></span>
-<span class='r-in'></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Example with two datasets and no figure</span></span>
-<span class='r-in'><span class='va'>dat1</span> <span class='op'>&lt;-</span> <span class='va'>mtcars</span></span>
-<span class='r-in'><span class='va'>dat2</span> <span class='op'>&lt;-</span> <span class='va'>PlantGrowth</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='fu'>datasetsXLSX</span><span class='op'>(</span>file<span class='op'>=</span><span class='st'>"twoDatasets"</span>, <span class='co'># '.xlsx' wird automatisch hinzugef\u00fcgt</span></span>
-<span class='r-in'>            datasets <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>dat1</span>, <span class='va'>dat2</span><span class='op'>)</span>,</span>
-<span class='r-in'>            titles <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mtcars-Datensatz"</span>,<span class='st'>"PlantGrowth-Datensatz"</span><span class='op'>)</span>,</span>
-<span class='r-in'>            grouplines <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>,</span>
-<span class='r-in'>            group_names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"name_of_second_header"</span><span class='op'>)</span><span class='op'>)</span>,  <span class='co'>#produces a second header in the first sheet</span></span>
-<span class='r-in'>            sources <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Source: Henderson and Velleman (1981).</span>
-<span class='r-in'>            Building multiple regression models interactively. Biometrics, 37, 391–411."</span>,</span>
-<span class='r-in'>                        <span class='st'>"Dobson, A. J. (1983) An Introduction to Statistical</span>
-<span class='r-in'>                        Modelling. London: Chapman and Hall."</span><span class='op'>)</span>,</span>
-<span class='r-in'>            metadata1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Bemerkungen zum mtcars-Datensatz: x"</span>,</span>
-<span class='r-in'>                          <span class='st'>"Bemerkungen zum PlantGrowth-Datensatz: x"</span><span class='op'>)</span>,</span>
-<span class='r-in'>            sheetnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Autos"</span>,<span class='st'>"Blumen"</span><span class='op'>)</span>,</span>
-<span class='r-in'>            maintitle <span class='op'>=</span> <span class='st'>"Autos und Pflanzen"</span>,</span>
-<span class='r-in'>            titlesource <span class='op'>=</span> <span class='st'>"statzh"</span>,</span>
-<span class='r-in'>            logo <span class='op'>=</span> <span class='st'>"statzh"</span>,</span>
-<span class='r-in'>            auftrag_id<span class='op'>=</span><span class='st'>"A2021_0000"</span>,</span>
-<span class='r-in'>            contact <span class='op'>=</span> <span class='st'>"statzh"</span>,</span>
-<span class='r-in'>            homepage <span class='op'>=</span> <span class='st'>"statzh"</span>,</span>
-<span class='r-in'>            openinghours <span class='op'>=</span> <span class='st'>"statzh"</span>,</span>
-<span class='r-in'>            overwrite <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Example with two datasets and one figure</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>dat1</span> <span class='op'>&lt;-</span> <span class='va'>mtcars</span></span>
-<span class='r-in'><span class='va'>dat2</span> <span class='op'>&lt;-</span> <span class='va'>PlantGrowth</span></span>
-<span class='r-in'><span class='va'>fig</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>disp</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span></span>
-<span class='r-in'>                 <span class='fu'>geom_histogram</span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='fu'>datasetsXLSX</span><span class='op'>(</span>file<span class='op'>=</span><span class='st'>"twoDatasetsandFigure"</span>,        <span class='co'># '.xlsx' wird automatisch hinzugef\u00fcgt</span></span>
-<span class='r-in'>            datasets <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>dat1</span>, <span class='va'>dat2</span>, <span class='va'>fig</span><span class='op'>)</span>,   <span class='co'># fig als ggplot Objekt oder File Path</span></span>
-<span class='r-in'>            titles <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mtcars-Datensatz"</span>,<span class='st'>"PlantGrowth-Datensatz"</span>, <span class='st'>"Histogramm"</span><span class='op'>)</span>,</span>
-<span class='r-in'>            plot_widths <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span>,</span>
-<span class='r-in'>            plot_heights <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span>,</span>
-<span class='r-in'>            sources <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Source: Henderson and Velleman (1981).</span>
-<span class='r-in'>            Building multiple regression models interactively. Biometrics, 37, 391–411."</span>,</span>
-<span class='r-in'>                        <span class='st'>"Source: Dobson, A. J. (1983) An Introduction to</span>
-<span class='r-in'>                        Statistical Modelling. London: Chapman and Hall."</span><span class='op'>)</span>,</span>
-<span class='r-in'>            metadata1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Bemerkungen zum mtcars-Datensatz: x"</span>,</span>
-<span class='r-in'>                         <span class='st'>"Bemerkungen zum PlantGrowth-Datensatz: x"</span><span class='op'>)</span>,</span>
-<span class='r-in'>            sheetnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Autos"</span>,<span class='st'>"Blumen"</span>, <span class='st'>"Histogramm"</span><span class='op'>)</span>,</span>
-<span class='r-in'>            maintitle <span class='op'>=</span> <span class='st'>"Autos und Pflanzen"</span>,</span>
-<span class='r-in'>            titlesource <span class='op'>=</span> <span class='st'>"statzh"</span>,</span>
-<span class='r-in'>            logo<span class='op'>=</span><span class='st'>"statzh"</span>,</span>
-<span class='r-in'>            auftrag_id<span class='op'>=</span><span class='st'>"A2021_0000"</span>,</span>
-<span class='r-in'>            contact <span class='op'>=</span> <span class='st'>"statzh"</span>,</span>
-<span class='r-in'>            homepage <span class='op'>=</span> <span class='st'>"statzh"</span>,</span>
-<span class='r-in'>            openinghours <span class='op'>=</span> <span class='st'>"statzh"</span>,</span>
-<span class='r-in'>            overwrite <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-<span class='r-in'><span class='co'># }</span></span>
-</pre>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+
+
+
+<span class='co'># Example with two datasets and no figure</span>
+<span class='va'>dat1</span> <span class='op'>&lt;-</span> <span class='va'>mtcars</span>
+<span class='va'>dat2</span> <span class='op'>&lt;-</span> <span class='va'>PlantGrowth</span>
+
+<span class='fu'>datasetsXLSX</span><span class='op'>(</span>file<span class='op'>=</span><span class='st'>"twoDatasets"</span>, <span class='co'># '.xlsx' wird automatisch hinzugef\u00fcgt</span>
+            datasets <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>dat1</span>, <span class='va'>dat2</span><span class='op'>)</span>,
+            titles <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mtcars-Datensatz"</span>,<span class='st'>"PlantGrowth-Datensatz"</span><span class='op'>)</span>,
+            grouplines <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>,
+            group_names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"name_of_second_header"</span><span class='op'>)</span><span class='op'>)</span>,  <span class='co'># adds a second header in the first sheet</span>
+            sources <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Source: Henderson and Velleman (1981).
+            Building multiple regression models interactively. Biometrics, 37, 391–411."</span>,
+                        <span class='st'>"Dobson, A. J. (1983) An Introduction to Statistical
+                        Modelling. London: Chapman and Hall."</span><span class='op'>)</span>,
+            metadata1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Bemerkungen zum mtcars-Datensatz: x"</span>,
+                          <span class='st'>"Bemerkungen zum PlantGrowth-Datensatz: x"</span><span class='op'>)</span>,
+            sheetnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Autos"</span>,<span class='st'>"Blumen"</span><span class='op'>)</span>,
+            maintitle <span class='op'>=</span> <span class='st'>"Autos und Pflanzen"</span>,
+            titlesource <span class='op'>=</span> <span class='st'>"statzh"</span>,
+            logo <span class='op'>=</span> <span class='st'>"statzh"</span>,
+            auftrag_id<span class='op'>=</span><span class='st'>"A2021_0000"</span>,
+            contact <span class='op'>=</span> <span class='st'>"statzh"</span>,
+            homepage <span class='op'>=</span> <span class='st'>"statzh"</span>,
+            openinghours <span class='op'>=</span> <span class='st'>"statzh"</span>,
+            overwrite <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>
+
+<span class='co'># Example with two datasets and one figure</span>
+
+<span class='va'>dat1</span> <span class='op'>&lt;-</span> <span class='va'>mtcars</span>
+<span class='va'>dat2</span> <span class='op'>&lt;-</span> <span class='va'>PlantGrowth</span>
+<span class='va'>fig</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>disp</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span>
+                 <span class='fu'>geom_histogram</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'>datasetsXLSX</span><span class='op'>(</span>file<span class='op'>=</span><span class='st'>"twoDatasetsandFigure"</span>,        <span class='co'># '.xlsx' wird automatisch hinzugef\u00fcgt</span>
+            datasets <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>dat1</span>, <span class='va'>dat2</span>, <span class='va'>fig</span><span class='op'>)</span>,   <span class='co'># fig als ggplot Objekt oder File Path</span>
+            titles <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mtcars-Datensatz"</span>,<span class='st'>"PlantGrowth-Datensatz"</span>, <span class='st'>"Histogramm"</span><span class='op'>)</span>,
+            plot_widths <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span>,
+            plot_heights <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span>,
+            sources <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Source: Henderson and Velleman (1981).
+            Building multiple regression models interactively. Biometrics, 37, 391–411."</span>,
+                        <span class='st'>"Source: Dobson, A. J. (1983) An Introduction to
+                        Statistical Modelling. London: Chapman and Hall."</span><span class='op'>)</span>,
+            metadata1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Bemerkungen zum mtcars-Datensatz: x"</span>,
+                         <span class='st'>"Bemerkungen zum PlantGrowth-Datensatz: x"</span><span class='op'>)</span>,
+            sheetnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Autos"</span>,<span class='st'>"Blumen"</span>, <span class='st'>"Histogramm"</span><span class='op'>)</span>,
+            maintitle <span class='op'>=</span> <span class='st'>"Autos und Pflanzen"</span>,
+            titlesource <span class='op'>=</span> <span class='st'>"statzh"</span>,
+            logo<span class='op'>=</span><span class='st'>"statzh"</span>,
+            auftrag_id<span class='op'>=</span><span class='st'>"A2021_0000"</span>,
+            contact <span class='op'>=</span> <span class='st'>"statzh"</span>,
+            homepage <span class='op'>=</span> <span class='st'>"statzh"</span>,
+            openinghours <span class='op'>=</span> <span class='st'>"statzh"</span>,
+            overwrite <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -326,7 +326,7 @@ save it as a ggplot object or indicate a file path to an existing file (possible
 
       <footer>
       <div class="copyright">
-  <p>Developed by Andrea Schnell, Michelle Donzallaz, Lara Theiler, Thomas Knecht, Thomas Lo Russo.</p>
+  <p>Developed by Andrea Schnell, Michelle Donzallaz, Lara Theiler, Thomas Knecht, Alexandra Würmli, Thomas Lo Russo.</p>
 </div>
 
 <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#000000 !important;background-color:#FFFFFF !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 0px 9px !important;font-size: 17px !important;letter-spacing:-0.08px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Lato', sans-serif !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#000000 !important;}</style><link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet">
