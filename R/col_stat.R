@@ -16,14 +16,14 @@ stattheme_data <- {
   #standard
   x$stattheme_data$zhcd<- c("#009ee0", "#0076bd", "#885ea0", "#e30059", "#e2001a","#ffcc00", "#00a1a3","#3ea743")
 
+  # Akzentfarben ZH Web
   x$stattheme_data$zhwebaccent<- c("#009ee0", "#0070B4", "#7F3DA7", "#D40053", "#B01657", "#DC7700","#00797B", "#1A7F1F")
 
   ### 1. Ordinale / kategoriale Paletten
 
   #Farbmatrixpaletten (horizontal)
 
-  #standard
-  x$stattheme_data$zhwebdataViz<- c("#0070B4", "#00407C", "#00797B", "#8A8C00", "#00544C", "#DC7700", "#D93C1A", "#96170F", "#D40053", "#B01657", "#7A0049", "#9572D5", "#54268E", "#CCCCCC", "#949494", "#666666", "#333333" )
+  x$stattheme_data$zhwebdataviz<- c("#0070B4", "#00407C", "#00797B", "#8A8C00", "#00544C", "#DC7700", "#D93C1A", "#96170F", "#D40053", "#B01657", "#7A0049", "#9572D5", "#54268E", "#CCCCCC", "#949494", "#666666", "#333333" )
 
   x$stattheme_data$zhdarker<- c("#407B9F", "#409292", "#5F9463", "#B2A558", "#B77346", "#B24A4C", "#857091")
 
@@ -35,9 +35,9 @@ stattheme_data <- {
 
   x$stattheme_data$zhpastel <- c( "#7FB9DD", "#7FCECE", "#9DD2A0", "#F1E494", "#F4B283", "#F1868B", "#C3ACCE")
 
-  # x$stattheme_data$zhextralight <- c("#9FCBE5", "#9FDADA" ,"#B4DEB8", "#F3EBAE", "#F7C5A1", "#F3A5A7", "#D2C1DA")
+  x$stattheme_data$zhextralight <- c("#9FCBE5", "#9FDADA" ,"#B4DEB8", "#F3EBAE", "#F7C5A1", "#F3A5A7", "#D2C1DA")
 
-  # x$stattheme_data$zhultralight <- c("#BFDCED" ,"#BFE6E6", "#CDE9D0" ,"#F8F1CA" ,"#F9D8C0", "#F8C3C4", "#E0D6E6")
+  x$stattheme_data$zhultralight <- c("#BFDCED" ,"#BFE6E6", "#CDE9D0" ,"#F8F1CA" ,"#F9D8C0", "#F8C3C4", "#E0D6E6")
 
   #x$stattheme_data$zhpaired16<-c("#4684AA","#8CBFDD", "#469A9A","#8CD0D1", "#669F6A","#A5D3A9", "#CCAA1A","#F8DD6A", "#C37D4C" ,"#F1B892","#BE4654","#EC8C99", "#8D7899","#C6B4CE","#1B252B","#767C7F")
 

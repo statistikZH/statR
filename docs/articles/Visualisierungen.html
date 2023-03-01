@@ -142,7 +142,7 @@ Achsen-Ticks und Gitterlinien bestimmt werden (siehe
              minor.grid.lines <span class="op">=</span> <span class="st">"y"</span>,
              major.grid.lines <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title"</span>, subtitle <span class="op">=</span> <span class="st">"Subtitle"</span>, caption <span class="op">=</span> <span class="st">"Caption"</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataViz</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataviz</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="Visualisierungen_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 <p>Mit der Funktion <code><a href="../reference/flush_left.html">flush_left()</a></code> können Titel, Untertitel
 und Fussnote nach links verschoben werden, sodass sie bündig sind mit
@@ -157,7 +157,7 @@ der y-Achse der Grafik:</p>
              ticks <span class="op">=</span> <span class="st">"x"</span>,
              minor.grid.lines <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title"</span>, subtitle <span class="op">=</span> <span class="st">"Subtitle"</span>, caption <span class="op">=</span> <span class="st">"Caption"</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataViz</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataviz</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/flush_left.html">flush_left</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
 <p><img src="Visualisierungen_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
@@ -217,14 +217,14 @@ vorhandenen Farbpaletten angezeigt werden:</p>
 <p>Mit der Funktion <code><a href="../reference/display.html">display()</a></code> kann man sich die Farben
 einer Palette anschauen:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhdiagonal</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataviz</span><span class="op">)</span></code></pre></div>
 <p><img src="Visualisierungen_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Mit der Funktion <code><a href="https://rdrr.io/r/grDevices/colorRamp.html">grDevices::colorRampPalette()</a></code> kann eine
 beliebige Anzahl Farbtöne basierend auf einer statR-Farbpalette erstellt
 werden:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Mische 20 Farbtöne auf Basis der zhdiagonal-Palette</span>
-<span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span><span class="op">(</span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhdiagonal</span><span class="op">)</span>,space<span class="op">=</span><span class="st">"Lab"</span><span class="op">)</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span><span class="op">(</span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataviz</span><span class="op">)</span>,space<span class="op">=</span><span class="st">"Lab"</span><span class="op">)</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="Visualisierungen_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <p>Anwendungsbeispiel mit kategorialen Daten:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -232,7 +232,7 @@ werden:</p>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">class</span>,fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="../reference/theme_stat.html">theme_stat</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhblue</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataviz</span><span class="op">)</span></code></pre></div>
 <p><img src="Visualisierungen_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <div id="grafiken-fürs-zhweb" class="section level2">
 <h2 class="hasAnchor">
@@ -240,12 +240,12 @@ werden:</p>
 <p>Bei Grafiken, welche auf <a href="zh.ch">zh.ch</a> publiziert werden
 sollen, gilt es folgendes zu berücksichtigen:</p>
 <ul>
-<li>Maximale Bildgrösse 4000x4000</li>
-<li>Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt
-im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber
-integriert werden</li>
-<li>es muss eine auf Farbsehschwächen optimierte Farbpalette verwendet
-werden</li>
+<li><p>Maximale Bildgrösse 4000x4000</p></li>
+<li><p>Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen
+direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik
+selber integriert werden</p></li>
+<li><p>es muss eine auf Farbsehschwächen optimierte Farbpalette
+verwendet werden</p></li>
 </ul>
 <p>Im <a href="https://www.zh.ch/de/webangebote-entwickeln-und-gestalten/inhalt/barrierefreiheit/vorgaben-zur-barrierefreiheit/barrierefreiheit-von-infografiken-und-visualisierungen.zhweb-noredirect.zhweb-cache.html?node-id=21442%3A184215&amp;node-id=21330%3A183551&amp;node-id=21297%3A183984">Designsystem</a>
 ist die offizielle Farbpalette für Grafiken im Web publiziert.</p>
@@ -263,10 +263,11 @@ auf Barrierefreiheit ausgelegt.</li>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">class</span>,fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="../reference/theme_stat.html">theme_stat</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataViz</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataviz</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="Visualisierungen_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
+
 <span class="co"># ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")</span></code></pre></div>
 </div>
 <div id="barrierefreie-grafiken" class="section level2">
@@ -308,9 +309,9 @@ bietet sich hier als Mittel an (siehe 1.4).</p>
 <p>In R können mit dem <a href="https://cran.r-project.org/web/packages/dichromat/index.html">dichromat-Package</a>
 diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt
 es Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich
-sind. Je heller die Paletten sind, desto weniger geeingnet sind sie. Das
-trifft vor allem auf die Farbpaletten zhextralight oder zhultralight
-zu.</p>
+sind. Je heller die Paletten sind, desto weniger geeignet sind sie. Das
+trifft vor allem auf Farbpaletten wie <em>zhextralight</em> oder
+<em>zhultralight</em> zu.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">dichromat</span><span class="op">)</span>
 <span class="co"># Anzeige der Farbpalette zhdiagonal</span>

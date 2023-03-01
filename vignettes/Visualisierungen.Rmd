@@ -45,7 +45,7 @@ ggplot(mpg, aes(class,fill = drv))+
              minor.grid.lines = "y",
              major.grid.lines = "y") +
   labs(title = "Title", subtitle = "Subtitle", caption = "Caption")+
-  scale_fill_manual(values=zhpal$zhwebdataViz[11:13])
+  scale_fill_manual(values=zhpal$zhwebdataviz[11:13])
 ```
 
 
@@ -61,7 +61,7 @@ p <- ggplot(mpg, aes(class,fill = drv))+
              ticks = "x",
              minor.grid.lines = FALSE) +
   labs(title = "Title", subtitle = "Subtitle", caption = "Caption")+
-  scale_fill_manual(values=zhpal$zhwebdataViz[11:13])
+  scale_fill_manual(values=zhpal$zhwebdataviz[11:13])
 
 flush_left(p)
 ```
@@ -104,14 +104,14 @@ display.statcol.all()
 Mit der Funktion `display()` kann man sich die Farben einer Palette anschauen:
 
 ```{r}
-display(zhpal$zhdiagonal)
+display(zhpal$zhwebdataviz)
 ```
 
 Mit der Funktion `grDevices::colorRampPalette()` kann eine beliebige Anzahl Farbtöne basierend auf einer statR-Farbpalette erstellt werden:
 
 ```{r}
 #Mische 20 Farbtöne auf Basis der zhdiagonal-Palette
-display(grDevices::colorRampPalette((zhpal$zhdiagonal),space="Lab")(20))
+display(grDevices::colorRampPalette((zhpal$zhwebdataviz),space="Lab")(20))
 ```
 
 Anwendungsbeispiel mit kategorialen Daten:
@@ -121,15 +121,15 @@ Anwendungsbeispiel mit kategorialen Daten:
 ggplot(mpg, aes(class,fill = drv))+
   geom_bar()+
   theme_stat()+
-  scale_fill_manual(values=zhpal$zhblue)
+  scale_fill_manual(values=zhpal$zhwebdataviz)
 ```
-
 
 ## Grafiken fürs ZHWeb
 
 Bei Grafiken, welche auf [zh.ch](zh.ch) publiziert werden sollen, gilt es folgendes zu berücksichtigen:
 
 - Maximale Bildgrösse 4000x4000
+
 - Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden
 - es muss eine auf Farbsehschwächen optimierte Farbpalette verwendet werden
 
@@ -145,7 +145,8 @@ Die offiziellen Farbpaletten sind im statR-Package integriert.
 ggplot(mpg, aes(class,fill = drv))+
   geom_bar()+
   theme_stat()+
-  scale_fill_manual(values=zhpal$zhwebdataViz[11:13])
+  scale_fill_manual(values=zhpal$zhwebdataviz[11:13])
+
 
 # ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")
 
@@ -173,7 +174,7 @@ Damit Grafiken auch für Personen mit Farbsehschwächen möglichst gut interpret
 
 ### 1.2 Auswahl Farbpaletten
 
-In R können mit dem [dichromat-Package](https://cran.r-project.org/web/packages/dichromat/index.html) diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt es Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich sind. Je heller die Paletten sind, desto weniger geeingnet sind sie. Das trifft vor allem auf die Farbpaletten zhextralight oder zhultralight zu.
+In R können mit dem [dichromat-Package](https://cran.r-project.org/web/packages/dichromat/index.html) diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt es Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich sind. Je heller die Paletten sind, desto weniger geeignet sind sie. Das trifft vor allem auf Farbpaletten wie *zhextralight* oder *zhultralight* zu.
 
 ```{r out.width="20%", out.height="20%"}
 library(dichromat)
@@ -248,3 +249,4 @@ ggplot(data, aes(Jahr, value ,color=name)) +
      theme_stat()+
      guides(color="none")
 ```
+

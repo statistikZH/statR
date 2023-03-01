@@ -7,3 +7,5 @@
 ^index\.html$
 ^vignettes$
 ^\.github$
+^_pkgdown\.yml$
+
