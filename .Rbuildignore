@@ -6,3 +6,4 @@
 ^man-roxygen$
 ^index\.html$
 ^vignettes$
+^\.github$
