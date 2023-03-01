@@ -1,3 +1,5 @@
+# statR 2.2.0
+
 # statR 2.1.2
 
 * implemented new color palettes
