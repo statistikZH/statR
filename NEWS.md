@@ -1,9 +1,8 @@
-# statR 2.1.2
+# statR 2.2.0
 
-* implemented new color palettes
-* removes old and not accessible palettes
-* the documentation has been update 
-  * bugs in the documentation fixed
+* implemented new color palettes according to the ZH.CH Design System 
+* outdated not accessible palettes have been discarded ("zhextralight" and "zhultralight" among others)
+* errors in the documentation have been corrected
 
 # statR 2.1.1
 

@@ -24,7 +24,7 @@ Die Spalteninhalte können bei allen Funktionen entsprechend ihrer Einheit forma
 
 ## Funktionen und Beispiele
 
-### aXLSX() *NEU*
+### aXLSX()
 
 Mit der Funktion `aXLSX()` kann ein einzelner Datensatz aus `R` als vorformatierte XLSX-Datei exportiert werden. Die Funktion hat zum Ziel, möglichst __barrierefreie__ Excel-Tabellen zu erstellen, die sich auch für die Publikation auf [zh.ch](zh.ch) eignen (siehe: https://statistikzh.github.io/axguide/grafiken.html#components), indem die Daten und Metadateninformationen in separate Arbeitsblätter abgefüllt werden. Das erste Arbeitsblatt beinhaltet einen Titel, eine Quellenangabe und die Daten, das zweite Arbeitsblatt Hinweise zu den Daten sowie Kontaktinformationen. Mit dem Argument `author` kann vermerkt werden, wer die Datei erstellt hat. Per Default werden die Initialen bzw. letzten zwei Ziffern des hinterlegten Benutzernamens eingefügt.  
 
@@ -36,7 +36,7 @@ aXLSX(data = dat,
          source = "Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411.",
          metadata = c("The data was extracted from the 1974 Motor Trend US magazine and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."),
          contactdetails = "statzh",
-         grouplines = FALSE,
+         grouplines = NA,
          logo = "statzh",
          author = "MD")
 ```
