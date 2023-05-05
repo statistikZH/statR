@@ -74,14 +74,11 @@ save it as a ggplot object or indicate a file path to an existing file (possible
 \examples{
 \donttest{
 \dontrun{
-
-
-
 # Example with two datasets and no figure
 dat1 <- mtcars
 dat2 <- PlantGrowth
 
-datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugef\u00fcgt
+datasetsXLSX(file="twoDatasets",
             datasets = list(dat1, dat2),
             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
             grouplines = list(c(1)),
@@ -110,7 +107,7 @@ dat2 <- PlantGrowth
 fig <- ggplot(mtcars, aes(x=disp))+
                  geom_histogram()
 
-datasetsXLSX(file="twoDatasetsandFigure",        # '.xlsx' wird automatisch hinzugef\u00fcgt
+datasetsXLSX(file="twoDatasetsandFigure",
             datasets = list(dat1, dat2, fig),   # fig als ggplot Objekt oder File Path
             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
             plot_widths = c(5),

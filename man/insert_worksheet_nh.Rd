@@ -28,7 +28,7 @@ insert_worksheet_nh(
 
 \item{metadata}{metadata-information to be included. Defaults to NA.}
 
-\item{grouplines}{defaults to FALSE. Can be used to separate grouped variables visually.}
+\item{grouplines}{defaults to NA. Can be used to separate grouped variables visually.}
 
 \item{group_names}{Name(s) of the second header(s). Format: List e.g list(c("title 1", "title 2", "title 3"))}
 }

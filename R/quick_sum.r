@@ -17,6 +17,7 @@
 #' @keywords quick_sum
 #' @importFrom dplyr ungroup summarize group_by n
 #' @importFrom stats median quantile sd
+#' @importFrom rlang :=
 #' @export
 #' @examples
 #'

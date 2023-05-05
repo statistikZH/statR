@@ -9,6 +9,7 @@
 #' @param width width of figure
 #' @param height height of figure
 #' @noRd
+#' @importFrom grDevices png dev.off
 #' @examples
 #' # example
 #' \dontrun{
@@ -32,34 +33,48 @@ insert_worksheet_image = function(image,
                                   width,
                                   height){
 
-  openxlsx::addWorksheet(wb,
-                         sheetname,
-                         gridLines = FALSE
-  )
 
-if(class(image) %in% c("gg", "ggplot")){
+  openxlsx::addWorksheet(
+    wb,
+    sheetName = sheetname,
+    gridLines = FALSE)
 
-    image_path <- tempfile(fileext = ".png")
-    #p2 <- image
-    ggplot2::ggsave(
-      image_path,
-      plot = image,
-      width = width,
-      height = height,
-      dpi = 300,
-      device = "png"
-    )
 
-  } else if (class(image) == "character" ){
-
+  if (class(image) == "character" ){
     image_path <- image
 
-  } else{
-    stop(" Plot muss als ggplot Objekt oder als Filepath vorliegen.")
+  } else if (class(image) %in% c("gg", "ggplot", "histogram")){
 
+    # Allocate temporary file of type png to save the image to
+    image_path <- tempfile(fileext = ".png")
+
+    # Handle case input object is of class histogram
+    if (class(image) == "histogram"){
+      png(
+        image_path,
+        width = width,
+        height = height,
+        units = "in")
+      plot(image)
+      dev.off()
+
+    } else {
+
+      # Handle case input object is of class gg or ggplot
+      ggplot2::ggsave(
+        image_path,
+        plot = image,
+        width = width,
+        height = height,
+        dpi = 300,
+        device = "png")
+    }
+
+  } else {
+    stop("Plot muss als ggplot Objekt oder als Filepath vorliegen.")
   }
 
-
+  # Insert image
   openxlsx::insertImage(
     wb = wb,
     sheet = sheetname,
@@ -72,8 +87,8 @@ if(class(image) %in% c("gg", "ggplot")){
     dpi = 300
   )
 
-  return(image_path)
-
+  # Delete temporary file if necessary
+  if (!is.character(image)){
+    unlink(image_path)
+  }
 }
-
-

@@ -27,17 +27,15 @@
 #' @param overwrite overwrites the existing excel files with the same file name. default to FALSE
 #' @keywords datasetsXLSX
 #' @export
+#' @importFrom dplyr "%>%"
 #' @examples
 #'\donttest{
 #' \dontrun{
-#'
-#'
-#'
 #'# Example with two datasets and no figure
 #'dat1 <- mtcars
 #'dat2 <- PlantGrowth
 #'
-#'datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugef\u00fcgt
+#'datasetsXLSX(file="twoDatasets",
 #'             datasets = list(dat1, dat2),
 #'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
 #'             grouplines = list(c(1)),
@@ -66,7 +64,7 @@
 #'fig <- ggplot(mtcars, aes(x=disp))+
 #'                  geom_histogram()
 #'
-#'datasetsXLSX(file="twoDatasetsandFigure",        # '.xlsx' wird automatisch hinzugef\u00fcgt
+#'datasetsXLSX(file="twoDatasetsandFigure",
 #'             datasets = list(dat1, dat2, fig),   # fig als ggplot Objekt oder File Path
 #'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
 #'             plot_widths = c(5),
@@ -89,8 +87,6 @@
 #'}
 #'}
 
-
-
 datasetsXLSX <- function(file,
                          datasets,
                          titles,
@@ -98,12 +94,12 @@ datasetsXLSX <- function(file,
                          plot_heights = NULL,
                          grouplines = NA,
                          group_names = NA,
-                         sources= "statzh",
-                         metadata1=NA,
+                         sources = "statzh",
+                         metadata1 = NA,
                          sheetnames,
                          maintitle,
                          titlesource = "statzh",
-                         logo="statzh",
+                         logo = "statzh",
                          auftrag_id = NULL,
                          contact = "statzh",
                          homepage = "statzh",
@@ -117,6 +113,7 @@ datasetsXLSX <- function(file,
 
   wb <- openxlsx::createWorkbook("data")
 
+  # Determine which elements of input list datasets correspond to dataframes.
   dataframes_index <- which(vapply(datasets, is.data.frame, TRUE))
 
   dataframe_datasets <- datasets[dataframes_index]
@@ -128,17 +125,28 @@ datasetsXLSX <- function(file,
   dataframe_group_names <- group_names[dataframes_index]
 
 
+  # Determine which elements of datasets correspond to objects of type gg,
+  # ggplot, histogram, or character (path input).
   plot_index <- which(vapply(datasets, function(x) length(setdiff(class(x), c("gg", "ggplot", "histogram", "character"))) == 0, TRUE))
 
   plot_datasets <- datasets[plot_index]
   plot_sheetnames <- sheetnames[plot_index]
 
-  insert_index_sheet(wb, logo, contact, homepage, openinghours, titlesource, auftrag_id, maintitle)
+
+  # Insert the initial index sheet
+  insert_index_sheet(wb,
+                     logo,
+                     contact,
+                     homepage,
+                     openinghours,
+                     titlesource,
+                     auftrag_id,
+                     maintitle)
 
 
+  # Iterate along dataframes_index
   if(length(dataframes_index) > 0){
-
-    purrr::pwalk(list(
+    list(
       dataframe_datasets,
       dataframe_sheetnames,
       dataframe_titles,
@@ -146,319 +154,52 @@ datasetsXLSX <- function(file,
       dataframe_metadata1,
       dataframe_grouplines,
       dataframe_group_names
-      ),
-      ~insert_worksheet_nh(
-        data = ..1,
-        wb = wb,
-        sheetname = ..2,
-        title = ..3,
-        source = ..4,
-        metadata = ..5,
-        grouplines = ..6,
-        group_names = ..7
-      ))
-
+      ) %>%
+      purrr::pwalk(
+        ~insert_worksheet_nh(
+          data = ..1,
+          wb = wb,
+          sheetname = ..2,
+          title = ..3,
+          source = ..4,
+          metadata = ..5,
+          grouplines = ..6,
+          group_names = ..7))
   }
 
-  if(length(plot_index)>0){
-
-    temp_list <- purrr::pmap(list(
+  # Iterate along plot_index
+  if (length(plot_index) > 0){
+    list(
       plot_datasets,
       plot_sheetnames,
       plot_widths,
       plot_heights
-    ), ~insert_worksheet_image(
-      image = ..1,
-      wb = wb,
-      sheetname = ..2,
-      width = ..3,
-      height = ..4))
-  }else{
-    temp_list <- NA
+    ) %>%
+      purrr::pmap(
+        ~insert_worksheet_image(
+          image = ..1,
+          wb = wb,
+          sheetname = ..2,
+          width = ..3,
+          height = ..4))
   }
 
-
-  hyperlink_table <- data.frame(
+  # Create a table of hyperlinks
+  data.frame(
     sheetnames = sheetnames,
     titles = titles,
     sheet_row = c(seq(15,15+length(sheetnames)-1))
-  )
-
-  purrr::pwalk(hyperlink_table, ~insert_hyperlinks(wb, ..1, ..2, ..3))
-
-  openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""), overwrite = overwrite)
-
-  if(!is.na(temp_list)){
-    purrr::walk(temp_list, unlink)
-  }
-}
-
-
-insert_hyperlinks <- function(wb, sheetname, title, sheet_row){
-  openxlsx::writeData(wb,
-                      sheet = "Inhalt",
-                      x = title,
-                      xy = c("C", sheet_row)
-  )
-
-  openxlsx::addStyle(wb
-                     ,sheet = "Inhalt"
-                     ,style = hyperlink_style()
-                     ,rows = sheet_row
-                     ,cols = 3
-  )
-
-  openxlsx::mergeCells(wb, sheet = "Inhalt", cols = 3:8, rows = sheet_row)
-
-  worksheet <- wb$sheetOrder[1]
-
-  field_t <- wb$worksheets[[worksheet]]$sheet_data$t
-  field_t[length(field_t)] <- 3
-
-  field_v <- wb$worksheets[[worksheet]]$sheet_data$v
-  field_v[length(field_v)] <- NA
-
-  field_f <- wb$worksheets[[worksheet]]$sheet_data$f
-  field_f[length(field_f)] <- paste0("<f>=HYPERLINK(&quot;#&apos;",sheetname,"&apos;!A1&quot;, &quot;",title,"&quot;)</f>")
-
-  wb$worksheets[[worksheet]]$sheet_data$t <- as.integer(field_t)
-  wb$worksheets[[worksheet]]$sheet_data$v <- field_v
-  wb$worksheets[[worksheet]]$sheet_data$f <- field_f
-}
-
-
-hyperlink_style <- function(){
-  openxlsx::createStyle(
-    fontName = "Calibri",
-    fontSize = 11,
-    fontColour = "blue",
-    textDecoration = "underline"
-
-  )
-}
-
-
-insert_index_sheet <- function(wb, logo, contact, homepage, openinghours, titlesource, auftrag_id, maintitle){
-  # Create index sheet
-  openxlsx::addWorksheet(wb,"Inhalt")
-
-  #  hide gridlines
-  openxlsx::showGridLines(wb
-                          ,sheet = "Inhalt"
-                          ,showGridLines = F
-  )
-
-  # set col widths
-  openxlsx::setColWidths(wb
-                         ,"Inhalt"
-                         ,cols = 1
-                         ,widths = 1
-  )
-
-  # insert logo
-
-  if(!is.null(logo)){
-
-    if(logo=="statzh") {
-
-      logo <- paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png")
-
-      #
-      logo <- logo[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png"))]
-
-      openxlsx::insertImage(wb,
-                            "Inhalt",
-                            file=logo,
-                            startRow = 2,
-                            startCol = 2,
-                            width = 2.5,
-                            height = 0.9,
-                            units = "in")
-
-    } else if(logo == "zh"){
-
-      logo <- paste0(.libPaths(),"/statR/extdata/Stempel_Kanton_ZH.png")
-
-      #
-      logo <- logo[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_Kanton_ZH.png"))]
-
-      openxlsx::insertImage(wb,
-                            "Inhalt",
-                            file=logo,
-                            startRow = 2,
-                            startCol = 2,
-                            width = 2.5,
-                            height = 0.9,
-                            units = "in")
-
-
-    } else if(file.exists(logo)) {
-
-      openxlsx::insertImage(wb, "Inhalt", logo, width = 2.145, height = 0.7865,
-                            units = "in")
-    }
-    if(!file.exists(logo)) {
-
-      message("no logo found and / or added")
-    }
-
-  }
-
-  # contact
-
-  if(!is.null(contact)){
-    if(any(grepl(contact, pattern = "statzh"))) {
-      contact <- c("Datashop"
-                   ,"Tel.:  +41 43 259 75 00",
-                   "datashop@statistik.zh.ch")
-      openxlsx::writeData(wb
-                          ,sheet = "Inhalt"
-                          ,contact
-                          ,xy = c("O", 2)
-      )
-    } else {
-      openxlsx::writeData(wb
-                          ,sheet = "Inhalt"
-                          ,contact
-                          ,xy = c("O", 2))
-    }
-
-  }
-
-
-  if(!is.null(homepage)){
-
-    if(any(grepl(homepage, pattern = "statzh"))) {
-
-      homepage <- "http://www.statistik.zh.ch"
-      class(homepage) <- 'hyperlink'
-      openxlsx::writeData(wb
-                          ,"Inhalt"
-                          ,x = homepage
-                          ,xy = c("O", 5))
-    } else {
-      class(homepage) <- 'hyperlink'
-      openxlsx::writeData(wb
-                          ,"Inhalt"
-                          ,x = homepage
-                          ,xy = c("O", 5))
-    }
-
-  }
-
-
-
-  if(!is.null(openinghours)){
-
-    if(any(grepl(openinghours, pattern = "statzh"))) {
-
-      openinghours <- c("B\u00fcrozeiten"
-                        ,"Montag bis Freitag"
-                        ,"09:00 bis 12:00"
-                        ,"13:00 bis 16:00")
-
-      openxlsx::writeData(wb
-                          ,sheet = "Inhalt"
-                          ,openinghours
-                          ,xy = c("R", 2)
-
-      )
-
-    } else {
-
-      openxlsx::writeData(wb
-                          ,sheet = "Inhalt"
-                          ,openinghours
-                          ,xy = c("R", 2))
-
-    }
-
-  }
-
-
-  # headerline
-  headerline <- openxlsx::createStyle(border="Bottom", borderColour = "#009ee0",borderStyle = getOption("openxlsx.borderStyle", "thick"))
-  openxlsx::addStyle(wb
-                     ,"Inhalt"
-                     ,headerline
-                     ,rows = 6
-                     ,cols = 1:20
-                     ,gridExpand = TRUE
-                     ,stack = TRUE
-  )
-
-  #Erstellungsdatum
-  openxlsx::writeData(wb
-                      ,"Inhalt"
-                      ,paste("Erstellt am "
-                             ,format(Sys.Date(), format="%d.%m.%Y"))
-                      ,xy = c("O", 8)
-  )
-
-
-  if (!is.null(auftrag_id)){
-    # Auftragsnummer
-    openxlsx::writeData(wb
-                        ,sheet = "Inhalt"
-                        ,paste("Auftragsnr.:", auftrag_id)
-                        ,xy = c("O", 9)
-    )
-  }
-
-  # title
-  titleStyle <- openxlsx::createStyle(fontSize=20, textDecoration="bold",fontName="Arial", halign = "left")
-  openxlsx::addStyle(wb
-                     ,"Inhalt"
-                     ,titleStyle
-                     ,rows = 10
-                     ,cols = 3
-                     ,gridExpand = TRUE
-  )
-
-  openxlsx::writeData(wb
-                      ,"Inhalt"
-                      ,x = maintitle
-                      ,headerStyle=titleStyle
-                      ,xy = c("C", 10)
-  )
-
-
-  if(any(grepl(titlesource, pattern = "statzh"))){
-
-    # source
-    openxlsx::writeData(wb
-                        ,"Inhalt"
-                        ,"Quelle: Statistisches Amt des Kantons Z\u00fcrich"
-                        ,xy = c("C", 11)
-    )
-
-  }else {
-
-    openxlsx::writeData(wb
-                        ,"Inhalt"
-                        , titlesource
-                        ,xy = c("C", 11))
-
-  }
-
-
-
-
-  # subtitle
-  subtitleStyle <- openxlsx::createStyle(fontSize=11, textDecoration="bold",fontName="Arial", halign = "left")
-  openxlsx::addStyle(wb
-                     ,sheet = "Inhalt"
-                     ,subtitleStyle
-                     ,rows = 14
-                     ,cols = 3
-                     ,gridExpand = TRUE
-  )
-
-  openxlsx::writeData(wb
-                      ,sheet = "Inhalt"
-                      ,x = "Inhalt"
-                      ,headerStyle=subtitleStyle
-                      ,xy = c("C", 13)
-  )
-
+  ) %>%
+  purrr::pwalk(
+    ~insert_hyperlinks(
+      wb,
+      sheetname = ..1,
+      title = ..2,
+      sheet_row = ..3))
+
+  # Save workbook at path denoted by argument file
+  openxlsx::saveWorkbook(
+    wb,
+    file = paste(file, ".xlsx", sep = ""),
+    overwrite = overwrite)
 }

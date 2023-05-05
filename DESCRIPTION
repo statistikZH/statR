@@ -33,6 +33,5 @@ Suggests:
     knitr,
     rmarkdown,
     ggrepel,
-    tidyr,
     magrittr
 VignetteBuilder: knitr
