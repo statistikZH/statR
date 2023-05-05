@@ -294,7 +294,7 @@ insert_index_sheet <- function(wb, logo, contact, homepage, openinghours, titles
 
     } else if(file.exists(logo)) {
 
-      openxlsx::insertImage(wb, i, logo, width = 2.145, height = 0.7865,
+      openxlsx::insertImage(wb, "Inhalt", logo, width = 2.145, height = 0.7865,
                             units = "in")
     }
     if(!file.exists(logo)) {
