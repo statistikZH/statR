@@ -26,8 +26,7 @@ insert_index_sheet <- function(wb, logo, contact, homepage, openinghours,
   #  hide gridlines
   openxlsx::showGridLines(wb,
                           sheet = "Inhalt",
-                          showGridLines = FALSE
-  )
+                          showGridLines = FALSE)
 
   # set col widths
   openxlsx::setColWidths(wb,
@@ -35,26 +34,11 @@ insert_index_sheet <- function(wb, logo, contact, homepage, openinghours,
                          cols = 1,
                          widths = 1)
 
-  # insert logo
-
+  ## Logo
   if(!is.null(logo)){
-    if(logo %in% c("statzh", "zh")){
-      logo <- paste0(path.package("statR"),
-                     ifelse(logo == "statzh",
-                            "/extdata/Stempel_STAT-01.png",
-                            "/extdata/Stempel_Kanton_ZH.png"))
+    logo <- prep_logo(logo)
 
-      openxlsx::insertImage(wb,
-                            sheet = "Inhalt",
-                            file = logo,
-                            startRow = 2,
-                            startCol = 2,
-                            width = 2.5,
-                            height = 0.9,
-                            units = "in")
-
-    } else if(file.exists(logo)) {
-      # Insert file at given path
+    if (file.exists(logo)){
       openxlsx::insertImage(wb,
                             sheet = "Inhalt",
                             file = logo,
@@ -62,77 +46,53 @@ insert_index_sheet <- function(wb, logo, contact, homepage, openinghours,
                             height = 0.7865,
                             units = "in")
     } else {
-      # Input argument logo does not correspond to hardcoded values
-      # and no image file found at path
-      warning("No logo found")
+      message("no logo found.")
     }
-  } else {
-    message("No logo added")
   }
 
-  # Contact
+
+  ## Contact
   if(!is.null(contact)){
-    if(any(grepl(contact, pattern = "statzh"))) {
-      contact <- c("Datashop", "Tel.:  +41 43 259 75 00",
-                   "datashop@statistik.zh.ch")
-
-    }
-
     openxlsx::writeData(wb,
                         sheet = "Inhalt",
-                        x = contact,
+                        x = prep_contact(contact),
                         xy = c("O", 2))
   }
 
 
   if(!is.null(homepage)){
-    if(any(grepl(homepage, pattern = "statzh"))) {
-      homepage <- "http://www.statistik.zh.ch"
-    }
-
-    class(homepage) <- 'hyperlink'
     openxlsx::writeData(wb,
                         sheet = "Inhalt",
-                        x = homepage,
+                        x = prep_homepage(homepage),
                         xy = c("O", 5))
   }
 
 
-
   if(!is.null(openinghours)){
-    if(any(grepl(openinghours, pattern = "statzh"))) {
-      openinghours <- c("B\u00fcrozeiten",
-                        "Montag bis Freitag",
-                        "09:00 bis 12:00",
-                        "13:00 bis 16:00")
-    }
-
     openxlsx::writeData(wb,
                         sheet = "Inhalt",
-                        x = openinghours,
+                        x = prep_openinghours(openinghours),
                         xy = c("R", 2))
   }
 
-  # headerline
-  headerline <- openxlsx::createStyle(border = "Bottom",
-                                      borderColour = "#009ee0",
-                                      borderStyle = getOption("openxlsx.borderStyle", "thick"))
+  ## Headerline
   openxlsx::addStyle(wb,
                      sheet = "Inhalt",
-                     style = headerline,
+                     style = style_headerline(),
                      rows = 6,
                      cols = 1:20,
                      gridExpand = TRUE,
                      stack = TRUE)
 
-  #Erstellungsdatum
+
+  ## Erstellungsdatum
   openxlsx::writeData(wb,
                       sheet = "Inhalt",
                       x = paste("Erstellt am ",
                             format(Sys.Date(), format="%d.%m.%Y")),
                       xy = c("O", 8))
 
-  # Auftragsnummer
+  ## Auftragsnummer
   if (!is.null(auftrag_id)){
     openxlsx::writeData(wb,
                         sheet = "Inhalt",
@@ -140,7 +100,7 @@ insert_index_sheet <- function(wb, logo, contact, homepage, openinghours,
                         xy = c("O", 9))
   }
 
-  # Maintitle
+  ## Maintitle
   openxlsx::addStyle(wb,
                      sheet = "Inhalt",
                      style = mainTitleStyle(),
@@ -155,15 +115,11 @@ insert_index_sheet <- function(wb, logo, contact, homepage, openinghours,
                       xy = c("C", 10))
 
 
-  # source
+  ## Source
   if (!is.null(titlesource)){
-    if(any(grepl(titlesource, pattern = "statzh"))){
-      titlesource <- "Quelle: Statistisches Amt des Kantons Z\u00fcrich"
-    }
-
     openxlsx::writeData(wb,
                         sheet = "Inhalt",
-                        x = titlesource,
+                        x = paste("Quelle:", prep_source(titlesource)),
                         xy = c("C", 11))
   }
 

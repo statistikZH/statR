@@ -1,17 +1,22 @@
-#' quickXLSX()
+#' aXLSX()
 #'
-#' Function to export data from R to a formatted .xlsx-spreadsheet.
+#' Function to export data from R to a formatted .xlsx-file.
+#'
+#' The data is exported
+#' to the first sheet. Metadata information is exported to the second sheet.
+#'
 #' @param data data to be exported.
 #' @param file file name of the xlsx-file. The extension ".xlsx" is added automatically.
 #' @param title title to be put above the data in the worksheet.
 #' @template shared_parameters
-#' @keywords quickXLSX
-#' @export
+#' @keywords aXLSX
 #' @examples
+#' \donttest{
+#' \dontrun{
 #' # Beispiel anhand des Datensatzes 'mtcars'
 #'dat <- mtcars
 #'
-#'quickXLSX(data = dat,
+#'aXLSX(data = dat,
 #'          title = "Motor trend car road tests",
 #'          file = "motor_trend_car_road_tests", # '.xlsx' is automatically added
 #'          source = "Source: Henderson and Velleman (1981). Building multiple
@@ -22,32 +27,23 @@
 #'          consumption and 10 aspects of automobile design and performance
 #'          for 32 automobiles (1973–74 models)."),
 #'          contactdetails = "statzh",
-#'          grouplines = FALSE,
+#'          grouplines = NA,
 #'          logo = "statzh",
 #'          author = "user")
-#'
+#' }
+#' }
+get_groupline_index_by_pattern <- function(grouplines, data){
 
-quickXLSX <-function (data = NA,
-                      file,
-                      title="Title",
-                      source="statzh",
-                      metadata = NA,
-                      logo="statzh",
-                      grouplines = FALSE,
-                      contactdetails="statzh",
-                      author = "user") {
+  get_lowest_col <- function(groupline, data){
+    groupline_numbers_single <- which(grepl(groupline, names(data)))
 
-  warning("Deprecation")
-  #create workbook
-  wb <- openxlsx::createWorkbook(paste(file))
+    out <- min(groupline_numbers_single)
 
-  #insert data
-  insert_worksheet(data=data, wb, title=title, source=source, metadata = metadata, logo=logo, grouplines = grouplines, contactdetails=contactdetails, author = author)
-
-  #save workbook
-  openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""),
-                         overwrite = TRUE)
+    return(out)
+  }
 
 
+  groupline_numbers <- unlist(lapply(grouplines, function(x) get_lowest_col(x, data)))
+
+  return(groupline_numbers)
 }
-

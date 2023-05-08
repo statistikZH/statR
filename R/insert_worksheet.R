@@ -25,7 +25,7 @@
 insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
                              source="statzh", metadata = NA, logo= "statzh",
                              grouplines = FALSE, contactdetails="statzh",
-                             author = "user") {
+                             author = "user"){
 
   # Metadata
   remarks <- if (any(is.na(metadata))) {

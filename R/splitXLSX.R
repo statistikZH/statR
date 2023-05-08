@@ -41,6 +41,7 @@ splitXLSX <- function (data,
                        contactdetails="statzh",
                        author = "user")
 {
+  warning("Deprecation")
   data <- as.data.frame(data)
 
   # extract column name
