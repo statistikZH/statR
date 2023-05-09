@@ -1,5 +1,9 @@
+#' insert_worksheet_image()
+#'
 #' insert an image into a single worksheet
-#' insert_image
+#' @description
+#' The import
+#' @note
 #'
 #' @param image image or plot
 #' @param workbook workbook object to write new worksheet in
@@ -8,37 +12,38 @@
 #' @param startcol column coordinate of upper left corner of figure
 #' @param width width of figure
 #' @param height height of figure
-#' @noRd
 #' @importFrom grDevices png dev.off
+#' @keywords internal
 #' @examples
-#' # example
-#' \dontrun{
-#' export <- openxlsx::createWorkbook("export")
+#' # ggplot object
+#' #--------------
+#' wb <- openxlsx::createWorkbook()
 #'
-#' insert_worksheet_image(image=plot(x = mtcars$wt, y = mtcars$mpg),
-#'                        export,
-#'                        "image",
-#'                        startrow=2,
-#'                        startcol=2,
-#'                        width=3.5,
-#'                        height=5.5
+#' insert_worksheet_image(
+#'   image,
+#'   wb,
+#'   "ggplot image"
+#'   width=3.5,
+#'   height=5.5
 #' )
-#'openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")
 #'
-#'}
+#'
+#' \dontrun{
+#' openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")
+#' }
+#'
 
-insert_worksheet_image = function(image,
-                                  wb,
-                                  sheetname,
-                                  width,
-                                  height){
-
-
+insert_worksheet_image = function(
+  image,
+  wb,
+  sheetname,
+  width,
+  height
+){
   openxlsx::addWorksheet(
     wb,
     sheetName = sheetname,
     gridLines = FALSE)
-
 
   if (class(image) == "character" ){
     image_path <- image

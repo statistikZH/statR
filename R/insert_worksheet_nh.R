@@ -2,6 +2,11 @@
 #'
 #' Function to add formatted worksheets without headers to an existing workbook
 #'
+#' @description
+#'
+#' @note
+#' The function does not write the result into a .xlsx file. A separate call
+#' to openxlsx::saveWorkbook() is required.
 #' @param data data to be included in the XLSX-table.
 #' @param wb workbook object to write new worksheet in.
 #' @param title title of the table and the sheet
@@ -10,49 +15,43 @@
 #' @param metadata metadata-information to be included. Defaults to NA.
 #' @param grouplines defaults to NA. Can be used to separate grouped variables visually.
 #' @param group_names Name(s) of the second header(s). Format: List e.g list(c("title 1", "title 2", "title 3"))
-#' @keywords insert_worksheet
+#' @keywords insert_worksheet, openxlsx
 #' @export
 #' @importFrom dplyr "%>%"
 #' @examples
 #'
-#' # create workbook
-#' wb <- openxlsx::createWorkbook("hello")
-#'
-#' insert_worksheet_nh(mtcars[c(1:10),],wb,"mtcars",c(1:4),"carb",grouplines=c(1,5,6))
-#'
-#'# create workbook
+#' ## Create workbook
 #' export <- openxlsx::createWorkbook("export")
 #'
-#' # insert a new worksheet
-#' insert_worksheet_nh(head(mtcars)
-#'                   ,export
-#'                   ,"data1"
-#'                  ,title = "Title"
-#'                   ,source = "Quelle: Statistisches Amt Kanton Z\u00fcrich"
-#'                   ,metadata = "Bemerkung: ...")
+#' ## insert a new worksheet
+#' insert_worksheet_nh(head(mtcars), export, "data1",
+#'   title = "Title", source = "statzh", metadata = "Note: ...")
 #'
-#'  # insert a further worksheet
-#' insert_worksheet_nh(tail(mtcars)
-#'                    ,export
-#'                    ,"data2"
-#'                    ,title = "Title"
-#'                    ,source = "Quelle: Statistisches Amt Kanton Z\u00fcrich"
-#'                    ,metadata = "Bemerkung: ...")
+#' ## insert a further worksheet
+#' insert_worksheet_nh(tail(mtcars), export, "data2",
+#'   title = "Title", source = "statzh", metadata = "Note: ...")
+#'
+#' ## insert a worksheet with group lines and second header
+#' insert_worksheet_nh(data = head(mtcars), wb = export,
+#'   title = "grouplines", source = "statzh", metadata = c(1:4),
+#'   grouplines=c(1,5,6), group_names = "carb")
+#'
 #'\dontrun{
-#'  # save workbook
+#' ## save workbook
 #'  openxlsx::saveWorkbook(export,"example.xlsx")
 #'}
 
 # Function
 
-insert_worksheet_nh <- function(data,
-                                wb,
-                                sheetname="Daten",
-                                title="Title",
-                                source="statzh",
-                                metadata = NA,
-                                grouplines = NA,
-                                group_names = NA
+insert_worksheet_nh <- function(
+  data,
+  wb,
+  sheetname = "Daten",
+  title = "Title",
+  source = "statzh",
+  metadata = NA,
+  grouplines = NA,
+  group_names = NA
 ){
 
   # number of data columns
@@ -169,5 +168,6 @@ insert_worksheet_nh <- function(data,
   options("openxlsx.minWidth" = 5)
 
   # automatische Spaltenbreite
-  openxlsx::setColWidths(wb, sheet = sheetname, cols=1:spalten, widths = "auto", ignoreMergedCells = TRUE)
+  openxlsx::setColWidths(wb, sheet = sheetname, cols = 1:spalten,
+    widths = "auto", ignoreMergedCells = TRUE)
 }

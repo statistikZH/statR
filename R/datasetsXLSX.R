@@ -87,24 +87,25 @@
 #'}
 #'}
 
-datasetsXLSX <- function(file,
-                         datasets,
-                         titles,
-                         plot_widths = NULL,
-                         plot_heights = NULL,
-                         grouplines = NA,
-                         group_names = NA,
-                         sources = "statzh",
-                         metadata1 = NA,
-                         sheetnames,
-                         maintitle,
-                         titlesource = "statzh",
-                         logo = "statzh",
-                         auftrag_id = NULL,
-                         contact = "statzh",
-                         homepage = "statzh",
-                         openinghours = "statzh",
-                         overwrite = F
+datasetsXLSX <- function(
+  file,
+  datasets,
+  titles,
+  plot_widths = NULL,
+  plot_heights = NULL,
+  grouplines = NA,
+  group_names = NA,
+  sources = "statzh",
+  metadata1 = NA,
+  sheetnames,
+  maintitle,
+  titlesource = "statzh",
+  logo = "statzh",
+  auftrag_id = NULL,
+  contact = "statzh",
+  homepage = "statzh",
+  openinghours = "statzh",
+  overwrite = F
 ){
 
   if(!any(is.na(group_names)) & any(is.na(grouplines))){
@@ -200,6 +201,6 @@ datasetsXLSX <- function(file,
   # Save workbook at path denoted by argument file
   openxlsx::saveWorkbook(
     wb,
-    file = paste(file, ".xlsx", sep = ""),
+    file = prep_filename(file),
     overwrite = overwrite)
 }

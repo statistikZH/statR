@@ -1,4 +1,8 @@
-
+#' Functions for checking and transforming user input
+#'
+#' @Description Helper functions not intended to be called directly by users.
+#' @keywords internal
+#'
 check_sheetname <- function(sheetname){
 
   if (nchar(sheetname) > 31){
@@ -9,6 +13,14 @@ check_sheetname <- function(sheetname){
   return(sheetname)
 }
 
+prep_filename <- function(filename){
+
+  if (!grepl(".xlsx", filename)){
+    filename <- paste0(filename, ".xlsx")
+  }
+
+  return(filename)
+}
 
 prep_source <- function(source){
 

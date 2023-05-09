@@ -1,13 +1,8 @@
 #' Style definitions
 #'
-#' Description
-#'
-#' @keywords styles
-#' @examples
-#'\donttest{
-#' \dontrun{
-#'}
-#'}
+#' @Description
+#' Functions which generate style objects. Not intended to be called directly by the user.
+#' @keywords internal
 
 mainTitleStyle <- function(){
   openxlsx::createStyle(fontSize = 20,

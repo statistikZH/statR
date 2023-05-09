@@ -1,12 +1,13 @@
 #' insert_hyperlinks
 #'
-#' Description
-#'
+#' Function for inserting hyperlinks within an openxlsx Workbook
+#' @description
+#' A short description...
 #' @param wb Worksheet
 #' @param sheetname Name of sheet
 #' @param title Title
 #' @param sheet_row Sheet row
-#' @keywords datasetsXLSX
+#' @keywords internal, datasetsXLSX
 #' @examples
 #'\donttest{
 #' \dontrun{
@@ -15,18 +16,15 @@
 #'}
 #'
 insert_hyperlinks <- function(wb, sheetname, title, sheet_row){
-  openxlsx::writeData(wb,
-                      sheet = "Inhalt",
-                      x = title,
-                      xy = c("C", sheet_row))
+  openxlsx::writeData(wb, sheet = "Inhalt", x = title,
+    xy = c("C", sheet_row))
 
-  openxlsx::addStyle(wb,
-                     sheet = "Inhalt",
-                     style = hyperlinkStyle(),
-                     rows = sheet_row,
-                     cols = 3)
+  openxlsx::addStyle(wb, sheet = "Inhalt",
+    style = hyperlinkStyle(), rows = sheet_row,
+    cols = 3)
 
-  openxlsx::mergeCells(wb, sheet = "Inhalt", cols = 3:8, rows = sheet_row)
+  openxlsx::mergeCells(wb, sheet = "Inhalt", cols = 3:8,
+    rows = sheet_row)
 
   worksheet <- wb$sheetOrder[1]
 
