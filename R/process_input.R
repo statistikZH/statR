@@ -1,6 +1,7 @@
 #' Functions for checking and transforming user input
 #'
-#' @Description Helper functions not intended to be called directly by users.
+#' @description
+#' Helper functions not intended to be called directly by users.
 #' @keywords internal
 #'
 check_sheetname <- function(sheetname){
@@ -22,11 +23,10 @@ prep_filename <- function(filename){
   return(filename)
 }
 
-prep_source <- function(source){
+prep_source <- function(source, prefix = "Quelle:"){
 
   source <- sub("statzh", "Statistisches Amt des Kantons Z\u00fcrich", source)
-
-  return(paste0(source, collapse = "; "))
+  return(paste("Quelle:", paste0(source, collapse = ";")))
 }
 
 
@@ -52,7 +52,7 @@ prep_contact <- function(contact){
     contact <- c("Datashop", "Tel.:  +41 43 259 75 00",
                  "datashop@statistik.zh.ch")
   } else if (length(contact) > 3){
-    warning("Contactdetails may overlap with other elements. To avoid this issue please do not include more than three elements in the contactdetails vector.")
+    warning("More than 3 elements in contactdetails, may overlap with other elements.")
   }
 
   return(contact)
@@ -76,4 +76,12 @@ prep_homepage <- function(homepage){
 
   class(homepage) <- 'hyperlink'
   return(homepage)
+}
+
+prep_creationdate <- function(prefix = "Erstellt am:", date_format = "%d.%m.%Y"){
+  return(paste(prefix, format(Sys.Date(), format = date_format)))
+}
+
+prep_orderid <- function(order_id, prefix = "Auftragsnr.:"){
+  return(paste(prefix, order_id))
 }

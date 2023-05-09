@@ -4,7 +4,8 @@
 #' @description
 #' The import
 #' @note
-#'
+#' The function does not write the result into a .xlsx file. A separate call
+#' to openxlsx::saveWorkbook() is required.
 #' @param image image or plot
 #' @param workbook workbook object to write new worksheet in
 #' @param sheetname  name of the sheet tab
@@ -19,20 +20,29 @@
 #' #--------------
 #' wb <- openxlsx::createWorkbook()
 #'
-#' insert_worksheet_image(
-#'   image,
-#'   wb,
-#'   "ggplot image"
-#'   width=3.5,
-#'   height=5.5
-#' )
+#' # Add a geom_histogram()
 #'
+#' figure1 <- ggplot(mtcars, aes(x = disp)) + geom_histogram()
+#'
+#' insert_worksheet_image(image = figure1, wb, sheetname = "ggplot image",
+#'   width = 3.5, height = 5.5)
+#'
+#' # Add a base histogram
+#' base_hist <- histogram(mtcars$disp)
+#'
+#' insert_worksheet_image(image = base_hist, wb, sheetname = "Base histogram",
+#'   width = 3.5, height = 5.5)
+#'
+#' # Insert an existing image file
+#' image_path <- paste0(path.package("statR"), "/extdata/Stempel_Kanton_ZH.png")
+#'
+#' insert_worksheet_image(image = image_path, wb, sheetname = "Existing image",
+#'   width = 3.5, height = 5.5)
 #'
 #' \dontrun{
 #' openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")
 #' }
 #'
-
 insert_worksheet_image = function(
   image,
   wb,

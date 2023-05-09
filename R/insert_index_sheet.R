@@ -11,138 +11,94 @@
 #' @param maintitle Main title
 #' @keywords datasetsXLSX, openxlsx
 #' @examples
-#'\donttest{
+#' \donttest{
 #' \dontrun{
-#'}
-#'}
+#' }
+#' }
+insert_index_sheet <- function(wb, logo, contact, homepage, openinghours,
+                               titlesource, auftrag_id, maintitle){
 
-
-insert_index_sheet <- function(
-  wb,
-  logo,
-  contact,
-  homepage,
-  openinghours,
-  titlesource,
-  auftrag_id,
-  maintitle
-){
-
-  # Create index sheet
+  ## Create index sheet
   openxlsx::addWorksheet(wb, sheetName = "Inhalt")
 
-  #  hide gridlines
-  openxlsx::showGridLines(wb,
-                          sheet = "Inhalt",
-                          showGridLines = FALSE)
+  ## Content
+  #-----------
 
-  # set col widths
-  openxlsx::setColWidths(wb,
-                         sheet = "Inhalt",
-                         cols = 1,
-                         widths = 1)
-
-  ## Logo
+  ### Logo
   if(!is.null(logo)){
     logo <- prep_logo(logo)
 
     if (file.exists(logo)){
-      openxlsx::insertImage(wb,
-                            sheet = "Inhalt",
-                            file = logo,
-                            width = 2.145,
-                            height = 0.7865,
-                            units = "in")
+      openxlsx::insertImage(wb, sheet = "Inhalt", file = logo, width = 2.145,
+                            height = 0.7865, units = "in")
     } else {
       message("no logo found.")
     }
   }
 
 
-  ## Contact
+  ### Contact information
   if(!is.null(contact)){
-    openxlsx::writeData(wb,
-                        sheet = "Inhalt",
-                        x = prep_contact(contact),
+    openxlsx::writeData(wb, sheet = "Inhalt", x = prep_contact(contact),
                         xy = c("O", 2))
   }
 
-
   if(!is.null(homepage)){
-    openxlsx::writeData(wb,
-                        sheet = "Inhalt",
-                        x = prep_homepage(homepage),
+    openxlsx::writeData(wb, sheet = "Inhalt", x = prep_homepage(homepage),
                         xy = c("O", 5))
   }
 
-
   if(!is.null(openinghours)){
-    openxlsx::writeData(wb,
-                        sheet = "Inhalt",
-                        x = prep_openinghours(openinghours),
-                        xy = c("R", 2))
+    openxlsx::writeData(wb, sheet = "Inhalt",
+                        x = prep_openinghours(openinghours), xy = c("R", 2))
   }
 
-  ## Headerline
-  openxlsx::addStyle(wb,
-                     sheet = "Inhalt",
-                     style = style_headerline(),
-                     rows = 6,
-                     cols = 1:20,
-                     gridExpand = TRUE,
-                     stack = TRUE)
-
-
-  ## Erstellungsdatum
-  openxlsx::writeData(wb,
-                      sheet = "Inhalt",
-                      x = paste("Erstellt am ",
-                            format(Sys.Date(), format="%d.%m.%Y")),
+  ### Creation date
+  openxlsx::writeData(wb, sheet = "Inhalt", x = prep_creationdate(),
                       xy = c("O", 8))
 
-  ## Auftragsnummer
+  ### Order id
   if (!is.null(auftrag_id)){
-    openxlsx::writeData(wb,
-                        sheet = "Inhalt",
-                        paste("Auftragsnr.:", auftrag_id),
+    openxlsx::writeData(wb, sheet = "Inhalt", x = prep_orderid(auftrag_id),
                         xy = c("O", 9))
   }
 
-  ## Maintitle
-  openxlsx::addStyle(wb,
-                     sheet = "Inhalt",
-                     style = mainTitleStyle(),
-                     rows = 10,
-                     cols = 3,
-                     gridExpand = TRUE)
+  ### Title
+  openxlsx::writeData(wb, sheet = "Inhalt", x = maintitle,
+                      headerStyle = mainTitleStyle(), xy = c("C", 10))
 
-  openxlsx::writeData(wb,
-                      sheet = "Inhalt",
-                      x = maintitle,
-                      headerStyle = mainTitleStyle(),
-                      xy = c("C", 10))
-
-
-  ## Source
+  ### Source
   if (!is.null(titlesource)){
-    openxlsx::writeData(wb,
-                        sheet = "Inhalt",
-                        x = paste("Quelle:", prep_source(titlesource)),
+    openxlsx::writeData(wb, sheet = "Inhalt", x = prep_source(titlesource),
                         xy = c("C", 11))
   }
 
-  # subtitle
-  openxlsx::addStyle(wb,
-                     sheet = "Inhalt",
-                     style = subtitleStyle(),
-                     rows = 14,
-                     cols = 3,
-                     gridExpand = TRUE)
+  ### Content caption
+  openxlsx::writeData(wb, sheet = "Inhalt", x = "Inhalt",
+                      headerStyle = subtitleStyle(), xy = c("C", 13))
 
-  openxlsx::writeData(wb,
-                      sheet = "Inhalt",
-                      x = "Inhalt",
-                      headerStyle = subtitleStyle(),
-                      xy = c("C", 13))
 
+  ## Format
+  #-----------------
+
+  ### Hide gridlines
+  openxlsx::showGridLines(wb, sheet = "Inhalt", showGridLines = FALSE)
+
+  ### Set column widths
+  openxlsx::setColWidths(wb, sheet = "Inhalt", cols = 1, widths = 1)
+
+
+  ### Add Headerline
+  openxlsx::addStyle(wb, sheet = "Inhalt", style = style_headerline(),
+                     rows = 6, cols = 1:20, gridExpand = TRUE, stack = TRUE)
+
+
+  ### Apply style to Maintitle
+  openxlsx::addStyle(wb, sheet = "Inhalt", style = mainTitleStyle(), rows = 10,
+                     cols = 3, gridExpand = TRUE)
+
+
+  ### Apply style to Subtitle
+  openxlsx::addStyle(wb, sheet = "Inhalt", style = subtitleStyle(), rows = 14,
+                     cols = 3, gridExpand = TRUE)
 }

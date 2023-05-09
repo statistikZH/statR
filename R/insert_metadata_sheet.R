@@ -10,23 +10,19 @@
 #' @param contactdetails contact details of the data publisher. Defaults to "statzh".
 #' @param author defaults to the last two letters (initials) or numbers of the internal user name.
 #' @importFrom dplyr "%>%"
-#' @keywords insert_metadata_sheet
+#' @keywords insert_metadata_sheet, openxlsx
 #' @export
 #' @examples
-#'
 #' # Generation of a spreadsheet
 #' wb <- openxlsx::createWorkbook("hello")
 #'
 #' insert_metadata_sheet(wb, title = "Title of mtcars", metadata = c("Meta data information."))
-
-
-insert_metadata_sheet <- function(wb, sheetname = "Metadaten",
-                                  title = "Title",
-                                  source = "statzh",
-                                  metadata = NA,
-                                  logo = "statzh",
-                                  contactdetails = "statzh",
-                                  author = "user"){
+#' \dontrun{
+#' openxlsx::saveWorkbook(wb,"insert_metadata_sheet.xlsx")
+#' }
+insert_metadata_sheet <- function(wb, sheetname = "Metadaten", title = "Title",
+  source = "statzh", metadata = NA, logo = "statzh", contactdetails = "statzh",
+  author = "user"){
 
   sheetname <- check_sheetname(sheetname)
   openxlsx::addWorksheet(wb, sheetName = sheetname)
@@ -36,11 +32,10 @@ insert_metadata_sheet <- function(wb, sheetname = "Metadaten",
 
   style_subtitle <- openxlsx::createStyle(fontSize = 12, textDecoration = "bold", fontName = "Arial")
 
-  # Fill Excel -----------------
+  ## Fill Excel -----------------
 
   ## Title
-  openxlsx::writeData(wb,
-                      sheet = sheetname,
+  openxlsx::writeData(wb, sheet = sheetname,
                       x = title,
                       headerStyle = style_title(),
                       startRow = 7)

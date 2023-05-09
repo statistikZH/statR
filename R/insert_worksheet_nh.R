@@ -41,18 +41,8 @@
 #'  openxlsx::saveWorkbook(export,"example.xlsx")
 #'}
 
-# Function
-
-insert_worksheet_nh <- function(
-  data,
-  wb,
-  sheetname = "Daten",
-  title = "Title",
-  source = "statzh",
-  metadata = NA,
-  grouplines = NA,
-  group_names = NA
-){
+insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
+  source = "statzh", metadata = NA, grouplines = NA, group_names = NA){
 
   # number of data columns
   spalten <- ncol(data)
