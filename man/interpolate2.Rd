@@ -4,7 +4,7 @@
 \alias{interpolate2}
 \title{interpolate2()}
 \usage{
-interpolate2(palette, color = color, degree = degree, number = number)
+interpolate2(palette, color, degree, number)
 }
 \arguments{
 \item{palette}{a vector of colors to be interpolated}
@@ -20,7 +20,8 @@ Function to generate new color palettes by interpolation.
 }
 \examples{
 #interpolate the 'zhblue'-palette with black and generate 7 new ones
-interpolate2(palette = zhpal$zhblue, color = c("#000000"), degree = 3, number = 7)
+interpolate2(palette = zhpal$zhblue, color = c("#000000"), degree = 3,
+  number = 7)
 
 }
 \keyword{interpolate2}

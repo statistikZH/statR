@@ -14,7 +14,7 @@ display(col, border = "light gray", ...)
 \item{...}{further arguments that can be passed to the plot()-function}
 }
 \description{
-preview colors in console
+Preview of colors specified from hex-codes
 }
 \examples{
 #display can be used to preview all the palettes included in the 'zhpal'-list:

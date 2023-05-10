@@ -1,7 +1,5 @@
 # ------- Farbpaletten basierend auf Kantons-CI Farben ----------------
 
-library(scales)
-
 #################### STAT ZH Farbpaletten
 
 #' Data used by the stat zh palettes

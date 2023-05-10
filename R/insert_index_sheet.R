@@ -9,12 +9,7 @@
 #' @param titlesource Character vector denoting the data source
 #' @param auftrag_id Order ID
 #' @param maintitle Main title
-#' @keywords datasetsXLSX, openxlsx
-#' @examples
-#' \donttest{
-#' \dontrun{
-#' }
-#' }
+#' @keywords datasetsXLSX
 insert_index_sheet <- function(wb, logo, contact, homepage, openinghours,
                                titlesource, auftrag_id, maintitle){
 

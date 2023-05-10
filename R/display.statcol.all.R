@@ -1,17 +1,14 @@
-# display.statcol.all()
-
 #' display.statcol.all()
 #'
 #' Preview all Stat ZH palettes stored in the 'zhpal'-object
 #' @keywords display.statcol.all
 #' @export
+#' @import ggplot2
 #' @examples
 #' display.statcol.all()
 #'
 
-# Function
-
-display.statcol.all<-function() {
+display.statcol.all <- function(){
 
   df <- data.frame(unlist(x$stattheme_data))
 

@@ -1,4 +1,4 @@
-#' insert_hyperlinks
+#' insert_hyperlinks()
 #'
 #' Function for inserting hyperlinks within an openxlsx Workbook
 #' @description
@@ -7,14 +7,7 @@
 #' @param sheetname Name of sheet
 #' @param title Title
 #' @param sheet_row Sheet row
-#' @keywords internal, datasetsXLSX
-#' @examples
-#'\donttest{
-#' \dontrun{
-#'
-#'}
-#'}
-#'
+#' @keywords internal
 insert_hyperlinks <- function(wb, sheetname, title, sheet_row){
   openxlsx::writeData(wb, sheet = "Inhalt", x = title,
     xy = c("C", sheet_row))

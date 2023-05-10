@@ -1,7 +1,6 @@
 #' get_groupline_index_by_pattern()
 #'
-#' @description
-#' Function ...
+#' Derive groupline index by matching names
 #' @param grouplines ...
 #' @param data ...
 #' @keywords internal
@@ -16,8 +15,9 @@ get_groupline_index_by_pattern <- function(grouplines, data){
     return(out)
   }
 
-
-  groupline_numbers <- unlist(lapply(grouplines, function(x) get_lowest_col(x, data)))
+  groupline_numbers <- unlist(lapply(grouplines, function(x){
+    get_lowest_col(x, data)
+    }))
 
   return(groupline_numbers)
 }

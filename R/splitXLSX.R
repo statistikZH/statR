@@ -31,20 +31,9 @@
 #'          logo = "statzh",
 #'          author = "user")
 
-# Function
-
-splitXLSX <- function (
-  data,
-  file,
-  sheetvar,
-  title = "Titel",
-  source = "statzh",
-  metadata = NA,
-  logo = "statzh",
-  grouplines = FALSE,
-  contactdetails = "statzh",
-  author = "user"
-){
+splitXLSX <- function(data, file, sheetvar, title = "Titel", source = "statzh",
+                      metadata = NA, logo = "statzh", grouplines = FALSE,
+                      contactdetails = "statzh", author = "user"){
   warning("Deprecation")
   data <- as.data.frame(data)
 
@@ -77,7 +66,7 @@ splitXLSX <- function (
 
   # --------------
 
-  openxlsx::worksheetOrder(wb)<-rev(openxlsx::worksheetOrder(wb))
+  openxlsx::worksheetOrder(wb) <- rev(openxlsx::worksheetOrder(wb))
 
   #save xlsx
   openxlsx::saveWorkbook(wb, prep_filename(file), overwrite = TRUE)

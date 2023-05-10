@@ -33,12 +33,6 @@ insert_index_sheet(
 \item{maintitle}{Main title}
 }
 \description{
-Description
-}
-\examples{
-\donttest{
-\dontrun{
-}
-}
+Function which generates an index sheet inside an openxlsx workbook.
 }
 \keyword{datasetsXLSX}

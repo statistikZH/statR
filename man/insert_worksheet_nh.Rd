@@ -35,34 +35,33 @@ insert_worksheet_nh(
 \description{
 Function to add formatted worksheets without headers to an existing workbook
 }
+\note{
+The function does not write the result into a .xlsx file. A separate call
+to openxlsx::saveWorkbook() is required.
+}
 \examples{
 
-# create workbook
-wb <- openxlsx::createWorkbook("hello")
+## Create workbook
+export <- openxlsx::createWorkbook()
 
-insert_worksheet_nh(mtcars[c(1:10),],wb,"mtcars",c(1:4),"carb",grouplines=c(1,5,6))
+## insert a new worksheet
+insert_worksheet_nh(head(mtcars), export, "data1",
+  title = "Title", source = "statzh", metadata = "Note: ...")
 
-# create workbook
-export <- openxlsx::createWorkbook("export")
+## insert a further worksheet
+insert_worksheet_nh(tail(mtcars), export, "data2",
+  title = "Title", source = "statzh", metadata = "Note: ...")
 
-# insert a new worksheet
-insert_worksheet_nh(head(mtcars)
-                  ,export
-                  ,"data1"
-                 ,title = "Title"
-                  ,source = "Quelle: Statistisches Amt Kanton Z\u00fcrich"
-                  ,metadata = "Bemerkung: ...")
 
- # insert a further worksheet
-insert_worksheet_nh(tail(mtcars)
-                   ,export
-                   ,"data2"
-                   ,title = "Title"
-                   ,source = "Quelle: Statistisches Amt Kanton Z\u00fcrich"
-                   ,metadata = "Bemerkung: ...")
+## insert a worksheet with group lines and second header
+insert_worksheet_nh(data = head(mtcars), wb = export,
+  title = "grouplines", source = "statzh", metadata = "Note: ...",
+  grouplines = c(1,5,6), group_names = "carb")
+
 \dontrun{
- # save workbook
+## save workbook
  openxlsx::saveWorkbook(export,"example.xlsx")
 }
 }
-\keyword{insert_worksheet}
+\keyword{insert_worksheet,}
+\keyword{openxlsx}

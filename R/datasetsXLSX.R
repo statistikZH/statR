@@ -28,6 +28,7 @@
 #' @keywords datasetsXLSX
 #' @export
 #' @importFrom dplyr "%>%"
+#' @importFrom purrr pwalk pmap
 #' @examples
 #'\donttest{
 #' \dontrun{
@@ -87,32 +88,19 @@
 #'}
 #'}
 
-datasetsXLSX <- function(
-  file,
-  datasets,
-  titles,
-  plot_widths = NULL,
-  plot_heights = NULL,
-  grouplines = NA,
-  group_names = NA,
-  sources = "statzh",
-  metadata1 = NA,
-  sheetnames,
-  maintitle,
-  titlesource = "statzh",
-  logo = "statzh",
-  auftrag_id = NULL,
-  contact = "statzh",
-  homepage = "statzh",
-  openinghours = "statzh",
-  overwrite = F
-){
+datasetsXLSX <- function(file, datasets, titles, plot_widths = NULL,
+                         plot_heights = NULL, grouplines = NA,
+                         group_names = NA, sources = "statzh", metadata1 = NA,
+                         sheetnames, maintitle, titlesource = "statzh",
+                         logo = "statzh", auftrag_id = NULL,
+                         contact = "statzh", homepage = "statzh",
+                         openinghours = "statzh", overwrite = F){
 
   if(!any(is.na(group_names)) & any(is.na(grouplines))){
     stop("if a second header is wanted, the grouplines have to be specified")
   }
 
-  wb <- openxlsx::createWorkbook("data")
+  wb <- openxlsx::createWorkbook()
 
   # Determine which elements of input list datasets correspond to dataframes.
   dataframes_index <- which(vapply(datasets, is.data.frame, TRUE))
@@ -128,21 +116,17 @@ datasetsXLSX <- function(
 
   # Determine which elements of datasets correspond to objects of type gg,
   # ggplot, histogram, or character (path input).
-  plot_index <- which(vapply(datasets, function(x) length(setdiff(class(x), c("gg", "ggplot", "histogram", "character"))) == 0, TRUE))
+  plot_index <- which(vapply(datasets, function(x){
+    length(setdiff(class(x), c("gg", "ggplot", "histogram", "character"))) == 0
+    }, TRUE))
 
   plot_datasets <- datasets[plot_index]
   plot_sheetnames <- sheetnames[plot_index]
 
 
   # Insert the initial index sheet
-  insert_index_sheet(wb,
-                     logo,
-                     contact,
-                     homepage,
-                     openinghours,
-                     titlesource,
-                     auftrag_id,
-                     maintitle)
+  insert_index_sheet(wb, logo, contact, homepage, openinghours, titlesource,
+                     auftrag_id, maintitle)
 
 
   # Iterate along dataframes_index
@@ -199,8 +183,5 @@ datasetsXLSX <- function(
       sheet_row = ..3))
 
   # Save workbook at path denoted by argument file
-  openxlsx::saveWorkbook(
-    wb,
-    file = prep_filename(file),
-    overwrite = overwrite)
+  openxlsx::saveWorkbook(wb, file = prep_filename(file), overwrite = overwrite)
 }

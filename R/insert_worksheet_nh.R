@@ -1,9 +1,6 @@
 #' insert_worksheet_nh
 #'
 #' Function to add formatted worksheets without headers to an existing workbook
-#'
-#' @description
-#'
 #' @note
 #' The function does not write the result into a .xlsx file. A separate call
 #' to openxlsx::saveWorkbook() is required.
@@ -18,10 +15,11 @@
 #' @keywords insert_worksheet, openxlsx
 #' @export
 #' @importFrom dplyr "%>%"
+#' @importFrom purrr walk
 #' @examples
 #'
 #' ## Create workbook
-#' export <- openxlsx::createWorkbook("export")
+#' export <- openxlsx::createWorkbook()
 #'
 #' ## insert a new worksheet
 #' insert_worksheet_nh(head(mtcars), export, "data1",
@@ -31,15 +29,16 @@
 #' insert_worksheet_nh(tail(mtcars), export, "data2",
 #'   title = "Title", source = "statzh", metadata = "Note: ...")
 #'
+#'
 #' ## insert a worksheet with group lines and second header
 #' insert_worksheet_nh(data = head(mtcars), wb = export,
-#'   title = "grouplines", source = "statzh", metadata = c(1:4),
-#'   grouplines=c(1,5,6), group_names = "carb")
+#'   title = "grouplines", source = "statzh", metadata = "Note: ...",
+#'   grouplines = c(1,5,6), group_names = "carb")
 #'
-#'\dontrun{
+#' \dontrun{
 #' ## save workbook
 #'  openxlsx::saveWorkbook(export,"example.xlsx")
-#'}
+#' }
 
 insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
   source = "statzh", metadata = NA, grouplines = NA, group_names = NA){
@@ -57,30 +56,26 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
   openxlsx::addWorksheet(wb, sheetname)
 
 
-  # fill in data ---------------------------------------------------------------
-  ## Titel
-  openxlsx::addStyle(wb,
-                     sheet = sheetname,
-                     style = style_title(),
-                     rows = 1,
-                     cols = 1)
-  openxlsx::writeData(wb,
-                      sheet = sheetname,
-                      x = title,
-                      headerStyle=style_title(),
-                      startRow = 1)
+  # Content
+  #---------
 
-  ## Quelle
+  ## Title
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_title(),
+                     rows = 1, cols = 1)
+  openxlsx::writeData(wb, sheet = sheetname, x = title,
+                      headerStyle=style_title(), startRow = 1)
+
+  ## Source
   sources_to_insert <- prep_source(source)
   source_end_row <- add_additional_text(wb, sources_to_insert, sheetname, 2)
-
 
   ## Metadata
   if (!is.na(metadata)){
     metadata_to_insert <- prep_metadata(metadata)
     metadata_start_row <- source_end_row + 1
 
-    metadata_end_row <- add_additional_text(wb, metadata_to_insert, sheetname, metadata_start_row)
+    metadata_end_row <- add_additional_text(wb, metadata_to_insert, sheetname,
+                                            metadata_start_row)
 
     data_start_row <- metadata_end_row + 2
     merge_end_row <- metadata_end_row
@@ -97,32 +92,28 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
                                     cols = 1:26,
                                     rows = .))
 
-  # Zweite header Zeile einfügen
+  ## Insert second header
   if (any(is.null(group_names))){
     group_names <- NA
   }
 
   if (!any(is.na(group_names))){
-    insert_second_header(wb, sheetname, data_start_row, group_names, grouplines, data)
+    insert_second_header(wb, sheetname, data_start_row, group_names,
+                         grouplines, data)
     data_start_row <- data_start_row + 1
   }
 
-  # Daten
-  openxlsx::addStyle(wb,
-                     sheet = sheetname,
-                     style = style_header(),
-                     rows = data_start_row,
-                     cols = 1:spalten,
-                     gridExpand = TRUE,
-                     stack = TRUE)
+  ## Data
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_header(),
+                     rows = data_start_row, cols = 1:spalten,
+                     gridExpand = TRUE, stack = TRUE)
 
-  openxlsx::writeData(wb,
-                      sheet = sheetname,
+  openxlsx::writeData(wb, sheet = sheetname,
                       x = as.data.frame(dplyr::ungroup(data)),
-                      rowNames = FALSE,
-                      startRow = data_start_row,
+                      rowNames = FALSE, startRow = data_start_row,
                       withFilter = FALSE)
 
+  ## Grouplines
   if(is.null(grouplines)){
     grouplines <- NA
   }
@@ -136,8 +127,6 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
       data_end_row <- nrow(data)+data_start_row
     }
 
-
-
     if (is.numeric(grouplines)){
       groupline_numbers <- grouplines
 
@@ -145,19 +134,19 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
       groupline_numbers <- get_groupline_index_by_pattern(grouplines, data)
     }
 
-    openxlsx::addStyle(wb,
-                       sheet = sheetname,
-                       style = style_leftline(),
-                       rows=data_start_row:data_end_row,
-                       cols = groupline_numbers,
-                       gridExpand = TRUE,
+    openxlsx::addStyle(wb, sheet = sheetname, style = style_leftline(),
+                       rows = data_start_row:data_end_row,
+                       cols = groupline_numbers, gridExpand = TRUE,
                        stack = TRUE)
   }
 
-  # minmale Spaltenbreite definieren
+  # Format
+  #---------
+
+  ## Set minimum column width
   options("openxlsx.minWidth" = 5)
 
-  # automatische Spaltenbreite
+  ## Use automatic column width
   openxlsx::setColWidths(wb, sheet = sheetname, cols = 1:spalten,
     widths = "auto", ignoreMergedCells = TRUE)
 }

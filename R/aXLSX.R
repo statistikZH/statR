@@ -1,10 +1,10 @@
 #' aXLSX()
 #'
+#' @description
 #' Function to export data from R to a formatted .xlsx-file.
-#'
-#' The data is exported
-#' to the first sheet. Metadata information is exported to the second sheet.
-#'
+#' @note
+#' The data is exported to the first sheet. Metadata information is exported
+#' to the second sheet.
 #' @param data data to be exported.
 #' @param file file name of the xlsx-file. The extension ".xlsx" is added automatically.
 #' @param title title to be put above the data in the worksheet.
@@ -29,20 +29,12 @@
 #'      author = "user")
 #' }
 #' }
-
-aXLSX <- function(data,
-  file,
-  title = "Title",
-  source = "statzh",
-  metadata = NA,
-  logo = "statzh",
-  grouplines = NA,
-  contactdetails = "statzh",
-  author = "user"
-){
+aXLSX <- function(data, file, title = "Title", source = "statzh",
+  metadata = NA, logo = "statzh", grouplines = NA,
+  contactdetails = "statzh", author = "user"){
 
   #create workbook
-  wb <- openxlsx::createWorkbook(paste(file))
+  wb <- openxlsx::createWorkbook()
 
   #insert data
   insert_worksheet_nh(data, wb, title = title, source = source,
@@ -54,6 +46,5 @@ aXLSX <- function(data,
     author = author)
 
   #save workbook
-  openxlsx::saveWorkbook(wb, prep_filename(file),
-                         overwrite = TRUE)
+  openxlsx::saveWorkbook(wb, prep_filename(file), overwrite = TRUE)
 }

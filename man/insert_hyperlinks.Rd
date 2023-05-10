@@ -2,7 +2,7 @@
 % Please edit documentation in R/insert_hyperlinks.R
 \name{insert_hyperlinks}
 \alias{insert_hyperlinks}
-\title{insert_hyperlinks}
+\title{insert_hyperlinks()}
 \usage{
 insert_hyperlinks(wb, sheetname, title, sheet_row)
 }
@@ -16,14 +16,9 @@ insert_hyperlinks(wb, sheetname, title, sheet_row)
 \item{sheet_row}{Sheet row}
 }
 \description{
-Description
+A short description...
 }
-\examples{
-\donttest{
-\dontrun{
-
+\details{
+Function for inserting hyperlinks within an openxlsx Workbook
 }
-}
-
-}
-\keyword{datasetsXLSX}
+\keyword{internal}

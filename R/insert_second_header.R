@@ -2,26 +2,24 @@
 #'
 #' Function to export data from R to a formatted .xlsx-file.
 #'
-#' The data is exported
-#' to the first sheet. Metadata information is exported to the second sheet.
-#'
-#' @param data data to be exported.
-#' @param file file name of the xlsx-file. The extension ".xlsx" is added automatically.
-#' @param title title to be put above the data in the worksheet.
-#' @template shared_parameters
-#' @keywords aXLSX
+#' @note
+#' The data is exported to the first sheet. Metadata information is exported to
+#' the second sheet.
+#' @param wb Workbook
+#' @param sheetname Sheet name
+#' @param data_start_row Row index for first row with data
+#' @param group_names Group names
+#' @param grouplines Group lines
+#' @param data Data
+#' @keywords internal
 #' @examples
 #' \donttest{
 #' \dontrun{
 #' # Beispiel anhand des Datensatzes 'mtcars'
 #'dat <- mtcars
 #'
-#'insert_second_header(wb,
-#' sheetname,
-#' data_start_row,
-#' group_names,
-#' grouplines,
-#' data)
+#'insert_second_header(wb, sheetname, data_start_row, group_names,
+#'  grouplines, data)
 #' }
 #' }
 insert_second_header <- function(wb, sheetname, data_start_row, group_names,

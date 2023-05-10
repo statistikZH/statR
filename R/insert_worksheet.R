@@ -1,8 +1,6 @@
 #' insert_worksheet()
 #'
 #' Function to  add formatted worksheets to an existing .xlsx-workbook.
-#' @description
-#'
 #' @note
 #' Marked for deprecation in upcoming version. The function does not write the
 #' result into a .xlsx file. A separate call to openxlsx::saveWorkbook() is

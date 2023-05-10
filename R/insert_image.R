@@ -1,77 +1,77 @@
 #' insert_worksheet_image()
-#'
 #' insert an image into a single worksheet
-#' @description
-#' The import
 #' @note
 #' The function does not write the result into a .xlsx file. A separate call
 #' to openxlsx::saveWorkbook() is required.
 #' @param image image or plot
-#' @param workbook workbook object to write new worksheet in
+#' @param wb workbook object to write new worksheet in
 #' @param sheetname  name of the sheet tab
 #' @param startrow row coordinate of upper left corner of figure
 #' @param startcol column coordinate of upper left corner of figure
 #' @param width width of figure
 #' @param height height of figure
+#' @export
 #' @importFrom grDevices png dev.off
-#' @keywords internal
+#' @importFrom methods is
+#' @importFrom openxlsx addWorksheet insertImage
+#' @importFrom ggplot2 ggsave
+#' @keywords insert_worksheet_image
 #' @examples
-#' # ggplot object
-#' #--------------
+#' library(ggplot2)
 #' wb <- openxlsx::createWorkbook()
 #'
 #' # Add a geom_histogram()
-#'
-#' figure1 <- ggplot(mtcars, aes(x = disp)) + geom_histogram()
+#' #--------------
+#' figure1 <- ggplot(mtcars, aes(x = disp)) +
+#'   geom_histogram()
 #'
 #' insert_worksheet_image(image = figure1, wb, sheetname = "ggplot image",
 #'   width = 3.5, height = 5.5)
 #'
 #' # Add a base histogram
-#' base_hist <- histogram(mtcars$disp)
+#' #--------------
+#' base_hist <- hist(mtcars$disp)
 #'
 #' insert_worksheet_image(image = base_hist, wb, sheetname = "Base histogram",
 #'   width = 3.5, height = 5.5)
 #'
 #' # Insert an existing image file
+#' #--------------
 #' image_path <- paste0(path.package("statR"), "/extdata/Stempel_Kanton_ZH.png")
 #'
 #' insert_worksheet_image(image = image_path, wb, sheetname = "Existing image",
 #'   width = 3.5, height = 5.5)
 #'
+#' # Export workbook
+#' #--------------
 #' \dontrun{
-#' openxlsx::saveWorkbook(export,"insert_worksheet_image.xlsx")
+#' openxlsx::saveWorkbook(wb,"insert_worksheet_image.xlsx")
 #' }
 #'
-insert_worksheet_image = function(
-  image,
-  wb,
-  sheetname,
-  width,
-  height
-){
-  openxlsx::addWorksheet(
-    wb,
-    sheetName = sheetname,
-    gridLines = FALSE)
+insert_worksheet_image <- function(image, wb, sheetname,
+                                   startrow = 1, startcol = 1,
+                                   width, height){
 
-  if (class(image) == "character" ){
+  openxlsx::addWorksheet(wb, sheetName = sheetname, gridLines = FALSE)
+
+  if (is(image, "character")){
     image_path <- image
 
-  } else if (class(image) %in% c("gg", "ggplot", "histogram")){
+  } else if (is(image, "gg") | is(image, "ggplot") | is(image, "histogram")){
 
     # Allocate temporary file of type png to save the image to
     image_path <- tempfile(fileext = ".png")
 
     # Handle case input object is of class histogram
-    if (class(image) == "histogram"){
-      png(
+    if (is(image, "histogram")){
+      grDevices::png(
         image_path,
         width = width,
         height = height,
-        units = "in")
+        units = "in",
+        res = 300)
       plot(image)
-      dev.off()
+      grDevices::dev.off()
 
     } else {
 

@@ -2,7 +2,9 @@
 % Please edit documentation in R/flush_left.r
 \name{flush_left}
 \alias{flush_left}
-\title{flush_left()}
+\title{flush_left():
+Function to flush title, subtitle and caption to the lefthand side of the
+graphics device}
 \usage{
 flush_left(g)
 }
@@ -10,14 +12,18 @@ flush_left(g)
 \item{g}{ggplot object}
 }
 \description{
-Function to flush title, subtitle and caption to the lefthand side of the graphics device
+flush_left():
+Function to flush title, subtitle and caption to the lefthand side of the
+graphics device
 }
 \examples{
-\dontrun{
-flush_left(ggplot(mtcars, aes( x = cyl))+
-geom_bar()+
-labs(title = "Titel", subtitle = "Untertitel", caption = "Datenquelle"))
+library(ggplot2)
+plt <- ggplot(mtcars, aes(x = cyl)) +
+  geom_bar() +
+  labs(title = "Cylinders", subtitle = "Bar chart",
+    caption = "mtcars")
+
+flush_left(plt)
 }
-}
-\keyword{flush}
-\keyword{left}
+\keyword{flush_left,}
+\keyword{ggplot}

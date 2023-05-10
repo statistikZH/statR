@@ -14,9 +14,9 @@
 #' @export
 #' @examples
 #' # Generation of a spreadsheet
-#' wb <- openxlsx::createWorkbook("hello")
-#'
-#' insert_metadata_sheet(wb, title = "Title of mtcars", metadata = c("Meta data information."))
+#' wb <- openxlsx::createWorkbook()
+#' insert_metadata_sheet(wb, title = "Title of mtcars",
+#'   metadata = c("Meta data information."))
 #' \dontrun{
 #' openxlsx::saveWorkbook(wb,"insert_metadata_sheet.xlsx")
 #' }
@@ -35,22 +35,16 @@ insert_metadata_sheet <- function(wb, sheetname = "Metadaten", title = "Title",
   ## Fill Excel -----------------
 
   ## Title
-  openxlsx::writeData(wb, sheet = sheetname,
-                      x = title,
-                      headerStyle = style_title(),
-                      startRow = 7)
+  openxlsx::writeData(wb, sheet = sheetname, x = title,
+                      headerStyle = style_title(), startRow = 7)
 
   ## Logo
   if(!is.null(logo)){
     logo <- prep_logo(logo)
 
     if (file.exists(logo)){
-      openxlsx::insertImage(wb,
-                            sheet = sheetname,
-                            file = logo,
-                            width = 2.145,
-                            height = 0.7865,
-                            units = "in")
+      openxlsx::insertImage(wb, sheet = sheetname, file = logo,
+                            width = 2.145, height = 0.7865, units = "in")
     } else {
       message("no logo found.")
     }
@@ -58,33 +52,20 @@ insert_metadata_sheet <- function(wb, sheetname = "Metadaten", title = "Title",
 
 
   ## Contact details
-  openxlsx::writeData(wb,
-                      sheet = sheetname,
-                      x = prep_contact(contactdetails),
-                      headerStyle = style_wrap(),
-                      startRow = 2,
-                      startCol = 12)
+  openxlsx::writeData(wb, sheet = sheetname, x = prep_contact(contactdetails),
+                      headerStyle = style_wrap(), startRow = 2, startCol = 12)
 
   ## Source
-  openxlsx::writeData(wb,
-                      sheet = sheetname,
-                      x = "Datenquelle:",
-                      headerStyle = style_subtitle,
-                      startRow = 9)
-  openxlsx::writeData(wb,
-                      sheet = sheetname,
-                      x = prep_source(source),
+  openxlsx::writeData(wb, sheet = sheetname, x = "Datenquelle:",
+                      headerStyle = style_subtitle, startRow = 9)
+  openxlsx::writeData(wb, sheet = sheetname, x = prep_source(source),
                       startRow = 10)
 
 
   ## Metadata
-  openxlsx::writeData(wb, sheet = sheetname,
-                      x = "Hinweise:",
-                      headerStyle = style_subtitle,
-                      startRow = 12)
-  openxlsx::writeData(wb,
-                      sheet = sheetname,
-                      x = prep_metadata(metadata),
+  openxlsx::writeData(wb, sheet = sheetname, x = "Hinweise:",
+                      headerStyle = style_subtitle, startRow = 12)
+  openxlsx::writeData(wb, sheet = sheetname, x = prep_metadata(metadata),
                       startRow = 13)
 
 
@@ -103,35 +84,20 @@ insert_metadata_sheet <- function(wb, sheetname = "Metadaten", title = "Title",
 
 
   ## Aktualisierungsdatum
-  openxlsx::writeData(wb,
-                      sheet = sheetname,
+  openxlsx::writeData(wb, sheet = sheetname,
                       x = paste("Aktualisiert am ",
                                 format(Sys.Date(), format="%d.%m.%Y"),
                                 " durch: ",
                                 contactperson),
-                      startRow = 5,
-                      startCol = 12)
+                      startRow = 5, startCol = 12)
 
   ## add formatting
-  openxlsx::addStyle(wb,
-                     sheet = sheetname,
-                     style_headerline(),
-                     rows = 5,
-                     cols = 1:26,
-                     gridExpand = TRUE,
-                     stack = TRUE)
-  openxlsx::addStyle(wb,
-                     sheet = sheetname,
-                     style_title(),
-                     rows = 7,
-                     cols = 1,
-                     gridExpand = TRUE)
-  openxlsx::addStyle(wb,
-                     sheet = sheetname,
-                     style = style_subtitle,
-                     rows = c(9, 12),
-                     cols = 1,
-                     gridExpand = TRUE)
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_headerline(),
+                     rows = 5, cols = 1:26, gridExpand = TRUE, stack = TRUE)
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_title(),
+                     rows = 7, cols = 1, gridExpand = TRUE)
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_subtitle,
+                     rows = c(9, 12), cols = 1, gridExpand = TRUE)
 
   ## remove gridlines
   openxlsx::showGridLines(wb, sheet = sheetname, showGridLines = FALSE)

@@ -36,10 +36,13 @@ insert_metadata_sheet(
 Function to  add formatted metadata information to an existing .xlsx-workbook.
 }
 \examples{
-
 # Generation of a spreadsheet
-wb <- openxlsx::createWorkbook("hello")
-
-insert_metadata_sheet(wb, title = "Title of mtcars", metadata = c("Meta data information."))
+wb <- openxlsx::createWorkbook()
+insert_metadata_sheet(wb, title = "Title of mtcars",
+  metadata = c("Meta data information."))
+\dontrun{
+openxlsx::saveWorkbook(wb,"insert_metadata_sheet.xlsx")
 }
-\keyword{insert_metadata_sheet}
+}
+\keyword{insert_metadata_sheet,}
+\keyword{openxlsx}

@@ -20,7 +20,7 @@ splitXLSX(
 \arguments{
 \item{data}{data to be exported.}
 
-\item{file}{file name of the xlsx-file. The extension ".xlsx" is added automatically.}
+\item{file}{file name of the output .xlsx-file. The extension is added automatically.}
 
 \item{sheetvar}{name of the variable used to split the data and spread them over several sheets.}
 
@@ -39,15 +39,20 @@ splitXLSX(
 \item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
-Function to export data from R as formatted .xlsx-file and spread them over several worksheets based on a grouping variable (e.g., year).
+A short description...
+}
+\details{
+Function to export data from R as formatted .xlsx-file and spread them over several worksheets
+based on a grouping variable (e.g., year).
+}
+\note{
+May be deprecated in upcoming version. User should make sure that the grouping variable is of
+binary, categorical or other types with a limited number of levels.
 }
 \examples{
-
-dat <- mtcars
-
-splitXLSX(data = dat,
+splitXLSX(data = mtcars,
          title = "Motor trend car road tests",
-         file = "motor_trend_car_road_tests", # '.xlsx' automatically added
+         file = "motor_trend_car_road_tests",
          sheetvar = cyl,
          source = "Source: Henderson and Velleman (1981),
          Building multiple regression models interactively.

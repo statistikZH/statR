@@ -36,22 +36,24 @@ quickXLSX(
 \item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
+A short description...
+}
+\details{
 Function to export data from R to a formatted .xlsx-spreadsheet.
 }
+\note{
+Will be deprecated in upcoming version.
+}
 \examples{
-# Beispiel anhand des Datensatzes 'mtcars'
-dat <- mtcars
 
-quickXLSX(data = dat,
+quickXLSX(data = mtcars,
          title = "Motor trend car road tests",
-         file = "motor_trend_car_road_tests", # '.xlsx' is automatically added
+         file = "motor_trend_car_road_tests",
          source = "Source: Henderson and Velleman (1981). Building multiple
-         regression models interactively.
-         Biometrics, 37, 391–411.",
+          regression models interactively. Biometrics, 37, 391–411.",
          metadata = c("The data was extracted from the 1974 Motor Trend US
-         magazine and comprises fuel
-         consumption and 10 aspects of automobile design and performance
-         for 32 automobiles (1973–74 models)."),
+          magazine and comprises fuel consumption and 10 aspects of automobile
+          design and performance for 32 automobiles (1973–74 models)."),
          contactdetails = "statzh",
          grouplines = FALSE,
          logo = "statzh",
