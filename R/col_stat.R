@@ -1,7 +1,8 @@
 # ------- Farbpaletten basierend auf Kantons-CI Farben ----------------
 
 #################### STAT ZH Farbpaletten
-
+#' stattheme_data
+#'
 #' Data used by the stat zh palettes
 #'
 #' @format A \code{list}.
@@ -193,26 +194,26 @@ stattheme_data <- {
 }
 
 
-# stattheme_pal()
-
 #' stattheme_pal()
 #'
 #' Stat ZH scales
+#' @importFrom scales manual_pal
 #' @keywords stattheme_pal
 #' @noRd
 #'
 
-#Funktion für Palettenauswahl (ord./kat.)
+stattheme_pal <- function(palette = "default"){
 
-stattheme_pal <- function(palette = "default") {
-  if (palette %in% names(x$stattheme_data)) {
+  if (palette %in% names(x$stattheme_data)){
     scales::manual_pal(unname( x$stattheme_data[[palette]]))
+
   } else {
     stop(sprintf("palette %s not a valid statZH palette.", palette))
   }
 }
 
 
+#' zhpal
 #' Data used by the stat zh palettes
 #'
 #' @format A \code{list}.

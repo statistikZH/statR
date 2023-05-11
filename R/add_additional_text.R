@@ -11,21 +11,13 @@
 #' @keywords internal
 add_additional_text <- function(wb, text, sheetname, start_row){
 
-  rows = c(seq(start_row, start_row+length(text)-1))
+  rows <- c(seq(start_row, start_row + length(text) - 1))
 
-  openxlsx::addStyle(wb,
-                     sheet = sheetname,
-                     style = style_subtitle(),
-                     rows = rows,
-                     cols = 1,
-                     gridExpand = TRUE)
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_subtitle(),
+                     rows = rows, cols = 1, gridExpand = TRUE)
 
-  openxlsx::writeData(wb,
-                      sheet = sheetname,
-                      x = text,
-                      colNames = F,
-                      headerStyle=style_subtitle(),
-                      startRow = start_row)
+  openxlsx::writeData(wb, sheet = sheetname, x = text, colNames = F,
+                      headerStyle = style_subtitle(), startRow = start_row)
 
   return(max(rows))
 }

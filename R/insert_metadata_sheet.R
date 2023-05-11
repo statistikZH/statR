@@ -28,17 +28,9 @@ insert_metadata_sheet <- function(wb, sheetname = "Metadaten", title = "Title",
   openxlsx::addWorksheet(wb, sheetName = sheetname)
 
 
-  # Style definitions ---------------------
+  ## Content
 
-  style_subtitle <- openxlsx::createStyle(fontSize = 12, textDecoration = "bold", fontName = "Arial")
-
-  ## Fill Excel -----------------
-
-  ## Title
-  openxlsx::writeData(wb, sheet = sheetname, x = title,
-                      headerStyle = style_title(), startRow = 7)
-
-  ## Logo
+  ### Logo ------------
   if(!is.null(logo)){
     logo <- prep_logo(logo)
 
@@ -50,26 +42,23 @@ insert_metadata_sheet <- function(wb, sheetname = "Metadaten", title = "Title",
     }
   }
 
-
-  ## Contact details
+  ### Contact details --------------
   openxlsx::writeData(wb, sheet = sheetname, x = prep_contact(contactdetails),
                       headerStyle = style_wrap(), startRow = 2, startCol = 12)
 
-  ## Source
-  openxlsx::writeData(wb, sheet = sheetname, x = "Datenquelle:",
-                      headerStyle = style_subtitle, startRow = 9)
-  openxlsx::writeData(wb, sheet = sheetname, x = prep_source(source),
-                      startRow = 10)
+  ### Title -----------------
+  openxlsx::writeData(wb, sheet = sheetname, x = title, headerStyle = style_title(), startRow = 7)
+
+  ### Source ------------
+  openxlsx::writeData(wb, sheet = sheetname, x = "Datenquelle:", headerStyle = style_subtitle2(), startRow = 9)
+  openxlsx::writeData(wb, sheet = sheetname, x = prep_source(source, prefix = NULL), startRow = 10)
+
+  ### Metadata ----------
+  openxlsx::writeData(wb, sheet = sheetname, x = "Hinweise:", headerStyle = style_subtitle2(), startRow = 12)
+  openxlsx::writeData(wb, sheet = sheetname, x = prep_metadata(metadata, prefix = NULL), startRow = 13)
 
 
-  ## Metadata
-  openxlsx::writeData(wb, sheet = sheetname, x = "Hinweise:",
-                      headerStyle = style_subtitle, startRow = 12)
-  openxlsx::writeData(wb, sheet = sheetname, x = prep_metadata(metadata),
-                      startRow = 13)
-
-
-  ## User
+  ### User -----------
   if (author == "user"){
     # for the local R setup
     if (Sys.getenv("USERNAME") != "") {
@@ -83,22 +72,21 @@ insert_metadata_sheet <- function(wb, sheetname = "Metadaten", title = "Title",
   }
 
 
-  ## Aktualisierungsdatum
+  ### Aktualisierungsdatum --------
   openxlsx::writeData(wb, sheet = sheetname,
-                      x = paste("Aktualisiert am ",
-                                format(Sys.Date(), format="%d.%m.%Y"),
-                                " durch: ",
-                                contactperson),
-                      startRow = 5, startCol = 12)
+                      x = paste(prep_creationdate(prefix = "Aktualisiert am:"),
+                                "durch:", contactperson), startRow = 5, startCol = 12)
 
-  ## add formatting
+  ## Format
+
+  ### add formatting ---------
   openxlsx::addStyle(wb, sheet = sheetname, style = style_headerline(),
                      rows = 5, cols = 1:26, gridExpand = TRUE, stack = TRUE)
   openxlsx::addStyle(wb, sheet = sheetname, style = style_title(),
                      rows = 7, cols = 1, gridExpand = TRUE)
-  openxlsx::addStyle(wb, sheet = sheetname, style = style_subtitle,
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_subtitle2(),
                      rows = c(9, 12), cols = 1, gridExpand = TRUE)
 
-  ## remove gridlines
+  ## Remove gridlines ----------
   openxlsx::showGridLines(wb, sheet = sheetname, showGridLines = FALSE)
 }

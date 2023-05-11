@@ -2,7 +2,9 @@
 #' insert an image into a single worksheet
 #' @note
 #' The function does not write the result into a .xlsx file. A separate call
-#' to openxlsx::saveWorkbook() is required.
+#' to openxlsx::saveWorkbook() is required. A temporary file is created when
+#' image refers to a gg, ggplot or histogram object. This file is deleted
+#' afterwards.
 #' @param image image or plot
 #' @param wb workbook object to write new worksheet in
 #' @param sheetname  name of the sheet tab
@@ -48,11 +50,8 @@
 #' openxlsx::saveWorkbook(wb,"insert_worksheet_image.xlsx")
 #' }
 #'
-insert_worksheet_image <- function(image, wb, sheetname,
-                                   startrow = 1, startcol = 1,
-                                   width, height){
-
-  openxlsx::addWorksheet(wb, sheetName = sheetname, gridLines = FALSE)
+insert_worksheet_image <- function(image, wb, sheetname, startrow = 3,
+                                   startcol = 3, width, height){
 
   if (is(image, "character")){
     image_path <- image
@@ -64,46 +63,35 @@ insert_worksheet_image <- function(image, wb, sheetname,
 
     # Handle case input object is of class histogram
     if (is(image, "histogram")){
-      grDevices::png(
-        image_path,
-        width = width,
-        height = height,
-        units = "in",
-        res = 300)
+      grDevices::png(image_path, width = width, height = height, units = "in",
+                     res = 300)
       plot(image)
       grDevices::dev.off()
 
     } else {
 
       # Handle case input object is of class gg or ggplot
-      ggplot2::ggsave(
-        image_path,
-        plot = image,
-        width = width,
-        height = height,
-        dpi = 300,
-        device = "png")
+      ggplot2::ggsave(image_path, plot = image, width = width, height = height,
+                      dpi = 300, device = "png")
     }
 
   } else {
     stop("Plot muss als ggplot Objekt oder als Filepath vorliegen.")
   }
 
-  # Insert image
-  openxlsx::insertImage(
-    wb = wb,
-    sheet = sheetname,
-    file = image_path,
-    width = width,
-    height = height,
-    startRow = 3,
-    startCol = 3,
-    units = "in",
-    dpi = 300
-  )
+  # Add new worksheet with image
+  #--------------
+  if (file.exists(image_path)){
+    openxlsx::addWorksheet(wb, sheetName = sheetname, gridLines = FALSE)
 
-  # Delete temporary file if necessary
-  if (!is.character(image)){
-    unlink(image_path)
+    openxlsx::insertImage(wb, sheet = sheetname, file = image_path,
+                          width = width, height = height, startRow = startrow,
+                          startCol = startcol, units = "in", dpi = 300)
+
+    if (!is.character(image)){
+      unlink(image_path)
+    }
+  } else {
+    warning("Image not found.")
   }
 }

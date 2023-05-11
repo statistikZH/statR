@@ -41,7 +41,7 @@ splitXLSX <- function(data, file, sheetvar, title = "Titel", source = "statzh",
   col_name <- rlang::enquo(sheetvar)
 
   # create workbook
-  wb <- openxlsx::createWorkbook(file)
+  wb <- openxlsx::createWorkbook()
 
   # get values of the variable that is used to split the data
   sheetvalues <- unique(data[, c(deparse(substitute(sheetvar)))])
@@ -51,14 +51,16 @@ splitXLSX <- function(data, file, sheetvar, title = "Titel", source = "statzh",
 
     # get data into worksheets
     insert_worksheet(as.data.frame(data %>% dplyr::filter((!!col_name) ==
-                                                            sheetvalue) %>% ungroup()), wb, sheetname = sheetvalue,
+                                                            sheetvalue) %>% ungroup()),
+                     wb,
+                     sheetname = sheetvalue,
                      #shared params
-                     title=paste0(title, " (", deparse(substitute(sheetvar)), ": ", sheetvalue, ")"),
-                     source=source,
+                     title = paste0(title, " (", deparse(substitute(sheetvar)), ": ", sheetvalue, ")"),
+                     source = source,
                      metadata = metadata,
-                     logo=logo,
+                     logo = logo,
                      grouplines = grouplines,
-                     contactdetails=contactdetails,
+                     contactdetails = contactdetails,
                      author = author)
 
 
@@ -72,9 +74,3 @@ splitXLSX <- function(data, file, sheetvar, title = "Titel", source = "statzh",
   openxlsx::saveWorkbook(wb, prep_filename(file), overwrite = TRUE)
 
 }
-
-
-
-
-
-

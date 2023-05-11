@@ -105,7 +105,7 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
 
   ## Data
   openxlsx::addStyle(wb, sheet = sheetname, style = style_header(),
-                     rows = data_start_row, cols = 1:spalten,
+                     rows = data_start_row, cols = seq_along(colnames(data)),
                      gridExpand = TRUE, stack = TRUE)
 
   openxlsx::writeData(wb, sheet = sheetname,
@@ -114,17 +114,17 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
                       withFilter = FALSE)
 
   ## Grouplines
-  if(is.null(grouplines)){
+  if (is.null(grouplines)){
     grouplines <- NA
   }
 
   if (any(!is.na(grouplines))){
     if (!any(is.na(group_names))){
       data_start_row <- data_start_row - 1
-      data_end_row <- nrow(data)+data_start_row +1
+      data_end_row <- nrow(data) + data_start_row + 1
 
     } else {
-      data_end_row <- nrow(data)+data_start_row
+      data_end_row <- nrow(data) + data_start_row
     }
 
     if (is.numeric(grouplines)){
@@ -147,6 +147,6 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
   options("openxlsx.minWidth" = 5)
 
   ## Use automatic column width
-  openxlsx::setColWidths(wb, sheet = sheetname, cols = 1:spalten,
+  openxlsx::setColWidths(wb, sheet = sheetname, cols = seq_along(colnames(data)),
     widths = "auto", ignoreMergedCells = TRUE)
 }
