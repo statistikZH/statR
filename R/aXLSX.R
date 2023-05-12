@@ -1,15 +1,21 @@
 #' aXLSX()
 #'
-#' Function to export data from R to a formatted .xlsx-file.
-#' @note
-#' The data is exported to the first sheet. Metadata information is exported
-#' to the second sheet.
+#' @description Function to export data from R to a formatted .xlsx-file. The
+#'  data is exported to the first sheet. Metadata information is exported to
+#'  the second sheet.
+#'
 #' @param data data to be exported.
+#'
 #' @param file file name of the xlsx-file. The extension ".xlsx" is added automatically.
+#'
 #' @param title title to be put above the data in the worksheet.
+#'
 #' @template shared_parameters
+#'
 #' @keywords aXLSX
+#'
 #' @export
+#'
 #' @examples
 #' dataset <- mtcars
 #' source_string <- paste("Source: Henderson and Velleman (1981).",
@@ -33,22 +39,23 @@
 #'       author = "user")
 #' }
 #' }
-aXLSX <- function(data, file, title = "Title", source = "statzh",
-  metadata = NA, logo = "statzh", grouplines = NA,
-  contactdetails = "statzh", author = "user"){
+aXLSX <- function(data, file, title = "Title", source = "statzh", metadata = NA,
+                  logo = "statzh", grouplines = NA, contactdetails = "statzh",
+                  author = "user"){
 
-  #create workbook
+  ## Initialize Workbook object
   wb <- openxlsx::createWorkbook()
 
-  #insert data
-  insert_worksheet_nh(data, wb, title = title, source = source,
-    metadata = NA, grouplines = grouplines)
+  ## Content
+  ### insert data -----
+  insert_worksheet_nh(data, wb, title = title, source = source, metadata = NA,
+                      grouplines = grouplines)
 
-  # insert metadata
-  insert_metadata_sheet(wb, title = title, source = source,
-    metadata = metadata, logo = logo, contactdetails = contactdetails,
-    author = author)
+  ### insert metadata -------
+  insert_metadata_sheet(wb, title = title, source = source, metadata = metadata,
+                        logo = logo, contactdetails = contactdetails,
+                        author = author)
 
-  #save workbook
+  ## Write workbook to disk
   openxlsx::saveWorkbook(wb, prep_filename(file), overwrite = TRUE)
 }

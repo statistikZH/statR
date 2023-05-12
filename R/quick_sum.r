@@ -1,29 +1,45 @@
 #' quick_sum()
 #'
-#' Function for simple (grouped) descriptive analyses.
+#' @description Function for simple (grouped) descriptive analyses.
 #'
-#' If stats is set to "all" (the default), the following descriptive statistics are computed per category of the grouping variable(s): mean, standard deviation,
-#' 10\%-quantile, 25\%-quantile, median, 75\%-quantile, 90\%-quantile.
-#' If stats is set to "base", the mean, 25\%-quantile, median, and 75\%-quantile are returned.
-#' stats = "mean" computes the mean and the standard deviation.
+#' @details If stats is set to "all" (the default), the following descriptive
+#'  statistics are computed per category of the grouping variable(s): mean,
+#'  standard deviation, 10\%-quantile, 25\%-quantile, median, 75\%-quantile,
+#'  90\%-quantile.
 #'
-#' If protect is set to TRUE, the mean and the median is only computed for variables/variable categories with four or more observations. For <4 observations, the function returns NA for the respective variable/category. The other descriptives are only computed if there are at least 6 observations per variable (category).
+#'  If stats is set to "base", the mean, 25\%-quantile, median, and 75\%-quantile
+#'  are returned.
+#'
+#'  stats = "mean" computes the mean and the standard deviation.
+#'
+#'  If protect is set to TRUE, the mean and the median is only computed for
+#'  variables/variable categories with four or more observations. For <4
+#'  observations, the function returns NA for the respective variable/category.
+#'  The other descriptives are only computed if there are at least 6 observations
+#'  per variable (category).
 #'
 #' @param df dataframe
+#'
 #' @param var variables to be aggregated
+#'
 #' @param ... grouping variables
-#' @param stats Which descriptive statistics should be computed? Can be "all", "base", or "mean". See details.
+#'
+#' @param stats Which descriptive statistics should be computed? Can be "all",
+#'  "base", or "mean". See details.
+#'
 #' @param protect Apply data protection, can be TRUE or FALSE. See details.
+#'
 #' @keywords quick_sum
+#'
 #' @importFrom dplyr ungroup summarize group_by n
 #' @importFrom stats median quantile sd
 #' @importFrom rlang :=
-#' @export
-#' @examples
 #'
+#' @export
+#'
+#' @examples
 #' quick_sum(df=mtcars, var=cyl, mpg, vs, stats="all", protect=FALSE)
-
-
+#'
 quick_sum <- function(df, var, ..., stats = "all", protect = FALSE){
   if (!stats %in% c("mean", "base", "all")){
     stop("Please choose one of the following stats arguments: all, base, mean")

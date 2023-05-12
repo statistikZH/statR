@@ -17,7 +17,6 @@ insert_index_sheet <- function(wb, logo, contact, homepage, openinghours,
   openxlsx::addWorksheet(wb, sheetName = "Inhalt")
 
   ## Insert content
-  #-----------
 
   ### Logo -------------
   if (!is.null(logo)){

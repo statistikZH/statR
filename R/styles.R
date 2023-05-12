@@ -26,8 +26,12 @@ style_subtitle2 <- function(){
   openxlsx::createStyle(fontSize = 12, textDecoration = "bold", fontName = "Arial")
 }
 
+style_subtitle3 <- function(){
+  openxlsx::createStyle(fontSize = 12, textDecoration = "italic", fontName = "Arial")
+}
+
 hyperlinkStyle <- function(){
-  openxlsx::createStyle(fontName = "Calibri", fontSize = 11, fontColour = "blue",
+  openxlsx::createStyle(fontSize = 11, fontName = "Calibri", fontColour = "blue",
                         textDecoration = "underline")
 }
 
@@ -36,15 +40,22 @@ style_header <- function(){
     halign = "left", border="Bottom", borderColour = "#009ee0", textDecoration = "bold")
 }
 
+
+# Linien --------------
 style_headerline <- function(){
   openxlsx::createStyle(border = "Bottom", borderColour = "#009ee0",
                         borderStyle = getOption("openxlsx.borderStyle", "thick"))
+}
+
+style_bottomline <- function(){
+  openxlsx::createStyle(border="Bottom", borderColour = "#009ee0")
 }
 
 style_leftline <- function(){
   openxlsx::createStyle(border = "Left", borderColour = "#009ee0")
 }
 
+# Linewrap text ---------
 style_wrap <- function() {
   openxlsx::createStyle(wrapText = TRUE)
 }

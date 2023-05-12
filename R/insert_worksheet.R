@@ -1,20 +1,36 @@
 #' insert_worksheet()
 #'
-#' Function to  add formatted worksheets to an existing .xlsx-workbook.
-#' @note
-#' Marked for deprecation in upcoming version. The function does not write the
-#' result into a .xlsx file. A separate call to openxlsx::saveWorkbook() is
-#' required.
+#' @description Function to  add formatted worksheets to an existing
+#'  .xlsx-workbook.
+#'
+#' @note Marked for deprecation in upcoming version. The function does not write
+#'  the result into a .xlsx file. A separate call to openxlsx::saveWorkbook() is
+#'  required.
+#'
 #' @param data data to be included.
+#'
 #' @param workbook workbook object to add new worksheet to.
+#'
 #' @param title title to be put above the data.
+#'
 #' @param sheetname name of the sheet tab.
+#'
 #' @param source source of the data. Defaults to "statzh".
+#'
 #' @param metadata metadata information to be included. Defaults to NA.
-#' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
-#' @param contactdetails contact details of the data publisher. Defaults to "statzh".
-#' @param grouplines defaults to FALSE. Can be used to separate grouped variables visually.
-#' @param author defaults to the last two letters (initials) or numbers of the internal user name.
+#'
+#' @param logo path of the file to be included as logo (png / jpeg / svg).
+#'  Defaults to "statzh"
+#'
+#' @param contactdetails contact details of the data publisher. Defaults to
+#'  "statzh".
+#'
+#' @param grouplines defaults to FALSE. Can be used to separate grouped
+#'  variables visually.
+#'
+#' @param author defaults to the last two letters (initials) or numbers of the
+#'  internal user name.
+#'
 #' @importFrom dplyr "%>%"
 #' @keywords insert_worksheet
 #' @export
@@ -23,126 +39,80 @@
 #' # Generation of a spreadsheet
 #' wb <- openxlsx::createWorkbook("hello")
 #'
-#' insert_worksheet(data = mtcars[c(1:10),], workbook = wb, title = "mtcars", sheetname = "carb")
-
-
-insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
-                             source="statzh", metadata = NA, logo= "statzh",
-                             grouplines = FALSE, contactdetails="statzh",
+#' insert_worksheet(data = head(mtcars), workbook = wb, title = "mtcars",
+#'  sheetname = "carb")
+#'
+insert_worksheet <- function(data, workbook, sheetname = "data", title = "Title",
+                             source = "statzh", metadata = NA, logo = "statzh",
+                             grouplines = FALSE, contactdetails = "statzh",
                              author = "user"){
-
-  # Metadata
-  remarks <- if (any(is.na(metadata))) {
-    "Bemerkungen:"
-  }
-  else if (any(metadata == "HAE")) {
-    "Die Zahlen der letzten drei Jahre sind provisorisch."
-  }
-  else {
-    metadata
-  }
-
-
-  #Zahlenformat: Tausendertrennzeichen
-  # options("openxlsx.numFmt" = "#,###0")
-
-  #extrahiere colname
-  # col_name <- rlang::enquo(sheetvar)
-
-  wb <- workbook
-
-  # data-container from row 5
-  n_metadata <- length(metadata)
-
-  datenbereich = 9 + n_metadata + 3
-
-  #define width of the area in which data is contained for formatting
-  spalten = ncol(data)
-
-  # increase width of colnames for better auto-fitting of column width
-  colnames(data) <- paste0(colnames(data), "  ", sep = "")
-
-  #position of contact details
-  contact <- if(spalten >= 6){
-    spalten-2
-  } else {
-    4
-  }
-
-  #styles
-  titleStyle <- openxlsx::createStyle(fontSize=14, textDecoration="bold",fontName="Arial")
-
-  subtitle <- openxlsx::createStyle(fontSize=12, textDecoration="italic",fontName="Arial")
-
-  header <- openxlsx::createStyle(fontSize = 12, fontColour = "#000000",  halign = "left", border="Bottom",  borderColour = "#009ee0",textDecoration = "bold")
-
-  # header1 <- createStyle(fontSize = 14, fontColour = "#FFFFFF", halign = "center",
-  #                        fgFill = "#3F98CC", border="TopBottom", borderColour = "#4F81BD")
-
-  # header2 <- createStyle(fontSize = 12, fontColour = "#FFFFFF", halign = "center",
-  #                        fgFill = "#407B9F", border="TopBottom", borderColour = "#4F81BD")
-
-  headerline <- openxlsx::createStyle(border="Bottom", borderColour = "#009ee0",borderStyle = getOption("openxlsx.borderStyle", "thick"))
-
-  #Linien
-  bottomline <- openxlsx::createStyle(border="Bottom", borderColour = "#009ee0")
-
-  leftline <- openxlsx::createStyle(border="Left", borderColour = "#4F81BD")
-
-  #wrap
-  wrap <- openxlsx::createStyle(wrapText = TRUE)
-
 
   # Check length of sheetname
   sheetname <- check_sheetname(sheetname)
 
-  ## Add worksheet
-  openxlsx::addWorksheet(wb, sheetname)
+  # Add worksheet
+  openxlsx::addWorksheet(workbook, sheetname)
 
 
-  # Style ---------------------
+  # Process input ----------
 
-  #title,subtitle & Header
+  ## Contactdetails & position
+  contactdetails <- prep_contact(contactdetails, compact = TRUE)
+  contact_pos <- max(ncol(data) - 2, 4)
 
+  ## Source information
+  source <- prep_source(source)
 
-  # Titel & Untertitel -----------------
+  ## Metadata
 
-  ### Logo
+  if (any(is.na(metadata))) {
+    remarks <- "Bemerkungen:"
+  } else if (any(metadata == "HAE")) {
+    remarks <- "Die Zahlen der letzten drei Jahre sind provisorisch."
+  } else {
+    remarks <- metadata
+  }
 
+  #--------
+  # Insert content
+
+  ## Logo
   if (!is.null(logo)){
     logo <- prep_logo(logo)
 
     if (file.exists(logo)){
-      openxlsx::insertImage(wb, sheet = "Inhalt", file = logo, width = 2.145,
+      openxlsx::insertImage(workbook, sheet = "Inhalt", file = logo, width = 2.145,
                             height = 0.7865, units = "in")
     } else {
       message("no logo found.")
     }
   }
 
-  # Standard contactdetails
-  contactdetails <- prep_contact(contactdetails, compact = TRUE)
-  source <- prep_source(source)
+  ## Titel
+  openxlsx::writeData(workbook, sheet = sheetname, x = title, startRow = 7,
+                      headerStyle = style_title())
 
+  n_metadata <- length(metadata)
+  datenbereich <- 9 + n_metadata + 3
+  openxlsx::writeData(workbook, sheet = sheetname, x = metadata, startRow = 8,
+                      headerStyle = style_subtitle3())
 
-  #Titel
-  openxlsx::writeData(wb, sheet = sheetname,title, headerStyle=titleStyle,startRow = 7)
-
-  ##Metadata
-  openxlsx::writeData(wb, sheet = sheetname, metadata, headerStyle=subtitle, startRow = 8)
-
-
-  ##Quelle
-  openxlsx::writeData(wb, sheet = sheetname, source, headerStyle=subtitle, startRow = 8+n_metadata)
+  ### Quelle
+  openxlsx::writeData(workbook, sheet = sheetname, x = source, startRow = 8 + n_metadata,
+                      headerStyle = style_subtitle3())
 
   # Metadaten zusammenmergen
-  purrr::walk(7:(7+length(metadata)+length(source)), ~openxlsx::mergeCells(wb, sheet = sheetname, cols = 1:26, rows = .))
-  # Kontaktdaten zusammenmergen
-  purrr::walk(2:5, ~openxlsx::mergeCells(wb, sheet = sheetname, cols = contact:26, rows = .))
+  purrr::walk(7:(7 + length(metadata) + length(source)),
+              ~openxlsx::mergeCells(wb, sheet = sheetname, cols = 1:26, rows = .))
 
+  ### Contact information
+  purrr::walk(2:5, ~openxlsx::mergeCells(wb, sheet = sheetname,
+                                         cols = contact_pos:26, rows = .))
 
-  #Kontakt
-  openxlsx::writeData(wb, sheet = sheetname, contactdetails, headerStyle = wrap, startRow = 2, startCol = contact)
+  openxlsx::writeData(wb, sheet = sheetname, x = contactdetails,
+                      startCol = contact_pos, startRow = 2, headerStyle = style_wrap())
+
+  ### Aktualisierungsdatum
 
   # User-K\u00fcrzel f\u00fcr Kontaktinformationen
   if(author == "user"){
@@ -157,40 +127,52 @@ insert_worksheet <- function(data, workbook, sheetname="data",title="Title",
     contactperson <- author
   }
 
-  #Aktualisierungsdatum
-  openxlsx::writeData(wb, sheet = sheetname, paste("Aktualisiert am ",
-                                           format(Sys.Date(), format="%d.%m.%Y"),
-                                           " durch: ", contactperson),
-                      headerStyle = subtitle, startRow = 5,
-                      startCol = contact)
+  openxlsx::writeData(wb, sheet = sheetname,
+                      x = paste(prep_creationdate("Aktualisiert am"),
+                                           "durch:", contactperson),
+                      startCol = contact_pos, startRow = 5,
+                      headerStyle = style_subtitle3())
 
-  # Daten abf\u00fcllen
-  openxlsx::writeData(wb, sheet = sheetname, x = as.data.frame(data%>%dplyr::ungroup()),
-                      rowNames = FALSE, startRow = datenbereich, withFilter = FALSE)
+  # Insert data --------
 
+  ## increase width of colnames for better auto-fitting of column width
+  colnames(data) <- paste0(colnames(data), "  ", sep = "")
 
-  #F\u00fcge Formatierungen ein
+  openxlsx::writeData(wb, sheet = sheetname,
+                      x = as.data.frame(data %>% dplyr::ungroup()),
+                      startRow = datenbereich, rowNames = FALSE,
+                      withFilter = FALSE)
 
-  openxlsx::addStyle(wb, sheet = sheetname, headerline, rows = 5, cols = 1:spalten, gridExpand = TRUE,stack = TRUE)
+  #-----------------------
+  # Apply styles
 
-  openxlsx::addStyle(wb, sheet = sheetname, titleStyle, rows = 7, cols = 1, gridExpand = TRUE)
+  ## Title
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_title(),
+                     rows = 7, cols = 1, gridExpand = TRUE)
 
-  # addStyle(wb, sheet = sheetname, header1, rows = datenbereich, cols = 1:spalten, gridExpand = TRUE,stack = TRUE)
+  ## Data header
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_header(),
+                     rows = datenbereich, cols = 1:ncol(data),
+                     gridExpand = TRUE, stack = TRUE)
 
-  openxlsx::addStyle(wb, sheet = sheetname, header, rows = datenbereich, cols = 1:spalten, gridExpand = TRUE,stack = TRUE)
+  ## Headerline
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_headerline(),
+                     rows = 5, cols = 1:ncol(data), gridExpand = TRUE,
+                     stack = TRUE)
 
+  ## Grouplines
   if (!is.null(grouplines)){
     datenbereich_end <- nrow(data) + datenbereich
 
-    openxlsx::addStyle(wb, sheet = sheetname, leftline,
+    openxlsx::addStyle(wb, sheet = sheetname, style = style_leftline(),
                        rows = datenbereich:datenbereich_end,
                        cols = grouplines, gridExpand = TRUE, stack = TRUE)
   }
 
-  # minmale Spaltenbreite definieren
+  ## minmale Spaltenbreite definieren
   options("openxlsx.minWidth" = 5)
 
-  # automatische Zellenspalten
-  openxlsx::setColWidths(wb, sheet = sheetname, cols = seq_along(colnames(data)),
+  ## automatische Zellenspalten
+  openxlsx::setColWidths(wb, sheet = sheetname, cols = 1:ncol(data),
                          widths = "auto", ignoreMergedCells = TRUE)
 }

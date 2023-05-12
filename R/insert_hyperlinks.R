@@ -1,10 +1,15 @@
 #' insert_hyperlinks()
 #'
-#' Function for inserting hyperlinks within an openxlsx Workbook
-#' @param wb Worksheet
+#' @description Function for inserting hyperlinks within an openxlsx Workbook
+#'
+#' @param wb Workbook object
+#'
 #' @param sheetname Name of sheet
+#'
 #' @param title Title
+#'
 #' @param sheet_row Sheet row
+#'
 #' @keywords internal
 #'
 insert_hyperlinks <- function(wb, sheetname, title, sheet_row){

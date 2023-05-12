@@ -1,23 +1,36 @@
 #' insert_worksheet_nh
 #'
-#' Function to add formatted worksheets without headers to an existing workbook
-#' @note
-#' The function does not write the result into a .xlsx file. A separate call
-#' to openxlsx::saveWorkbook() is required.
+#' @description Function to add formatted worksheets without headers to an
+#'  existing workbook
+#'
+#' @note The function does not write the result into a .xlsx file. A separate
+#'  call to `openxlsx::saveWorkbook()` is required.
+#'
 #' @param data data to be included in the XLSX-table.
+#'
 #' @param wb workbook object to write new worksheet in.
+#'
 #' @param title title of the table and the sheet
+#'
 #' @param sheetname name of the sheet-tab.
+#'
 #' @param source source of the data. Defaults to "statzh".
+#'
 #' @param metadata metadata-information to be included. Defaults to NA.
+#'
 #' @param grouplines defaults to NA. Can be used to separate grouped variables visually.
-#' @param group_names Name(s) of the second header(s). Format: List e.g list(c("title 1", "title 2", "title 3"))
+#'
+#' @param group_names Name(s) of the second header(s).
+#'  Format: List e.g list(c("title 1", "title 2", "title 3"))
+#'
 #' @keywords insert_worksheet, openxlsx
-#' @export
+#'
 #' @importFrom dplyr "%>%"
 #' @importFrom purrr walk
-#' @examples
 #'
+#' @export
+#'
+#' @examples
 #' ## Create workbook
 #' export <- openxlsx::createWorkbook()
 #'
@@ -29,7 +42,6 @@
 #' insert_worksheet_nh(tail(mtcars), export, "data2",
 #'   title = "Title", source = "statzh", metadata = "Note: ...")
 #'
-#'
 #' ## insert a worksheet with group lines and second header
 #' insert_worksheet_nh(data = head(mtcars), wb = export,
 #'   title = "grouplines", source = "statzh", metadata = "Note: ...",
@@ -39,12 +51,8 @@
 #' ## save workbook
 #'  openxlsx::saveWorkbook(export,"example.xlsx")
 #' }
-
 insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
   source = "statzh", metadata = NA, grouplines = NA, group_names = NA){
-
-  # number of data columns
-  spalten <- ncol(data)
 
   # increase width of column names for better auto-fitting of column width
   colnames(data) <- paste0(colnames(data), "  ", sep = "")
@@ -60,10 +68,8 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
   #---------
 
   ## Title
-  openxlsx::addStyle(wb, sheet = sheetname, style = style_title(),
-                     rows = 1, cols = 1)
   openxlsx::writeData(wb, sheet = sheetname, x = title,
-                      headerStyle=style_title(), startRow = 1)
+                      headerStyle = style_title(), startRow = 1)
 
   ## Source
   sources_to_insert <- prep_source(source)
@@ -87,10 +93,7 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
 
   ### Metadaten zusammenmergen
   purrr::walk(1:merge_end_row,
-              ~openxlsx::mergeCells(wb,
-                                    sheet = sheetname,
-                                    cols = 1:26,
-                                    rows = .))
+              ~openxlsx::mergeCells(wb, sheet = sheetname, cols = 1:26, rows = .))
 
   ## Insert second header
   if (any(is.null(group_names))){
@@ -104,14 +107,22 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
   }
 
   ## Data
-  openxlsx::addStyle(wb, sheet = sheetname, style = style_header(),
-                     rows = data_start_row, cols = seq_along(colnames(data)),
-                     gridExpand = TRUE, stack = TRUE)
-
   openxlsx::writeData(wb, sheet = sheetname,
                       x = as.data.frame(dplyr::ungroup(data)),
                       rowNames = FALSE, startRow = data_start_row,
                       withFilter = FALSE)
+
+  #-----------------------
+  # Apply styles
+
+  ## Title
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_title(),
+                     rows = 1, cols = 1)
+
+  ## Data header
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_header(),
+                     rows = data_start_row, cols = 1:ncol(data),
+                     gridExpand = TRUE, stack = TRUE)
 
   ## Grouplines
   if (is.null(grouplines)){
@@ -130,7 +141,7 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
     if (is.numeric(grouplines)){
       groupline_numbers <- grouplines
 
-    } else if(is.character(grouplines)){
+    } else if (is.character(grouplines)){
       groupline_numbers <- get_groupline_index_by_pattern(grouplines, data)
     }
 
@@ -147,6 +158,6 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
   options("openxlsx.minWidth" = 5)
 
   ## Use automatic column width
-  openxlsx::setColWidths(wb, sheet = sheetname, cols = seq_along(colnames(data)),
+  openxlsx::setColWidths(wb, sheet = sheetname, cols = 1:ncol(data),
     widths = "auto", ignoreMergedCells = TRUE)
 }

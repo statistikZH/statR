@@ -1,16 +1,19 @@
 #' insert_second_header()
 #'
-#' Function to export data from R to a formatted .xlsx-file.
+#' @description Function to add a second header row
 #'
-#' @note
-#' The data is exported to the first sheet. Metadata information is exported to
-#' the second sheet.
 #' @param wb Workbook
+#'
 #' @param sheetname Sheet name
+#'
 #' @param data_start_row Row index for first row with data
+#'
 #' @param group_names Group names
+#'
 #' @param grouplines Group lines
+#'
 #' @param data Data
+#'
 #' @keywords internal
 #' @examples
 #' \donttest{
@@ -32,20 +35,12 @@ insert_second_header <- function(wb, sheetname, data_start_row, group_names,
     groupline_numbers <- grouplines
   }
 
-  openxlsx::addStyle(wb,
-                     sheet = sheetname,
-                     style = style_header(),
-                     rows = data_start_row,
-                     cols = 1:ncol(data)
-  )
+  # Write data -------
+  purrr::walk2(groupline_numbers, group_names,
+               ~openxlsx::writeData(wb, sheet = sheetname, x = .y, startCol = .x,
+                                    colNames = FALSE, startRow = data_start_row))
 
-  purrr::walk2(groupline_numbers,
-               group_names,
-               ~openxlsx::writeData(wb,
-                                    sheet = sheetname,
-                                    x = .y,
-                                    startCol = .x,
-                                    colNames = F,
-                                    startRow = data_start_row)
-  )
+  # Apply style ---------
+  openxlsx::addStyle(wb, sheet = sheetname, style = style_header(),
+                     rows = data_start_row, cols = 1:ncol(data))
 }
