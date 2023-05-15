@@ -96,7 +96,7 @@ prep_filename <- function(filename, extension = ".xlsx"){
 #' @keywords internal
 #' @noRd
 #'
-prep_source <- function(source, prefix = "Quelle: ", sep = ";"){
+prep_source <- function(source){
 
   # Replace "statzh" entries
   source <- sub("statzh", statzh_name, source)
@@ -265,4 +265,29 @@ prep_creationdate <- function(prefix = "Erstellt am:", date_format = "%d.%m.%Y")
 prep_orderid <- function(order_id, prefix = "Auftragsnr.:"){
 
   return(paste(prefix, order_id))
+}
+
+
+#-----------------
+#' prep_username()
+#'
+#' @param author Name of author
+#' @returns A character string with the username
+#' @keywords internal
+#' @noRd
+#'
+prep_username <- function(author){
+
+  if (author != "user"){
+    return(author)
+  }
+
+  if(Sys.getenv("USERNAME") != ""){
+    author <- stringr::str_sub(Sys.getenv("USERNAME"), start = 6, end = 7)
+
+  } else {
+    author <- stringr::str_sub(Sys.getenv("USER"), start = 6, end = 7)
+  }
+
+  return(author)
 }

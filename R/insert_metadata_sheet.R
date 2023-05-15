@@ -58,24 +58,12 @@ insert_metadata_sheet <- function(wb, sheetname = "Metadaten", title = "Title",
   openxlsx::writeData(wb, sheet = sheetname, x = prep_metadata(metadata, prefix = NULL), startRow = 13)
 
 
-  ### User -----------
-  if (author == "user"){
-    # for the local R setup
-    if (Sys.getenv("USERNAME") != "") {
-      contactperson <- stringr::str_sub(Sys.getenv("USERNAME"), start = 6, end = 7)
-    } else {
-      # for the R server setup
-      contactperson <- stringr::str_sub(Sys.getenv("USER"), start = 6, end = 7)
-    }
-  } else {
-    contactperson <- author
-  }
-
 
   ### Aktualisierungsdatum --------
   openxlsx::writeData(wb, sheet = sheetname,
                       x = paste(prep_creationdate(prefix = "Aktualisiert am:"),
-                                "durch:", contactperson), startRow = 5, startCol = 12)
+                                "durch:", prep_username(author)),
+                      startRow = 5, startCol = 12)
 
   ## Format
 

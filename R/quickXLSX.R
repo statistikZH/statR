@@ -33,7 +33,6 @@ quickXLSX <- function(data = NA, file, title = "Title", source = "statzh",
                       metadata = NA, logo = "statzh", grouplines = FALSE,
                       contactdetails = "statzh", author = "user"){
 
-  warning("Deprecation")
   # Create workbook
   wb <- openxlsx::createWorkbook()
 

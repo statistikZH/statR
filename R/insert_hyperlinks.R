@@ -13,15 +13,12 @@
 #' @keywords internal
 #'
 insert_hyperlinks <- function(wb, sheetname, title, sheet_row){
-  openxlsx::writeData(wb, sheet = "Inhalt", x = title,
-    xy = c("C", sheet_row))
+  openxlsx::writeData(wb, sheet = "Inhalt", x = title, xy = c("C", sheet_row))
 
-  openxlsx::addStyle(wb, sheet = "Inhalt",
-    style = hyperlinkStyle(), rows = sheet_row,
-    cols = 3)
+  openxlsx::addStyle(wb, sheet = "Inhalt", style = hyperlinkStyle(),
+                     rows = sheet_row, cols = 3)
 
-  openxlsx::mergeCells(wb, sheet = "Inhalt", cols = 3:8,
-    rows = sheet_row)
+  openxlsx::mergeCells(wb, sheet = "Inhalt", rows = sheet_row, cols = 3:8)
 
   worksheet <- wb$sheetOrder[1]
 

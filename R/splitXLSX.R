@@ -42,7 +42,6 @@
 splitXLSX <- function(data, file, sheetvar, title = "Titel", source = "statzh",
                       metadata = NA, logo = "statzh", grouplines = FALSE,
                       contactdetails = "statzh", author = "user"){
-  warning("Deprecation")
 
   # create workbook
   wb <- openxlsx::createWorkbook()
