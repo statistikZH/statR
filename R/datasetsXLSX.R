@@ -130,11 +130,14 @@ datasetsXLSX <- function(file, datasets, titles, plot_widths = NULL,
     stop("if a second header is wanted, the grouplines have to be specified")
   }
 
+  # Initialize new Workbook ------
   wb <- openxlsx::createWorkbook()
 
-  # Determine which elements of input list datasets correspond to dataframes.
+
+  # Determine which elements of input list datasets correspond to dataframes. -------
   dataframes_index <- which(vapply(datasets, is.data.frame, TRUE))
 
+  # Index from input lists using dataframes_index -----------
   dataframe_datasets <- datasets[dataframes_index]
   dataframe_sheetnames <- sheetnames[dataframes_index]
   dataframe_titles <- titles[dataframes_index]
@@ -145,21 +148,21 @@ datasetsXLSX <- function(file, datasets, titles, plot_widths = NULL,
 
 
   # Determine which elements of datasets correspond to objects of type gg,
-  # ggplot, histogram, or character (path input).
+  # ggplot, histogram, or character (path input). --------
   plot_index <- which(vapply(datasets, function(x){
     length(setdiff(class(x), c("gg", "ggplot", "histogram", "character"))) == 0
     }, TRUE))
 
+  # Index from input lists using plot_index -------
   plot_datasets <- datasets[plot_index]
   plot_sheetnames <- sheetnames[plot_index]
 
 
-  # Insert the initial index sheet
-  insert_index_sheet(wb, logo, contact, homepage, openinghours, titlesource,
-                     auftrag_id, maintitle)
+  # Insert the initial index sheet ----------
+  insert_index_sheet(wb, logo, contact, homepage, openinghours, titlesource, auftrag_id, maintitle)
 
 
-  # Iterate along dataframes_index
+  # Insert datasets according to dataframes_index -------
   if(length(dataframes_index) > 0){
     list(
       dataframe_datasets,
@@ -182,7 +185,8 @@ datasetsXLSX <- function(file, datasets, titles, plot_widths = NULL,
           group_names = ..7))
   }
 
-  # Iterate along plot_index
+
+  # Insert images according to plot_index --------
   if (length(plot_index) > 0){
     list(
       plot_datasets,
@@ -199,11 +203,12 @@ datasetsXLSX <- function(file, datasets, titles, plot_widths = NULL,
           height = ..4))
   }
 
-  # Create a table of hyperlinks
+
+  # Create a table of hyperlinks in index sheet (assumed to be "Index") ------
   data.frame(
     sheetnames = sheetnames,
     titles = titles,
-    sheet_row = c(seq(15,15+length(sheetnames)-1))
+    sheet_row = c(seq(15, 15 + length(sheetnames) - 1))
   ) %>%
   purrr::pwalk(
     ~insert_hyperlinks(
@@ -212,6 +217,7 @@ datasetsXLSX <- function(file, datasets, titles, plot_widths = NULL,
       title = ..2,
       sheet_row = ..3))
 
-  # Save workbook at path denoted by argument file
-  openxlsx::saveWorkbook(wb, file = prep_filename(file), overwrite = overwrite)
+
+  # Save workbook at path denoted by argument file ---------
+  openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = overwrite)
 }

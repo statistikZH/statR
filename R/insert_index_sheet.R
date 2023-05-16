@@ -13,54 +13,72 @@
 insert_index_sheet <- function(wb, logo, contact, homepage, openinghours,
                                titlesource, auftrag_id, maintitle){
 
-  ## Create index sheet
-  openxlsx::addWorksheet(wb, sheetName = "Inhalt")
+  # Hardcoded ----------
+  index_sheet_name <- "Inhalt"
+  toc_caption <- "Inhalt"
 
-  ## Insert content
 
-  ### Logo -------------
+  # Initialize new worksheet as index sheet ------
+  openxlsx::addWorksheet(wb, index_sheet_name)
+
+
+  # Process input (substitute default values) -----
+  contactdetails <- inputHelperContactInfo(contactdetails)
+
+
+  # Determine start/end rows of content blocks -----
+  contact_start_row <- 2
+  contact_end_row <- contact_start_row + length(c(contact, homepage))
+  request_start_row <- contact_end_row + 2
+  title_start_row <- request_start_row + 2
+  source_start_row <- title_start_row + 1
+  index_start_row <- source_start_row + 2
+
+
+  # Insert logo ----------
+  logo <- inputHelperLogoPath(logo)
+
   if (!is.null(logo)){
-    logo <- prep_logo(logo)
-
-    if (file.exists(logo)){
-      openxlsx::insertImage(wb, sheet = "Inhalt", file = logo, width = 2.145,
-                            height = 0.7865, units = "in")
-    } else {
-      message("no logo found.")
-    }
+    openxlsx::insertImage(wb, index_sheet_name, logo, 2.145, 0.7865, "in")
   }
 
-  ### Contact information ---------
-  writeDataIf(wb, sheet = "Inhalt", x = prep_contact(contact), xy = c("O", 2))
-  writeDataIf(wb, sheet = "Inhalt", x = prep_homepage(homepage), xy = c("O", 5))
-  writeDataIf(wb, sheet = "Inhalt", x = prep_openinghours(openinghours),
-              xy = c("R", 2))
 
-  ### Request information -----------
-  openxlsx::writeData(wb, sheet = "Inhalt", x = prep_creationdate(), xy = c("O", 8))
-  writeDataIf(wb, sheet = "Inhalt", x = prep_orderid(auftrag_id), xy = c("O", 9))
+  # Insert contact info, title, metadata, and sources into worksheet --------
 
-  ### Title, sources, and content caption -------------
-  openxlsx::writeData(wb, sheet = "Inhalt", x = maintitle,
-                      headerStyle = mainTitleStyle(), xy = c("C", 10))
-  writeDataIf(wb, sheet = "Inhalt", x = prep_source(titlesource), xy = c("C", 11))
-  openxlsx::writeData(wb, sheet = "Inhalt", x = "Inhalt", headerStyle = subtitleStyle(), xy = c("C", 13))
+  ### Contact information
+  contact_info <- c(contact, inputHelperHomepage(homepage))
+  openxlsx::writeData(wb, index_sheet_name, contact_info, xy = c("O", contact_start_row))
+
+  ### Office hours
+  openxlsx::writeData(wb, index_sheet_name, inputHelperOfficeHours(openinghours), xy = c("R", contact_start_row))
+
+  ### Request information
+  request_info <- c(inputHelperDateCreated(prefix = "Erstellt am: "),
+                    inputHelperOrderNumber(auftrag_id, prefix = "Auftragsnr.:"))
+
+  openxlsx::writeData(wb, index_sheet_name, request_info, xy = c("O", request_start_row))
+
+  ### Title
+  openxlsx::writeData(wb, index_sheet_name, maintitle, xy = c("C", title_start_row))
+  openxlsx::addStyle(wb, index_sheet_name, style_maintitle(), title_start_row, 3)
+
+  ### Source
+  openxlsx::writeData(wb, index_sheet_name, source, xy = c("C", source_start_row))
+
+  ### Table of content caption
+  openxlsx::writeData(wb, index_sheet_name, toc_caption, xy = c("C", index_start_row))
+  openxlsx::addStyle(wb, index_sheet_name, subtitleStyle(), index_start_row, 3)
 
 
-  ## Format
-  #-----------------
+  # Format ---------
 
-  ### Set column width of first column to 1 and hide gridlines
-  openxlsx::setColWidths(wb, sheet = "Inhalt", cols = 1, widths = 1)
-  openxlsx::showGridLines(wb, sheet = "Inhalt", showGridLines = FALSE)
+  ### Set column width of first column to 1
+  openxlsx::setColWidths(wb, index_sheet_name, 1, 1)
+
+  ### Hide gridlines
+  openxlsx::showGridLines(wb, index_sheet_name, FALSE)
 
   ### Add Headerline
-  openxlsx::addStyle(wb, sheet = "Inhalt", style = style_headerline(),
-                     rows = 6, cols = 1:20, gridExpand = TRUE, stack = TRUE)
+  openxlsx::addStyle(wb, index_sheet_name, style_headerline(), contact_end_row + 1, 1:20, gridExpand = TRUE, stack = TRUE)
 
-  ### Apply styles to Main Title and subtitles
-  openxlsx::addStyle(wb, sheet = "Inhalt", style = mainTitleStyle(), rows = 10,
-                     cols = 3, gridExpand = TRUE)
-  openxlsx::addStyle(wb, sheet = "Inhalt", style = subtitleStyle(), rows = 14,
-                     cols = 3, gridExpand = TRUE)
 }

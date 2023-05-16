@@ -3,22 +3,16 @@
 #'
 #' @description Function to export data from R as formatted .xlsx-file and spread
 #'  them over several worksheets based on a grouping variable (e.g., year).
-#'
 #' @note May be deprecated in upcoming version. User should make sure that the
 #'  grouping variable is of binary, categorical or other types with a limited
 #'  number of levels.
-#'
 #' @param data data to be exported.
-#'
 #' @param file file name of the output .xlsx-file. The extension is added
 #'  automatically.
-#'
 #' @param sheetvar name of the variable used to split the data and spread them
 #'  over several sheets.
-#'
 #' @param title title to be put above the data in the worksheet. the sheetvar
 #'  subcategory is added in brackets.
-#'
 #' @template shared_parameters
 #' @keywords splitXLSX
 #' @export
@@ -38,22 +32,22 @@
 #'          grouplines = FALSE,
 #'          logo = "statzh",
 #'          author = "user")
-
 splitXLSX <- function(data, file, sheetvar, title = "Titel", source = "statzh",
                       metadata = NA, logo = "statzh", grouplines = FALSE,
                       contactdetails = "statzh", author = "user"){
 
-  # create workbook
+  # create workbook ------
   wb <- openxlsx::createWorkbook()
 
-  # get values of the variable that is used to split the data
+
+  # get values of the variable that is used to split the data -------
   data <- as.data.frame(data)
   sheettitle <- paste0(title, " (", deparse(substitute(sheetvar)), ": ",
                       sheetvalue, ")")
   sheetvalues <- unique(data[, c(deparse(substitute(sheetvar)))])
   col_name <- rlang::enquo(sheetvar)
 
-  # loop to split values of the variable used to split the data
+  # loop to split values of the variable used to split the data -----
   for (sheetvalue in sheetvalues) {
     data %>%
       dplyr::filter((!!col_name) == sheetvalue) %>%
@@ -66,7 +60,7 @@ splitXLSX <- function(data, file, sheetvar, title = "Titel", source = "statzh",
 
   openxlsx::worksheetOrder(wb) <- rev(openxlsx::worksheetOrder(wb))
 
-  #save xlsx
-  openxlsx::saveWorkbook(wb, prep_filename(file), overwrite = TRUE)
+  # Save xlsx ------
+  openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
 
 }

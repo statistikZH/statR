@@ -20,9 +20,9 @@ statzh_info <- {
                               statzh_email, statzh_homepage)
   statzh_openinghours <- c("B\u00fcrozeiten", "Montag bis Freitag", "09:00 bis 12:00", "13:00 bis 16:00")
 
-  # Logo paths
-  #--------------
-  statzh_logo <- paste0(path.package("statR"), "/extdata/Stempel_STAT-01.png")
-  zh_logo <- paste0(path.package("statR"), "/extdata/Stempel_Kanton_ZH.png")
+  # Logo filenames (located in /extdata/ folder)
+  #-------------
+  statzh_logo <- "Stempel_STAT-01.png"
+  zh_logo <- "Stempel_Kanton_ZH.png"
 
 }

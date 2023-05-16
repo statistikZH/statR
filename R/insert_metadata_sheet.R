@@ -24,57 +24,57 @@ insert_metadata_sheet <- function(wb, sheetname = "Metadaten", title = "Title",
   source = "statzh", metadata = NA, logo = "statzh", contactdetails = "statzh",
   author = "user"){
 
-  sheetname <- check_sheetname(sheetname)
-  openxlsx::addWorksheet(wb, sheetName = sheetname)
+
+  # Process input (substitute default values) -----
+  contactdetails <- inputHelperContactInfo(contactdetails)
+
+  # Determine start/end rows of content blocks -----
+  contact_start_row <- 2
+  contact_end_row <- contact_start_row + length(c(contactdetails, homepage))
+  title_start_row <- contact_end_row + 2
+  source_start_row <- title_start_row + 1
+  source_end_row <- source_start_row + length(source) + 1
+  metadata_start_row <- source_end_row + 1
 
 
-  ## Content
+  # Add a new worksheet ------
+  sheetname <- verifyInputSheetname(sheetname)
+  openxlsx::addWorksheet(wb, sheetname)
 
-  ### Logo ------------
+
+  # Insert logo --------
+  logo <- inputHelperLogoPath(logo)
   if(!is.null(logo)){
-    logo <- prep_logo(logo)
-
-    if (file.exists(logo)){
-      openxlsx::insertImage(wb, sheet = sheetname, file = logo,
-                            width = 2.145, height = 0.7865, units = "in")
-    } else {
-      message("no logo found.")
-    }
+    openxlsx::insertImage(wb, sheetname, logo, 2.145, 0.7865, "in")
   }
 
-  ### Contact details --------------
-  openxlsx::writeData(wb, sheet = sheetname, x = prep_contact(contactdetails),
-                      headerStyle = style_wrap(), startRow = 2, startCol = 12)
 
-  ### Title -----------------
-  openxlsx::writeData(wb, sheet = sheetname, x = title, headerStyle = style_title(), startRow = 7)
+  # Insert contact info, title, metadata, and sources into worksheet --------
 
-  ### Source ------------
-  openxlsx::writeData(wb, sheet = sheetname, x = "Datenquelle:", headerStyle = style_subtitle2(), startRow = 9)
-  openxlsx::writeData(wb, sheet = sheetname, x = prep_source(source, prefix = NULL), startRow = 10)
+  ### Contact info
+  contact_info <- c(contactdetails, inputHelperHomepage(homepage))
+  openxlsx::writeData(wb, sheetname, contactdetails, startCol = 12, startRow = contact_start_row)
 
-  ### Metadata ----------
-  openxlsx::writeData(wb, sheet = sheetname, x = "Hinweise:", headerStyle = style_subtitle2(), startRow = 12)
-  openxlsx::writeData(wb, sheet = sheetname, x = prep_metadata(metadata, prefix = NULL), startRow = 13)
+  ### Request information
+  request_info <- paste(inputHelperDateCreated(prefix = "Aktualisiert am: "),
+                        inputHelperAuthorName(author, prefix = "durch: "))
+  openxlsx::writeData(wb, sheetname, request_info, startCol = 12, startRow = contact_end_row + 1)
+
+  ### Title
+  openxlsx::writeData(wb, sheetname, title, startRow = title_start_row)
+  openxlsx::addStyle(wb, sheetname, style_title(), rows = title_start_row, cols = 1)
+
+  ### Source and metadata
+  openxlsx::writeData(wb, sheetname, inputHelperSource(source, prefix = "Datenquelle:"), startRow = source_start_row)
+  openxlsx::writeData(wb, sheetname, inputHelperMetadata(metadata, prefix = "Hinweise:"), startRow = metadata_start_row)
+  openxlsx::addStyle(wb, sheetname, style_subtitle2(), rows = c(source_start_row, metadata_start_row), cols = 1)
 
 
+  # Format ----------
 
-  ### Aktualisierungsdatum --------
-  openxlsx::writeData(wb, sheet = sheetname,
-                      x = paste(prep_creationdate(prefix = "Aktualisiert am:"),
-                                "durch:", prep_username(author)),
-                      startRow = 5, startCol = 12)
+  ### Headerline
+  openxlsx::addStyle(wb, sheetname, style_headerline(), rows = contact_end_row + 2, cols = 1:26, gridExpand = TRUE, stack = TRUE)
 
-  ## Format
-
-  ### add formatting ---------
-  openxlsx::addStyle(wb, sheet = sheetname, style = style_headerline(),
-                     rows = 5, cols = 1:26, gridExpand = TRUE, stack = TRUE)
-  openxlsx::addStyle(wb, sheet = sheetname, style = style_title(),
-                     rows = 7, cols = 1, gridExpand = TRUE)
-  openxlsx::addStyle(wb, sheet = sheetname, style = style_subtitle2(),
-                     rows = c(9, 12), cols = 1, gridExpand = TRUE)
-
-  ## Remove gridlines ----------
-  openxlsx::showGridLines(wb, sheet = sheetname, showGridLines = FALSE)
+  ### Hide gridlines
+  openxlsx::showGridLines(wb, sheetname, FALSE)
 }
