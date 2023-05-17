@@ -9,8 +9,8 @@ insert_worksheet_image(
   image,
   wb,
   sheetname,
-  startrow = 1,
-  startcol = 1,
+  startrow = 3,
+  startcol = 3,
   width,
   height
 )
@@ -36,7 +36,9 @@ insert an image into a single worksheet
 }
 \note{
 The function does not write the result into a .xlsx file. A separate call
-to openxlsx::saveWorkbook() is required.
+to openxlsx::saveWorkbook() is required. A temporary file is created when
+image refers to a gg, ggplot or histogram object. This file is deleted
+afterwards.
 }
 \examples{
 library(ggplot2)

@@ -19,7 +19,8 @@ quickXLSX(
 \arguments{
 \item{data}{data to be exported.}
 
-\item{file}{file name of the xlsx-file. The extension ".xlsx" is added automatically.}
+\item{file}{file name of the xlsx-file. The extension ".xlsx" is added
+automatically.}
 
 \item{title}{title to be put above the data in the worksheet.}
 
@@ -36,16 +37,12 @@ quickXLSX(
 \item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
-A short description...
-}
-\details{
 Function to export data from R to a formatted .xlsx-spreadsheet.
 }
 \note{
 Will be deprecated in upcoming version.
 }
 \examples{
-
 quickXLSX(data = mtcars,
          title = "Motor trend car road tests",
          file = "motor_trend_car_road_tests",
@@ -58,6 +55,5 @@ quickXLSX(data = mtcars,
          grouplines = FALSE,
          logo = "statzh",
          author = "user")
-
 }
 \keyword{quickXLSX}

@@ -5,7 +5,7 @@
 #' @note The function does not write the result into a .xlsx file.
 #'  A separate call to openxlsx::saveWorkbook() is required.
 #' @param data data to be included.
-#' @param workbook workbook object to add new worksheet to.
+#' @param wb workbook object to add new worksheet to.
 #' @param title title to be put above the data.
 #' @param sheetname name of the sheet tab.
 #' @param source source of the data. Defaults to "statzh".
@@ -22,85 +22,78 @@
 #' @keywords insert_worksheet
 #' @export
 #' @examples
+#' # Initialize an empty Workbook
+#' wb <- openxlsx::createWorkbook()
 #'
-#' # Generation of a spreadsheet
-#' wb <- openxlsx::createWorkbook("hello")
+#' insert_worksheet(data = head(mtcars),
+#'                  wb = wb,
+#'                  title = "mtcars",
+#'                  sheetname = "carb")
 #'
-#' insert_worksheet(data = head(mtcars), workbook = wb, title = "mtcars",
-#'  sheetname = "carb")
-#'
-insert_worksheet <- function(data, workbook, sheetname = "data", title = "Title",
+insert_worksheet <- function(data, wb, sheetname = "data", title = "Title",
                              source = "statzh", metadata = NA, logo = "statzh",
                              grouplines = FALSE, contactdetails = "statzh",
                              author = "user"){
 
   # Process input (substitute default values) -----
-  sheetname <- verifyInputSheetname(sheetname)
-  source <- inputHelperSource(source)
-  metadata <- inputHelperMetadata(metadata)
   contactdetails <- inputHelperContactInfo(contactdetails)
-  creationdate <- inputHelperDateCreated(prefix = "Aktualisiert am: ")
-  author <- inputHelperAuthorName(author, prefix = "durch: ")
 
+  # Determine start/end rows, row and column extents of content blocks -----
 
-  # Determine start/end rows of content blocks -----
+  ### Contact information
   contact_start_row <- 2
-  contact_end_row <- contact_start_row + length(contactdetails)
-  title_start_row <- contact_end_row + 2
-  metadata_start_row <- title_start_row + 1
-  source_start_row <- metadata_start_row + length(metadata)
-  source_end_row <- source_start_row + length(source)
-  data_start_row <- source_end_row + 3
-  data_end_row <- data_start_row + nrow(data)
-
-
-  # Determine column boundaries -------
-
   contact_start_col <- max(ncol(data) - 2, 4)
   contact_end_col <- 26
+  contact_end_row <- contact_start_row + length(contactdetails)
+  contact_column_extent <- contact_start_col:contact_end_col
+  contact_rows_extent <- contact_start_row:(contact_end_row + 1)
+
+  ### Descriptives
+  title_start_row <- contact_end_row + 2
+  source_start_row <- title_start_row + 1
+  metadata_start_row <- source_start_row + length(source)
+  metadata_end_row <- metadata_start_row + length(metadata)
+  descriptives_column_extent <- 1:contact_end_col
+  descriptives_row_extent <- title_start_row:metadata_end_row
+
+  ### Data
+  data_start_row <- metadata_end_row + 3
+  data_end_row <- data_start_row + nrow(data)
+  data_row_extent <- data_start_row:data_end_row
 
 
   # Initialize new worksheet ------
-  openxlsx::addWorksheet(workbook, sheetname)
+  sheetname <- verifyInputSheetname(sheetname)
+  openxlsx::addWorksheet(wb, sheetname)
 
 
   # Insert logo ------
   logo <- inputHelperLogoPath(logo)
 
   if (!is.null(logo)){
-    openxlsx::insertImage(workbook, "Inhalt", logo, 2.145, 0.7865, "in")
+    openxlsx::insertImage(wb, sheetname, logo, 2.145, 0.7865, "in")
   }
 
 
-  # Insert contact info, title, metadata, and sources into worksheet --------
-
-  ### Contact information
-
+  # Insert contact info, date created, and author -----
+  ### Contact info
   openxlsx::writeData(wb, sheetname, contactdetails, contact_start_col, contact_start_row, headerStyle = style_wrap())
-  purrr::walk(contact_start_row:contact_end_row,
-              ~openxlsx::mergeCells(wb, sheetname, contact_start_col:contact_end_col,
-                                    rows = .))
-
-  openxlsx::addStyle(wb, sheetname, style_headerline(), contact_end_row, 1:ncol(data),
-                     gridExpand = TRUE, stack = TRUE)
 
   ### Creation date
-  openxlsx::writeData(wb, sheetname, paste(creationdate, author), contact_start_col, contact_end_row + 1,
-                      headerStyle = style_subtitle3())
+  infostring <- paste(inputHelperDateCreated(prefix = "Aktualisiert am: "), inputHelperAuthorName(author, prefix = "durch: "))
+  openxlsx::writeData(wb, sheetname, infostring, contact_start_col, contact_end_row + 1, headerStyle = style_subtitle3())
 
+
+  # Insert descriptives into worksheet --------
   ### Title
-  openxlsx::writeData(workbook, sheetname, title, startRow = title_start_row)
+  openxlsx::writeData(wb, sheetname, title, startRow = title_start_row)
   openxlsx::addStyle(wb, sheetname, style_title(), title_start_row, 1, gridExpand = TRUE)
 
-  ### Metadata
-  openxlsx::writeData(workbook, sheetname, metadata, startRow = metadata_start_row, headerStyle = style_subtitle3())
-
   ### Source
-  openxlsx::writeData(workbook, sheetname, source, startRow = source_start_row, headerStyle = style_subtitle3())
+  openxlsx::writeData(wb, sheetname, inputHelperSource(source), startRow = source_start_row, headerStyle = style_subtitle3())
 
-  ### Merge cells with title, metadata, and sources to ensure that they're displayed properly
-  purrr::walk(title_start_row:source_end_row,
-              ~openxlsx::mergeCells(wb, sheetname, 1:contact_end_col, rows = .))
+  ### Metadata
+  openxlsx::writeData(wb, sheetname, inputHelperMetadata(metadata), startRow = metadata_start_row, headerStyle = style_subtitle3())
 
 
   # Insert data --------
@@ -117,10 +110,18 @@ insert_worksheet <- function(data, workbook, sheetname = "data", title = "Title"
 
 
   # Format ---------
+  ### Horizontally merge cells to ensure that contact entries are displayed properly
+  purrr::walk(contact_rows_extent, ~openxlsx::mergeCells(wb, sheetname, contact_column_extent, rows = .))
 
+  ### Insert headerline after contacts ------
+  openxlsx::addStyle(wb, sheetname, style_headerline(), contact_end_row + 1, 1:ncol(data), gridExpand = TRUE, stack = TRUE)
+
+  ### Horizontally merge cells containing descriptive info to ensure that they're displayed properly
+  purrr::walk(descriptives_row_extent, ~openxlsx::mergeCells(wb, sheetname, descriptives_column_extent, rows = .))
+
+  ### Grouplines
   if (!is.null(grouplines)){
-    openxlsx::addStyle(wb, sheetname, style_leftline(), data_start_row:data_end_row,
-                       grouplines, gridExpand = TRUE, stack = TRUE)
+    openxlsx::addStyle(wb, sheetname, style_leftline(), data_row_extent, grouplines, gridExpand = TRUE, stack = TRUE)
   }
 
   ### Define minimum column width

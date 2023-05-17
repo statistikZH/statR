@@ -36,28 +36,31 @@ aXLSX(
 \item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
-Function to export data from R to a formatted .xlsx-file.
-}
-\note{
-The data is exported to the first sheet. Metadata information is exported
-to the second sheet.
+Function to export data from R to a formatted .xlsx-file. The
+ data is exported to the first sheet. Metadata information is exported to
+ the second sheet.
 }
 \examples{
+dataset <- mtcars
+source_string <- paste("Source: Henderson and Velleman (1981).",
+  "Building multiple regression models interactively.",
+  "Biometrics, 37, 391–411.")
+
+metadata_string <- paste("The data was extracted from the 1974",
+  "Motor Trend US magazine and comprises fuel consumption and",
+  "10 aspects of automobile design and performance for 32 automobiles",
+  "(1973–74 models).")
 \donttest{
 \dontrun{
-
 aXLSX(data = mtcars,
-     title = "Motor trend car road tests",
-     file = "motor_trend_car_road_tests",
-     source = "Source: Henderson and Velleman (1981). Building multiple
-      regression models interactively. Biometrics, 37, 391–411.",
-     metadata = c("The data was extracted from the 1974 Motor Trend US
-       magazine and comprises fuel consumption and 10 aspects of automobile
-       design and performance for 32 automobiles (1973–74 models)."),
-     contactdetails = "statzh",
-     grouplines = NA,
-     logo = "statzh",
-     author = "user")
+      title = "Motor trend car road tests",
+      file = "motor_trend_car_road_tests",
+      source = source_string,
+      metadata = metadata_string,
+      contactdetails = "statzh",
+      grouplines = NA,
+      logo = "statzh",
+      author = "user")
 }
 }
 }

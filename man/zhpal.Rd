@@ -3,7 +3,8 @@
 \docType{data}
 \name{zhpal}
 \alias{zhpal}
-\title{Data used by the stat zh palettes}
+\title{zhpal
+Data used by the stat zh palettes}
 \format{
 A \code{list}.
 }
@@ -11,6 +12,7 @@ A \code{list}.
 zhpal
 }
 \description{
+zhpal
 Data used by the stat zh palettes
 }
 \keyword{datasets}

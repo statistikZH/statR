@@ -20,11 +20,14 @@ splitXLSX(
 \arguments{
 \item{data}{data to be exported.}
 
-\item{file}{file name of the output .xlsx-file. The extension is added automatically.}
+\item{file}{file name of the output .xlsx-file. The extension is added
+automatically.}
 
-\item{sheetvar}{name of the variable used to split the data and spread them over several sheets.}
+\item{sheetvar}{name of the variable used to split the data and spread them
+over several sheets.}
 
-\item{title}{title to be put above the data in the worksheet. the sheetvar subcategory is added in brackets.}
+\item{title}{title to be put above the data in the worksheet. the sheetvar
+subcategory is added in brackets.}
 
 \item{source}{source of the data. Defaults to "statzh".}
 
@@ -39,15 +42,13 @@ splitXLSX(
 \item{author}{defaults to last two letters (initials) or numbers of the user name.}
 }
 \description{
-A short description...
-}
-\details{
-Function to export data from R as formatted .xlsx-file and spread them over several worksheets
-based on a grouping variable (e.g., year).
+Function to export data from R as formatted .xlsx-file and spread
+ them over several worksheets based on a grouping variable (e.g., year).
 }
 \note{
-May be deprecated in upcoming version. User should make sure that the grouping variable is of
-binary, categorical or other types with a limited number of levels.
+May be deprecated in upcoming version. User should make sure that the
+ grouping variable is of binary, categorical or other types with a limited
+ number of levels.
 }
 \examples{
 splitXLSX(data = mtcars,

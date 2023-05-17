@@ -42,14 +42,8 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
                                 source = "statzh", metadata = NA, grouplines = NA,
                                 group_names = NA){
 
-
-  # Process input (substitute default values) -----
-  sheetname <- verifyInputSheetname(sheetname)
-  source <- inputHelperSource(source, prefix = "Quelle: ", collapse = "; ")
-  metadata <- inputHelperMetadata(metadata, prefix = "Metadaten: ", collapse = "; ")
-
-
   # Initialize new worksheet ------
+  sheetname <- verifyInputSheetname(sheetname)
   openxlsx::addWorksheet(wb, sheetname)
 
 
@@ -83,7 +77,6 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
 
 
   # Insert data --------
-
   ### Insert second header
   if (!any(is.na(group_names))){
     insert_second_header(wb, sheetname, data_start_row, group_names, grouplines, data)
@@ -94,8 +87,7 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
   colnames(data) <- paste0(colnames(data), "  ", sep = "")
 
   ### Write data after checking for leftover grouping
-  openxlsx::writeData(wb, sheetname, verifyDataUngrouped(data), startRow = data_start_row,
-                      rowNames = FALSE, withFilter = FALSE)
+  openxlsx::writeData(wb, sheetname, verifyDataUngrouped(data), startRow = data_start_row, rowNames = FALSE, withFilter = FALSE)
   openxlsx::addStyle(wb, sheetname, style_header(), data_start_row, 1:ncol(data), gridExpand = TRUE, stack = TRUE)
 
 

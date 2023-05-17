@@ -7,18 +7,19 @@
 add_additional_text(wb, text, sheetname, start_row)
 }
 \arguments{
-\item{wb}{workbook object where text should be inserted}
+\item{wb}{Workbook object where text should be inserted}
 
 \item{text}{Character vector of text to be inserted}
 
-\item{sheetname}{Sheet where text should be inserted.}
+\item{sheetname}{Name of the worksheet where text should be inserted.}
 
 \item{start_row}{Row from which to insert elements}
 }
-\description{
-Insert text into an existing workbook object.
+\value{
+Integer corresponding to the final row index
 }
-\note{
-Text is inserted at first column index.
+\description{
+Insert text into an existing workbook object. Text is inserted
+ at column index 1.
 }
 \keyword{internal}

@@ -1,4 +1,3 @@
-#'
 #' splitXLSX()
 #'
 #' @description Function to export data from R as formatted .xlsx-file and spread
@@ -39,28 +38,23 @@ splitXLSX <- function(data, file, sheetvar, title = "Titel", source = "statzh",
   # create workbook ------
   wb <- openxlsx::createWorkbook()
 
-
   # get values of the variable that is used to split the data -------
   data <- as.data.frame(data)
-  sheettitle <- paste0(title, " (", deparse(substitute(sheetvar)), ": ",
-                      sheetvalue, ")")
   sheetvalues <- unique(data[, c(deparse(substitute(sheetvar)))])
   col_name <- rlang::enquo(sheetvar)
 
   # loop to split values of the variable used to split the data -----
-  for (sheetvalue in sheetvalues) {
-    data %>%
+  for (sheetvalue in sheetvalues){
+    sheettitle <- paste0(title, " (", deparse(substitute(sheetvar)), ": ", sheetvalue, ")")
+    verifyDataUngrouped(data) %>%
       dplyr::filter((!!col_name) == sheetvalue) %>%
-      dplyr::ungroup() %>%
-      insert_worksheet(wb, sheetname = sheetvalue, title = sheettitle,
-                       source = source, metadata = metadata, logo = logo,
-                       grouplines = grouplines, contactdetails = contactdetails,
-                       author = author)
+      insert_worksheet(wb, verifyInputSheetname(sheetvalue), sheettitle, source,
+                       metadata, logo, grouplines, contactdetails, author)
   }
 
+  # Reverse order
   openxlsx::worksheetOrder(wb) <- rev(openxlsx::worksheetOrder(wb))
 
   # Save xlsx ------
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
-
 }

@@ -30,17 +30,18 @@ insert_worksheet_nh(
 
 \item{grouplines}{defaults to NA. Can be used to separate grouped variables visually.}
 
-\item{group_names}{Name(s) of the second header(s). Format: List e.g list(c("title 1", "title 2", "title 3"))}
+\item{group_names}{Name(s) of the second header(s).
+Format: List e.g list(c("title 1", "title 2", "title 3"))}
 }
 \description{
-Function to add formatted worksheets without headers to an existing workbook
+Function to add formatted worksheets without headers to an
+ existing workbook
 }
 \note{
-The function does not write the result into a .xlsx file. A separate call
-to openxlsx::saveWorkbook() is required.
+The function does not write the result into a .xlsx file. A separate
+ call to `openxlsx::saveWorkbook()` is required.
 }
 \examples{
-
 ## Create workbook
 export <- openxlsx::createWorkbook()
 
@@ -51,7 +52,6 @@ insert_worksheet_nh(head(mtcars), export, "data1",
 ## insert a further worksheet
 insert_worksheet_nh(tail(mtcars), export, "data2",
   title = "Title", source = "statzh", metadata = "Note: ...")
-
 
 ## insert a worksheet with group lines and second header
 insert_worksheet_nh(data = head(mtcars), wb = export,

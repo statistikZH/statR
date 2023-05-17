@@ -30,11 +30,11 @@ quickXLSX <- function(data = NA, file, title = "Title", source = "statzh",
   wb <- openxlsx::createWorkbook()
 
   # Insert data --------
-  insert_worksheet(data = data, wb, title = title, source = source,
+  insert_worksheet(data, wb, "Inhalt", title = title, source = source,
     metadata = metadata, logo = logo, grouplines = grouplines,
     contactdetails = contactdetails, author = author)
 
-  # Save workbook
+  # Save workbook---------
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
 }
 

@@ -7,7 +7,7 @@
 insert_hyperlinks(wb, sheetname, title, sheet_row)
 }
 \arguments{
-\item{wb}{Worksheet}
+\item{wb}{Workbook object}
 
 \item{sheetname}{Name of sheet}
 
@@ -16,9 +16,6 @@ insert_hyperlinks(wb, sheetname, title, sheet_row)
 \item{sheet_row}{Sheet row}
 }
 \description{
-A short description...
-}
-\details{
 Function for inserting hyperlinks within an openxlsx Workbook
 }
 \keyword{internal}

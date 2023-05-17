@@ -6,7 +6,7 @@
 \usage{
 insert_worksheet(
   data,
-  workbook,
+  wb,
   sheetname = "data",
   title = "Title",
   source = "statzh",
@@ -20,7 +20,7 @@ insert_worksheet(
 \arguments{
 \item{data}{data to be included.}
 
-\item{workbook}{workbook object to add new worksheet to.}
+\item{wb}{workbook object to add new worksheet to.}
 
 \item{sheetname}{name of the sheet tab.}
 
@@ -30,27 +30,34 @@ insert_worksheet(
 
 \item{metadata}{metadata information to be included. Defaults to NA.}
 
-\item{logo}{path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"}
+\item{logo}{path of the file to be included as logo (png / jpeg / svg).
+Defaults to "statzh"}
 
-\item{grouplines}{defaults to FALSE. Can be used to separate grouped variables visually.}
+\item{grouplines}{defaults to FALSE. Can be used to separate grouped
+variables visually.}
 
-\item{contactdetails}{contact details of the data publisher. Defaults to "statzh".}
+\item{contactdetails}{contact details of the data publisher. Defaults to
+"statzh".}
 
-\item{author}{defaults to the last two letters (initials) or numbers of the internal user name.}
+\item{author}{defaults to the last two letters (initials) or numbers of the
+internal user name.}
 }
 \description{
-Function to  add formatted worksheets to an existing .xlsx-workbook.
+Function to insert a formatted worksheet into an existing
+ Workbook object.
 }
 \note{
-Marked for deprecation in upcoming version. The function does not write the
-result into a .xlsx file. A separate call to openxlsx::saveWorkbook() is
-required.
+The function does not write the result into a .xlsx file.
+ A separate call to openxlsx::saveWorkbook() is required.
 }
 \examples{
+# Initialize an empty Workbook
+wb <- openxlsx::createWorkbook()
 
-# Generation of a spreadsheet
-wb <- openxlsx::createWorkbook("hello")
+insert_worksheet(data = head(mtcars),
+                 wb = wb,
+                 title = "mtcars",
+                 sheetname = "carb")
 
-insert_worksheet(data = mtcars[c(1:10),], workbook = wb, title = "mtcars", sheetname = "carb")
 }
 \keyword{insert_worksheet}

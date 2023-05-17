@@ -27,11 +27,7 @@ insert_second_header(
 \item{data}{Data}
 }
 \description{
-Function to export data from R to a formatted .xlsx-file.
-}
-\note{
-The data is exported to the first sheet. Metadata information is exported to
-the second sheet.
+Function to add a second header row
 }
 \examples{
 \donttest{
