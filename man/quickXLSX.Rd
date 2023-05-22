@@ -39,9 +39,6 @@ automatically.}
 \description{
 Function to export data from R to a formatted .xlsx-spreadsheet.
 }
-\note{
-Will be deprecated in upcoming version.
-}
 \examples{
 quickXLSX(data = mtcars,
          title = "Motor trend car road tests",

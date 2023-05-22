@@ -8,22 +8,35 @@
 #' @param openinghours statzh or a character string or vector with opening hours
 #' @param titlesource Character vector denoting the data source
 #' @param auftrag_id Order ID
-#' @param maintitle Main title
+#' @param maintitle Title shown on index sheet
+#' @param sheetname Name of Index Sheet
+#' @param date_prefix Text prepended to date
+#' @param order_id_prefix Text prepended to order ID
+#' @export
 #' @keywords datasetsXLSX
-insert_index_sheet <- function(wb, logo, contact, homepage, openinghours,
-                               titlesource, auftrag_id, maintitle){
+insert_index_sheet <- function(wb, logo = "statzh", contact = "statzh",
+                               homepage = "statzh", openinghours = "statzh",
+                               titlesource, auftrag_id, maintitle,
+                               sheetname = "Index",
+                               date_prefix = "Erstellt am: ",
+                               order_id_prefix = "Auftragsnr.:"){
 
   # Hardcoded ----------
-  index_sheet_name <- "Inhalt"
+  index_sheet_name <- "Index"
   toc_caption <- "Inhalt"
+
+
+  # Process input (substitute default values) -----
+  logo <- inputHelperLogoPath(logo)
+  contact <- inputHelperContactInfo(contact)
+  homepage <- inputHelperHomepage(homepage)
+  openinghours <- inputHelperOfficeHours(openinghours)
+  creationdate <- inputHelperDateCreated(prefix = date_prefix)
+  order_id <- inputHelperOrderNumber(auftrag_id, prefix = order_id_prefix)
 
 
   # Initialize new worksheet as index sheet ------
   openxlsx::addWorksheet(wb, index_sheet_name)
-
-
-  # Process input (substitute default values) -----
-  contactdetails <- inputHelperContactInfo(contactdetails)
 
 
   # Determine start/end rows of content blocks -----
@@ -36,34 +49,28 @@ insert_index_sheet <- function(wb, logo, contact, homepage, openinghours,
 
 
   # Insert logo ----------
-  logo <- inputHelperLogoPath(logo)
-
   if (!is.null(logo)){
-    openxlsx::insertImage(wb, index_sheet_name, logo, 2.145, 0.7865, "in")
+    openxlsx::insertImage(wb, index_sheet_name, logo, 2.145, 0.7865, units = "in")
   }
 
 
   # Insert contact info, title, metadata, and sources into worksheet --------
-
   ### Contact information
-  contact_info <- c(contact, inputHelperHomepage(homepage))
+  contact_info <- c(contact, homepage)
   openxlsx::writeData(wb, index_sheet_name, contact_info, xy = c("O", contact_start_row))
 
   ### Office hours
-  openxlsx::writeData(wb, index_sheet_name, inputHelperOfficeHours(openinghours), xy = c("R", contact_start_row))
+  openxlsx::writeData(wb, index_sheet_name, openinghours, xy = c("R", contact_start_row))
 
   ### Request information
-  request_info <- c(inputHelperDateCreated(prefix = "Erstellt am: "),
-                    inputHelperOrderNumber(auftrag_id, prefix = "Auftragsnr.:"))
-
-  openxlsx::writeData(wb, index_sheet_name, request_info, xy = c("O", request_start_row))
+  openxlsx::writeData(wb, index_sheet_name, c(creationdate, order_id), xy = c("O", request_start_row))
 
   ### Title
   openxlsx::writeData(wb, index_sheet_name, maintitle, xy = c("C", title_start_row))
   openxlsx::addStyle(wb, index_sheet_name, style_maintitle(), title_start_row, 3)
 
   ### Source
-  openxlsx::writeData(wb, index_sheet_name, source, xy = c("C", source_start_row))
+  openxlsx::writeData(wb, index_sheet_name, titlesource, xy = c("C", source_start_row))
 
   ### Table of content caption
   openxlsx::writeData(wb, index_sheet_name, toc_caption, xy = c("C", index_start_row))
@@ -71,7 +78,6 @@ insert_index_sheet <- function(wb, logo, contact, homepage, openinghours,
 
 
   # Format ---------
-
   ### Set column width of first column to 1
   openxlsx::setColWidths(wb, index_sheet_name, 1, 1)
 

@@ -6,13 +6,16 @@
 \usage{
 insert_index_sheet(
   wb,
-  logo,
-  contact,
-  homepage,
-  openinghours,
+  logo = "statzh",
+  contact = "statzh",
+  homepage = "statzh",
+  openinghours = "statzh",
   titlesource,
   auftrag_id,
-  maintitle
+  maintitle,
+  sheetname = "Index",
+  date_prefix = "Erstellt am: ",
+  order_id_prefix = "Auftragsnr.:"
 )
 }
 \arguments{
@@ -30,7 +33,13 @@ insert_index_sheet(
 
 \item{auftrag_id}{Order ID}
 
-\item{maintitle}{Main title}
+\item{maintitle}{Title shown on index sheet}
+
+\item{sheetname}{Name of Index Sheet}
+
+\item{date_prefix}{Text prepended to date}
+
+\item{order_id_prefix}{Text prepended to order ID}
 }
 \description{
 Function which generates an index sheet inside an openxlsx workbook.

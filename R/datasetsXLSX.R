@@ -1,41 +1,42 @@
-#' datasetsXLSX()
+#'datasetsXLSX()
 #'
-#' @description Function to export several datasets and/or figures from R to an
+#'@description Function to export several datasets and/or figures from R to an
 #'  .xlsx-file. The function creates an overview sheet and separate sheets for
 #'  each dataset/figure.
-#' @details When including figures, the heights and widths need to be specified
+#'@details When including figures, the heights and widths need to be specified
 #'  as a vector. For example, say you have one dataset and two figures that you
 #'  would like to export. widths = c(5,6) then suggests that the first figure
-#'  will be 5 inches wide, the second 6. To include a figure either save it as
-#'  a ggplot object or indicate a file path to an existing file
-#'  (possible formats: png, jpg, bmp).
-#' @param file file name of the spreadsheet. The extension ".xlsx" is added
+#'  will be 5 inches wide, the second 6. To include a figure either save it as a
+#'  ggplot object or indicate a file path to an existing file (possible formats:
+#'  png, jpg, bmp).
+#'@param file file name of the spreadsheet. The extension ".xlsx" is added
 #'  automatically.
-#' @param maintitle Title to be put on the first (overview) sheet.
-#' @param datasets datasets or plots to be included.
-#' @param plot_widths width of figure in inch (1 inch = 2.54 cm). See details.
-#' @param plot_heights height of figure in inch (1 inch = 2.54 cm). See details.
-#' @param sheetnames names of the sheet tabs.
-#' @param titles titles of the different sheets.
-#' @param logo file path to the logo to be included in the index-sheet. Can be
+#'@param maintitle Title to be put on the first (overview) sheet.
+#'@param datasets datasets or plots to be included.
+#'@param plot_widths width of figure in inch (1 inch = 2.54 cm). See details.
+#'@param plot_heights height of figure in inch (1 inch = 2.54 cm). See details.
+#'@param sheetnames names of the sheet tabs.
+#'@param titles titles of the different sheets.
+#'@param logo file path to the logo to be included in the index-sheet. Can be
 #'  "statzh" or "zh". Defaults to "statzh".
-#' @param titlesource source to be mentioned on the title sheet beneath the title
-#' @param sources source of the data. Defaults to "statzh".
-#' @param metadata metadata information to be included. Defaults to NA.
-#' @param auftrag_id order number.
-#' @param contact contact information on the title sheet. Defaults to "statzh"
-#' @param homepage web address to be put on the title sheet. Default to "statzh"
-#' @param openinghours openinghours written on the title sheet.
-#'  Defaults to Data Shop
-#' @param grouplines Column for second header(s). Format: List e.g list(c(2,4,6))
-#' @param group_names Name(s) of the second header(s). Format: List e.g
+#'@param titlesource source to be mentioned on the title sheet beneath the title
+#'@param sources source of the data. Defaults to "statzh".
+#'@param metadata metadata information to be included. Defaults to NA.
+#'@param auftrag_id order number.
+#'@param contact contact information on the title sheet. Defaults to "statzh"
+#'@param homepage web address to be put on the title sheet. Default to "statzh"
+#'@param openinghours openinghours written on the title sheet. Defaults to Data
+#'  Shop
+#'@param grouplines Column for second header(s). Format: List e.g list(c(2,4,6))
+#'@param group_names Name(s) of the second header(s). Format: List e.g
 #'  list(c("title 1", "title 2", "title 3"))
-#' @param overwrite overwrites the existing excel files with the same file name.
+#'@param overwrite overwrites the existing excel files with the same file name.
 #'  default to FALSE
-#' @keywords datasetsXLSX
-#' @export
-#' @importFrom dplyr "%>%"
-#' @importFrom purrr pwalk pmap
+#'@param wb existing Workbook. Defaults to NULL
+#'@keywords datasetsXLSX
+#'@export
+#'@importFrom dplyr "%>%"
+#'@importFrom purrr pwalk pmap
 #' @examples
 #'\donttest{
 #' \dontrun{
@@ -73,14 +74,12 @@
 #'                  geom_histogram()
 #'
 #'datasetsXLSX(file="twoDatasetsandFigure",
-#'             datasets = list(dat1, dat2, fig),   # fig als ggplot Objekt oder File Path
+#'             datasets = list(dat1, dat2, fig),
 #'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
 #'             plot_widths = c(5),
 #'             plot_heights = c(5),
-#'             sources = c("Source: Henderson and Velleman (1981).
-#'             Building multiple regression models interactively. Biometrics, 37, 391–411.",
-#'                         "Source: Dobson, A. J. (1983) An Introduction to
-#'                         Statistical Modelling. London: Chapman and Hall."),
+#'             sources = c("Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411.",
+#'                         "Source: Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall."),
 #'             metadata = c("Bemerkungen zum mtcars-Datensatz: x",
 #'                          "Bemerkungen zum PlantGrowth-Datensatz: x"),
 #'             sheetnames = c("Autos","Blumen", "Histogramm"),
@@ -100,20 +99,26 @@ datasetsXLSX <- function(file, datasets, titles, plot_widths = NULL,
                          sheetnames, maintitle, titlesource = "statzh",
                          logo = "statzh", auftrag_id = NULL,
                          contact = "statzh", homepage = "statzh",
-                         openinghours = "statzh", overwrite = F){
+                         openinghours = "statzh", overwrite = F, wb = NULL){
 
   # Run checks on arguments ------
   checkGroupOptionCompatibility(group_names, grouplines)
 
+
+
   # Initialize new Workbook ------
-  wb <- openxlsx::createWorkbook()
+  if (is.null(wb)){
+    wb <- openxlsx::createWorkbook()
+  }
 
 
   # Create indexes of which inputs correspond to data.frames or plots-----
   dataframes_index <- which(vapply(datasets, is.data.frame, TRUE))
 
   implemented_plot_types <- c("gg", "ggplot", "histogram", "character")
-  plot_index <- which(vapply(datasets, function(x) class(x) %in% implemented_plot_types, TRUE))
+  plot_index <- which(vapply(datasets, function(x){
+    length(setdiff(class(x), implemented_plot_types)) == 0
+    }, TRUE))
 
   # Index from input lists using index -----------
   ### data.frames
@@ -162,10 +167,7 @@ datasetsXLSX <- function(file, datasets, titles, plot_widths = NULL,
 
 
   # Create a table of hyperlinks in index sheet (assumed to be "Index") ------
-  data.frame(sheetnames = sheetnames,
-             titles = titles,
-             sheet_row = seq(15, 15 + length(sheetnames) - 1)) %>%
-    purrr::pwalk(~insert_hyperlinks(wb, sheetname = ..1, title = ..2, sheet_row = ..3))
+  insert_hyperlinks(wb, sheetnames, titles, index_sheet_name = "Index", sheet_start_row = 15)
 
 
   # Save workbook at path denoted by argument file ---------

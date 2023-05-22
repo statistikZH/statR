@@ -10,3 +10,13 @@ checkGroupOptionCompatibility <- function(group_names, grouplines){
     stop("For a second header, the grouplines must be specified")
   }
 }
+
+#' checkImplementedPlotType()
+#'
+#' @description Check if image is an implemented plot type
+#' @param image Any R object
+#' @keywords internal
+#' @noRd
+checkImplementedPlotType <- function(image){
+  length(setdiff(class(image), c("gg", "ggplot", "histogram"))) == 0
+}

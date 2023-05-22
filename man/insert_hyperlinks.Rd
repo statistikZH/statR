@@ -4,18 +4,26 @@
 \alias{insert_hyperlinks}
 \title{insert_hyperlinks()}
 \usage{
-insert_hyperlinks(wb, sheetname, title, sheet_row)
+insert_hyperlinks(
+  wb,
+  sheetnames,
+  titles,
+  index_sheet_name = "Index",
+  sheet_start_row = 15
+)
 }
 \arguments{
 \item{wb}{Workbook object}
 
-\item{sheetname}{Name of sheet}
+\item{sheetnames}{Names of sheets to create hyperlinks to}
 
-\item{title}{Title}
+\item{titles}{Titles of Hyperlinks}
 
-\item{sheet_row}{Sheet row}
+\item{index_sheet_name}{Name of sheet where hyperlinks should be created}
+
+\item{sheet_start_row}{Sheet row}
 }
 \description{
 Function for inserting hyperlinks within an openxlsx Workbook
 }
-\keyword{internal}
+\keyword{insert_hyperlinks}

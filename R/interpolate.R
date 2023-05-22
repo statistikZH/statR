@@ -20,7 +20,7 @@ interpolate2 <- function(palette, color, degree, number){
   }
 
   newpalette <- c()
-  for (i in palette) {
+  for (i in palette){
     intcols <- c(i, color)
     pal <- grDevices::colorRampPalette(intcols)
     intcols <- pal(7)

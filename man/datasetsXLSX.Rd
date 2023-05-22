@@ -22,7 +22,8 @@ datasetsXLSX(
   contact = "statzh",
   homepage = "statzh",
   openinghours = "statzh",
-  overwrite = F
+  overwrite = F,
+  wb = NULL
 )
 }
 \arguments{
@@ -61,11 +62,13 @@ list(c("title 1", "title 2", "title 3"))}
 
 \item{homepage}{web address to be put on the title sheet. Default to "statzh"}
 
-\item{openinghours}{openinghours written on the title sheet.
-Defaults to Data Shop}
+\item{openinghours}{openinghours written on the title sheet. Defaults to Data
+Shop}
 
 \item{overwrite}{overwrites the existing excel files with the same file name.
 default to FALSE}
+
+\item{wb}{existing Workbook. Defaults to NULL}
 }
 \description{
 Function to export several datasets and/or figures from R to an
@@ -76,9 +79,9 @@ Function to export several datasets and/or figures from R to an
 When including figures, the heights and widths need to be specified
  as a vector. For example, say you have one dataset and two figures that you
  would like to export. widths = c(5,6) then suggests that the first figure
- will be 5 inches wide, the second 6. To include a figure either save it as
- a ggplot object or indicate a file path to an existing file
- (possible formats: png, jpg, bmp).
+ will be 5 inches wide, the second 6. To include a figure either save it as a
+ ggplot object or indicate a file path to an existing file (possible formats:
+ png, jpg, bmp).
 }
 \examples{
 \donttest{
@@ -117,14 +120,12 @@ fig <- ggplot(mtcars, aes(x=disp))+
                  geom_histogram()
 
 datasetsXLSX(file="twoDatasetsandFigure",
-            datasets = list(dat1, dat2, fig),   # fig als ggplot Objekt oder File Path
+            datasets = list(dat1, dat2, fig),
             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
             plot_widths = c(5),
             plot_heights = c(5),
-            sources = c("Source: Henderson and Velleman (1981).
-            Building multiple regression models interactively. Biometrics, 37, 391–411.",
-                        "Source: Dobson, A. J. (1983) An Introduction to
-                        Statistical Modelling. London: Chapman and Hall."),
+            sources = c("Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411.",
+                        "Source: Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall."),
             metadata = c("Bemerkungen zum mtcars-Datensatz: x",
                          "Bemerkungen zum PlantGrowth-Datensatz: x"),
             sheetnames = c("Autos","Blumen", "Histogramm"),

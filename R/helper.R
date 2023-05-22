@@ -84,7 +84,7 @@ inputHelperSource <- function(source, prefix = NULL, collapse = NULL){
 inputHelperMetadata <- function(metadata, prefix = NULL, collapse = NULL){
 
   if (all(is.na(metadata))){
-    return(metadata)
+    return(NULL)
   }
 
   if (!is.null(collapse)){
@@ -130,7 +130,11 @@ inputHelperLogoPath <- function(logo){
 inputHelperContactInfo <- function(contact, compact = FALSE){
 
   if (contact == "statzh"){
-    contact <- ifelse(compact, statzh_contact_compact, statzh_contact)
+    if (compact){
+      contact <- statzh_contact_compact
+    } else {
+      contact <- statzh_contact
+    }
   }
 
   return(contact)
@@ -167,8 +171,8 @@ inputHelperOfficeHours <- function(openinghours){
 #' @noRd
 #'
 inputHelperHomepage <- function(homepage){
-  sub("statzh", statzh_homepage, homepage)
-  class(homepage) <- 'hyperlink'
+  homepage <- sub("statzh", statzh_homepage, homepage)
+  # class(homepage) <- 'hyperlink'
 
   return(homepage)
 }

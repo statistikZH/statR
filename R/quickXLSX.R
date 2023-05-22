@@ -1,7 +1,6 @@
 #' quickXLSX()
 #'
 #' @description Function to export data from R to a formatted .xlsx-spreadsheet.
-#' @note Will be deprecated in upcoming version.
 #' @param data data to be exported.
 #' @param file file name of the xlsx-file. The extension ".xlsx" is added
 #'  automatically.
@@ -29,10 +28,12 @@ quickXLSX <- function(data = NA, file, title = "Title", source = "statzh",
   # Create workbook --------
   wb <- openxlsx::createWorkbook()
 
+
   # Insert data --------
   insert_worksheet(data, wb, "Inhalt", title = title, source = source,
-    metadata = metadata, logo = logo, grouplines = grouplines,
-    contactdetails = contactdetails, author = author)
+                   metadata = metadata, logo = logo, grouplines = grouplines,
+                   contactdetails = contactdetails, author = author)
+
 
   # Save workbook---------
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)

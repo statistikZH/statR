@@ -14,10 +14,13 @@
 #'  Defaults to "statzh"
 #' @param contactdetails contact details of the data publisher. Defaults to
 #'  "statzh".
+#' @param homepage Homepage of data publisher. Defaults to "statzh".
 #' @param grouplines defaults to FALSE. Can be used to separate grouped
 #'  variables visually.
 #' @param author defaults to the last two letters (initials) or numbers of the
 #'  internal user name.
+#' @param date_prefix Text shown before date
+#' @param author_prefix Text shown before author name
 #' @importFrom dplyr "%>%"
 #' @keywords insert_worksheet
 #' @export
@@ -33,23 +36,31 @@
 insert_worksheet <- function(data, wb, sheetname = "data", title = "Title",
                              source = "statzh", metadata = NA, logo = "statzh",
                              grouplines = FALSE, contactdetails = "statzh",
-                             author = "user"){
+                             homepage = "statzh", author = "user",
+                             date_prefix = "Aktualisiert am: ",
+                             author_prefix = "durch: "){
 
   # Process input (substitute default values) -----
+  logo <- inputHelperLogoPath(logo)
   contactdetails <- inputHelperContactInfo(contactdetails)
+  homepage <- inputHelperHomepage(homepage)
+  creationdate <- inputHelperDateCreated(prefix = date_prefix)
+  authorname <- inputHelperAuthorName(author, prefix = author_prefix)
+  source <- inputHelperSource(source)
+  metadata <- inputHelperMetadata(metadata)
+
 
   # Determine start/end rows, row and column extents of content blocks -----
-
   ### Contact information
   contact_start_row <- 2
   contact_start_col <- max(ncol(data) - 2, 4)
   contact_end_col <- 26
   contact_end_row <- contact_start_row + length(contactdetails)
   contact_column_extent <- contact_start_col:contact_end_col
-  contact_rows_extent <- contact_start_row:(contact_end_row + 1)
+  contact_rows_extent <- contact_start_row:contact_end_row
 
   ### Descriptives
-  title_start_row <- contact_end_row + 2
+  title_start_row <- contact_end_row + 3
   source_start_row <- title_start_row + 1
   metadata_start_row <- source_start_row + length(source)
   metadata_end_row <- metadata_start_row + length(metadata)
@@ -68,20 +79,19 @@ insert_worksheet <- function(data, wb, sheetname = "data", title = "Title",
 
 
   # Insert logo ------
-  logo <- inputHelperLogoPath(logo)
-
   if (!is.null(logo)){
-    openxlsx::insertImage(wb, sheetname, logo, 2.145, 0.7865, "in")
+    openxlsx::insertImage(wb, sheetname, logo, 2.145, 0.7865, units = "in")
   }
 
 
   # Insert contact info, date created, and author -----
   ### Contact info
-  openxlsx::writeData(wb, sheetname, contactdetails, contact_start_col, contact_start_row, headerStyle = style_wrap())
+  openxlsx::writeData(wb, sheetname, contactdetails, contact_start_col, contact_start_row)
+  openxlsx::writeData(wb, sheetname, homepage, contact_start_col, contact_end_row)
 
   ### Creation date
-  infostring <- paste(inputHelperDateCreated(prefix = "Aktualisiert am: "), inputHelperAuthorName(author, prefix = "durch: "))
-  openxlsx::writeData(wb, sheetname, infostring, contact_start_col, contact_end_row + 1, headerStyle = style_subtitle3())
+  infostring <- paste(creationdate, authorname)
+  openxlsx::writeData(wb, sheetname, infostring, contact_start_col, contact_end_row+1)
 
 
   # Insert descriptives into worksheet --------
@@ -90,14 +100,13 @@ insert_worksheet <- function(data, wb, sheetname = "data", title = "Title",
   openxlsx::addStyle(wb, sheetname, style_title(), title_start_row, 1, gridExpand = TRUE)
 
   ### Source
-  openxlsx::writeData(wb, sheetname, inputHelperSource(source), startRow = source_start_row, headerStyle = style_subtitle3())
+  openxlsx::writeData(wb, sheetname, source, startRow = source_start_row)
 
   ### Metadata
-  openxlsx::writeData(wb, sheetname, inputHelperMetadata(metadata), startRow = metadata_start_row, headerStyle = style_subtitle3())
+  openxlsx::writeData(wb, sheetname, metadata, startRow = metadata_start_row)
 
 
   # Insert data --------
-
   ### Pad colnames using whitespaces for better auto-fitting of column width
   colnames(data) <- paste0(colnames(data), "  ", sep = "")
 

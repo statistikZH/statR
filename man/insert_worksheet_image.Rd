@@ -2,8 +2,7 @@
 % Please edit documentation in R/insert_image.R
 \name{insert_worksheet_image}
 \alias{insert_worksheet_image}
-\title{insert_worksheet_image()
-insert an image into a single worksheet}
+\title{insert_worksheet_image()}
 \usage{
 insert_worksheet_image(
   image,
@@ -31,8 +30,7 @@ insert_worksheet_image(
 \item{height}{height of figure}
 }
 \description{
-insert_worksheet_image()
-insert an image into a single worksheet
+Insert an image into a worksheet
 }
 \note{
 The function does not write the result into a .xlsx file. A separate call

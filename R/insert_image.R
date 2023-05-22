@@ -1,5 +1,6 @@
 #' insert_worksheet_image()
-#' insert an image into a single worksheet
+#'
+#' @description Insert an image into a worksheet
 #' @note
 #' The function does not write the result into a .xlsx file. A separate call
 #' to openxlsx::saveWorkbook() is required. A temporary file is created when
@@ -56,7 +57,7 @@ insert_worksheet_image <- function(image, wb, sheetname, startrow = 3,
   if (is(image, "character")){
     image_path <- image
 
-  } else if (is(image, "gg") | is(image, "ggplot") | is(image, "histogram")){
+  } else if (checkImplementedPlotType(image)){
 
     # Allocate temporary file of type png to save the image to
     image_path <- tempfile(fileext = ".png")
@@ -79,8 +80,7 @@ insert_worksheet_image <- function(image, wb, sheetname, startrow = 3,
     stop("Plot muss als ggplot Objekt oder als Filepath vorliegen.")
   }
 
-  # Add new worksheet with image
-  #--------------
+  # Add new worksheet with image ----------
   if (file.exists(image_path)){
     openxlsx::addWorksheet(wb, sheetName = sheetname, gridLines = FALSE)
 

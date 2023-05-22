@@ -42,38 +42,43 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
                                 source = "statzh", metadata = NA, grouplines = NA,
                                 group_names = NA){
 
+  # Process input (substitute default values) -----
+  source <- inputHelperSource(source)
+  metadata <- inputHelperMetadata(metadata)
+
+
+  # Determine start/end rows, row and column extents of content blocks -----
+  ### Descriptives
+  title_start_row <- 1
+  source_start_row <- title_start_row + 1
+  metadata_start_row <- source_start_row + length(source)
+  metadata_end_row <- metadata_start_row + length(metadata)
+  # descriptives_row_extent <- title_start_row:metadata_end_row
+
+  ### Data
+  data_start_row <- metadata_end_row + 3
+  data_end_row <- data_start_row + nrow(data)
+  # data_row_extent <- data_start_row:data_end_row
+
+
   # Initialize new worksheet ------
   sheetname <- verifyInputSheetname(sheetname)
   openxlsx::addWorksheet(wb, sheetname)
 
 
   # Insert title, metadata, and sources into worksheet --------
-
   ### Title
   openxlsx::writeData(wb, sheetname, title)
   openxlsx::addStyle(wb, sheetname, style_title(), 1, 1)
 
   ### Source
-  sources_to_insert <- inputHelperSource(source)
-  source_end_row <- add_additional_text(wb, sources_to_insert, sheetname, 2)
+  openxlsx::writeData(wb, sheetname, source, startRow = source_start_row)
 
   ### Metadata
-  if (!is.na(metadata)){
-    metadata_to_insert <- inputHelperMetadata(metadata)
-    metadata_start_row <- source_end_row + 1
-
-    metadata_end_row <- add_additional_text(wb, metadata_to_insert, sheetname, metadata_start_row)
-
-    data_start_row <- metadata_end_row + 2
-    merge_end_row <- metadata_end_row
-
-  } else{
-    data_start_row <- source_end_row + 2
-    merge_end_row <- source_end_row
-  }
+  openxlsx::writeData(wb, sheetname, metadata, startRow = metadata_start_row)
 
   ### Merge cells with title, metadata, and sources to ensure that they're displayed properly
-  purrr::walk(1:merge_end_row, ~openxlsx::mergeCells(wb, sheetname, 1:26, rows = .))
+  purrr::walk(1:metadata_end_row, ~openxlsx::mergeCells(wb, sheetname, 1:26, rows = .))
 
 
   # Insert data --------
@@ -91,9 +96,7 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
   openxlsx::addStyle(wb, sheetname, style_header(), data_start_row, 1:ncol(data), gridExpand = TRUE, stack = TRUE)
 
 
-  # Apply styles --------
-
-  ### Grouplines
+  # Grouplines ---------
   if (any(!is.na(grouplines))){
     if (!any(is.na(group_names))){
       data_start_row <- data_start_row - 1

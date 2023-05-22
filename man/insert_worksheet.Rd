@@ -14,7 +14,9 @@ insert_worksheet(
   logo = "statzh",
   grouplines = FALSE,
   contactdetails = "statzh",
-  author = "user"
+  author = "user",
+  date_prefix = "Aktualisiert am: ",
+  author_prefix = "durch: "
 )
 }
 \arguments{
@@ -41,6 +43,10 @@ variables visually.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
+
+\item{date_prefix}{Text shown before date}
+
+\item{author_prefix}{Text shown before author name}
 }
 \description{
 Function to insert a formatted worksheet into an existing
