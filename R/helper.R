@@ -224,3 +224,101 @@ inputHelperAuthorName <- function(author, prefix = NULL){
   return(paste0(prefix, author))
 }
 
+
+
+#' excelIndexToRowCol()
+#'
+#' @description Function extracts initials from global environment if
+#'  input is 'user', otherwise passes on the input.
+#' @param author Name of author
+#' @param prefix A character string to prepend to the result
+#' @returns A character string with the username
+#' @keywords internal
+#' @noRd
+#'
+excelIndexToRowCol <- function(index){
+
+  splitIndex <- function(x, split = "") unlist(strsplit(x, split))
+
+  excelColumnLetterToNumeric <- function(x){
+    chars <- splitIndex(x, "")
+    offsets <- 26^(length(chars):1 - 1)
+    sum(offsets * match(chars, LETTERS))
+  }
+
+  # Return extent of occupied region
+  if (length(index) > 1){
+    extents <- lapply(index, excelIndexToRowCol)
+    extents <- unique(do.call(rbind,lapply(extents, stack)))
+    rows <- extents[extents$ind == "row", "values"]
+    cols <- extents[extents$ind == "col", "values"]
+    return(list(row = seq(min(rows), max(rows)),
+                col = seq(min(cols), max(cols))))
+  }
+
+  # Single index
+  column_index <- sapply(splitIndex(gsub("([0-9]+)", "", index), ":"),
+                         excelColumnLetterToNumeric)
+
+  rows <- eval(parse(text = gsub("([A-Z]{1,3})", "", index)))
+  cols <- seq(min(column_index), max(column_index))
+  return(list(row = rows, col = cols))
+}
+
+#' getNamedRegionExtent()
+#'
+#' @description Function extracts initials from global environment if
+#'  input is 'user', otherwise passes on the input.
+#' @param author Name of author
+#' @param prefix A character string to prepend to the result
+#' @returns A character string with the username
+#' @keywords internal
+#' @noRd
+#'
+getNamedRegionExtent <- function(wb, sheet, name = NULL){
+  named_regions <- openxlsx::getNamedRegions(wb)
+  named_regions_attr <- as.data.frame(attributes(named_regions))
+
+  if (!is.null(name)){
+    match(name, named_regions)
+    ind <- which(name == named_regions)
+  } else {
+    ind <- 1:length(named_regions)
+  }
+
+  # print(named_regions)
+  if (length(ind) != 0){
+    return(excelIndexToRowCol(named_regions_attr[ind, "position"]))
+  }
+}
+
+#' getNamedRegionExtent()
+#'
+#' @description Function extracts initials from global environment if
+#'  input is 'user', otherwise passes on the input.
+#' @param author Name of author
+#' @param prefix A character string to prepend to the result
+#' @returns A character string with the username
+#' @keywords internal
+#' @noRd
+#'
+getNamedRegionFirstRow <- function(wb, sheet, name = NULL){
+  region_extent <- getNamedRegionExtent(wb, sheet, name)
+  return(min(region_extent[["row"]]))
+}
+
+#' getNamedRegionExtent()
+#'
+#' @description Function extracts initials from global environment if
+#'  input is 'user', otherwise passes on the input.
+#' @param author Name of author
+#' @param prefix A character string to prepend to the result
+#' @returns A character string with the username
+#' @keywords internal
+#' @noRd
+#'
+getNamedRegionLastRow <- function(wb, sheet, name = NULL){
+  region_extent <- getNamedRegionExtent(wb, sheet, name)
+  return(max(region_extent[["row"]]))
+}
+

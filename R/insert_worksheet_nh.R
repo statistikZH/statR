@@ -38,50 +38,41 @@
 #' ## save workbook
 #'  openxlsx::saveWorkbook(export,"example.xlsx")
 #' }
-insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
-                                source = "statzh", metadata = NA, grouplines = NA,
+insert_worksheet_nh <- function(data, wb, sheetname = "Daten",
+                                title = "Title",
+                                source = "statzh",
+                                metadata = NA,
+                                grouplines = NA,
                                 group_names = NA){
-
-  # Process input (substitute default values) -----
-  source <- inputHelperSource(source)
-  metadata <- inputHelperMetadata(metadata)
-
-
-  # Determine start/end rows, row and column extents of content blocks -----
-  ### Descriptives
-  title_start_row <- 1
-  source_start_row <- title_start_row + 1
-  metadata_start_row <- source_start_row + length(source)
-  metadata_end_row <- metadata_start_row + length(metadata)
-  # descriptives_row_extent <- title_start_row:metadata_end_row
-
-  ### Data
-  data_start_row <- metadata_end_row + 3
-  data_end_row <- data_start_row + nrow(data)
-  # data_row_extent <- data_start_row:data_end_row
-
-
   # Initialize new worksheet ------
   sheetname <- verifyInputSheetname(sheetname)
   openxlsx::addWorksheet(wb, sheetname)
 
-
   # Insert title, metadata, and sources into worksheet --------
   ### Title
-  openxlsx::writeData(wb, sheetname, title)
+  openxlsx::writeData(wb, sheetname, title, startCol = 1, startRow = 1,
+                      name = "title")
   openxlsx::addStyle(wb, sheetname, style_title(), 1, 1)
 
   ### Source
-  openxlsx::writeData(wb, sheetname, source, startRow = source_start_row)
+  openxlsx::writeData(wb, sheetname, inputHelperSource(source),
+                      startRow = getNamedRegionLastRow(wb, sheetname, "title") + 1,
+                      name = "source")
 
   ### Metadata
-  openxlsx::writeData(wb, sheetname, metadata, startRow = metadata_start_row)
+  openxlsx::writeData(wb, sheetname, inputHelperMetadata(metadata),
+                      startRow = getNamedRegionLastRow(wb, sheetname, "source") + 1,
+                      name = "metadata")
+
 
   ### Merge cells with title, metadata, and sources to ensure that they're displayed properly
-  purrr::walk(1:metadata_end_row, ~openxlsx::mergeCells(wb, sheetname, 1:26, rows = .))
+  descr_extent <- getNamedRegionExtent(wb, sheetname, c("title", "source", "metadata"))
+  purrr::walk(descr_extent$row, ~openxlsx::mergeCells(wb, sheetname, 1:26, rows = .))
 
 
   # Insert data --------
+  data_start_row <- getNamedRegionLastRow(wb, sheetname, "metadata") + 3
+
   ### Insert second header
   if (!any(is.na(group_names))){
     insert_second_header(wb, sheetname, data_start_row, group_names, grouplines, data)
@@ -92,20 +83,16 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
   colnames(data) <- paste0(colnames(data), "  ", sep = "")
 
   ### Write data after checking for leftover grouping
-  openxlsx::writeData(wb, sheetname, verifyDataUngrouped(data), startRow = data_start_row, rowNames = FALSE, withFilter = FALSE)
-  openxlsx::addStyle(wb, sheetname, style_header(), data_start_row, 1:ncol(data), gridExpand = TRUE, stack = TRUE)
+  openxlsx::writeData(wb, sheetname, verifyDataUngrouped(data),
+                      startRow = data_start_row, rowNames = FALSE,
+                      withFilter = FALSE, name = "data_region")
+  openxlsx::addStyle(wb, sheetname, style_header(),
+                     data_start_row, 1:ncol(data),
+                     gridExpand = TRUE, stack = TRUE)
 
 
   # Grouplines ---------
   if (any(!is.na(grouplines))){
-    if (!any(is.na(group_names))){
-      data_start_row <- data_start_row - 1
-      data_end_row <- nrow(data) + data_start_row + 1
-
-    } else {
-      data_end_row <- nrow(data) + data_start_row
-    }
-
     if (is.numeric(grouplines)){
       groupline_numbers <- grouplines
 
@@ -113,11 +100,13 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten", title = "Title",
       groupline_numbers <- get_groupline_index_by_pattern(grouplines, data)
     }
 
-    openxlsx::addStyle(wb, sheetname, style_leftline(), data_start_row:data_end_row, groupline_numbers, gridExpand = TRUE, stack = TRUE)
+    data_region_extent <- getNamedRegionExtent(wb, sheetname, "data_region")
+    openxlsx::addStyle(wb, sheetname, style_leftline(),
+                       data_region_extent$row, groupline_numbers,
+                       gridExpand = TRUE, stack = TRUE)
   }
 
   # Format --------
-
   ### Define minimum column width
   options("openxlsx.minWidth" = 5)
 

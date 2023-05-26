@@ -14,6 +14,7 @@ insert_worksheet(
   logo = "statzh",
   grouplines = FALSE,
   contactdetails = "statzh",
+  homepage = "statzh",
   author = "user",
   date_prefix = "Aktualisiert am: ",
   author_prefix = "durch: "
@@ -40,6 +41,8 @@ variables visually.}
 
 \item{contactdetails}{contact details of the data publisher. Defaults to
 "statzh".}
+
+\item{homepage}{Homepage of data publisher. Defaults to "statzh".}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}

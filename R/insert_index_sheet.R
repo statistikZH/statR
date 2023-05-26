@@ -19,72 +19,67 @@ insert_index_sheet <- function(wb, logo = "statzh", contact = "statzh",
                                titlesource, auftrag_id, maintitle,
                                sheetname = "Index",
                                date_prefix = "Erstellt am: ",
-                               order_id_prefix = "Auftragsnr.:"){
-
-  # Hardcoded ----------
-  index_sheet_name <- "Index"
-  toc_caption <- "Inhalt"
-
-
-  # Process input (substitute default values) -----
-  logo <- inputHelperLogoPath(logo)
-  contact <- inputHelperContactInfo(contact)
-  homepage <- inputHelperHomepage(homepage)
-  openinghours <- inputHelperOfficeHours(openinghours)
-  creationdate <- inputHelperDateCreated(prefix = date_prefix)
-  order_id <- inputHelperOrderNumber(auftrag_id, prefix = order_id_prefix)
-
+                               order_id_prefix = "Auftragsnr.:",
+                               toc_caption = "Inhalt"){
 
   # Initialize new worksheet as index sheet ------
-  openxlsx::addWorksheet(wb, index_sheet_name)
-
-
-  # Determine start/end rows of content blocks -----
-  contact_start_row <- 2
-  contact_end_row <- contact_start_row + length(c(contact, homepage))
-  request_start_row <- contact_end_row + 2
-  title_start_row <- request_start_row + 2
-  source_start_row <- title_start_row + 1
-  index_start_row <- source_start_row + 2
+  openxlsx::addWorksheet(wb, sheetname)
 
 
   # Insert logo ----------
+  logo <- inputHelperLogoPath(logo)
   if (!is.null(logo)){
-    openxlsx::insertImage(wb, index_sheet_name, logo, 2.145, 0.7865, units = "in")
+    openxlsx::insertImage(wb, sheetname, logo, 2.145, 0.7865, units = "in")
   }
 
 
   # Insert contact info, title, metadata, and sources into worksheet --------
   ### Contact information
-  contact_info <- c(contact, homepage)
-  openxlsx::writeData(wb, index_sheet_name, contact_info, xy = c("O", contact_start_row))
+  contact_info <- c(inputHelperContactInfo(contact),
+                    inputHelperHomepage(homepage))
+  openxlsx::writeData(wb, sheetname, contact_info, 15, 2,
+                      name = "contact")
 
   ### Office hours
-  openxlsx::writeData(wb, index_sheet_name, openinghours, xy = c("R", contact_start_row))
+  openxlsx::writeData(wb, sheetname, inputHelperOfficeHours(openinghours),
+                      18, getNamedRegionFirstRow(wb, sheetname, "contact"),
+                      name = "officehours")
 
   ### Request information
-  openxlsx::writeData(wb, index_sheet_name, c(creationdate, order_id), xy = c("O", request_start_row))
+  info_vec <- c(inputHelperDateCreated(prefix = date_prefix),
+                inputHelperOrderNumber(auftrag_id, prefix = order_id_prefix))
+  openxlsx::writeData(wb, sheetname, info_vec, 15,
+                      getNamedRegionLastRow(wb, sheetname, "contact"),
+                      name = "info")
+  ### Add Headerline
+  openxlsx::addStyle(wb, sheetname, style_headerline(),
+                     getNamedRegionLastRow(wb, sheetname, "info"), 1:20,
+                     gridExpand = TRUE, stack = TRUE)
 
   ### Title
-  openxlsx::writeData(wb, index_sheet_name, maintitle, xy = c("C", title_start_row))
-  openxlsx::addStyle(wb, index_sheet_name, style_maintitle(), title_start_row, 3)
+  openxlsx::writeData(wb, sheetname, maintitle, 3,
+                      getNamedRegionLastRow(wb, sheetname, "info") + 3,
+                      name = "title")
+  openxlsx::addStyle(wb, sheetname, style_maintitle(),
+                     getNamedRegionLastRow(wb, sheetname, "title"), 3)
 
   ### Source
-  openxlsx::writeData(wb, index_sheet_name, titlesource, xy = c("C", source_start_row))
+  openxlsx::writeData(wb, sheetname, titlesource, 3,
+                      getNamedRegionLastRow(wb, sheetname, "title") + 1,
+                      name = "source")
 
   ### Table of content caption
-  openxlsx::writeData(wb, index_sheet_name, toc_caption, xy = c("C", index_start_row))
-  openxlsx::addStyle(wb, index_sheet_name, subtitleStyle(), index_start_row, 3)
+  openxlsx::writeData(wb, sheetname, toc_caption, 3,
+                      getNamedRegionLastRow(wb, sheetname, "source"),
+                      name = "toc")
+  openxlsx::addStyle(wb, sheetname, subtitleStyle(),
+                     getNamedRegionLastRow(wb, sheetname, "toc"), 3)
 
 
   # Format ---------
   ### Set column width of first column to 1
-  openxlsx::setColWidths(wb, index_sheet_name, 1, 1)
+  openxlsx::setColWidths(wb, sheetname, 1, 1)
 
   ### Hide gridlines
-  openxlsx::showGridLines(wb, index_sheet_name, FALSE)
-
-  ### Add Headerline
-  openxlsx::addStyle(wb, index_sheet_name, style_headerline(), contact_end_row + 1, 1:20, gridExpand = TRUE, stack = TRUE)
-
+  openxlsx::showGridLines(wb, sheetname, FALSE)
 }

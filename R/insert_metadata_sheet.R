@@ -32,22 +32,8 @@ insert_metadata_sheet <- function(wb, sheetname = "Metadaten", title = "Title",
                                   source_prefix = "Datenquelle:",
                                   metadata_prefix = "Hinweise:"){
 
-  # Process input (substitute default values) -----
-  logo <- inputHelperLogoPath(logo)
-  contactdetails <- inputHelperContactInfo(contactdetails)
-  creationdate <- inputHelperDateCreated(prefix = date_prefix)
-  authorname <- inputHelperAuthorName(author, prefix = author_prefix)
-  source <- inputHelperSource(source, prefix = source_prefix)
-  metadata <- inputHelperMetadata(metadata, prefix = metadata_prefix)
-
-
   # Determine start/end rows of content blocks -----
   contact_start_row <- 2
-  contact_end_row <- contact_start_row + length(contactdetails)
-  title_start_row <- contact_end_row + 2
-  source_start_row <- title_start_row + 1
-  source_end_row <- source_start_row + length(source) + 1
-  metadata_start_row <- source_end_row + 1
 
 
   # Add a new worksheet ------
@@ -56,6 +42,7 @@ insert_metadata_sheet <- function(wb, sheetname = "Metadaten", title = "Title",
 
 
   # Insert logo --------
+  logo <- inputHelperLogoPath(logo)
   if(!is.null(logo)){
     openxlsx::insertImage(wb, sheetname, logo, 2.145, 0.7865, units = "in")
   }
@@ -63,25 +50,37 @@ insert_metadata_sheet <- function(wb, sheetname = "Metadaten", title = "Title",
 
   # Insert contact info, title, metadata, and sources into worksheet --------
   ### Contact info
-  openxlsx::writeData(wb, sheetname, contactdetails, 12, contact_start_row)
+  openxlsx::writeData(wb, sheetname, inputHelperContactInfo(contactdetails),
+                      12, 2, name = "contact")
 
   ### Request information
-  info_string <- paste(creationdate, authorname)
-  openxlsx::writeData(wb, sheetname, info_string, 12, contact_end_row + 1)
+  info_string <- paste(inputHelperDateCreated(prefix = date_prefix),
+                       inputHelperAuthorName(author, prefix = author_prefix))
+  openxlsx::writeData(wb, sheetname, info_string, 12,
+                      startRow = getNamedRegionLastRow(wb, sheetname, "contact") + 1,
+                      name = "info")
+  ### Headerline
+  openxlsx::addStyle(wb, sheetname, style_headerline(),
+                     getNamedRegionLastRow(wb, sheetname, "contact") + 1, 1:26,
+                     gridExpand = TRUE, stack = TRUE)
 
   ### Title
-  openxlsx::writeData(wb, sheetname, title, startRow = title_start_row)
-  openxlsx::addStyle(wb, sheetname, style_title(), rows = title_start_row, cols = 1)
+  openxlsx::writeData(wb, sheetname, title,
+                      startRow = getNamedRegionLastRow(wb, sheetname, "info") + 3,
+                      name = "title")
+  openxlsx::addStyle(wb, sheetname, style_title(),
+                     rows = getNamedRegionLastRow(wb, sheetname, "title"), cols = 1)
 
   ### Source and metadata
-  openxlsx::writeData(wb, sheetname, source, startRow = source_start_row)
-  openxlsx::writeData(wb, sheetname, metadata, startRow = metadata_start_row)
-  openxlsx::addStyle(wb, sheetname, style_subtitle2(), c(source_start_row, metadata_start_row), 1)
-
-
-  # Format ----------
-  ### Headerline
-  openxlsx::addStyle(wb, sheetname, style_headerline(), contact_end_row + 2, 1:26, gridExpand = TRUE, stack = TRUE)
+  openxlsx::writeData(wb, sheetname, inputHelperSource(source, prefix = source_prefix),
+                      startRow = getNamedRegionLastRow(wb, sheetname, "title") + 1,
+                      name = "source")
+  openxlsx::writeData(wb, sheetname, inputHelperMetadata(metadata, prefix = metadata_prefix),
+                      startRow = getNamedRegionLastRow(wb, sheetname, "source"),
+                      name = "metadata")
+  openxlsx::addStyle(wb, sheetname, style_subtitle2(),
+                     c(getNamedRegionFirstRow(wb, sheetname, "source"),
+                       getNamedRegionFirstRow(wb, sheetname, "metadata")), 1)
 
   ### Hide gridlines
   openxlsx::showGridLines(wb, sheetname, FALSE)
