@@ -48,22 +48,22 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten",
   sheetname <- verifyInputSheetname(sheetname)
   openxlsx::addWorksheet(wb, sheetname)
 
+
   # Insert title, metadata, and sources into worksheet --------
   ### Title
   openxlsx::writeData(wb, sheetname, title, startCol = 1, startRow = 1,
-                      name = "title")
+                      name = paste(sheetname, "title", sep = "_"))
   openxlsx::addStyle(wb, sheetname, style_title(), 1, 1)
 
   ### Source
   openxlsx::writeData(wb, sheetname, inputHelperSource(source),
                       startRow = getNamedRegionLastRow(wb, sheetname, "title") + 1,
-                      name = "source")
+                      name = paste(sheetname,"source", sep = "_"))
 
   ### Metadata
   openxlsx::writeData(wb, sheetname, inputHelperMetadata(metadata),
                       startRow = getNamedRegionLastRow(wb, sheetname, "source") + 1,
-                      name = "metadata")
-
+                      name = paste(sheetname,"metadata", sep = "_"))
 
   ### Merge cells with title, metadata, and sources to ensure that they're displayed properly
   descr_extent <- getNamedRegionExtent(wb, sheetname, c("title", "source", "metadata"))
@@ -73,10 +73,27 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten",
   # Insert data --------
   data_start_row <- getNamedRegionLastRow(wb, sheetname, "metadata") + 3
 
-  ### Insert second header
-  if (!any(is.na(group_names))){
-    insert_second_header(wb, sheetname, data_start_row, group_names, grouplines, data)
-    data_start_row <- data_start_row + 1
+
+  # Grouplines ---------
+  if (!any(is.null(grouplines) || any(is.na(grouplines)))){
+
+    if (is.numeric(grouplines)){
+      groupline_numbers <- grouplines
+
+    } else if (is.character(grouplines)){
+      groupline_numbers <- get_groupline_index_by_pattern(grouplines, data)
+    }
+
+    ### Insert second header
+    if (!any(is.null(group_names) || any(is.na(group_names)))){
+      insert_second_header(wb, sheetname, data_start_row, group_names, grouplines, data)
+      data_start_row <- data_start_row + 1
+    }
+
+    data_row_extent <- data_start_row + 1:nrow(data) - 1
+    openxlsx::addStyle(wb, sheetname, style_leftline(),
+                       data_row_extent, groupline_numbers,
+                       gridExpand = TRUE, stack = TRUE)
   }
 
   ### Pad colnames using whitespaces for better auto-fitting of column width
@@ -85,26 +102,10 @@ insert_worksheet_nh <- function(data, wb, sheetname = "Daten",
   ### Write data after checking for leftover grouping
   openxlsx::writeData(wb, sheetname, verifyDataUngrouped(data),
                       startRow = data_start_row, rowNames = FALSE,
-                      withFilter = FALSE, name = "data_region")
+                      withFilter = FALSE, name = paste(sheetname,"data", sep = "_"))
   openxlsx::addStyle(wb, sheetname, style_header(),
                      data_start_row, 1:ncol(data),
                      gridExpand = TRUE, stack = TRUE)
-
-
-  # Grouplines ---------
-  if (any(!is.na(grouplines))){
-    if (is.numeric(grouplines)){
-      groupline_numbers <- grouplines
-
-    } else if (is.character(grouplines)){
-      groupline_numbers <- get_groupline_index_by_pattern(grouplines, data)
-    }
-
-    data_region_extent <- getNamedRegionExtent(wb, sheetname, "data_region")
-    openxlsx::addStyle(wb, sheetname, style_leftline(),
-                       data_region_extent$row, groupline_numbers,
-                       gridExpand = TRUE, stack = TRUE)
-  }
 
   # Format --------
   ### Define minimum column width

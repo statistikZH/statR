@@ -61,7 +61,7 @@ inputHelperSource <- function(source, prefix = NULL, collapse = NULL){
   source <- sub("statzh", statzh_name, source)
 
   if (all(is.na(source))){
-    return(source)
+    return("")
   }
 
   if (!is.null(collapse)){
@@ -84,7 +84,7 @@ inputHelperSource <- function(source, prefix = NULL, collapse = NULL){
 inputHelperMetadata <- function(metadata, prefix = NULL, collapse = NULL){
 
   if (all(is.na(metadata))){
-    return(NULL)
+    return("")
   }
 
   if (!is.null(collapse)){
@@ -279,14 +279,16 @@ getNamedRegionExtent <- function(wb, sheet, name = NULL){
   named_regions <- openxlsx::getNamedRegions(wb)
   named_regions_attr <- as.data.frame(attributes(named_regions))
 
-  if (!is.null(name)){
-    match(name, named_regions)
-    ind <- which(name == named_regions)
+  sheet_ind <- match(sheet, named_regions_attr$sheet)
+
+  if (any(!is.null(name))){
+    name <- paste(sheet, name, sep = "_")
+    ind <- match(name, named_regions)
+
   } else {
-    ind <- 1:length(named_regions)
+    ind <- sheet_ind
   }
 
-  # print(named_regions)
   if (length(ind) != 0){
     return(excelIndexToRowCol(named_regions_attr[ind, "position"]))
   }

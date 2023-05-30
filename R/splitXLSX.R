@@ -46,10 +46,12 @@ splitXLSX <- function(data, file, sheetvar, title = "Titel", source = "statzh",
   # loop to split values of the variable used to split the data -----
   for (sheetvalue in sheetvalues){
     sheettitle <- paste0(title, " (", deparse(substitute(sheetvar)), ": ", sheetvalue, ")")
-    verifyDataUngrouped(data) %>%
-      dplyr::filter((!!col_name) == sheetvalue) %>%
-      insert_worksheet(wb, verifyInputSheetname(sheetvalue), sheettitle, source,
-                       metadata, logo, grouplines, contactdetails, author)
+    data_subset <- verifyDataUngrouped(data) %>%
+      dplyr::filter((!!col_name) == sheetvalue)
+
+    sheetname <- paste(deparse(substitute(sheetvar)), sheetvalue, sep = "_")
+    insert_worksheet(data_subset, wb, verifyInputSheetname(sheetname), sheettitle,
+                     source, metadata, logo, grouplines, contactdetails, author = author)
   }
 
   # Reverse order

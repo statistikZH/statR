@@ -105,7 +105,6 @@ datasetsXLSX <- function(file, datasets, titles, plot_widths = NULL,
   checkGroupOptionCompatibility(group_names, grouplines)
 
 
-
   # Initialize new Workbook ------
   if (is.null(wb)){
     wb <- openxlsx::createWorkbook()
@@ -141,7 +140,7 @@ datasetsXLSX <- function(file, datasets, titles, plot_widths = NULL,
 
 
   # Insert datasets according to dataframes_index -------
-  if(length(dataframes_index) > 0){
+  if (length(dataframes_index) > 0){
     list(dataframe_datasets,
          dataframe_sheetnames,
          dataframe_titles,

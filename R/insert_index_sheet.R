@@ -38,19 +38,19 @@ insert_index_sheet <- function(wb, logo = "statzh", contact = "statzh",
   contact_info <- c(inputHelperContactInfo(contact),
                     inputHelperHomepage(homepage))
   openxlsx::writeData(wb, sheetname, contact_info, 15, 2,
-                      name = "contact")
+                      name = paste(sheetname,"contact", sep = "_"))
 
   ### Office hours
   openxlsx::writeData(wb, sheetname, inputHelperOfficeHours(openinghours),
                       18, getNamedRegionFirstRow(wb, sheetname, "contact"),
-                      name = "officehours")
+                      name = paste(sheetname,"officehours", sep = "_"))
 
   ### Request information
   info_vec <- c(inputHelperDateCreated(prefix = date_prefix),
                 inputHelperOrderNumber(auftrag_id, prefix = order_id_prefix))
   openxlsx::writeData(wb, sheetname, info_vec, 15,
                       getNamedRegionLastRow(wb, sheetname, "contact"),
-                      name = "info")
+                      name = paste(sheetname,"info", sep = "_"))
   ### Add Headerline
   openxlsx::addStyle(wb, sheetname, style_headerline(),
                      getNamedRegionLastRow(wb, sheetname, "info"), 1:20,
@@ -59,19 +59,19 @@ insert_index_sheet <- function(wb, logo = "statzh", contact = "statzh",
   ### Title
   openxlsx::writeData(wb, sheetname, maintitle, 3,
                       getNamedRegionLastRow(wb, sheetname, "info") + 3,
-                      name = "title")
+                      name = paste(sheetname,"title", sep = "_"))
   openxlsx::addStyle(wb, sheetname, style_maintitle(),
                      getNamedRegionLastRow(wb, sheetname, "title"), 3)
 
   ### Source
   openxlsx::writeData(wb, sheetname, titlesource, 3,
                       getNamedRegionLastRow(wb, sheetname, "title") + 1,
-                      name = "source")
+                      name = paste(sheetname,"source", sep = "_"))
 
   ### Table of content caption
   openxlsx::writeData(wb, sheetname, toc_caption, 3,
                       getNamedRegionLastRow(wb, sheetname, "source"),
-                      name = "toc")
+                      name = paste(sheetname,"toc", sep = "_"))
   openxlsx::addStyle(wb, sheetname, subtitleStyle(),
                      getNamedRegionLastRow(wb, sheetname, "toc"), 3)
 
