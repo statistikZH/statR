@@ -1,7 +1,7 @@
 #' insert_worksheet_nh
 #'
-#' @description Function to add formatted worksheets without headers to an
-#'  existing workbook
+#' @description Function to add formatted worksheets to an existing Workbook.
+#'   The worksheets do not include contact information or logos.
 #' @note The function does not write the result into a .xlsx file. A separate
 #'  call to `openxlsx::saveWorkbook()` is required.
 #' @param data data to be included in the XLSX-table.

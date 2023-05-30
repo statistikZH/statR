@@ -2,9 +2,9 @@
 #'
 #' @description Function to export data from R to a formatted .xlsx-spreadsheet.
 #' @param data data to be exported.
+#' @param title title to be put above the data in the worksheet.
 #' @param file file name of the xlsx-file. The extension ".xlsx" is added
 #'  automatically.
-#' @param title title to be put above the data in the worksheet.
 #' @template shared_parameters
 #' @keywords quickXLSX
 #' @export

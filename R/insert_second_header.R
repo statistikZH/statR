@@ -1,19 +1,12 @@
 #' insert_second_header()
 #'
 #' @description Function to add a second header row
-#'
 #' @param wb Workbook
-#'
 #' @param sheetname Sheet name
-#'
 #' @param data_start_row Row index for first row with data
-#'
 #' @param group_names Group names
-#'
 #' @param grouplines Group lines
-#'
 #' @param data Data
-#'
 #' @keywords internal
 #' @examples
 #' \donttest{

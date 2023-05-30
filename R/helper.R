@@ -56,7 +56,6 @@ verifyDataUngrouped <- function(data){
 #' @returns A character string
 #' @keywords internal
 #' @noRd
-#'
 inputHelperSource <- function(source, prefix = NULL, collapse = NULL){
   source <- sub("statzh", statzh_name, source)
 
@@ -150,7 +149,6 @@ inputHelperContactInfo <- function(contact, compact = FALSE){
 #' @returns A character vector
 #' @keywords internal
 #' @noRd
-#'
 inputHelperOfficeHours <- function(openinghours){
   if (openinghours == "statzh"){
     openinghours <- statzh_openinghours
@@ -169,7 +167,6 @@ inputHelperOfficeHours <- function(openinghours){
 #' @returns A character string or a 'hyperlink' object
 #' @keywords internal
 #' @noRd
-#'
 inputHelperHomepage <- function(homepage){
   homepage <- sub("statzh", statzh_homepage, homepage)
   # class(homepage) <- 'hyperlink'
@@ -178,7 +175,7 @@ inputHelperHomepage <- function(homepage){
 }
 
 
-#' înputHelperDateCreated()
+#' inputHelperDateCreated()
 #'
 #' @description Returns current date as a string with format specified by date_format
 #' @param prefix A Prefix to prepend to the date. Default to NULL
@@ -192,7 +189,7 @@ inputHelperDateCreated <- function(prefix = NULL, date_format = "%d.%m.%Y"){
 }
 
 
-#' înputHelperOrderNumber()
+#' inputHelperOrderNumber()
 #'
 #' @description Returns current date as a string with format specified by date_format
 #' @param prefix A Prefix to prepend to the date. Default to NULL
@@ -228,9 +225,10 @@ inputHelperAuthorName <- function(author, prefix = NULL){
 
 #' excelIndexToRowCol()
 #'
-#' @description Function extracts initials from global environment if
-#'  input is 'user', otherwise passes on the input.
-#' @param author Name of author
+#' @description Converts an Excel style index (e.g. A1) into numeric row and
+#'   column indices.
+#' @details Handles cells (A1) and matrices (A1:B2)
+#' @param index A Microsoft Excel style index (see details)
 #' @param prefix A character string to prepend to the result
 #' @returns A character string with the username
 #' @keywords internal
@@ -246,7 +244,7 @@ excelIndexToRowCol <- function(index){
     sum(offsets * match(chars, LETTERS))
   }
 
-  # Return extent of occupied region
+  # Return extent of combined region
   if (length(index) > 1){
     extents <- lapply(index, excelIndexToRowCol)
     extents <- unique(do.call(rbind,lapply(extents, stack)))
@@ -267,11 +265,16 @@ excelIndexToRowCol <- function(index){
 
 #' getNamedRegionExtent()
 #'
-#' @description Function extracts initials from global environment if
-#'  input is 'user', otherwise passes on the input.
-#' @param author Name of author
-#' @param prefix A character string to prepend to the result
-#' @returns A character string with the username
+#' @description Get extent of a named region in a workbook object
+#' @details If a single name is provided, returns the extent of the associated
+#'   named region. If a character vector is provided, the combined extent is
+#'   returned instead. If left at default (NULL), the combined extent of all
+#'   regions is returned.
+#' @param wb A workbook object
+#' @param sheet Name of a worksheet
+#' @param name name of region. Also takes a vector of multiple names
+#' @returns A list with two numeric vectors row and col, containing a sequence
+#'   of numeric row and column indices.
 #' @keywords internal
 #' @noRd
 #'
@@ -294,13 +297,13 @@ getNamedRegionExtent <- function(wb, sheet, name = NULL){
   }
 }
 
-#' getNamedRegionExtent()
+#' getNamedRegionFirstRow()
 #'
-#' @description Function extracts initials from global environment if
-#'  input is 'user', otherwise passes on the input.
-#' @param author Name of author
-#' @param prefix A character string to prepend to the result
-#' @returns A character string with the username
+#' @description Get first row number of named region
+#' @param wb A workbook object
+#' @param sheet Name of a worksheet
+#' @param name name of region. Also takes a vector of multiple names
+#' @returns Numeric row number corresponding to first row of named region
 #' @keywords internal
 #' @noRd
 #'
@@ -309,16 +312,15 @@ getNamedRegionFirstRow <- function(wb, sheet, name = NULL){
   return(min(region_extent[["row"]]))
 }
 
-#' getNamedRegionExtent()
+#' getNamedRegionLastRow()
 #'
-#' @description Function extracts initials from global environment if
-#'  input is 'user', otherwise passes on the input.
-#' @param author Name of author
-#' @param prefix A character string to prepend to the result
-#' @returns A character string with the username
+#' @description Get last row number of named region
+#' @param wb A workbook object
+#' @param sheet Name of a worksheet
+#' @param name name of region. Also takes a vector of multiple names
+#' @returns Numeric row number corresponding to last row of named region
 #' @keywords internal
 #' @noRd
-#'
 getNamedRegionLastRow <- function(wb, sheet, name = NULL){
   region_extent <- getNamedRegionExtent(wb, sheet, name)
   return(max(region_extent[["row"]]))

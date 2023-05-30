@@ -9,6 +9,9 @@
 #'  will be 5 inches wide, the second 6. To include a figure either save it as a
 #'  ggplot object or indicate a file path to an existing file (possible formats:
 #'  png, jpg, bmp).
+#'@note For some attributes like plot_widths and plot_heights, if a single value
+#'  is provided, it will be reused (behavior of purrr::pmap). This is not the
+#'  case for grouplines and group_names. These must be specified for each dataset.
 #'@param file file name of the spreadsheet. The extension ".xlsx" is added
 #'  automatically.
 #'@param maintitle Title to be put on the first (overview) sheet.

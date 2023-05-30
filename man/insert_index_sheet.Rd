@@ -15,7 +15,8 @@ insert_index_sheet(
   maintitle,
   sheetname = "Index",
   date_prefix = "Erstellt am: ",
-  order_id_prefix = "Auftragsnr.:"
+  order_id_prefix = "Auftragsnr.:",
+  toc_caption = "Inhalt"
 )
 }
 \arguments{
