@@ -57,6 +57,10 @@ subtitleStyle <- function(){
 }
 
 style_subtitle <- function(){
+  openxlsx::createStyle(fontSize = 12, textDecoration = "italic", fontName = "Arial")
+}
+
+style_subtitle3 <- function(){
   openxlsx::createStyle(fontSize = 11, fontName = "Calibri")
 }
 
@@ -64,9 +68,7 @@ style_subtitle2 <- function(){
   openxlsx::createStyle(fontSize = 12, textDecoration = "bold", fontName = "Arial")
 }
 
-style_subtitle3 <- function(){
-  openxlsx::createStyle(fontSize = 12, textDecoration = "italic", fontName = "Arial")
-}
+
 
 hyperlinkStyle <- function(){
   openxlsx::createStyle(fontSize = 11, fontName = "Calibri", fontColour = "blue",

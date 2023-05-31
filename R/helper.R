@@ -280,21 +280,24 @@ excelIndexToRowCol <- function(index){
 #'
 getNamedRegionExtent <- function(wb, sheet, name = NULL){
   named_regions <- openxlsx::getNamedRegions(wb)
-  named_regions_attr <- as.data.frame(attributes(named_regions))
+  sheet_ind <- which(sheet == attr(named_regions, "sheet"))
+  positions <- attr(named_regions, "position")[sheet_ind]
 
-  sheet_ind <- match(sheet, named_regions_attr$sheet)
-
-  if (any(!is.null(name))){
-    name <- paste(sheet, name, sep = "_")
-    ind <- match(name, named_regions)
-
-  } else {
-    ind <- sheet_ind
+  if (all(is.null(name))){
+    return(excelIndexToRowCol(positions))
   }
 
-  if (length(ind) != 0){
-    return(excelIndexToRowCol(named_regions_attr[ind, "position"]))
+  ind <- unlist(sapply(name, function(string){
+    which(grepl(paste0(string,"$"), named_regions[sheet_ind]))
+  }))
+
+  if (length(ind) > 0){
+    return(excelIndexToRowCol(positions[ind]))
   }
+
+  warning("name not found!")
+  return(excelIndexToRowCol(positions))
+
 }
 
 #' getNamedRegionFirstRow()

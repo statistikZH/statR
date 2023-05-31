@@ -60,7 +60,7 @@ insert_worksheet_image <- function(image, wb, sheetname, startrow = 3,
   } else if (checkImplementedPlotType(image)){
 
     # Allocate temporary file of type png to save the image to
-    image_path <- tempfile(fileext = ".png")
+    image_path <- tempfile(tmpdir = "~/tmp", fileext = ".png")
 
     # Handle case input object is of class histogram
     if (is(image, "histogram")){
@@ -88,9 +88,9 @@ insert_worksheet_image <- function(image, wb, sheetname, startrow = 3,
                           width = width, height = height, startRow = startrow,
                           startCol = startcol, units = "in", dpi = 300)
 
-    if (!is.character(image)){
-      unlink(image_path)
-    }
+    # if (!is.character(image)){
+    #   # unlink(image_path)
+    # }
   } else {
     warning("Image not found.")
   }

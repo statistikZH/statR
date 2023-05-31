@@ -12,10 +12,11 @@ insert_worksheet(
   source = "statzh",
   metadata = NA,
   logo = "statzh",
-  grouplines = FALSE,
+  grouplines = NA,
   contactdetails = "statzh",
   homepage = "statzh",
   author = "user",
+  group_names = NA,
   date_prefix = "Aktualisiert am: ",
   author_prefix = "durch: "
 )
@@ -36,7 +37,7 @@ insert_worksheet(
 \item{logo}{path of the file to be included as logo (png / jpeg / svg).
 Defaults to "statzh"}
 
-\item{grouplines}{defaults to FALSE. Can be used to separate grouped
+\item{grouplines}{defaults to NA. Can be used to separate grouped
 variables visually.}
 
 \item{contactdetails}{contact details of the data publisher. Defaults to
@@ -46,6 +47,8 @@ variables visually.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
+
+\item{group_names}{Names for groupings in secondary header}
 
 \item{date_prefix}{Text shown before date}
 

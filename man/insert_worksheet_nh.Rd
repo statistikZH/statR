@@ -34,8 +34,8 @@ insert_worksheet_nh(
 Format: List e.g list(c("title 1", "title 2", "title 3"))}
 }
 \description{
-Function to add formatted worksheets without headers to an
- existing workbook
+Function to add formatted worksheets to an existing Workbook.
+  The worksheets do not include contact information or logos.
 }
 \note{
 The function does not write the result into a .xlsx file. A separate

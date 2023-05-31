@@ -35,7 +35,6 @@
 #'  list(c("title 1", "title 2", "title 3"))
 #'@param overwrite overwrites the existing excel files with the same file name.
 #'  default to FALSE
-#'@param wb existing Workbook. Defaults to NULL
 #'@keywords datasetsXLSX
 #'@export
 #'@importFrom dplyr "%>%"
@@ -96,22 +95,28 @@
 #'             overwrite = T)
 #'}
 #'}
-datasetsXLSX <- function(file, datasets, titles, plot_widths = NULL,
-                         plot_heights = NULL, grouplines = NA,
-                         group_names = NA, sources = "statzh", metadata = NA,
-                         sheetnames, maintitle, titlesource = "statzh",
-                         logo = "statzh", auftrag_id = NULL,
-                         contact = "statzh", homepage = "statzh",
-                         openinghours = "statzh", overwrite = F, wb = NULL){
+datasetsXLSX <- function(file, datasets, titles,
+                         plot_widths = NULL,
+                         plot_heights = NULL,
+                         grouplines = NA,
+                         group_names = NA,
+                         sources = "statzh",
+                         metadata = NA,
+                         sheetnames, maintitle,
+                         titlesource = "statzh",
+                         logo = "statzh",
+                         auftrag_id = NULL,
+                         contact = "statzh",
+                         homepage = "statzh",
+                         openinghours = "statzh",
+                         overwrite = F){
 
   # Run checks on arguments ------
   checkGroupOptionCompatibility(group_names, grouplines)
 
 
   # Initialize new Workbook ------
-  if (is.null(wb)){
-    wb <- openxlsx::createWorkbook()
-  }
+  wb <- openxlsx::createWorkbook()
 
 
   # Create indexes of which inputs correspond to data.frames or plots-----
@@ -169,7 +174,8 @@ datasetsXLSX <- function(file, datasets, titles, plot_widths = NULL,
 
 
   # Create a table of hyperlinks in index sheet (assumed to be "Index") ------
-  insert_hyperlinks(wb, sheetnames, titles, index_sheet_name = "Index", sheet_start_row = 15)
+  insert_hyperlinks(wb, sheetnames, titles, index_sheet_name = "Index",
+                    sheet_start_row = 15)
 
 
   # Save workbook at path denoted by argument file ---------

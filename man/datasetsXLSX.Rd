@@ -22,8 +22,7 @@ datasetsXLSX(
   contact = "statzh",
   homepage = "statzh",
   openinghours = "statzh",
-  overwrite = F,
-  wb = NULL
+  overwrite = F
 )
 }
 \arguments{
@@ -67,8 +66,6 @@ Shop}
 
 \item{overwrite}{overwrites the existing excel files with the same file name.
 default to FALSE}
-
-\item{wb}{existing Workbook. Defaults to NULL}
 }
 \description{
 Function to export several datasets and/or figures from R to an
@@ -82,6 +79,11 @@ When including figures, the heights and widths need to be specified
  will be 5 inches wide, the second 6. To include a figure either save it as a
  ggplot object or indicate a file path to an existing file (possible formats:
  png, jpg, bmp).
+}
+\note{
+For some attributes like plot_widths and plot_heights, if a single value
+ is provided, it will be reused (behavior of purrr::pmap). This is not the
+ case for grouplines and group_names. These must be specified for each dataset.
 }
 \examples{
 \donttest{

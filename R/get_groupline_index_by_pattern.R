@@ -1,8 +1,8 @@
 #' get_groupline_index_by_pattern()
 #'
 #' Derive groupline index by matching names
-#' @param grouplines ...
-#' @param data ...
+#' @param grouplines column names at which to insert group line
+#' @param data a data.frame
 #' @keywords internal
 
 get_groupline_index_by_pattern <- function(grouplines, data){

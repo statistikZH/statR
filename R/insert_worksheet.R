@@ -15,10 +15,11 @@
 #' @param contactdetails contact details of the data publisher. Defaults to
 #'  "statzh".
 #' @param homepage Homepage of data publisher. Defaults to "statzh".
-#' @param grouplines defaults to FALSE. Can be used to separate grouped
+#' @param grouplines defaults to NA. Can be used to separate grouped
 #'  variables visually.
 #' @param author defaults to the last two letters (initials) or numbers of the
 #'  internal user name.
+#' @param group_names Names for groupings in secondary header
 #' @param date_prefix Text shown before date
 #' @param author_prefix Text shown before author name
 #' @importFrom dplyr "%>%"
@@ -33,10 +34,18 @@
 #'                  title = "mtcars",
 #'                  sheetname = "carb")
 #'
-insert_worksheet <- function(data, wb, sheetname = "data", title = "Title",
-                             source = "statzh", metadata = NA, logo = "statzh",
-                             grouplines = FALSE, contactdetails = "statzh",
-                             homepage = "statzh", author = "user",
+insert_worksheet <- function(data,
+                             wb,
+                             sheetname = "data",
+                             title = "Title",
+                             source = "statzh",
+                             metadata = NA,
+                             logo = "statzh",
+                             grouplines = NA,
+                             contactdetails = "statzh",
+                             homepage = "statzh",
+                             author = "user",
+                             group_names = NA,
                              date_prefix = "Aktualisiert am: ",
                              author_prefix = "durch: "){
 
@@ -85,56 +94,65 @@ insert_worksheet <- function(data, wb, sheetname = "data", title = "Title",
                      cols = 1:ncol(data), gridExpand = TRUE, stack = TRUE)
 
 
-  # Insert descriptives into worksheet --------
-  ### Title
-  openxlsx::writeData(wb, sheetname, title,
-                      startRow = getNamedRegionLastRow(wb, sheetname, "info") + 3,
-                      name = paste(sheetname, "title", sep = "_"))
-  openxlsx::addStyle(wb, sheetname, style_title(),
-                     getNamedRegionLastRow(wb, sheetname, "title"), 1,
-                     gridExpand = TRUE)
+  insert_worksheet_nh(data,
+                      wb,
+                      sheetname = sheetname,
+                      title = title,
+                      source = source,
+                      metadata = metadata,
+                      grouplines = grouplines,
+                      group_names = group_names)
 
-  ### Source
-  openxlsx::writeData(wb, sheetname, inputHelperSource(source),
-                      startRow = getNamedRegionLastRow(wb, sheetname, "title") + 1,
-                      name = paste(sheetname,"source", sep = "_"))
-
-  ### Metadata
-  openxlsx::writeData(wb, sheetname, inputHelperMetadata(metadata),
-                      startRow = getNamedRegionLastRow(wb, sheetname, "source") + 1,
-                      name = paste(sheetname,"metadata", sep = "_"))
-
-  ### Horizontally merge cells containing descriptive info to ensure that they're displayed properly
-  descriptives_extent <- getNamedRegionExtent(wb, sheetname, c("title","source","metadata"))
-  purrr::walk(descriptives_extent$row,
-              ~openxlsx::mergeCells(wb, sheetname, 1:contact_end_col, rows = .))
-
-
-  # Insert data --------
-  ### Pad colnames using whitespaces for better auto-fitting of column width
-  colnames(data) <- paste0(colnames(data), "  ", sep = "")
-
-  ### Write data
-  openxlsx::writeData(wb, sheetname, verifyDataUngrouped(data),
-                      startRow = getNamedRegionLastRow(wb, sheetname, "metadata") + 3,
-                      rowNames = FALSE, withFilter = FALSE,
-                      name = paste(sheetname,"data", sep = "_"))
-
-  openxlsx::addStyle(wb, sheetname, style_header(),
-                     rows = getNamedRegionFirstRow(wb, sheetname, "data"),
-                     cols = 1:ncol(data),
-                     gridExpand = TRUE, stack = TRUE)
-
-  ### Grouplines
-  if (!is.null(grouplines)){
-    openxlsx::addStyle(wb, sheetname, style_leftline(),
-                       getNamedRegionExtent(wb, sheetname, "data")$row,
-                       grouplines, gridExpand = TRUE, stack = TRUE)
-  }
-
-  ### Define minimum column width
-  options("openxlsx.minWidth" = 5)
-
-  ### Use automatic columnwidth for columns with data
-  openxlsx::setColWidths(wb, sheetname, 1:ncol(data), "auto", ignoreMergedCells = TRUE)
+  # # Insert descriptives into worksheet --------
+  # ### Title
+  # openxlsx::writeData(wb, sheetname, title,
+  #                     startRow = getNamedRegionLastRow(wb, sheetname, "info") + 3,
+  #                     name = paste(sheetname, "title", sep = "_"))
+  # openxlsx::addStyle(wb, sheetname, style_title(),
+  #                    getNamedRegionLastRow(wb, sheetname, "title"), 1,
+  #                    gridExpand = TRUE)
+  #
+  # ### Source
+  # openxlsx::writeData(wb, sheetname, inputHelperSource(source),
+  #                     startRow = getNamedRegionLastRow(wb, sheetname, "title") + 1,
+  #                     name = paste(sheetname,"source", sep = "_"))
+  #
+  # ### Metadata
+  # openxlsx::writeData(wb, sheetname, inputHelperMetadata(metadata),
+  #                     startRow = getNamedRegionLastRow(wb, sheetname, "source") + 1,
+  #                     name = paste(sheetname,"metadata", sep = "_"))
+  #
+  # ### Horizontally merge cells containing descriptive info to ensure that they're displayed properly
+  # descriptives_extent <- getNamedRegionExtent(wb, sheetname, c("title","source","metadata"))
+  # purrr::walk(descriptives_extent$row,
+  #             ~openxlsx::mergeCells(wb, sheetname, 1:contact_end_col, rows = .))
+  #
+  #
+  # # Insert data --------
+  # ### Pad colnames using whitespaces for better auto-fitting of column width
+  # colnames(data) <- paste0(colnames(data), "  ", sep = "")
+  #
+  # ### Write data
+  # openxlsx::writeData(wb, sheetname, verifyDataUngrouped(data),
+  #                     startRow = getNamedRegionLastRow(wb, sheetname, "metadata") + 3,
+  #                     rowNames = FALSE, withFilter = FALSE,
+  #                     name = paste(sheetname,"data", sep = "_"))
+  #
+  # openxlsx::addStyle(wb, sheetname, style_header(),
+  #                    rows = getNamedRegionFirstRow(wb, sheetname, "data"),
+  #                    cols = 1:ncol(data),
+  #                    gridExpand = TRUE, stack = TRUE)
+  #
+  # ### Grouplines
+  # if (!is.null(grouplines)){
+  #   openxlsx::addStyle(wb, sheetname, style_leftline(),
+  #                      getNamedRegionExtent(wb, sheetname, "data")$row,
+  #                      grouplines, gridExpand = TRUE, stack = TRUE)
+  # }
+  #
+  # ### Define minimum column width
+  # options("openxlsx.minWidth" = 5)
+  #
+  # ### Use automatic columnwidth for columns with data
+  # openxlsx::setColWidths(wb, sheetname, 1:ncol(data), "auto", ignoreMergedCells = TRUE)
 }
