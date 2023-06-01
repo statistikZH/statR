@@ -5,9 +5,9 @@
 \title{insert_worksheet_nh}
 \usage{
 insert_worksheet_nh(
-  data,
   wb,
   sheetname = "Daten",
+  data,
   title = "Title",
   source = "statzh",
   metadata = NA,
@@ -16,22 +16,23 @@ insert_worksheet_nh(
 )
 }
 \arguments{
-\item{data}{data to be included in the XLSX-table.}
+\item{wb}{workbook object to add new worksheet to.}
 
-\item{wb}{workbook object to write new worksheet in.}
+\item{sheetname}{name of the sheet tab.}
 
-\item{sheetname}{name of the sheet-tab.}
+\item{data}{data to be included.}
 
-\item{title}{title of the table and the sheet}
+\item{title}{title to be put above the data.}
 
 \item{source}{source of the data. Defaults to "statzh".}
 
-\item{metadata}{metadata-information to be included. Defaults to NA.}
+\item{metadata}{metadata information to be included. Defaults to NA.}
 
-\item{grouplines}{defaults to NA. Can be used to separate grouped variables visually.}
+\item{grouplines}{defaults to NA. Can be used to separate grouped
+variables visually.}
 
-\item{group_names}{Name(s) of the second header(s).
-Format: List e.g list(c("title 1", "title 2", "title 3"))}
+\item{group_names}{Names for groupings in secondary header. Format:
+List e.g list(c("title 1", "title 2", "title 3"))}
 }
 \description{
 Function to add formatted worksheets to an existing Workbook.
@@ -43,25 +44,20 @@ The function does not write the result into a .xlsx file. A separate
 }
 \examples{
 ## Create workbook
-export <- openxlsx::createWorkbook()
+wb <- openxlsx::createWorkbook()
 
 ## insert a new worksheet
-insert_worksheet_nh(head(mtcars), export, "data1",
+insert_worksheet_nh(wb, sheetname = "data1", data = head(mtcars),
   title = "Title", source = "statzh", metadata = "Note: ...")
 
 ## insert a further worksheet
-insert_worksheet_nh(tail(mtcars), export, "data2",
+insert_worksheet_nh(wb, sheetname = "data2", data = tail(mtcars),
   title = "Title", source = "statzh", metadata = "Note: ...")
 
 ## insert a worksheet with group lines and second header
-insert_worksheet_nh(data = head(mtcars), wb = export,
-  title = "grouplines", source = "statzh", metadata = "Note: ...",
-  grouplines = c(1,5,6), group_names = "carb")
-
-\dontrun{
-## save workbook
- openxlsx::saveWorkbook(export,"example.xlsx")
+insert_worksheet_nh(wb, sheetname = "data3", data = head(mtcars),
+                    title = "grouplines", source = "statzh",
+                    metadata = "Note: ...",
+                    grouplines = c(1,5,6), group_names = "carb")
 }
-}
-\keyword{insert_worksheet,}
-\keyword{openxlsx}
+\keyword{insert_worksheet_nh}

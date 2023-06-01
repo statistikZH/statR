@@ -26,12 +26,9 @@ If stats is set to "all" (the default), the following descriptive
  statistics are computed per category of the grouping variable(s): mean,
  standard deviation, 10\%-quantile, 25\%-quantile, median, 75\%-quantile,
  90\%-quantile.
-
  If stats is set to "base", the mean, 25\%-quantile, median, and 75\%-quantile
  are returned.
-
  stats = "mean" computes the mean and the standard deviation.
-
  If protect is set to TRUE, the mean and the median is only computed for
  variables/variable categories with four or more observations. For <4
  observations, the function returns NA for the respective variable/category.
@@ -39,7 +36,6 @@ If stats is set to "all" (the default), the following descriptive
  per variable (category).
 }
 \examples{
-quick_sum(df=mtcars, var=cyl, mpg, vs, stats="all", protect=FALSE)
-
+quick_sum(df = mtcars, var = cyl, mpg, vs, stats = "all", protect = FALSE)
 }
 \keyword{quick_sum}

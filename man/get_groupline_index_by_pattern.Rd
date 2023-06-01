@@ -7,9 +7,10 @@
 get_groupline_index_by_pattern(grouplines, data)
 }
 \arguments{
-\item{grouplines}{column names at which to insert group line}
+\item{grouplines}{defaults to NA. Can be used to separate grouped
+variables visually.}
 
-\item{data}{a data.frame}
+\item{data}{data to be included.}
 }
 \description{
 Derive groupline index by matching names

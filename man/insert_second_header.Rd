@@ -14,30 +14,21 @@ insert_second_header(
 )
 }
 \arguments{
-\item{wb}{Workbook}
+\item{wb}{workbook object to add new worksheet to.}
 
-\item{sheetname}{Sheet name}
+\item{sheetname}{name of the sheet tab.}
 
 \item{data_start_row}{Row index for first row with data}
 
-\item{group_names}{Group names}
+\item{group_names}{Names for groupings in secondary header. Format:
+List e.g list(c("title 1", "title 2", "title 3"))}
 
-\item{grouplines}{Group lines}
+\item{grouplines}{defaults to NA. Can be used to separate grouped
+variables visually.}
 
-\item{data}{Data}
+\item{data}{data to be included.}
 }
 \description{
 Function to add a second header row
-}
-\examples{
-\donttest{
-\dontrun{
-# Beispiel anhand des Datensatzes 'mtcars'
-dat <- mtcars
-
-insert_second_header(wb, sheetname, data_start_row, group_names,
- grouplines, data)
-}
-}
 }
 \keyword{internal}

@@ -74,10 +74,9 @@ inputHelperSource <- function(source, prefix = NULL, collapse = NULL){
 #' inputHelperMetadata()
 #'
 #' @description Concatenate metadata into a formatted string.
+#' @inheritParams inputHelperSource
 #' @param metadata A character vector with metadata information
-#' @param extension A character string with the prefix. Default: "Metadaten: ".
-#' @param collapse A character string with the separator for metadata. Default: ";"
-#' @returns A character vector if
+#' @returns A character vector
 #' @keywords internal
 #' @noRd
 inputHelperMetadata <- function(metadata, prefix = NULL, collapse = NULL){
@@ -226,14 +225,11 @@ inputHelperAuthorName <- function(author, prefix = NULL){
 #' excelIndexToRowCol()
 #'
 #' @description Converts an Excel style index (e.g. A1) into numeric row and
-#'   column indices.
-#' @details Handles cells (A1) and matrices (A1:B2)
+#'   column indices. Handles cells (A1) as well as matrices (A1:B2)
 #' @param index A Microsoft Excel style index (see details)
-#' @param prefix A character string to prepend to the result
-#' @returns A character string with the username
+#' @returns A list containing row indices and column indices
 #' @keywords internal
-#' @noRd
-#'
+#' @importFrom utils stack
 excelIndexToRowCol <- function(index){
 
   splitIndex <- function(x, split = "") unlist(strsplit(x, split))
@@ -263,7 +259,8 @@ excelIndexToRowCol <- function(index){
   return(list(row = rows, col = cols))
 }
 
-#' getNamedRegionExtent()
+
+#' namedRegionExtent()
 #'
 #' @description Get extent of a named region in a workbook object
 #' @details If a single name is provided, returns the extent of the associated
@@ -272,60 +269,112 @@ excelIndexToRowCol <- function(index){
 #'   regions is returned.
 #' @param wb A workbook object
 #' @param sheet Name of a worksheet
-#' @param name name of region. Also takes a vector of multiple names
-#' @returns A list with two numeric vectors row and col, containing a sequence
-#'   of numeric row and column indices.
+#' @param region_name names of regions in Workbook.
+#' @param which either "row", "col", or "both" (default).
+#' @returns A list with two numeric vectors row and col, containing
+#'   row and column indices.
 #' @keywords internal
-#' @noRd
-#'
-getNamedRegionExtent <- function(wb, sheet, name = NULL){
+namedRegionExtent <- function(wb, sheetname, region_name = NULL, which = "both"){
   named_regions <- openxlsx::getNamedRegions(wb)
-  sheet_ind <- which(sheet == attr(named_regions, "sheet"))
+
+  if (!(sheetname %in% names(wb))){
+    stop("Sheetname does not exist in Workbook")
+  }
+
+  sheet_ind <- which(sheetname == attr(named_regions, "sheet"))
+  region_names <- named_regions[sheet_ind]
+
+
   positions <- attr(named_regions, "position")[sheet_ind]
 
-  if (all(is.null(name))){
-    return(excelIndexToRowCol(positions))
+  if (which == "both"){
+    dimensions <- c("row", "col")
+  } else {
+    dimensions <- which
   }
 
-  ind <- unlist(sapply(name, function(string){
-    which(grepl(paste0(string,"$"), named_regions[sheet_ind]))
+  # If name is null, return full extent for sheet
+  if (all(is.null(region_name))){
+    return(excelIndexToRowCol(positions)[dimensions])
+  }
+
+  region_ind <- unlist(sapply(region_name, function(region){
+    which(grepl(paste0(region,"$"), region_names))
   }))
 
-  if (length(ind) > 0){
-    return(excelIndexToRowCol(positions[ind]))
+  # Return extent for combined region
+  if (length(region_ind) > 0){
+    return(excelIndexToRowCol(positions[region_ind])[dimensions])
   }
 
-  warning("name not found!")
-  return(excelIndexToRowCol(positions))
-
+  # Default to A1
+  return(excelIndexToRowCol("A1")[dimensions])
 }
 
-#' getNamedRegionFirstRow()
+
+#' namedRegionRowExtent()
+#'
+#' @description Get row extent of a named region in a workbook object
+#' @inheritParams namedRegionExtent
+#' @returns A numeric vector of row indices
+#' @keywords internal
+#'
+namedRegionRowExtent <- function(wb, sheetname, region_name = NULL){
+  unlist(namedRegionExtent(wb, sheetname, region_name, "row"))
+}
+
+
+#' namedRegionColumnExtent()
+#'
+#' @description Get column extent of a named region in a Workbook object
+#' @inheritParams namedRegionExtent
+#' @returns A numeric vector of column indices
+#' @keywords internal
+#'
+namedRegionColumnExtent <- function(wb, sheetname, name = NULL){
+  unlist(namedRegionExtent(wb, sheetname, name, "col"))
+}
+
+
+#' namedRegionFirstRow()
 #'
 #' @description Get first row number of named region
-#' @param wb A workbook object
-#' @param sheet Name of a worksheet
-#' @param name name of region. Also takes a vector of multiple names
-#' @returns Numeric row number corresponding to first row of named region
+#' @inheritParams namedRegionExtent
+#' @returns Numeric value corresponding to first row of named region
 #' @keywords internal
-#' @noRd
-#'
-getNamedRegionFirstRow <- function(wb, sheet, name = NULL){
-  region_extent <- getNamedRegionExtent(wb, sheet, name)
-  return(min(region_extent[["row"]]))
+namedRegionFirstRow <- function(wb, sheet, region_name = NULL){
+  min(namedRegionRowExtent(wb, sheet, region_name))
 }
 
-#' getNamedRegionLastRow()
+
+#' namedRegionLastRow()
 #'
 #' @description Get last row number of named region
-#' @param wb A workbook object
-#' @param sheet Name of a worksheet
-#' @param name name of region. Also takes a vector of multiple names
-#' @returns Numeric row number corresponding to last row of named region
+#' @inheritParams namedRegionExtent
+#' @returns Numeric value corresponding to last row of named region
 #' @keywords internal
-#' @noRd
-getNamedRegionLastRow <- function(wb, sheet, name = NULL){
-  region_extent <- getNamedRegionExtent(wb, sheet, name)
-  return(max(region_extent[["row"]]))
+namedRegionLastRow <- function(wb, sheet, region_name = NULL){
+  max(namedRegionRowExtent(wb, sheet, region_name))
 }
 
+
+#' namedRegionFirstCol()
+#'
+#' @description Get first col number of named region
+#' @inheritParams namedRegionExtent
+#' @returns Numeric value corresponding to first column of named region
+#' @keywords internal
+namedRegionFirstCol <- function(wb, sheet, region_name = NULL){
+  min(namedRegionColumnExtent(wb, sheet, region_name))
+}
+
+
+#' namedRegionLastCol()
+#'
+#' @description Get last col number of named region
+#' @inheritParams namedRegionExtent
+#' @returns Numeric value corresponding to last column of named region
+#' @keywords internal
+namedRegionLastCol <- function(wb, sheet, region_name = NULL){
+  max(namedRegionColumnExtent(wb, sheet, region_name))
+}

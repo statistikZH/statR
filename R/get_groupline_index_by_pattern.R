@@ -1,23 +1,13 @@
 #' get_groupline_index_by_pattern()
 #'
-#' Derive groupline index by matching names
-#' @param grouplines column names at which to insert group line
-#' @param data a data.frame
+#' @description Derive groupline index by matching names
+#' @inheritParams insert_worksheet
 #' @keywords internal
-
 get_groupline_index_by_pattern <- function(grouplines, data){
 
   get_lowest_col <- function(groupline, data){
-    groupline_numbers_single <- which(grepl(groupline, names(data)))
-
-    out <- min(groupline_numbers_single)
-
-    return(out)
+    min(which(grepl(groupline, names(data))))
   }
 
-  groupline_numbers <- unlist(lapply(grouplines, function(x){
-    get_lowest_col(x, data)
-    }))
-
-  return(groupline_numbers)
+  unlist(lapply(grouplines, function(x) get_lowest_col(x, data)))
 }

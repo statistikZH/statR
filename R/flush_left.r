@@ -1,19 +1,17 @@
 #' flush_left()
 #'
-#' Function to flush title, subtitle and caption to the lefthand side of the
-#' graphics device
+#' @description Function to flush title, subtitle and caption to the
+#'   lefthand side of the ggplot2 graphics device
 #' @param g ggplot object
-#' @keywords flush_left, ggplot
-#' @importFrom ggplot2 ggplotGrob labs aes
-#' @importFrom gridExtra grid.arrange
-#' @export
 #' @examples
 #' plt <- ggplot2::ggplot(mtcars, ggplot2::aes(x = cyl)) +
 #'   ggplot2::geom_bar() +
 #'   ggplot2::labs(title = "Cylinders", subtitle = "Bar chart",
-#'     caption = "mtcars")
+#'                 caption = "mtcars")
 #'
 #' flush_left(plt)
+#' @keywords flush_left
+#' @export
 flush_left <- function(g){
 
   xout <- ggplot2::ggplotGrob(g)

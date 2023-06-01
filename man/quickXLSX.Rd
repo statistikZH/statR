@@ -11,30 +11,37 @@ quickXLSX(
   source = "statzh",
   metadata = NA,
   logo = "statzh",
-  grouplines = FALSE,
   contactdetails = "statzh",
-  author = "user"
+  author = "user",
+  grouplines = NA,
+  group_names = NA
 )
 }
 \arguments{
 \item{data}{data to be exported.}
 
-\item{file}{file name of the xlsx-file. The extension ".xlsx" is added
-automatically.}
+\item{file}{file name of the xlsx-file. The extension ".xlsx" is added}
 
-\item{title}{title to be put above the data in the worksheet.}
+\item{title}{title to be put above the data.}
 
 \item{source}{source of the data. Defaults to "statzh".}
 
-\item{metadata}{metadata-information to be included. Defaults to NA.}
+\item{metadata}{metadata information to be included. Defaults to NA.}
 
-\item{logo}{path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"}
+\item{logo}{path of the file to be included as logo (png / jpeg / svg).
+Defaults to "statzh"}
 
-\item{grouplines}{columns to be separated visually by vertical lines.}
+\item{contactdetails}{contact details of the data publisher. Defaults to
+"statzh".}
 
-\item{contactdetails}{contactdetails of the data publisher. Defaults to "statzh".}
+\item{author}{defaults to the last two letters (initials) or numbers of the
+internal user name.}
 
-\item{author}{defaults to last two letters (initials) or numbers of the user name.}
+\item{grouplines}{defaults to NA. Can be used to separate grouped
+variables visually.}
+
+\item{group_names}{Names for groupings in secondary header. Format:
+List e.g list(c("title 1", "title 2", "title 3"))}
 }
 \description{
 Function to export data from R to a formatted .xlsx-spreadsheet.
@@ -42,15 +49,13 @@ Function to export data from R to a formatted .xlsx-spreadsheet.
 \examples{
 quickXLSX(data = mtcars,
          title = "Motor trend car road tests",
-         file = "motor_trend_car_road_tests",
-         source = "Source: Henderson and Velleman (1981). Building multiple
-          regression models interactively. Biometrics, 37, 391–411.",
-         metadata = c("The data was extracted from the 1974 Motor Trend US
-          magazine and comprises fuel consumption and 10 aspects of automobile
-          design and performance for 32 automobiles (1973–74 models)."),
-         contactdetails = "statzh",
-         grouplines = FALSE,
-         logo = "statzh",
-         author = "user")
+         file = tempfile(fileext = ".xlsx"),
+         source = paste("Source: Henderson and Velleman (1981). Building",
+                        "multiple regression models interactively.",
+                        "Biometrics, 37, 391–411."),
+         metadata = paste("The data was extracted from the 1974 Motor",
+                          "Trend US magazine and comprises fuel consumption",
+                          "and 10 aspects of automobile design and",
+                          "performance for 32 automobiles (1973–74 models)."))
 }
 \keyword{quickXLSX}

@@ -7,13 +7,13 @@
 insert_hyperlink(wb, sheetname, title, sheet_row, index_sheet_name)
 }
 \arguments{
-\item{wb}{Workbook object}
+\item{wb}{workbook object to add new worksheet to.}
 
-\item{sheetname}{Name of sheet}
+\item{sheetname}{name of the sheet tab.}
 
-\item{title}{Title}
+\item{title}{title to be put above the data.}
 
-\item{sheet_row}{Sheet row}
+\item{sheet_row}{Row where hyperlink should be inserted}
 
 \item{index_sheet_name}{Name of sheet where hyperlink should be created}
 }

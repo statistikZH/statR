@@ -19,10 +19,10 @@ datasetsXLSX(
   titlesource = "statzh",
   logo = "statzh",
   auftrag_id = NULL,
-  contact = "statzh",
+  contactdetails = "statzh",
   homepage = "statzh",
   openinghours = "statzh",
-  overwrite = F
+  overwrite = FALSE
 )
 }
 \arguments{
@@ -57,7 +57,7 @@ list(c("title 1", "title 2", "title 3"))}
 
 \item{auftrag_id}{order number.}
 
-\item{contact}{contact information on the title sheet. Defaults to "statzh"}
+\item{contactdetails}{contact information on the title sheet. Defaults to "statzh"}
 
 \item{homepage}{web address to be put on the title sheet. Default to "statzh"}
 
@@ -86,60 +86,28 @@ For some attributes like plot_widths and plot_heights, if a single value
  case for grouplines and group_names. These must be specified for each dataset.
 }
 \examples{
-\donttest{
-\dontrun{
-# Example with two datasets and no figure
-dat1 <- mtcars
-dat2 <- PlantGrowth
-
-datasetsXLSX(file="twoDatasets",
-            datasets = list(dat1, dat2),
-            titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
-            grouplines = list(c(1)),
-            # adds a second header in the first sheet
-            group_names = list(c("name_of_second_header")),
-            sources = c("Source: Henderson and Velleman (1981).
-            Building multiple regression models interactively. Biometrics, 37, 391–411.",
-                        "Dobson, A. J. (1983) An Introduction to Statistical
-                        Modelling. London: Chapman and Hall."),
-            metadata = c("Bemerkungen zum mtcars-Datensatz: x",
-                          "Bemerkungen zum PlantGrowth-Datensatz: x"),
-            sheetnames = c("Autos","Blumen"),
-            maintitle = "Autos und Pflanzen",
-            titlesource = "statzh",
-            logo = "statzh",
-            auftrag_id="A2021_0000",
-            contact = "statzh",
-            homepage = "statzh",
-            openinghours = "statzh",
-            overwrite = T)
-
 # Example with two datasets and one figure
+fig <- ggplot2::ggplot(mtcars, ggplot2::aes(x = disp))+
+                 ggplot2::geom_histogram()
 
-dat1 <- mtcars
-dat2 <- PlantGrowth
-fig <- ggplot(mtcars, aes(x=disp))+
-                 geom_histogram()
-
-datasetsXLSX(file="twoDatasetsandFigure",
-            datasets = list(dat1, dat2, fig),
-            titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
+datasetsXLSX(file = tempfile(fileext = ".xlsx"),
+            datasets = list(mtcars, PlantGrowth, fig),
+            titles = c("mtcars-Datensatz",
+                       "PlantGrowth-Datensatz",
+                       "Histogramm"),
             plot_widths = c(5),
             plot_heights = c(5),
-            sources = c("Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411.",
-                        "Source: Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall."),
+            sources = c(paste("Source: Henderson and Velleman (1981).",
+                              "Building multiple regression models",
+                              "interactively. Biometrics, 37, 391–411."),
+                        paste("Source: Dobson, A. J. (1983) An Introduction",
+                              "to Statistical Modelling.",
+                              "London: Chapman and Hall.")),
             metadata = c("Bemerkungen zum mtcars-Datensatz: x",
                          "Bemerkungen zum PlantGrowth-Datensatz: x"),
             sheetnames = c("Autos","Blumen", "Histogramm"),
             maintitle = "Autos und Pflanzen",
-            titlesource = "statzh",
-            logo="statzh",
-            auftrag_id="A2021_0000",
-            contact = "statzh",
-            homepage = "statzh",
-            openinghours = "statzh",
-            overwrite = T)
-}
-}
+            auftrag_id = "A2021_0000",
+            overwrite = TRUE)
 }
 \keyword{datasetsXLSX}

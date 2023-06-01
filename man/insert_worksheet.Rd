@@ -5,28 +5,28 @@
 \title{insert_worksheet()}
 \usage{
 insert_worksheet(
-  data,
   wb,
-  sheetname = "data",
+  sheetname = "Daten",
+  data,
   title = "Title",
   source = "statzh",
   metadata = NA,
   logo = "statzh",
-  grouplines = NA,
   contactdetails = "statzh",
   homepage = "statzh",
   author = "user",
+  grouplines = NA,
   group_names = NA,
   date_prefix = "Aktualisiert am: ",
   author_prefix = "durch: "
 )
 }
 \arguments{
-\item{data}{data to be included.}
-
 \item{wb}{workbook object to add new worksheet to.}
 
 \item{sheetname}{name of the sheet tab.}
+
+\item{data}{data to be included.}
 
 \item{title}{title to be put above the data.}
 
@@ -37,9 +37,6 @@ insert_worksheet(
 \item{logo}{path of the file to be included as logo (png / jpeg / svg).
 Defaults to "statzh"}
 
-\item{grouplines}{defaults to NA. Can be used to separate grouped
-variables visually.}
-
 \item{contactdetails}{contact details of the data publisher. Defaults to
 "statzh".}
 
@@ -48,7 +45,11 @@ variables visually.}
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
 
-\item{group_names}{Names for groupings in secondary header}
+\item{grouplines}{defaults to NA. Can be used to separate grouped
+variables visually.}
+
+\item{group_names}{Names for groupings in secondary header. Format:
+List e.g list(c("title 1", "title 2", "title 3"))}
 
 \item{date_prefix}{Text shown before date}
 
@@ -63,12 +64,13 @@ The function does not write the result into a .xlsx file.
  A separate call to openxlsx::saveWorkbook() is required.
 }
 \examples{
-# Initialize an empty Workbook
+# Initialize Workbook
 wb <- openxlsx::createWorkbook()
 
-insert_worksheet(data = head(mtcars),
+# Insert mtcars dataset with STATZH design
+insert_worksheet(data = mtcars,
                  wb = wb,
-                 title = "mtcars",
+                 title = "mtcars dataset",
                  sheetname = "carb")
 
 }

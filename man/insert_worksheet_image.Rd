@@ -5,21 +5,23 @@
 \title{insert_worksheet_image()}
 \usage{
 insert_worksheet_image(
-  image,
   wb,
   sheetname,
+  image,
   startrow = 3,
   startcol = 3,
   width,
-  height
+  height,
+  units = "in",
+  dpi = 300
 )
 }
 \arguments{
-\item{image}{image or plot}
-
 \item{wb}{workbook object to write new worksheet in}
 
 \item{sheetname}{name of the sheet tab}
+
+\item{image}{image or plot}
 
 \item{startrow}{row coordinate of upper left corner of figure}
 
@@ -28,47 +30,26 @@ insert_worksheet_image(
 \item{width}{width of figure}
 
 \item{height}{height of figure}
+
+\item{units}{unit of measurement (default: in)}
+
+\item{dpi}{image resolution (default: 300)}
 }
 \description{
 Insert an image into a worksheet
 }
 \note{
-The function does not write the result into a .xlsx file. A separate call
-to openxlsx::saveWorkbook() is required. A temporary file is created when
-image refers to a gg, ggplot or histogram object. This file is deleted
-afterwards.
+The function does not write the result into a .xlsx file. A separate
+  call to openxlsx::saveWorkbook() is required. A temporary file is created
+  for inputs of type gg, ggplot or histogram object at path given by
+  `tempfile()`.
 }
 \examples{
-library(ggplot2)
+figure <- ggplot2::ggplot(mtcars, ggplot2::aes(x = disp)) +
+  ggplot2::geom_histogram()
+
 wb <- openxlsx::createWorkbook()
-
-# Add a geom_histogram()
-#--------------
-figure1 <- ggplot(mtcars, aes(x = disp)) +
-  geom_histogram()
-
-insert_worksheet_image(image = figure1, wb, sheetname = "ggplot image",
-  width = 3.5, height = 5.5)
-
-# Add a base histogram
-#--------------
-base_hist <- hist(mtcars$disp)
-
-insert_worksheet_image(image = base_hist, wb, sheetname = "Base histogram",
-  width = 3.5, height = 5.5)
-
-# Insert an existing image file
-#--------------
-image_path <- paste0(path.package("statR"), "/extdata/Stempel_Kanton_ZH.png")
-
-insert_worksheet_image(image = image_path, wb, sheetname = "Existing image",
-  width = 3.5, height = 5.5)
-
-# Export workbook
-#--------------
-\dontrun{
-openxlsx::saveWorkbook(wb,"insert_worksheet_image.xlsx")
-}
-
+insert_worksheet_image(wb, sheetname = "ggplot image",
+                       image = figure, width = 3.5, height = 5.5)
 }
 \keyword{insert_worksheet_image}

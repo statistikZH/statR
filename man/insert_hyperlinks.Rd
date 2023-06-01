@@ -13,15 +13,15 @@ insert_hyperlinks(
 )
 }
 \arguments{
-\item{wb}{Workbook object}
+\item{wb}{workbook object to add new worksheet to.}
 
 \item{sheetnames}{Names of sheets to create hyperlinks to}
 
 \item{titles}{Titles of Hyperlinks}
 
-\item{index_sheet_name}{Name of sheet where hyperlinks should be created}
+\item{index_sheet_name}{Name of sheet where hyperlink should be created}
 
-\item{sheet_start_row}{Sheet row}
+\item{sheet_start_row}{Initial row after which hyperlinks should be created}
 }
 \description{
 Function for inserting hyperlinks within an openxlsx Workbook

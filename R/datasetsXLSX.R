@@ -26,7 +26,7 @@
 #'@param sources source of the data. Defaults to "statzh".
 #'@param metadata metadata information to be included. Defaults to NA.
 #'@param auftrag_id order number.
-#'@param contact contact information on the title sheet. Defaults to "statzh"
+#'@param contactdetails contact information on the title sheet. Defaults to "statzh"
 #'@param homepage web address to be put on the title sheet. Default to "statzh"
 #'@param openinghours openinghours written on the title sheet. Defaults to Data
 #'  Shop
@@ -35,81 +35,51 @@
 #'  list(c("title 1", "title 2", "title 3"))
 #'@param overwrite overwrites the existing excel files with the same file name.
 #'  default to FALSE
-#'@keywords datasetsXLSX
-#'@export
-#'@importFrom dplyr "%>%"
-#'@importFrom purrr pwalk pmap
-#' @examples
-#'\donttest{
-#' \dontrun{
-#'# Example with two datasets and no figure
-#'dat1 <- mtcars
-#'dat2 <- PlantGrowth
-#'
-#'datasetsXLSX(file="twoDatasets",
-#'             datasets = list(dat1, dat2),
-#'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
-#'             grouplines = list(c(1)),
-#'             # adds a second header in the first sheet
-#'             group_names = list(c("name_of_second_header")),
-#'             sources = c("Source: Henderson and Velleman (1981).
-#'             Building multiple regression models interactively. Biometrics, 37, 391–411.",
-#'                         "Dobson, A. J. (1983) An Introduction to Statistical
-#'                         Modelling. London: Chapman and Hall."),
-#'             metadata = c("Bemerkungen zum mtcars-Datensatz: x",
-#'                           "Bemerkungen zum PlantGrowth-Datensatz: x"),
-#'             sheetnames = c("Autos","Blumen"),
-#'             maintitle = "Autos und Pflanzen",
-#'             titlesource = "statzh",
-#'             logo = "statzh",
-#'             auftrag_id="A2021_0000",
-#'             contact = "statzh",
-#'             homepage = "statzh",
-#'             openinghours = "statzh",
-#'             overwrite = T)
-#'
+#'@examples
 #'# Example with two datasets and one figure
+#'fig <- ggplot2::ggplot(mtcars, ggplot2::aes(x = disp))+
+#'                  ggplot2::geom_histogram()
 #'
-#'dat1 <- mtcars
-#'dat2 <- PlantGrowth
-#'fig <- ggplot(mtcars, aes(x=disp))+
-#'                  geom_histogram()
-#'
-#'datasetsXLSX(file="twoDatasetsandFigure",
-#'             datasets = list(dat1, dat2, fig),
-#'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
+#'datasetsXLSX(file = tempfile(fileext = ".xlsx"),
+#'             datasets = list(mtcars, PlantGrowth, fig),
+#'             titles = c("mtcars-Datensatz",
+#'                        "PlantGrowth-Datensatz",
+#'                        "Histogramm"),
 #'             plot_widths = c(5),
 #'             plot_heights = c(5),
-#'             sources = c("Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411.",
-#'                         "Source: Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall."),
+#'             sources = c(paste("Source: Henderson and Velleman (1981).",
+#'                               "Building multiple regression models",
+#'                               "interactively. Biometrics, 37, 391–411."),
+#'                         paste("Source: Dobson, A. J. (1983) An Introduction",
+#'                               "to Statistical Modelling.",
+#'                               "London: Chapman and Hall.")),
 #'             metadata = c("Bemerkungen zum mtcars-Datensatz: x",
 #'                          "Bemerkungen zum PlantGrowth-Datensatz: x"),
 #'             sheetnames = c("Autos","Blumen", "Histogramm"),
 #'             maintitle = "Autos und Pflanzen",
-#'             titlesource = "statzh",
-#'             logo="statzh",
-#'             auftrag_id="A2021_0000",
-#'             contact = "statzh",
-#'             homepage = "statzh",
-#'             openinghours = "statzh",
-#'             overwrite = T)
-#'}
-#'}
-datasetsXLSX <- function(file, datasets, titles,
+#'             auftrag_id = "A2021_0000",
+#'             overwrite = TRUE)
+#' @keywords datasetsXLSX
+#' @importFrom dplyr %>%
+#' @export
+datasetsXLSX <- function(file,
+                         datasets,
+                         titles,
                          plot_widths = NULL,
                          plot_heights = NULL,
                          grouplines = NA,
                          group_names = NA,
                          sources = "statzh",
                          metadata = NA,
-                         sheetnames, maintitle,
+                         sheetnames,
+                         maintitle,
                          titlesource = "statzh",
                          logo = "statzh",
                          auftrag_id = NULL,
-                         contact = "statzh",
+                         contactdetails = "statzh",
                          homepage = "statzh",
                          openinghours = "statzh",
-                         overwrite = F){
+                         overwrite = FALSE){
 
   # Run checks on arguments ------
   checkGroupOptionCompatibility(group_names, grouplines)
@@ -143,9 +113,10 @@ datasetsXLSX <- function(file, datasets, titles,
 
 
   # Insert the initial index sheet ----------
-  insert_index_sheet(wb, logo, contact, homepage, openinghours, titlesource,
-                     auftrag_id, maintitle)
-
+  insert_index_sheet(wb = wb, title = maintitle, auftrag_id = auftrag_id,
+                     logo = logo, contactdetails = contactdetails,
+                     homepage = homepage, openinghours = openinghours,
+                     source = titlesource)
 
   # Insert datasets according to dataframes_index -------
   if (length(dataframes_index) > 0){
@@ -156,7 +127,7 @@ datasetsXLSX <- function(file, datasets, titles,
          dataframe_metadata,
          dataframe_grouplines,
          dataframe_group_names) %>%
-      purrr::pwalk(~insert_worksheet_nh(data = ..1, wb = wb, sheetname = ..2,
+      purrr::pwalk(~insert_worksheet_nh(wb = wb, data = ..1, sheetname = ..2,
                                         title = ..3, source = ..4, metadata = ..5,
                                         grouplines = ..6, group_names = ..7))
   }
@@ -168,7 +139,7 @@ datasetsXLSX <- function(file, datasets, titles,
          plot_sheetnames,
          plot_widths,
          plot_heights) %>%
-      purrr::pmap(~insert_worksheet_image(image = ..1, wb = wb, sheetname = ..2,
+      purrr::pmap(~insert_worksheet_image(wb = wb, image = ..1, sheetname = ..2,
                                           width = ..3, height = ..4))
   }
 
