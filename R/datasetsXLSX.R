@@ -14,7 +14,7 @@
 #'  case for grouplines and group_names. These must be specified for each dataset.
 #'@param file file name of the spreadsheet. The extension ".xlsx" is added
 #'  automatically.
-#'@param maintitle Title to be put on the first (overview) sheet.
+#'@param index_title Title to be put on the first (overview) sheet.
 #'@param datasets datasets or plots to be included.
 #'@param plot_widths width of figure in inch (1 inch = 2.54 cm). See details.
 #'@param plot_heights height of figure in inch (1 inch = 2.54 cm). See details.
@@ -22,7 +22,7 @@
 #'@param titles titles of the different sheets.
 #'@param logo file path to the logo to be included in the index-sheet. Can be
 #'  "statzh" or "zh". Defaults to "statzh".
-#'@param titlesource source to be mentioned on the title sheet beneath the title
+#'@param index_source source to be mentioned on the title sheet beneath the title
 #'@param sources source of the data. Defaults to "statzh".
 #'@param metadata metadata information to be included. Defaults to NA.
 #'@param auftrag_id order number.
@@ -56,7 +56,7 @@
 #'             metadata = c("Bemerkungen zum mtcars-Datensatz: x",
 #'                          "Bemerkungen zum PlantGrowth-Datensatz: x"),
 #'             sheetnames = c("Autos","Blumen", "Histogramm"),
-#'             maintitle = "Autos und Pflanzen",
+#'             index_title = "Autos und Pflanzen",
 #'             auftrag_id = "A2021_0000",
 #'             overwrite = TRUE)
 #' @keywords datasetsXLSX
@@ -64,21 +64,21 @@
 #' @export
 datasetsXLSX <- function(file,
                          datasets,
+                         sheetnames,
                          titles,
                          plot_widths = NULL,
                          plot_heights = NULL,
-                         grouplines = NA,
-                         group_names = NA,
                          sources = "statzh",
                          metadata = NA,
-                         sheetnames,
-                         maintitle,
-                         titlesource = "statzh",
+                         grouplines = NA,
+                         group_names = NA,
+                         index_title = "Inhalt",
+                         index_source = "statzh",
                          logo = "statzh",
-                         auftrag_id = NULL,
                          contactdetails = "statzh",
                          homepage = "statzh",
                          openinghours = "statzh",
+                         auftrag_id = NULL,
                          overwrite = FALSE){
 
   # Run checks on arguments ------
@@ -113,10 +113,15 @@ datasetsXLSX <- function(file,
 
 
   # Insert the initial index sheet ----------
-  insert_index_sheet(wb = wb, title = maintitle, auftrag_id = auftrag_id,
-                     logo = logo, contactdetails = contactdetails,
-                     homepage = homepage, openinghours = openinghours,
-                     source = titlesource)
+  insert_index_sheet(wb = wb,
+                     title = index_title,
+                     auftrag_id = auftrag_id,
+                     logo = logo,
+                     contactdetails = contactdetails,
+                     homepage = homepage,
+                     openinghours = openinghours,
+                     source = index_source)
+
 
   # Insert datasets according to dataframes_index -------
   if (length(dataframes_index) > 0){
@@ -127,9 +132,14 @@ datasetsXLSX <- function(file,
          dataframe_metadata,
          dataframe_grouplines,
          dataframe_group_names) %>%
-      purrr::pwalk(~insert_worksheet_nh(wb = wb, data = ..1, sheetname = ..2,
-                                        title = ..3, source = ..4, metadata = ..5,
-                                        grouplines = ..6, group_names = ..7))
+      purrr::pwalk(~insert_worksheet_nh(wb = wb,
+                                        data = ..1,
+                                        sheetname = ..2,
+                                        title = ..3,
+                                        source = ..4,
+                                        metadata = ..5,
+                                        grouplines = ..6,
+                                        group_names = ..7))
   }
 
 
@@ -139,8 +149,11 @@ datasetsXLSX <- function(file,
          plot_sheetnames,
          plot_widths,
          plot_heights) %>%
-      purrr::pmap(~insert_worksheet_image(wb = wb, image = ..1, sheetname = ..2,
-                                          width = ..3, height = ..4))
+      purrr::pmap(~insert_worksheet_image(wb = wb,
+                                          image = ..1,
+                                          sheetname = ..2,
+                                          width = ..3,
+                                          height = ..4))
   }
 
 

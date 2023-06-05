@@ -16,9 +16,7 @@ insert_worksheet(
   homepage = "statzh",
   author = "user",
   grouplines = NA,
-  group_names = NA,
-  date_prefix = "Aktualisiert am: ",
-  author_prefix = "durch: "
+  group_names = NA
 )
 }
 \arguments{
@@ -50,10 +48,6 @@ variables visually.}
 
 \item{group_names}{Names for groupings in secondary header. Format:
 List e.g list(c("title 1", "title 2", "title 3"))}
-
-\item{date_prefix}{Text shown before date}
-
-\item{author_prefix}{Text shown before author name}
 }
 \description{
 Function to insert a formatted worksheet into an existing

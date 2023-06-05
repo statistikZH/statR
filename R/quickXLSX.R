@@ -33,11 +33,17 @@ quickXLSX <- function(data = NA,
 
 
   # Insert data --------
-  insert_worksheet(wb, sheetname = "Inhalt", data = data, title = title,
+  insert_worksheet(wb,
+                   sheetname = "Inhalt",
+                   data = data,
+                   title = title,
                    source = source,
-                   metadata = metadata, logo = logo,
-                   contactdetails = contactdetails, author = author,
-                   grouplines = grouplines, group_names = group_names)
+                   metadata = metadata,
+                   logo = logo,
+                   contactdetails = contactdetails,
+                   author = author,
+                   grouplines = grouplines,
+                   group_names = group_names)
 
 
   # Save workbook---------

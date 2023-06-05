@@ -21,8 +21,6 @@
 #'  internal user name.
 #' @param group_names Names for groupings in secondary header. Format:
 #'   List e.g list(c("title 1", "title 2", "title 3"))
-#' @param date_prefix Text shown before date
-#' @param author_prefix Text shown before author name
 #' @examples
 #' # Initialize Workbook
 #' wb <- openxlsx::createWorkbook()
@@ -46,9 +44,7 @@ insert_worksheet <- function(wb,
                              homepage = "statzh",
                              author = "user",
                              grouplines = NA,
-                             group_names = NA,
-                             date_prefix = "Aktualisiert am: ",
-                             author_prefix = "durch: "){
+                             group_names = NA){
 
   # Initialize new worksheet ------
   sheetname <- verifyInputSheetname(sheetname)
@@ -67,22 +63,29 @@ insert_worksheet <- function(wb,
   contact_start_col <- min(ncol(data) - 2, 4)
 
   openxlsx::writeData(wb, sheetname,
-                      x = c(inputHelperContactInfo(contactdetails),
-                            inputHelperHomepage(homepage)),
+                      x = inputHelperContactInfo(contactdetails),
                       contact_start_col, 2,
                       name = paste(sheetname, "contact", sep = "_"))
 
+  openxlsx::writeData(wb, sheetname,
+                      x = inputHelperHomepage(homepage),
+                      contact_start_col,
+                      namedRegionLastRow(wb, sheetname, "contact") + 1,
+                      name = paste(sheetname, "homepage", sep = "_"))
+
   ### Information string about time of generation and responsible user
   openxlsx::writeData(wb, sheetname,
-                      x = paste(inputHelperDateCreated(prefix=date_prefix),
-                                inputHelperAuthorName(author, prefix=author_prefix)),
+                      paste(
+                        inputHelperDateCreated(),
+                        inputHelperAuthorName(author)
+                      ),
                       contact_start_col,
-                      startRow = namedRegionLastRow(wb, sheetname, "contact") + 1,
+                      startRow = namedRegionLastRow(wb, sheetname, "homepage") + 1,
                       name = paste(sheetname, "info", sep = "_"))
 
 
   ### Horizontally merge cells to ensure that contact entries are displayed properly
-  purrr::walk(namedRegionRowExtent(wb, sheetname, c("contact", "info")),
+  purrr::walk(namedRegionRowExtent(wb, sheetname, c("contact", "homepage", "info")),
               ~openxlsx::mergeCells(wb, sheetname,
                                     cols = contact_start_col:26,
                                     rows = .))
@@ -93,7 +96,12 @@ insert_worksheet <- function(wb,
                      rows = namedRegionLastRow(wb, sheetname, "info"),
                      cols = 1:ncol(data), gridExpand = TRUE, stack = TRUE)
 
-  insert_worksheet_nh(wb, sheetname = sheetname, data = data, title = title,
-                      source = source, metadata = metadata,
-                      grouplines = grouplines, group_names = group_names)
+  insert_worksheet_nh(wb,
+                      sheetname = sheetname,
+                      data = data,
+                      title = title,
+                      source = source,
+                      metadata = metadata,
+                      grouplines = grouplines,
+                      group_names = group_names)
 }

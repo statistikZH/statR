@@ -51,19 +51,21 @@ insert_worksheet_nh <- function(wb,
   openxlsx::addStyle(wb, sheetname, style_title(), start_row, 1)
 
   ### Source
-  openxlsx::writeData(wb, sheetname, inputHelperSource(source),
+  openxlsx::writeData(wb, sheetname,
+                      inputHelperSource(source),
                       startRow = namedRegionLastRow(wb, sheetname, "title") + 1,
                       name = paste(sheetname,"source", sep = "_"))
   openxlsx::addStyle(wb, sheetname, style_subtitle(),
-                     namedRegionLastRow(wb, sheetname, "source"), 1,
+                     namedRegionFirstRow(wb, sheetname, "source"), 1,
                      stack = TRUE, gridExpand = TRUE)
 
   ### Metadata
-  openxlsx::writeData(wb, sheetname, inputHelperMetadata(metadata),
+  openxlsx::writeData(wb, sheetname,
+                      inputHelperMetadata(metadata),
                       startRow = namedRegionLastRow(wb, sheetname, "source") + 1,
                       name = paste(sheetname,"metadata", sep = "_"))
   openxlsx::addStyle(wb, sheetname, style_subtitle(),
-                     namedRegionLastRow(wb, sheetname, "metadata"), 1,
+                     namedRegionFirstRow(wb, sheetname, "metadata"), 1,
                      stack = TRUE, gridExpand = TRUE)
 
 
@@ -78,7 +80,7 @@ insert_worksheet_nh <- function(wb,
 
 
   # Insert data --------
-  data_start_row <- namedRegionLastRow(wb, sheetname, "metadata") + 3
+  data_start_row <- namedRegionLastRow(wb, sheetname, "metadata") + 2
 
 
   # Grouplines ---------
@@ -108,7 +110,8 @@ insert_worksheet_nh <- function(wb,
   ### Write data after checking for leftover grouping
   openxlsx::writeData(wb, sheetname, verifyDataUngrouped(data),
                       startRow = data_start_row, rowNames = FALSE,
-                      withFilter = FALSE, name = paste(sheetname,"data", sep = "_"))
+                      withFilter = FALSE,
+                      name = paste(sheetname, "data", sep = "_"))
   openxlsx::addStyle(wb, sheetname, style_header(),
                      data_start_row, 1:ncol(data),
                      gridExpand = TRUE, stack = TRUE)

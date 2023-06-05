@@ -12,11 +12,7 @@ insert_metadata_sheet(
   metadata = NA,
   logo = "statzh",
   contactdetails = "statzh",
-  author = "user",
-  date_prefix = "Aktualisiert am: ",
-  author_prefix = "durch: ",
-  source_prefix = "Datenquelle:",
-  metadata_prefix = "Hinweise:"
+  author = "user"
 )
 }
 \arguments{
@@ -38,14 +34,6 @@ Defaults to "statzh"}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
-
-\item{date_prefix}{Text shown before date}
-
-\item{author_prefix}{Text shown before author name}
-
-\item{source_prefix}{Text shown before sources}
-
-\item{metadata_prefix}{Text shown before metadata}
 }
 \description{
 Function to add a formatted worksheet with metadata to an

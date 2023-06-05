@@ -7,21 +7,21 @@
 datasetsXLSX(
   file,
   datasets,
+  sheetnames,
   titles,
   plot_widths = NULL,
   plot_heights = NULL,
-  grouplines = NA,
-  group_names = NA,
   sources = "statzh",
   metadata = NA,
-  sheetnames,
-  maintitle,
-  titlesource = "statzh",
+  grouplines = NA,
+  group_names = NA,
+  index_title = "Inhalt",
+  index_source = "statzh",
   logo = "statzh",
-  auftrag_id = NULL,
   contactdetails = "statzh",
   homepage = "statzh",
   openinghours = "statzh",
+  auftrag_id = NULL,
   overwrite = FALSE
 )
 }
@@ -31,31 +31,29 @@ automatically.}
 
 \item{datasets}{datasets or plots to be included.}
 
+\item{sheetnames}{names of the sheet tabs.}
+
 \item{titles}{titles of the different sheets.}
 
 \item{plot_widths}{width of figure in inch (1 inch = 2.54 cm). See details.}
 
 \item{plot_heights}{height of figure in inch (1 inch = 2.54 cm). See details.}
 
+\item{sources}{source of the data. Defaults to "statzh".}
+
+\item{metadata}{metadata information to be included. Defaults to NA.}
+
 \item{grouplines}{Column for second header(s). Format: List e.g list(c(2,4,6))}
 
 \item{group_names}{Name(s) of the second header(s). Format: List e.g
 list(c("title 1", "title 2", "title 3"))}
 
-\item{sources}{source of the data. Defaults to "statzh".}
+\item{index_title}{Title to be put on the first (overview) sheet.}
 
-\item{metadata}{metadata information to be included. Defaults to NA.}
-
-\item{sheetnames}{names of the sheet tabs.}
-
-\item{maintitle}{Title to be put on the first (overview) sheet.}
-
-\item{titlesource}{source to be mentioned on the title sheet beneath the title}
+\item{index_source}{source to be mentioned on the title sheet beneath the title}
 
 \item{logo}{file path to the logo to be included in the index-sheet. Can be
 "statzh" or "zh". Defaults to "statzh".}
-
-\item{auftrag_id}{order number.}
 
 \item{contactdetails}{contact information on the title sheet. Defaults to "statzh"}
 
@@ -63,6 +61,8 @@ list(c("title 1", "title 2", "title 3"))}
 
 \item{openinghours}{openinghours written on the title sheet. Defaults to Data
 Shop}
+
+\item{auftrag_id}{order number.}
 
 \item{overwrite}{overwrites the existing excel files with the same file name.
 default to FALSE}
@@ -106,7 +106,7 @@ datasetsXLSX(file = tempfile(fileext = ".xlsx"),
             metadata = c("Bemerkungen zum mtcars-Datensatz: x",
                          "Bemerkungen zum PlantGrowth-Datensatz: x"),
             sheetnames = c("Autos","Blumen", "Histogramm"),
-            maintitle = "Autos und Pflanzen",
+            index_title = "Autos und Pflanzen",
             auftrag_id = "A2021_0000",
             overwrite = TRUE)
 }

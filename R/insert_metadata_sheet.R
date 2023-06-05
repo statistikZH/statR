@@ -3,8 +3,6 @@
 #' @description Function to add a formatted worksheet with metadata to an
 #'   existing Workbook object.
 #' @inheritParams insert_worksheet
-#' @param source_prefix Text shown before sources
-#' @param metadata_prefix Text shown before metadata
 #' @examples
 #' # Create Workbook
 #' wb <- openxlsx::createWorkbook()
@@ -23,15 +21,7 @@ insert_metadata_sheet <- function(wb,
                                   metadata = NA,
                                   logo = "statzh",
                                   contactdetails = "statzh",
-                                  author = "user",
-                                  date_prefix = "Aktualisiert am: ",
-                                  author_prefix = "durch: ",
-                                  source_prefix = "Datenquelle:",
-                                  metadata_prefix = "Hinweise:"){
-
-  # Determine start/end rows of content blocks -----
-  contact_start_row <- 2
-
+                                  author = "user"){
 
   # Add a new worksheet ------
   sheetname <- verifyInputSheetname(sheetname)
@@ -52,9 +42,10 @@ insert_metadata_sheet <- function(wb,
 
   ### Request information
   openxlsx::writeData(wb, sheetname,
-                      x = paste(inputHelperDateCreated(prefix = date_prefix),
-                                inputHelperAuthorName(author, prefix = author_prefix)),
-                      12, startRow = namedRegionLastRow(wb, sheetname, "contact") + 1,
+                      x = paste(inputHelperDateCreated(),
+                                inputHelperAuthorName(author)),
+                      startCol = 12,
+                      startRow = namedRegionLastRow(wb, sheetname, "contact") + 1,
                       name = paste(sheetname,"info", sep = "_"))
 
   ### Headerline
@@ -70,10 +61,12 @@ insert_metadata_sheet <- function(wb,
                      rows = namedRegionLastRow(wb, sheetname, "title"), cols = 1)
 
   ### Source and metadata
-  openxlsx::writeData(wb, sheetname, inputHelperSource(source, prefix = source_prefix),
+  openxlsx::writeData(wb, sheetname,
+                      inputHelperSource(source),
                       startRow = namedRegionLastRow(wb, sheetname, "title") + 1,
                       name = paste(sheetname,"source", sep = "_"))
-  openxlsx::writeData(wb, sheetname, inputHelperMetadata(metadata, prefix = metadata_prefix),
+  openxlsx::writeData(wb, sheetname,
+                      inputHelperMetadata(metadata),
                       startRow = namedRegionLastRow(wb, sheetname, "source") + 1,
                       name = paste(sheetname,"metadata", sep = "_"))
   openxlsx::addStyle(wb, sheetname, style_subtitle2(),

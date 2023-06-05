@@ -13,10 +13,7 @@ insert_index_sheet(
   contactdetails = "statzh",
   homepage = "statzh",
   openinghours = "statzh",
-  source = "statzh",
-  date_prefix = "Erstellt am: ",
-  order_id_prefix = "Auftragsnr.:",
-  toc_caption = "Inhalt"
+  source = "statzh"
 )
 }
 \arguments{
@@ -39,12 +36,6 @@ Defaults to "statzh"}
 \item{openinghours}{statzh or a character string or vector with opening hours}
 
 \item{source}{source of the data. Defaults to "statzh".}
-
-\item{date_prefix}{Text shown before date}
-
-\item{order_id_prefix}{Text inserted before order ID}
-
-\item{toc_caption}{Text for table of content}
 }
 \description{
 Function which generates an index sheet inside an openxlsx

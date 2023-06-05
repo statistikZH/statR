@@ -6,6 +6,7 @@
 #' @param index_sheet_name Name of sheet where hyperlink should be created
 #' @keywords internal
 insert_hyperlink <- function(wb, sheetname, title, sheet_row, index_sheet_name){
+
   openxlsx::writeData(wb, index_sheet_name, title,
                       startCol = 3, startRow = sheet_row)
   openxlsx::addStyle(wb, index_sheet_name, hyperlinkStyle(), sheet_row, cols = 3)
@@ -45,9 +46,8 @@ insert_hyperlinks <- function(wb, sheetnames, titles, index_sheet_name = "Index"
 
   sheet_rows <- sheet_start_row + seq(0, length(sheetnames) - 1)
 
-  data.frame(sheetnames = sheetnames,
-             titles = titles,
-             sheet_row = sheet_rows) %>%
+
+  list(sheetnames, titles, sheet_rows) %>%
     purrr::pwalk(~insert_hyperlink(wb,
                                    sheetname = ..1,
                                    title = ..2,

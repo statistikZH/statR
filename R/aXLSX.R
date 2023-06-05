@@ -34,14 +34,20 @@ aXLSX <- function(data,
   wb <- openxlsx::createWorkbook()
 
   # Insert data -----
-  insert_worksheet_nh(wb, data = data, title = title,
-                      source = source, metadata = NA,
+  insert_worksheet_nh(wb,
+                      data = data,
+                      title = title,
+                      source = source,
+                      metadata = NA,
                       grouplines = grouplines,
                       group_names = group_names)
 
   # Insert metadata -------
-  insert_metadata_sheet(wb, title = title, source = source,
-                        metadata = metadata, logo = logo,
+  insert_metadata_sheet(wb,
+                        title = title,
+                        source = source,
+                        metadata = metadata,
+                        logo = logo,
                         contactdetails = contactdetails,
                         author = author)
 

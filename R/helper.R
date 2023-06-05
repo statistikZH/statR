@@ -56,7 +56,8 @@ verifyDataUngrouped <- function(data){
 #' @returns A character string
 #' @keywords internal
 #' @noRd
-inputHelperSource <- function(source, prefix = NULL, collapse = NULL){
+inputHelperSource <- function(source, prefix = getOption("prefix_source"),
+                              collapse = NULL){
   source <- sub("statzh", statzh_name, source)
 
   if (all(is.na(source))){
@@ -64,7 +65,7 @@ inputHelperSource <- function(source, prefix = NULL, collapse = NULL){
   }
 
   if (!is.null(collapse)){
-    return(paste0(prefix, paste0(source, collapse = collapse)))
+    return(paste(prefix, paste0(source, collapse = collapse)))
   }
 
   return(c(prefix, source))
@@ -79,14 +80,15 @@ inputHelperSource <- function(source, prefix = NULL, collapse = NULL){
 #' @returns A character vector
 #' @keywords internal
 #' @noRd
-inputHelperMetadata <- function(metadata, prefix = NULL, collapse = NULL){
+inputHelperMetadata <- function(metadata, prefix = getOption("prefix_metadata"),
+                                collapse = NULL){
 
   if (all(is.na(metadata))){
     return("")
   }
 
   if (!is.null(collapse)){
-    return(paste0(prefix, paste0(metadata, collapse = collapse)))
+    return(paste(prefix, paste0(metadata, collapse = collapse)))
   }
 
   return(c(prefix, metadata))
@@ -168,7 +170,7 @@ inputHelperOfficeHours <- function(openinghours){
 #' @noRd
 inputHelperHomepage <- function(homepage){
   homepage <- sub("statzh", statzh_homepage, homepage)
-  # class(homepage) <- 'hyperlink'
+  class(homepage) <- 'hyperlink'
 
   return(homepage)
 }
@@ -183,8 +185,9 @@ inputHelperHomepage <- function(homepage){
 #' @keywords internal
 #' @seealso format
 #' @noRd
-inputHelperDateCreated <- function(prefix = NULL, date_format = "%d.%m.%Y"){
-  paste0(prefix, format(Sys.Date(), format = date_format))
+inputHelperDateCreated <- function(prefix = getOption("prefix_date"),
+                                   date_format = getOption("date_format")){
+  paste(prefix, format(Sys.Date(), format = date_format))
 }
 
 
@@ -196,8 +199,9 @@ inputHelperDateCreated <- function(prefix = NULL, date_format = "%d.%m.%Y"){
 #' @keywords internal
 #' @seealso format
 #' @noRd
-inputHelperOrderNumber <- function(order_num, prefix = NULL){
-  paste0(prefix, order_num)
+inputHelperOrderNumber <- function(order_num,
+                                   prefix = getOption("prefix_order_id")){
+  paste(prefix, order_num)
 }
 
 #' inputHelperAuthorName()
@@ -210,14 +214,15 @@ inputHelperOrderNumber <- function(order_num, prefix = NULL){
 #' @keywords internal
 #' @noRd
 #'
-inputHelperAuthorName <- function(author, prefix = NULL){
+inputHelperAuthorName <- function(author,
+                                  prefix = getOption("prefix_author")){
   if (author == "user"){
     sys_vals <- c(Sys.getenv("USERNAME"), Sys.getenv("USER"))
     author_name <- sys_vals[which(sys_vals != "")[1]]
     author <- stringr::str_sub(author_name, start = 6, end = 7)
   }
 
-  return(paste0(prefix, author))
+  return(paste(prefix, author))
 }
 
 
