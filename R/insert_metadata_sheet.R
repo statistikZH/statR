@@ -1,131 +1,78 @@
 #' insert_metadata_sheet()
 #'
-#' Function to  add formatted metadata information to an existing .xlsx-workbook.
-#' @param wb workbook object to add new worksheet to.
-#' @param title title to be put above the data.
-#' @param sheetname name of the sheet tab.
-#' @param source source of the data. Defaults to "statzh".
-#' @param metadata metadata information to be included. Defaults to NA.
-#' @param logo path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"
-#' @param contactdetails contact details of the data publisher. Defaults to "statzh".
-#' @param author defaults to the last two letters (initials) or numbers of the internal user name.
-#' @importFrom dplyr "%>%"
-#' @keywords insert_metadata_sheet
-#' @export
+#' @description Function to add a formatted worksheet with metadata to an
+#'   existing Workbook object.
+#' @inheritParams insert_worksheet
 #' @examples
+#' # Create Workbook
+#' wb <- openxlsx::createWorkbook()
 #'
-#' # Generation of a spreadsheet
-#' wb <- openxlsx::createWorkbook("hello")
+#' # Insert a simple metadata sheet
+#' insert_metadata_sheet(wb, title = "Title of mtcars",
+#'   metadata = c("Meta data information."))
 #'
-#' insert_metadata_sheet(wb, title = "Title of mtcars", metadata = c("Meta data information."))
+#' @keywords insert_metadata_sheet
+#' @seealso createWorkbook, addWorksheet, writeData
+#' @export
+insert_metadata_sheet <- function(wb,
+                                  sheetname = "Metadaten",
+                                  title = "Title",
+                                  source = "statzh",
+                                  metadata = NA,
+                                  logo = "statzh",
+                                  contactdetails = "statzh",
+                                  author = "user"){
+
+  # Add a new worksheet ------
+  sheetname <- verifyInputSheetname(sheetname)
+  openxlsx::addWorksheet(wb, sheetname)
 
 
-insert_metadata_sheet <- function(wb, sheetname="Metadaten",title="Title",
-                             source="statzh", metadata = NA, logo= "statzh",
-                             contactdetails="statzh", author = "user") {
-
-  # number of metadata rows
-  n_metadata <- length(metadata)
-
-  # warning if sheetname is longer than the limit imposed by excel (31 characters)
-  if(nchar(sheetname)>31){
-    warning("sheetname is cut to 31 characters (limit imposed by MS-Excel)")
-    }
-
-  suppressWarnings(openxlsx::addWorksheet(wb,paste(substr(sheetname,0,31))))
-  # sheet name
-  i <- paste(substr(sheetname, 0, 31))
+  # Insert logo --------
+  insert_worksheet_image(wb = wb, sheetname = sheetname,
+                         image = inputHelperLogoPath(logo),
+                         startrow = 1, startcol = 1,
+                         width = 2.145, height = 0.7865)
 
 
-  # Style definitions ---------------------
+  # Insert contact info, title, metadata, and sources into worksheet --------
+  ### Contact info
+  openxlsx::writeData(wb, sheetname, inputHelperContactInfo(contactdetails),
+                      12, 2, name = paste(sheetname,"contact", sep = "_"))
 
-  style_title <- openxlsx::createStyle(fontSize=14, textDecoration="bold",fontName="Arial")
-  style_subtitle <- openxlsx::createStyle(fontSize=12, textDecoration="bold",fontName="Arial")
-  style_header <- openxlsx::createStyle(border="Bottom", borderColour = "#009ee0",
-                                      borderStyle = getOption("openxlsx.borderStyle", "thick"))
-  style_wrap <- openxlsx::createStyle(wrapText = TRUE)
+  ### Request information
+  openxlsx::writeData(wb, sheetname,
+                      x = paste(inputHelperDateCreated(),
+                                inputHelperAuthorName(author)),
+                      startCol = 12,
+                      startRow = namedRegionLastRow(wb, sheetname, "contact") + 1,
+                      name = paste(sheetname,"info", sep = "_"))
 
+  ### Headerline
+  openxlsx::addStyle(wb, sheetname, style_headerline(),
+                     namedRegionLastRow(wb, sheetname, "contact") + 1, 1:26,
+                     gridExpand = TRUE, stack = TRUE)
 
-  # Fill Excel -----------------
+  ### Title
+  openxlsx::writeData(wb, sheetname, title,
+                      startRow = namedRegionLastRow(wb, sheetname, "info") + 3,
+                      name = paste(sheetname,"title", sep = "_"))
+  openxlsx::addStyle(wb, sheetname, style_title(),
+                     rows = namedRegionLastRow(wb, sheetname, "title"), cols = 1)
 
-  ## Title
-  openxlsx::writeData(wb, sheet = i, title, headerStyle=style_title, startRow = 7)
+  ### Source and metadata
+  openxlsx::writeData(wb, sheetname,
+                      inputHelperSource(source),
+                      startRow = namedRegionLastRow(wb, sheetname, "title") + 1,
+                      name = paste(sheetname,"source", sep = "_"))
+  openxlsx::writeData(wb, sheetname,
+                      inputHelperMetadata(metadata),
+                      startRow = namedRegionLastRow(wb, sheetname, "source") + 1,
+                      name = paste(sheetname,"metadata", sep = "_"))
+  openxlsx::addStyle(wb, sheetname, style_subtitle2(),
+                     c(namedRegionFirstRow(wb, sheetname, "source"),
+                       namedRegionFirstRow(wb, sheetname, "metadata")), 1)
 
-  ## Logo
-  if(!is.null(logo)){
-
-    if(logo == "statzh") {
-      statzh <- paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png")
-      openxlsx::insertImage(wb, i, statzh[1], width = 2.145, height = 0.7865,
-                            units = "in")
-    } else if(logo == "zh"){
-      zh <- paste0(.libPaths(),"/statR/extdata/Stempel_Kanton_ZH.png")
-      openxlsx::insertImage(wb, i, zh[1], width = 2.145, height = 0.7865,
-                            units = "in")
-    } else if((logo != "statzh" | logo != "zh") & file.exists(logo)) {
-      openxlsx::insertImage(wb, i, logo, width = 2.145, height = 0.7865,
-                            units = "in")
-    } else {
-      message("no logo found and / or added")
-    }
-  }
-
-
-  ## Contact details
-  if(contactdetails=="statzh"){
-
-    contactdetails <- c("Datashop, Tel: 0432597500",
-                        "datashop@statistik.ji.zh.ch",
-                        "http://www.statistik.zh.ch")
-
-  }
-
-  openxlsx::writeData(wb, sheet = i,
-                      contactdetails,
-                      headerStyle = style_wrap,
-                      startRow = 2,
-                      startCol = 12)
-
-  if (length(contactdetails) > 3) {
-    warning("Contactdetails may overlap with other elements. To avoid this issue please do not include more than three elements in the contactdetails vector.")
-  }
-
-  ## Source
-  if(source == "statzh"){
-    source <- "Statistisches Amt des Kantons Z\u00fcrich"
-  }
-  openxlsx::writeData(wb, sheet = i, "Datenquelle:", headerStyle=style_subtitle, startRow = 9)
-  openxlsx::writeData(wb, sheet = i, source, startRow = 10)
-
-  ## Metadata
-  openxlsx::writeData(wb, sheet = i, "Hinweise:", headerStyle=style_subtitle, startRow = 12)
-  openxlsx::writeData(wb, sheet = i, metadata, startRow =13)
-
-  ## User
-  if(author == "user"){
-    # for the local R setup
-    if(Sys.getenv("USERNAME")!="") {
-      contactperson <- stringr::str_sub(Sys.getenv("USERNAME"), start = 6, end = 7)
-    } else {
-      # for the R server setup
-      contactperson <- stringr::str_sub(Sys.getenv("USER"), start = 6, end = 7)
-    }
-  } else {
-    contactperson <- author
-  }
-
-  #Aktualisierungsdatum
-  openxlsx::writeData(wb, sheet = i, paste("Aktualisiert am ",
-                                           format(Sys.Date(), format="%d.%m.%Y"),
-                                           " durch: ", contactperson),
-                      startRow = 5, startCol=12)
-
-  # add formatting
-  openxlsx::addStyle(wb, sheet = i, style_header, rows = 5, cols = 1:26, gridExpand = TRUE, stack = TRUE)
-  openxlsx::addStyle(wb, sheet = i, style_title, rows = 7, cols = 1, gridExpand = TRUE)
-  openxlsx::addStyle(wb, sheet = i, style_subtitle, rows = 9, cols = 1, gridExpand = TRUE)
-  openxlsx::addStyle(wb, sheet = i, style_subtitle, rows = 12, cols = 1, gridExpand = TRUE)
-
-  # remove gridlines
-  openxlsx::showGridLines(wb, sheet = i, showGridLines = FALSE)
+  ### Hide gridlines
+  openxlsx::showGridLines(wb, sheetname, FALSE)
 }

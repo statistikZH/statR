@@ -5,24 +5,26 @@
 \title{insert_worksheet()}
 \usage{
 insert_worksheet(
+  wb,
+  sheetname = "Daten",
   data,
-  workbook,
-  sheetname = "data",
   title = "Title",
   source = "statzh",
   metadata = NA,
   logo = "statzh",
-  grouplines = FALSE,
   contactdetails = "statzh",
-  author = "user"
+  homepage = "statzh",
+  author = "user",
+  grouplines = NA,
+  group_names = NA
 )
 }
 \arguments{
-\item{data}{data to be included.}
-
-\item{workbook}{workbook object to add new worksheet to.}
+\item{wb}{workbook object to add new worksheet to.}
 
 \item{sheetname}{name of the sheet tab.}
+
+\item{data}{data to be included.}
 
 \item{title}{title to be put above the data.}
 
@@ -30,22 +32,40 @@ insert_worksheet(
 
 \item{metadata}{metadata information to be included. Defaults to NA.}
 
-\item{logo}{path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"}
+\item{logo}{path of the file to be included as logo (png / jpeg / svg).
+Defaults to "statzh"}
 
-\item{grouplines}{defaults to FALSE. Can be used to separate grouped variables visually.}
+\item{contactdetails}{contact details of the data publisher. Defaults to
+"statzh".}
 
-\item{contactdetails}{contact details of the data publisher. Defaults to "statzh".}
+\item{homepage}{Homepage of data publisher. Defaults to "statzh".}
 
-\item{author}{defaults to the last two letters (initials) or numbers of the internal user name.}
+\item{author}{defaults to the last two letters (initials) or numbers of the
+internal user name.}
+
+\item{grouplines}{defaults to NA. Can be used to separate grouped
+variables visually.}
+
+\item{group_names}{Names for groupings in secondary header. Format:
+List e.g list(c("title 1", "title 2", "title 3"))}
 }
 \description{
-Function to  add formatted worksheets to an existing .xlsx-workbook.
+Function to insert a formatted worksheet into an existing
+ Workbook object.
+}
+\note{
+The function does not write the result into a .xlsx file.
+ A separate call to openxlsx::saveWorkbook() is required.
 }
 \examples{
+# Initialize Workbook
+wb <- openxlsx::createWorkbook()
 
-# Generation of a spreadsheet
-wb <- openxlsx::createWorkbook("hello")
+# Insert mtcars dataset with STATZH design
+insert_worksheet(data = mtcars,
+                 wb = wb,
+                 title = "mtcars dataset",
+                 sheetname = "carb")
 
-insert_worksheet(data = mtcars[c(1:10),], workbook = wb, title = "mtcars", sheetname = "carb")
 }
 \keyword{insert_worksheet}

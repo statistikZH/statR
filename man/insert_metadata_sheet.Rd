@@ -26,20 +26,29 @@ insert_metadata_sheet(
 
 \item{metadata}{metadata information to be included. Defaults to NA.}
 
-\item{logo}{path of the file to be included as logo (png / jpeg / svg). Defaults to "statzh"}
+\item{logo}{path of the file to be included as logo (png / jpeg / svg).
+Defaults to "statzh"}
 
-\item{contactdetails}{contact details of the data publisher. Defaults to "statzh".}
+\item{contactdetails}{contact details of the data publisher. Defaults to
+"statzh".}
 
-\item{author}{defaults to the last two letters (initials) or numbers of the internal user name.}
+\item{author}{defaults to the last two letters (initials) or numbers of the
+internal user name.}
 }
 \description{
-Function to  add formatted metadata information to an existing .xlsx-workbook.
+Function to add a formatted worksheet with metadata to an
+  existing Workbook object.
 }
 \examples{
+# Create Workbook
+wb <- openxlsx::createWorkbook()
 
-# Generation of a spreadsheet
-wb <- openxlsx::createWorkbook("hello")
+# Insert a simple metadata sheet
+insert_metadata_sheet(wb, title = "Title of mtcars",
+  metadata = c("Meta data information."))
 
-insert_metadata_sheet(wb, title = "Title of mtcars", metadata = c("Meta data information."))
+}
+\seealso{
+createWorkbook, addWorksheet, writeData
 }
 \keyword{insert_metadata_sheet}
