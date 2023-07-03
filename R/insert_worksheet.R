@@ -60,7 +60,7 @@ insert_worksheet <- function(wb,
 
   # Insert contact info, date created, and author -----
   ### Contact info
-  contact_start_col <- min(ncol(data) - 2, 4)
+  contact_start_col <- max(ncol(data) - 2, 4)
 
   openxlsx::writeData(wb, sheetname,
                       x = inputHelperContactInfo(contactdetails),
