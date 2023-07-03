@@ -1,3 +1,5 @@
+# statR 2.3.0
+
 # statR 2.2.0
 
 * implemented new color palettes according to the ZH.CH Design System 
