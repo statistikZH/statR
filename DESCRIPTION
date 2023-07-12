@@ -36,5 +36,10 @@ Suggests:
     tidyr,
     rmarkdown,
     ggrepel,
-    magrittr
+    magrittr,
+    downloader,
+    zip,
+    sf,
+    dichromat,
+    ggrepel
 VignetteBuilder: knitr
