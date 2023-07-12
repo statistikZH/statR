@@ -20,33 +20,25 @@
 quickXLSX <- function(data = NA,
                       file,
                       title = "Title",
-                      source = "statzh",
+                      source = getOption("statR_source"),
                       metadata = NA,
-                      logo = "statzh",
-                      contactdetails = "statzh",
+                      logo = getOption("statR_logo"),
+                      contactdetails = inputHelperContactInfo(compact = TRUE),
                       author = "user",
                       grouplines = NA,
-                      group_names = NA){
+                      group_names = NA) {
 
   # Create workbook --------
   wb <- openxlsx::createWorkbook()
 
 
   # Insert data --------
-  insert_worksheet(wb,
-                   sheetname = "Inhalt",
-                   data = data,
-                   title = title,
-                   source = source,
-                   metadata = metadata,
-                   logo = logo,
-                   contactdetails = contactdetails,
-                   author = author,
-                   grouplines = grouplines,
-                   group_names = group_names)
+  insert_worksheet(wb, sheetname = "Inhalt", data = data, title = title,
+                   source = source, metadata = metadata, logo = logo,
+                   contactdetails = contactdetails, author = author,
+                   grouplines = grouplines, group_names = group_names)
 
 
   # Save workbook---------
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
 }
-

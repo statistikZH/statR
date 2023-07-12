@@ -8,10 +8,10 @@ aXLSX(
   data,
   file,
   title = "Title",
-  source = "statzh",
+  source = getOption("statR_source"),
   metadata = NA,
-  logo = "statzh",
-  contactdetails = "statzh",
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
   author = "user",
   grouplines = NA,
   group_names = NA

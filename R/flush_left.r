@@ -12,7 +12,7 @@
 #' flush_left(plt)
 #' @keywords flush_left
 #' @export
-flush_left <- function(g){
+flush_left <- function(g) {
 
   xout <- ggplot2::ggplotGrob(g)
   xout$layout$l[xout$layout$name == "title"] <- 1
@@ -20,4 +20,3 @@ flush_left <- function(g){
   xout$layout$l[xout$layout$name == "caption"] <- 1
   gridExtra::grid.arrange(xout)
 }
-

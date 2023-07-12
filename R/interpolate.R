@@ -11,14 +11,14 @@
 #'   number = 7)
 #' @keywords interpolate2
 #' @export
-interpolate2 <- function(palette, color, degree, number){
+interpolate2 <- function(palette, color, degree, number) {
 
-  if (degree < 1 | degree > 7){
+  if (degree < 1 | degree > 7) {
     stop("degree out of range. Provide integer between 1-7.")
   }
 
   newpalette <- c()
-  for (i in palette){
+  for (i in palette) {
     intcols <- c(i, color)
     pal <- grDevices::colorRampPalette(intcols)
     intcols <- pal(7)
@@ -28,4 +28,3 @@ interpolate2 <- function(palette, color, degree, number){
   pal <- grDevices::colorRampPalette(newpalette, space = "Lab")
   return(pal(number))
 }
-

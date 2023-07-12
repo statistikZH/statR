@@ -28,15 +28,15 @@ insert_worksheet_nh <- function(wb,
                                 sheetname = "Daten",
                                 data,
                                 title = "Title",
-                                source = "statzh",
+                                source = getOption("statR_source"),
                                 metadata = NA,
                                 grouplines = NA,
-                                group_names = NA){
+                                group_names = NA) {
   # Initialize new worksheet ------
 
   sheetname <- verifyInputSheetname(sheetname)
 
-  if (!(sheetname %in% names(wb))){
+  if (!(sheetname %in% names(wb))) {
     openxlsx::addWorksheet(wb, sheetname)
     start_row <- 1
 
@@ -54,7 +54,7 @@ insert_worksheet_nh <- function(wb,
   openxlsx::writeData(wb, sheetname,
                       inputHelperSource(source),
                       startRow = namedRegionLastRow(wb, sheetname, "title") + 1,
-                      name = paste(sheetname,"source", sep = "_"))
+                      name = paste(sheetname, "source", sep = "_"))
   openxlsx::addStyle(wb, sheetname, style_subtitle(),
                      namedRegionFirstRow(wb, sheetname, "source"), 1,
                      stack = TRUE, gridExpand = TRUE)
@@ -63,7 +63,7 @@ insert_worksheet_nh <- function(wb,
   openxlsx::writeData(wb, sheetname,
                       inputHelperMetadata(metadata),
                       startRow = namedRegionLastRow(wb, sheetname, "source") + 1,
-                      name = paste(sheetname,"metadata", sep = "_"))
+                      name = paste(sheetname, "metadata", sep = "_"))
   openxlsx::addStyle(wb, sheetname, style_subtitle(),
                      namedRegionFirstRow(wb, sheetname, "metadata"), 1,
                      stack = TRUE, gridExpand = TRUE)
@@ -84,16 +84,16 @@ insert_worksheet_nh <- function(wb,
 
 
   # Grouplines ---------
-  if (!any(is.null(grouplines)) & !any(is.na(grouplines))){
-    if (is.numeric(grouplines)){
+  if (!any(is.null(grouplines)) & !any(is.na(grouplines))) {
+    if (is.numeric(grouplines)) {
       groupline_numbers <- grouplines
 
-    } else if (is.character(grouplines)){
+    } else if (is.character(grouplines)) {
       groupline_numbers <- get_groupline_index_by_pattern(grouplines, data)
     }
 
     ### Insert second header
-    if (!any(is.null(group_names)) & !any(is.na(group_names))){
+    if (!any(is.null(group_names)) & !any(is.na(group_names))) {
       insert_second_header(wb, sheetname, data_start_row, group_names, grouplines, data)
       data_start_row <- data_start_row + 1
     }

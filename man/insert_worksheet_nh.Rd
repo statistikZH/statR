@@ -9,7 +9,7 @@ insert_worksheet_nh(
   sheetname = "Daten",
   data,
   title = "Title",
-  source = "statzh",
+  source = getOption("statR_source"),
   metadata = NA,
   grouplines = NA,
   group_names = NA

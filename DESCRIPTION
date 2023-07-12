@@ -27,7 +27,8 @@ Imports:
     scales,
     stringr,
     purrr,
-    methods
+    methods,
+    yaml
 URL: https://statistikzh.github.io/statR/
 BugReports: https://github.com/statistikZH/statR/issues
 Suggests: 

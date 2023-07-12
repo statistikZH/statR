@@ -11,11 +11,11 @@ insert_index_sheet <- function(wb,
                                sheetname = "Index",
                                title,
                                auftrag_id,
-                               logo = "statzh",
-                               contactdetails = "statzh",
-                               homepage = "statzh",
-                               openinghours = "statzh",
-                               source = "statzh"){
+                               logo = getOption("statR_logo"),
+                               contactdetails = inputHelperContactInfo(),
+                               homepage = getOption("statR_homepage"),
+                               openinghours = getOption("statR_openinghours"),
+                               source = getOption("statR_source")) {
 
   # Initialize new worksheet as index sheet ------
   openxlsx::addWorksheet(wb, sheetname)
@@ -30,24 +30,21 @@ insert_index_sheet <- function(wb,
 
   # Insert contact info, title, metadata, and sources into worksheet --------
   ### Contact information
-  openxlsx::writeData(wb, sheetname,
-                      x = inputHelperContactInfo(contactdetails),
+  openxlsx::writeData(wb, sheetname, contactdetails,
                       startCol = 15, startRow = 2,
                       name = paste(sheetname,"contact", sep = "_"))
 
   ### Office hours
-  openxlsx::writeData(wb, sheetname,
-                      inputHelperOfficeHours(openinghours),
+  openxlsx::writeData(wb, sheetname, openinghours,
                       startCol = 18,
                       startRow = namedRegionFirstRow(wb, sheetname, "contact"),
-                      name = paste(sheetname,"officehours", sep = "_"))
+                      name = paste(sheetname, "officehours", sep = "_"))
 
   ### Homepage
-  openxlsx::writeData(wb, sheetname,
-                      x = inputHelperHomepage(homepage),
+  openxlsx::writeData(wb, sheetname, inputHelperHomepage(homepage),
                       startCol = 15,
                       startRow = namedRegionLastRow(wb, sheetname, "contact") + 1,
-                      name = paste(sheetname,"homepage", sep = "_"))
+                      name = paste(sheetname, "homepage", sep = "_"))
 
 
 
@@ -64,12 +61,12 @@ insert_index_sheet <- function(wb,
                       ),
                       startCol = 15,
                       startRow = namedRegionLastRow(wb, sheetname, "homepage") + 3,
-                      name = paste(sheetname,"info", sep = "_"))
+                      name = paste(sheetname, "info", sep = "_"))
 
   ### Title
   openxlsx::writeData(wb, sheetname, title, 3,
                       namedRegionLastRow(wb, sheetname, "info") + 1,
-                      name = paste(sheetname,"title", sep = "_"))
+                      name = paste(sheetname, "title", sep = "_"))
   openxlsx::addStyle(wb, sheetname, style_maintitle(),
                      namedRegionLastRow(wb, sheetname, "title"), 3)
 
@@ -78,12 +75,12 @@ insert_index_sheet <- function(wb,
                       inputHelperSource(source, collapse = "; "),
                       startCol = 3,
                       startRow = namedRegionLastRow(wb, sheetname, "title") + 1,
-                      name = paste(sheetname,"source", sep = "_"))
+                      name = paste(sheetname, "source", sep = "_"))
 
   ### Table of content caption
   openxlsx::writeData(wb, sheetname, getOption("toc_title"), 3,
                       namedRegionLastRow(wb, sheetname, "source") + 3,
-                      name = paste(sheetname,"toc", sep = "_"))
+                      name = paste(sheetname, "toc", sep = "_"))
   openxlsx::addStyle(wb, sheetname, subtitleStyle(),
                      namedRegionLastRow(wb, sheetname, "toc"), 3)
 

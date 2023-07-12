@@ -37,14 +37,14 @@ insert_worksheet <- function(wb,
                              sheetname = "Daten",
                              data,
                              title = "Title",
-                             source = "statzh",
+                             source = getOption("statR_source"),
                              metadata = NA,
-                             logo = "statzh",
-                             contactdetails = "statzh",
-                             homepage = "statzh",
+                             logo = getOption("statR_logo"),
+                             contactdetails = inputHelperContactInfo(),
+                             homepage = getOption("statR_homepage"),
                              author = "user",
                              grouplines = NA,
-                             group_names = NA){
+                             group_names = NA) {
 
   # Initialize new worksheet ------
   sheetname <- verifyInputSheetname(sheetname)
@@ -62,13 +62,11 @@ insert_worksheet <- function(wb,
   ### Contact info
   contact_start_col <- max(ncol(data) - 2, 4)
 
-  openxlsx::writeData(wb, sheetname,
-                      x = inputHelperContactInfo(contactdetails),
+  openxlsx::writeData(wb, sheetname, contactdetails,
                       contact_start_col, 2,
                       name = paste(sheetname, "contact", sep = "_"))
 
-  openxlsx::writeData(wb, sheetname,
-                      x = inputHelperHomepage(homepage),
+  openxlsx::writeData(wb, sheetname, inputHelperHomepage(homepage),
                       contact_start_col,
                       namedRegionLastRow(wb, sheetname, "contact") + 1,
                       name = paste(sheetname, "homepage", sep = "_"))

@@ -5,12 +5,12 @@
 #' @param data_start_row Row index for first row with data
 #' @keywords internal
 insert_second_header <- function(wb, sheetname, data_start_row, group_names,
-                                 grouplines, data){
+                                 grouplines, data) {
 
-  if (is.character(grouplines)){
+  if (is.character(grouplines)) {
     groupline_numbers <- get_groupline_index_by_pattern(grouplines, data)
 
-  } else if (is.numeric(grouplines)){
+  } else if (is.numeric(grouplines)) {
     groupline_numbers <- grouplines
   }
 

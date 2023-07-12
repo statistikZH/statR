@@ -9,18 +9,18 @@ datasetsXLSX(
   datasets,
   sheetnames,
   titles,
+  sources,
   plot_widths = NULL,
   plot_heights = NULL,
-  sources = "statzh",
   metadata = NA,
   grouplines = NA,
   group_names = NA,
-  index_title = "Inhalt",
-  index_source = "statzh",
-  logo = "statzh",
-  contactdetails = "statzh",
-  homepage = "statzh",
-  openinghours = "statzh",
+  index_title = getOption("statR_toc_title"),
+  index_source = getOption("statR_source"),
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  homepage = getOption("statR_homepage"),
+  openinghours = getOption("statR_openinghours"),
   auftrag_id = NULL,
   overwrite = FALSE
 )
@@ -35,11 +35,11 @@ automatically.}
 
 \item{titles}{titles of the different sheets.}
 
+\item{sources}{source of the data. Defaults to "statzh".}
+
 \item{plot_widths}{width of figure in inch (1 inch = 2.54 cm). See details.}
 
 \item{plot_heights}{height of figure in inch (1 inch = 2.54 cm). See details.}
-
-\item{sources}{source of the data. Defaults to "statzh".}
 
 \item{metadata}{metadata information to be included. Defaults to NA.}
 

@@ -8,8 +8,8 @@
 #' @returns A character string
 #' @keywords internal
 #' @noRd
-verifyInputSheetname <- function(sheetname){
-  if (nchar(sheetname) > 31){
+verifyInputSheetname <- function(sheetname) {
+  if (nchar(sheetname) > 31) {
     message("sheetname truncated at 31 characters to satisfy MS-Excel limit.")
   }
 
@@ -25,8 +25,8 @@ verifyInputSheetname <- function(sheetname){
 #' @returns A character string
 #' @keywords internal
 #' @noRd
-verifyInputFilename <- function(filename, extension = ".xlsx"){
-  regex_pattern <- paste0(extension,"$")
+verifyInputFilename <- function(filename, extension = ".xlsx") {
+  regex_pattern <- paste0(extension, "$")
   paste0(gsub(regex_pattern, "", filename), extension)
 }
 
@@ -39,8 +39,8 @@ verifyInputFilename <- function(filename, extension = ".xlsx"){
 #' @returns A data.frame
 #' @keywords internal
 #' @noRd
-verifyDataUngrouped <- function(data){
-  if (!dplyr::is_grouped_df(data)){
+verifyDataUngrouped <- function(data) {
+  if (!dplyr::is_grouped_df(data)) {
     return(data)
   }
 
@@ -57,14 +57,13 @@ verifyDataUngrouped <- function(data){
 #' @keywords internal
 #' @noRd
 inputHelperSource <- function(source, prefix = getOption("prefix_source"),
-                              collapse = NULL){
-  source <- sub("statzh", statzh_name, source)
+                              collapse = getOption("statR_collapse")) {
 
-  if (all(is.na(source))){
+  if (all(is.na(source))) {
     return("")
   }
 
-  if (!is.null(collapse)){
+  if (!is.null(collapse)) {
     return(paste(prefix, paste0(source, collapse = collapse)))
   }
 
@@ -81,13 +80,13 @@ inputHelperSource <- function(source, prefix = getOption("prefix_source"),
 #' @keywords internal
 #' @noRd
 inputHelperMetadata <- function(metadata, prefix = getOption("prefix_metadata"),
-                                collapse = NULL){
+                                collapse = getOption("statR_collapse")) {
 
-  if (all(is.na(metadata))){
+  if (all(is.na(metadata))) {
     return("")
   }
 
-  if (!is.null(collapse)){
+  if (!is.null(collapse)) {
     return(paste(prefix, paste0(metadata, collapse = collapse)))
   }
 
@@ -103,14 +102,14 @@ inputHelperMetadata <- function(metadata, prefix = getOption("prefix_metadata"),
 #' @returns A character string
 #' @keywords internal
 #' @noRd
-inputHelperLogoPath <- function(logo){
-  if (is.null(logo)){
+inputHelperLogoPath <- function(logo) {
+  if (is.null(logo)) {
     message("No logo added.")
 
-  } else if (logo == "statzh"){
+  } else if (logo == "statzh") {
     logo <- paste0(find.package("statR"), "/extdata/", statzh_logo)
 
-  } else if (logo == "zh"){
+  } else if (logo == "zh") {
     logo <- paste0(find.package("statR"), "/extdata/", zh_logo)
   }
 
@@ -122,22 +121,21 @@ inputHelperLogoPath <- function(logo){
 #'
 #' @description Replaces default value "statzh" with the contact information of
 #'  the Statistics Office of Canton Zurich, otherwise returns the input value.
-#' @param contact A character vector with contact information
 #' @param compact A boolean which controls the format of the contact information. Default: FALSE
 #' @returns A character vector
 #' @keywords internal
 #' @noRd
-inputHelperContactInfo <- function(contact, compact = FALSE){
+inputHelperContactInfo <- function(compact = FALSE) {
 
-  if (contact == "statzh"){
-    if (compact){
-      contact <- statzh_contact_compact
-    } else {
-      contact <- statzh_contact
-    }
+  phone <- inputHelperPhone(getOption("statR_phone"))
+
+  if (compact) {
+    return(c(paste(getOption("statR_name"), phone, sep = ", "),
+             getOption("statR_email")))
   }
 
-  return(contact)
+  return(c(getOption("statR_organization"), getOption("statR_name"),
+           phone, getOption("statR_email")))
 }
 
 
@@ -150,8 +148,8 @@ inputHelperContactInfo <- function(contact, compact = FALSE){
 #' @returns A character vector
 #' @keywords internal
 #' @noRd
-inputHelperOfficeHours <- function(openinghours){
-  if (openinghours == "statzh"){
+inputHelperOfficeHours <- function(openinghours) {
+  if (openinghours == "statzh") {
     openinghours <- statzh_openinghours
   }
 
@@ -161,18 +159,32 @@ inputHelperOfficeHours <- function(openinghours){
 
 #' inputHelperHomepage()
 #'
-#' @description Replace default values "zh" and "statzh" with the homepage of
-#'  the Statistics Office of Canton Zurich, otherwise returns the input value.
-#' @note Converts input to 'hyperlink' object.
+#' @description Formats homepage as a hyperlink object.
 #' @param homepage A character string
 #' @returns A character string or a 'hyperlink' object
 #' @keywords internal
 #' @noRd
-inputHelperHomepage <- function(homepage){
-  homepage <- sub("statzh", statzh_homepage, homepage)
-  class(homepage) <- 'hyperlink'
+inputHelperHomepage <- function(homepage) {
+  if (!is.null(homepage)) {
+    class(homepage) <- "hyperlink"
+  }
 
   return(homepage)
+}
+
+#' inputHelperPhone()
+#'
+#' @description Formats phone number
+#' @param homepage A character string
+#' @returns A character string or a 'hyperlink' object
+#' @keywords internal
+#' @noRd
+inputHelperPhone <- function(phone, prefix = getOption("statR_prefix_phone")) {
+  if (!is.null(phone)) {
+    phone <- paste(prefix, phone)
+  }
+
+  return(phone)
 }
 
 
@@ -186,7 +198,7 @@ inputHelperHomepage <- function(homepage){
 #' @seealso format
 #' @noRd
 inputHelperDateCreated <- function(prefix = getOption("prefix_date"),
-                                   date_format = getOption("date_format")){
+                                   date_format = getOption("date_format")) {
   paste(prefix, format(Sys.Date(), format = date_format))
 }
 
@@ -200,9 +212,14 @@ inputHelperDateCreated <- function(prefix = getOption("prefix_date"),
 #' @seealso format
 #' @noRd
 inputHelperOrderNumber <- function(order_num,
-                                   prefix = getOption("prefix_order_id")){
-  paste(prefix, order_num)
+                                   prefix = getOption("prefix_order_id")) {
+  if (!is.null(order_num)) {
+    order_num <- paste(prefix, order_num)
+  }
+
+  return(order_num)
 }
+
 
 #' inputHelperAuthorName()
 #'
@@ -215,8 +232,8 @@ inputHelperOrderNumber <- function(order_num,
 #' @noRd
 #'
 inputHelperAuthorName <- function(author,
-                                  prefix = getOption("prefix_author")){
-  if (author == "user"){
+                                  prefix = getOption("prefix_author")) {
+  if (author == "user") {
     sys_vals <- c(Sys.getenv("USERNAME"), Sys.getenv("USER"))
     author_name <- sys_vals[which(sys_vals != "")[1]]
     author <- stringr::str_sub(author_name, start = 6, end = 7)
@@ -235,20 +252,20 @@ inputHelperAuthorName <- function(author,
 #' @returns A list containing row indices and column indices
 #' @keywords internal
 #' @importFrom utils stack
-excelIndexToRowCol <- function(index){
+excelIndexToRowCol <- function(index) {
 
   splitIndex <- function(x, split = "") unlist(strsplit(x, split))
 
-  excelColumnLetterToNumeric <- function(x){
+  excelColumnLetterToNumeric <- function(x) {
     chars <- splitIndex(x, "")
     offsets <- 26^(length(chars):1 - 1)
     sum(offsets * match(chars, LETTERS))
   }
 
   # Return extent of combined region
-  if (length(index) > 1){
+  if (length(index) > 1) {
     extents <- lapply(index, excelIndexToRowCol)
-    extents <- unique(do.call(rbind,lapply(extents, stack)))
+    extents <- unique(do.call(rbind, lapply(extents, stack)))
     rows <- extents[extents$ind == "row", "values"]
     cols <- extents[extents$ind == "col", "values"]
     return(list(row = seq(min(rows), max(rows)),
@@ -279,10 +296,11 @@ excelIndexToRowCol <- function(index){
 #' @returns A list with two numeric vectors row and col, containing
 #'   row and column indices.
 #' @keywords internal
-namedRegionExtent <- function(wb, sheetname, region_name = NULL, which = "both"){
+namedRegionExtent <- function(wb, sheetname, region_name = NULL,
+                              which = "both") {
   named_regions <- openxlsx::getNamedRegions(wb)
 
-  if (!(sheetname %in% names(wb))){
+  if (!(sheetname %in% names(wb))) {
     stop("Sheetname does not exist in Workbook")
   }
 
@@ -292,23 +310,23 @@ namedRegionExtent <- function(wb, sheetname, region_name = NULL, which = "both")
 
   positions <- attr(named_regions, "position")[sheet_ind]
 
-  if (which == "both"){
+  if (which == "both") {
     dimensions <- c("row", "col")
   } else {
     dimensions <- which
   }
 
   # If name is null, return full extent for sheet
-  if (all(is.null(region_name))){
+  if (all(is.null(region_name))) {
     return(excelIndexToRowCol(positions)[dimensions])
   }
 
-  region_ind <- unlist(sapply(region_name, function(region){
-    which(grepl(paste0(region,"$"), region_names))
+  region_ind <- unlist(sapply(region_name, function(region) {
+    which(grepl(paste0(region, "$"), region_names))
   }))
 
   # Return extent for combined region
-  if (length(region_ind) > 0){
+  if (length(region_ind) > 0) {
     return(excelIndexToRowCol(positions[region_ind])[dimensions])
   }
 
@@ -324,7 +342,7 @@ namedRegionExtent <- function(wb, sheetname, region_name = NULL, which = "both")
 #' @returns A numeric vector of row indices
 #' @keywords internal
 #'
-namedRegionRowExtent <- function(wb, sheetname, region_name = NULL){
+namedRegionRowExtent <- function(wb, sheetname, region_name = NULL) {
   unlist(namedRegionExtent(wb, sheetname, region_name, "row"))
 }
 
@@ -336,7 +354,7 @@ namedRegionRowExtent <- function(wb, sheetname, region_name = NULL){
 #' @returns A numeric vector of column indices
 #' @keywords internal
 #'
-namedRegionColumnExtent <- function(wb, sheetname, name = NULL){
+namedRegionColumnExtent <- function(wb, sheetname, name = NULL) {
   unlist(namedRegionExtent(wb, sheetname, name, "col"))
 }
 
@@ -347,7 +365,7 @@ namedRegionColumnExtent <- function(wb, sheetname, name = NULL){
 #' @inheritParams namedRegionExtent
 #' @returns Numeric value corresponding to first row of named region
 #' @keywords internal
-namedRegionFirstRow <- function(wb, sheet, region_name = NULL){
+namedRegionFirstRow <- function(wb, sheet, region_name = NULL) {
   min(namedRegionRowExtent(wb, sheet, region_name))
 }
 
@@ -358,7 +376,7 @@ namedRegionFirstRow <- function(wb, sheet, region_name = NULL){
 #' @inheritParams namedRegionExtent
 #' @returns Numeric value corresponding to last row of named region
 #' @keywords internal
-namedRegionLastRow <- function(wb, sheet, region_name = NULL){
+namedRegionLastRow <- function(wb, sheet, region_name = NULL) {
   max(namedRegionRowExtent(wb, sheet, region_name))
 }
 
@@ -369,7 +387,7 @@ namedRegionLastRow <- function(wb, sheet, region_name = NULL){
 #' @inheritParams namedRegionExtent
 #' @returns Numeric value corresponding to first column of named region
 #' @keywords internal
-namedRegionFirstCol <- function(wb, sheet, region_name = NULL){
+namedRegionFirstCol <- function(wb, sheet, region_name = NULL) {
   min(namedRegionColumnExtent(wb, sheet, region_name))
 }
 
@@ -380,6 +398,6 @@ namedRegionFirstCol <- function(wb, sheet, region_name = NULL){
 #' @inheritParams namedRegionExtent
 #' @returns Numeric value corresponding to last column of named region
 #' @keywords internal
-namedRegionLastCol <- function(wb, sheet, region_name = NULL){
+namedRegionLastCol <- function(wb, sheet, region_name = NULL) {
   max(namedRegionColumnExtent(wb, sheet, region_name))
 }

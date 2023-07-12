@@ -9,11 +9,11 @@ insert_index_sheet(
   sheetname = "Index",
   title,
   auftrag_id,
-  logo = "statzh",
-  contactdetails = "statzh",
-  homepage = "statzh",
-  openinghours = "statzh",
-  source = "statzh"
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  homepage = getOption("statR_homepage"),
+  openinghours = getOption("statR_openinghours"),
+  source = getOption("statR_source")
 )
 }
 \arguments{

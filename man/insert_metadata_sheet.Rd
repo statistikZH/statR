@@ -8,10 +8,10 @@ insert_metadata_sheet(
   wb,
   sheetname = "Metadaten",
   title = "Title",
-  source = "statzh",
+  source = getOption("statR_source"),
   metadata = NA,
-  logo = "statzh",
-  contactdetails = "statzh",
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(compact = TRUE),
   author = "user"
 )
 }

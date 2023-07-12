@@ -66,34 +66,32 @@ datasetsXLSX <- function(file,
                          datasets,
                          sheetnames,
                          titles,
+                         sources,
                          plot_widths = NULL,
                          plot_heights = NULL,
-                         sources = "statzh",
                          metadata = NA,
                          grouplines = NA,
                          group_names = NA,
-                         index_title = "Inhalt",
-                         index_source = "statzh",
-                         logo = "statzh",
-                         contactdetails = "statzh",
-                         homepage = "statzh",
-                         openinghours = "statzh",
+                         index_title = getOption("statR_toc_title"),
+                         index_source = getOption("statR_source"),
+                         logo = getOption("statR_logo"),
+                         contactdetails = inputHelperContactInfo(),
+                         homepage = getOption("statR_homepage"),
+                         openinghours = getOption("statR_openinghours"),
                          auftrag_id = NULL,
-                         overwrite = FALSE){
+                         overwrite = FALSE) {
 
   # Run checks on arguments ------
   checkGroupOptionCompatibility(group_names, grouplines)
 
-
   # Initialize new Workbook ------
   wb <- openxlsx::createWorkbook()
-
 
   # Create indexes of which inputs correspond to data.frames or plots-----
   dataframes_index <- which(vapply(datasets, is.data.frame, TRUE))
 
   implemented_plot_types <- c("gg", "ggplot", "histogram", "character")
-  plot_index <- which(vapply(datasets, function(x){
+  plot_index <- which(vapply(datasets, function(x) {
     length(setdiff(class(x), implemented_plot_types)) == 0
     }, TRUE))
 
@@ -124,7 +122,7 @@ datasetsXLSX <- function(file,
 
 
   # Insert datasets according to dataframes_index -------
-  if (length(dataframes_index) > 0){
+  if (length(dataframes_index) > 0) {
     list(dataframe_datasets,
          dataframe_sheetnames,
          dataframe_titles,
@@ -144,7 +142,7 @@ datasetsXLSX <- function(file,
 
 
   # Insert images according to plot_index --------
-  if (length(plot_index) > 0){
+  if (length(plot_index) > 0) {
     list(plot_datasets,
          plot_sheetnames,
          plot_widths,

@@ -17,11 +17,11 @@
 insert_metadata_sheet <- function(wb,
                                   sheetname = "Metadaten",
                                   title = "Title",
-                                  source = "statzh",
+                                  source = getOption("statR_source"),
                                   metadata = NA,
-                                  logo = "statzh",
-                                  contactdetails = "statzh",
-                                  author = "user"){
+                                  logo = getOption("statR_logo"),
+                                  contactdetails = inputHelperContactInfo(compact = TRUE),
+                                  author = "user") {
 
   # Add a new worksheet ------
   sheetname <- verifyInputSheetname(sheetname)
@@ -37,8 +37,8 @@ insert_metadata_sheet <- function(wb,
 
   # Insert contact info, title, metadata, and sources into worksheet --------
   ### Contact info
-  openxlsx::writeData(wb, sheetname, inputHelperContactInfo(contactdetails),
-                      12, 2, name = paste(sheetname,"contact", sep = "_"))
+  openxlsx::writeData(wb, sheetname, contactdetails,
+                      12, 2, name = paste(sheetname, "contact", sep = "_"))
 
   ### Request information
   openxlsx::writeData(wb, sheetname,
@@ -46,7 +46,7 @@ insert_metadata_sheet <- function(wb,
                                 inputHelperAuthorName(author)),
                       startCol = 12,
                       startRow = namedRegionLastRow(wb, sheetname, "contact") + 1,
-                      name = paste(sheetname,"info", sep = "_"))
+                      name = paste(sheetname, "info", sep = "_"))
 
   ### Headerline
   openxlsx::addStyle(wb, sheetname, style_headerline(),
@@ -56,19 +56,18 @@ insert_metadata_sheet <- function(wb,
   ### Title
   openxlsx::writeData(wb, sheetname, title,
                       startRow = namedRegionLastRow(wb, sheetname, "info") + 3,
-                      name = paste(sheetname,"title", sep = "_"))
+                      name = paste(sheetname, "title", sep = "_"))
   openxlsx::addStyle(wb, sheetname, style_title(),
                      rows = namedRegionLastRow(wb, sheetname, "title"), cols = 1)
 
   ### Source and metadata
-  openxlsx::writeData(wb, sheetname,
-                      inputHelperSource(source),
+  openxlsx::writeData(wb, sheetname, inputHelperSource(source, collapse = NULL),
                       startRow = namedRegionLastRow(wb, sheetname, "title") + 1,
-                      name = paste(sheetname,"source", sep = "_"))
+                      name = paste(sheetname, "source", sep = "_"))
   openxlsx::writeData(wb, sheetname,
-                      inputHelperMetadata(metadata),
+                      inputHelperMetadata(metadata, collapse = NULL),
                       startRow = namedRegionLastRow(wb, sheetname, "source") + 1,
-                      name = paste(sheetname,"metadata", sep = "_"))
+                      name = paste(sheetname, "metadata", sep = "_"))
   openxlsx::addStyle(wb, sheetname, style_subtitle2(),
                      c(namedRegionFirstRow(wb, sheetname, "source"),
                        namedRegionFirstRow(wb, sheetname, "metadata")), 1)

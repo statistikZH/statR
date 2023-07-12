@@ -26,45 +26,44 @@
 #' @export
 insert_worksheet_image <- function(wb, sheetname, image, startrow = 3,
                                    startcol = 3, width, height,
-                                   units = "in", dpi = 300){
+                                   units = "in", dpi = 300) {
 
   # If image is.null, pass
   if (is.null(image)) return()
 
   else if (is.character(image)) image_path <- image
 
-  else if (checkImplementedPlotType(image)){
+  else if (checkImplementedPlotType(image)) {
     image_path <- tempfile(fileext = ".png")
-  }
 
-  else {
+  } else {
     stop("Plot muss als ggplot Objekt oder als Filepath vorliegen.")
   }
 
 
   # Create png of plot ----------
-  if (is(image, "histogram")){
+  if (is(image, "histogram")) {
     grDevices::png(image_path, width = width, height = height, units = units,
                    res = dpi)
     plot(image)
     grDevices::dev.off()
   }
 
-  else if (is(image, "gg") | is(image, "ggplot2")){
+  else if (is(image, "gg") | is(image, "ggplot2")) {
     ggplot2::ggsave(image_path, plot = image, device = "png",
                     width = width, height = height, units = units, dpi = dpi)
   }
 
 
   # If file not found at image_path, warn and pass
-  if (!file.exists(image_path)){
+  if (!file.exists(image_path)) {
     warning("Image not found.")
     return()
   }
 
 
   # Add worksheet if not already defined ---------
-  if (!(sheetname %in% names(wb))){
+  if (!(sheetname %in% names(wb))) {
     openxlsx::addWorksheet(wb, sheetName = sheetname, gridLines = FALSE)
   }
 

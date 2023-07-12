@@ -27,14 +27,14 @@ splitXLSX <- function(data,
                       file,
                       sheetvar,
                       title = "Titel",
-                      source = "statzh",
+                      source = getOption("statR_source"),
                       metadata = NA,
-                      logo = "statzh",
-                      contactdetails = "statzh",
-                      homepage = "statzh",
+                      logo = getOption("statR_logo"),
+                      contactdetails = inputHelperContactInfo(compact = TRUE),
+                      homepage = getOption("statR_homepage"),
                       author = "user",
                       grouplines = NA,
-                      group_names = NA){
+                      group_names = NA) {
 
   # create workbook ------
   wb <- openxlsx::createWorkbook()
@@ -51,12 +51,11 @@ splitXLSX <- function(data,
       dplyr::filter((!!col_name) == sheetvalue)
 
     sheetname <- paste(deparse(substitute(sheetvar)), sheetvalue, sep = "_")
-    insert_worksheet(wb, sheetname = sheetname,
-                     data = data_subset, title = sheettitle, source = source,
-                     metadata = metadata, logo = logo,
-                     contactdetails = contactdetails, homepage = homepage,
-                     author = author, grouplines = grouplines,
-                     group_names = group_names)
+    insert_worksheet(wb, sheetname = sheetname, data = data_subset,
+                     title = sheettitle, source = source, metadata = metadata,
+                     logo = logo, contactdetails = contactdetails,
+                     homepage = homepage, author = author,
+                     grouplines = grouplines, group_names = group_names)
   }
 
   # Reverse order

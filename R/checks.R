@@ -5,8 +5,8 @@
 #' @param grouplines A character or integer vector of columns to put grouplines at
 #' @keywords internal
 #' @noRd
-checkGroupOptionCompatibility <- function(group_names, grouplines){
-  if (any(!is.na(group_names)) & all(is.na(grouplines))){
+checkGroupOptionCompatibility <- function (group_names, grouplines){
+  if (any(!is.na(group_names)) & all(is.na(grouplines))) {
     stop("For a second header, the grouplines must be specified")
   }
 }
@@ -17,6 +17,6 @@ checkGroupOptionCompatibility <- function(group_names, grouplines){
 #' @param image Any R object
 #' @keywords internal
 #' @noRd
-checkImplementedPlotType <- function(image){
+checkImplementedPlotType <- function(image) {
   length(setdiff(class(image), c("gg", "ggplot", "histogram"))) == 0
 }

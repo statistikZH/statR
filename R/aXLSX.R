@@ -22,33 +22,25 @@
 aXLSX <- function(data,
                   file,
                   title = "Title",
-                  source = "statzh",
+                  source = getOption("statR_source"),
                   metadata = NA,
-                  logo = "statzh",
-                  contactdetails = "statzh",
+                  logo = getOption("statR_logo"),
+                  contactdetails = inputHelperContactInfo(),
                   author = "user",
                   grouplines = NA,
-                  group_names = NA){
+                  group_names = NA) {
 
   # Initialize Workbook object -------
   wb <- openxlsx::createWorkbook()
 
   # Insert data -----
-  insert_worksheet_nh(wb,
-                      data = data,
-                      title = title,
-                      source = source,
-                      metadata = NA,
-                      grouplines = grouplines,
+  insert_worksheet_nh(wb, data = data, title = title, source = source,
+                      metadata = NA, grouplines = grouplines,
                       group_names = group_names)
 
   # Insert metadata -------
-  insert_metadata_sheet(wb,
-                        title = title,
-                        source = source,
-                        metadata = metadata,
-                        logo = logo,
-                        contactdetails = contactdetails,
+  insert_metadata_sheet(wb, title = title, source = source, metadata = metadata,
+                        logo = logo, contactdetails = contactdetails,
                         author = author)
 
   # Write workbook to disk --------
