@@ -56,7 +56,7 @@ verifyDataUngrouped <- function(data) {
 #' @returns A character string
 #' @keywords internal
 #' @noRd
-inputHelperSource <- function(source, prefix = getOption("prefix_source"),
+inputHelperSource <- function(source, prefix = getOption("statR_prefix_source"),
                               collapse = getOption("statR_collapse")) {
 
   if (all(is.na(source))) {
@@ -79,7 +79,7 @@ inputHelperSource <- function(source, prefix = getOption("prefix_source"),
 #' @returns A character vector
 #' @keywords internal
 #' @noRd
-inputHelperMetadata <- function(metadata, prefix = getOption("prefix_metadata"),
+inputHelperMetadata <- function(metadata, prefix = getOption("statR_prefix_metadata"),
                                 collapse = getOption("statR_collapse")) {
 
   if (all(is.na(metadata))) {
@@ -197,7 +197,7 @@ inputHelperPhone <- function(phone, prefix = getOption("statR_prefix_phone")) {
 #' @keywords internal
 #' @seealso format
 #' @noRd
-inputHelperDateCreated <- function(prefix = getOption("prefix_date"),
+inputHelperDateCreated <- function(prefix = getOption("statR_prefix_date"),
                                    date_format = getOption("date_format")) {
   paste(prefix, format(Sys.Date(), format = date_format))
 }
@@ -212,7 +212,7 @@ inputHelperDateCreated <- function(prefix = getOption("prefix_date"),
 #' @seealso format
 #' @noRd
 inputHelperOrderNumber <- function(order_num,
-                                   prefix = getOption("prefix_order_id")) {
+                                   prefix = getOption("statR_prefix_order_id")) {
   if (!is.null(order_num)) {
     order_num <- paste(prefix, order_num)
   }
@@ -232,7 +232,7 @@ inputHelperOrderNumber <- function(order_num,
 #' @noRd
 #'
 inputHelperAuthorName <- function(author,
-                                  prefix = getOption("prefix_author")) {
+                                  prefix = getOption("statR_prefix_author")) {
   if (author == "user") {
     sys_vals <- c(Sys.getenv("USERNAME"), Sys.getenv("USER"))
     author_name <- sys_vals[which(sys_vals != "")[1]]
