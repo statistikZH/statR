@@ -11,6 +11,5 @@ Preview all Stat ZH palettes stored in the 'zhpal'-object
 }
 \examples{
 display.statcol.all()
-
 }
 \keyword{display.statcol.all}

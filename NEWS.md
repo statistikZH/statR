@@ -1,3 +1,21 @@
+# statR 2.3.0
+
+## New Features
+* Users can now create, load, and switch between configurations, allowing for more personalized output files.
+* grouplines and second header functionality is now available in all functions which generate worksheets.
+* base::histogram objects can now be passed to datasetsXLSX
+* Prefixes for fields like auftrags_id are now customizable
+* Positioning of content in worksheets is now relative to last inserted content
+
+## Bugfixes
+* Fixed undesired behavior where inserting an image by path resulted in the source file being deleted
+
+# statR 2.2.0
+
+* implemented new color palettes according to the ZH.CH Design System 
+* outdated not accessible palettes have been discarded ("zhextralight" and "zhultralight" among others)
+* errors in the documentation have been corrected
+
 # statR 2.1.1
 
 * fix `datasetXLSX()` which generated broken Links in the index-sheet

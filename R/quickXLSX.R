@@ -1,52 +1,44 @@
 #' quickXLSX()
 #'
-#' Function to export data from R to a formatted .xlsx-spreadsheet.
+#' @description Function to export data from R to a formatted .xlsx-spreadsheet.
+#' @inheritParams insert_worksheet
 #' @param data data to be exported.
-#' @param file file name of the xlsx-file. The extension ".xlsx" is added automatically.
-#' @param title title to be put above the data in the worksheet.
-#' @template shared_parameters
+#' @param file file name of the xlsx-file. The extension ".xlsx" is added
 #' @keywords quickXLSX
 #' @export
 #' @examples
-#' # Beispiel anhand des Datensatzes 'mtcars'
-#'dat <- mtcars
-#'
-#'quickXLSX(data = dat,
+#'quickXLSX(data = mtcars,
 #'          title = "Motor trend car road tests",
-#'          file = "motor_trend_car_road_tests", # '.xlsx' is automatically added
-#'          source = "Source: Henderson and Velleman (1981). Building multiple
-#'          regression models interactively.
-#'          Biometrics, 37, 391–411.",
-#'          metadata = c("The data was extracted from the 1974 Motor Trend US
-#'          magazine and comprises fuel
-#'          consumption and 10 aspects of automobile design and performance
-#'          for 32 automobiles (1973–74 models)."),
-#'          contactdetails = "statzh",
-#'          grouplines = FALSE,
-#'          logo = "statzh",
-#'          author = "user")
-#'
-
-quickXLSX <-function (data = NA,
+#'          file = tempfile(fileext = ".xlsx"),
+#'          source = paste("Source: Henderson and Velleman (1981). Building",
+#'                         "multiple regression models interactively.",
+#'                         "Biometrics, 37, 391–411."),
+#'          metadata = paste("The data was extracted from the 1974 Motor",
+#'                           "Trend US magazine and comprises fuel consumption",
+#'                           "and 10 aspects of automobile design and",
+#'                           "performance for 32 automobiles (1973–74 models)."))
+quickXLSX <- function(data = NA,
                       file,
-                      title="Title",
-                      source="statzh",
+                      title = "Title",
+                      source = getOption("statR_source"),
                       metadata = NA,
-                      logo="statzh",
-                      grouplines = FALSE,
-                      contactdetails="statzh",
-                      author = "user") {
+                      logo = getOption("statR_logo"),
+                      contactdetails = inputHelperContactInfo(compact = TRUE),
+                      author = "user",
+                      grouplines = NA,
+                      group_names = NA) {
 
-  #create workbook
-  wb <- openxlsx::createWorkbook(paste(file))
-
-  #insert data
-  insert_worksheet(data=data, wb, title=title, source=source, metadata = metadata, logo=logo, grouplines = grouplines, contactdetails=contactdetails, author = author)
-
-  #save workbook
-  openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""),
-                         overwrite = TRUE)
+  # Create workbook --------
+  wb <- openxlsx::createWorkbook()
 
 
+  # Insert data --------
+  insert_worksheet(wb, sheetname = "Inhalt", data = data, title = title,
+                   source = source, metadata = metadata, logo = logo,
+                   contactdetails = contactdetails, author = author,
+                   grouplines = grouplines, group_names = group_names)
+
+
+  # Save workbook---------
+  openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
 }
-

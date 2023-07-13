@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">statR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.0</span>
       </span>
     </div>
 
@@ -140,10 +140,9 @@ können Zahlen in der wissenschaftlichen Notation dargestellt werden.</p>
 <div id="funktionen-und-beispiele" class="section level2">
 <h2 class="hasAnchor">
 <a href="#funktionen-und-beispiele" class="anchor"></a>Funktionen und Beispiele</h2>
-<div id="axlsx-neu" class="section level3">
+<div id="axlsx" class="section level3">
 <h3 class="hasAnchor">
-<a href="#axlsx-neu" class="anchor"></a>aXLSX() <em>NEU</em>
-</h3>
+<a href="#axlsx" class="anchor"></a>aXLSX()</h3>
 <p>Mit der Funktion <code><a href="../reference/aXLSX.html">aXLSX()</a></code> kann ein einzelner Datensatz
 aus <code>R</code> als vorformatierte XLSX-Datei exportiert werden. Die
 Funktion hat zum Ziel, möglichst <strong>barrierefreie</strong>
@@ -163,7 +162,7 @@ eingefügt.</p>
          source <span class="op">=</span> <span class="st">"Source: Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411."</span>,
          metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"The data was extracted from the 1974 Motor Trend US magazine and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."</span><span class="op">)</span>,
          contactdetails <span class="op">=</span> <span class="st">"statzh"</span>,
-         grouplines <span class="op">=</span> <span class="cn">FALSE</span>,
+         grouplines <span class="op">=</span> <span class="cn">NA</span>,
          logo <span class="op">=</span> <span class="st">"statzh"</span>,
          author <span class="op">=</span> <span class="st">"MD"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
@@ -287,9 +286,9 @@ Höhe und die Breite adjustieren (aktuell in Zoll/<em>inches</em>, 1 Zoll
 wobei es pro Arbeitsblatt ein Vektorelement gibt. Die Vektorelemente
 müssen überall auf <code>= 0</code> gesetzt sein ausser bei den
 Visualisierungen. Bei zwei Datensätzen und einer Grafik sieht der Vektor
-bspw. folgendermassen aus: <code>c(0,0,4)</code>. Hätte man einen
+bspw. folgendermassen aus: <code><a href="https://rdrr.io/r/base/c.html">c(0,0,4)</a></code>. Hätte man einen
 Datensatz und zwei Grafiken, sähe der Vektor hingegen so aus:
-<code>c(0,4,4)</code>.</p>
+<code><a href="https://rdrr.io/r/base/c.html">c(0,4,4)</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">dat1</span> <span class="op">&lt;-</span> <span class="va">mtcars</span>
@@ -324,9 +323,9 @@ Datensatz und zwei Grafiken, sähe der Vektor hingegen so aus:
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#allgemeine-informationen">Allgemeine
+<li><a href="#allgemeine-informationen" id="toc-allgemeine-informationen">Allgemeine
       Informationen</a></li>
-      <li><a href="#funktionen-und-beispiele">Funktionen und
+      <li><a href="#funktionen-und-beispiele" id="toc-funktionen-und-beispiele">Funktionen und
       Beispiele</a></li>
       </ul>
 </div>
@@ -340,7 +339,7 @@ Datensatz und zwei Grafiken, sähe der Vektor hingegen so aus:
 
 
       <footer><div class="copyright">
-  <p>Developed by Andrea Schnell, Michelle Donzallaz, Lara Theiler, Thomas Knecht, Thomas Lo Russo.</p>
+  <p>Developed by Andrea Schnell, Michelle Donzallaz, Lara Theiler, Thomas Knecht, Alexandra Würmli, Thomas Lo Russo.</p>
 </div>
 
 <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#000000 !important;background-color:#FFFFFF !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 0px 9px !important;font-size: 17px !important;letter-spacing:-0.08px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Lato', sans-serif !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#000000 !important;}</style>

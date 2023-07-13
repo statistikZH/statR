@@ -1,5 +1,9 @@
 # statR 
 
+  <!-- badges: start -->
+  [![R-CMD-check](https://github.com/statistikZH/statR/workflows/R-CMD-check/badge.svg)](https://github.com/statistikZH/statR/actions)
+  <!-- badges: end -->
+
 <p align="left">
 <img src="https://raw.githubusercontent.com/statistikZH/statR/dev/inst/extdata/Stempel_STAT-01.png" alt="" width="220"/>
 

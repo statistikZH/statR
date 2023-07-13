@@ -1,24 +1,24 @@
 Package: statR
 Title: statR
-Version: 2.1.1
+Version: 2.3.0
 Authors@R: as.person(c(
     "Andrea Schnell <andrea.schnell@statistik.ji.zh.ch> [aut]",
     "Michelle Donzallaz <michelle.donzallaz@statistik.ji.zh.ch> [aut]",
     "Lara Theiler <lara.theiler@statistik.ji.zh.ch> [aut]",
     "Thomas Knecht <thomas.knecht@statistik.ji.zh.ch> [aut]",
-    "Thomas Lo Russo <thomas.lorusso@statistik.ji.zh.ch> [aut,cre]"))
+    "Alexandra Würmli <alexandra.wuermli@statistik.ji.zh.ch> [aut]",
+    "Thomas Lo Russo <thomas.lorusso@statistik.ji.zh.ch> [aut,cre]",
+    "Thomas Fischer <thomas.c.fischer@statistik.ji.zh.ch> [aut]"))
 Description: statR beinhaltet eine Reihe von Funktionen mit denen unter anderem publikationsfertige Visualisierungen (mittels ggplot2-themes und Farbpaletten) und formatierte Excel-Tabellen erstellt werden können. Die generierten Visualisierungen und Tabellen sind an das Corporate Design des Kantons Zürich angepasst.
 Depends: R (>= 3.3.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Imports:
     dplyr,
-    ggrepel,
     ggplot2,
     openxlsx,
-    magrittr,
     stats,
     grDevices,
     RColorBrewer,
@@ -26,11 +26,20 @@ Imports:
     rlang,
     scales,
     stringr,
-    tidyr,
-    purrr
+    purrr,
+    methods,
+    yaml
 URL: https://statistikzh.github.io/statR/
 BugReports: https://github.com/statistikZH/statR/issues
 Suggests: 
     knitr,
-    rmarkdown
+    tidyr,
+    rmarkdown,
+    ggrepel,
+    magrittr,
+    downloader,
+    zip,
+    sf,
+    dichromat,
+    ggrepel
 VignetteBuilder: knitr

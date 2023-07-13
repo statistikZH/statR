@@ -6,3 +6,6 @@
 ^man-roxygen$
 ^index\.html$
 ^vignettes$
+^\.github$
+^_pkgdown\.yml$
+

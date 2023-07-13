@@ -1,463 +1,165 @@
-#' datasetsXLSX()
+#'datasetsXLSX()
 #'
-#' Function to export several datasets and/or figures from R to an .xlsx-file. The function creates an overview sheet and separate sheets
-#' for each dataset/figure.
-#'
-#' When including figures, the heights and widths need to be specified as a vector. For example, say you have one dataset and two figures
-#' that you would like to export. widths = c(5,6) then suggests that the first figure will be 5 inches wide, the second 6. To include a figure either
-#' save it as a ggplot object or indicate a file path to an existing file (possible formats: png, jpg, bmp).
-#'
-#' @param file file name of the spreadsheet. The extension ".xlsx" is added automatically.
-#' @param maintitle Title to be put on the first (overview) sheet.
-#' @param datasets datasets or plots to be included.
-#' @param plot_widths width of figure in inch (1 inch = 2.54 cm). See details.
-#' @param plot_heights height of figure in inch (1 inch = 2.54 cm). See details.
-#' @param sheetnames names of the sheet tabs.
-#' @param titles titles of the different sheets.
-#' @param logo file path to the logo to be included in the index-sheet. Can be "statzh" or "zh". Defaults to "statzh".
-#' @param titlesource source to be mentioned on the title sheet beneath the title
-#' @param sources source of the data. Defaults to "statzh".
-#' @param metadata1 metadata information to be included. Defaults to NA.
-#' @param auftrag_id order number.
-#' @param contact contact information on the title sheet. Defaults to "statzh"
-#' @param homepage web address to be put on the title sheet. Default to "statzh"
-#' @param openinghours openinghours written on the title sheet. Defaults to Data Shop
-#' @param grouplines Column for second header(s). Format: List e.g list(c(2,4,6))
-#' @param group_names Name(s) of the second header(s). Format: List e.g list(c("title 1", "title 2", "title 3"))
-#' @param overwrite overwrites the existing excel files with the same file name. default to FALSE
-#' @keywords datasetsXLSX
-#' @export
-#' @examples
-#'\donttest{
-#' \dontrun{
-#'
-#'
-#'
-#'# Example with two datasets and no figure
-#'dat1 <- mtcars
-#'dat2 <- PlantGrowth
-#'
-#'datasetsXLSX(file="twoDatasets", # '.xlsx' wird automatisch hinzugef\u00fcgt
-#'             datasets = list(dat1, dat2),
-#'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz"),
-#'             grouplines = list(c(1)),
-#'             group_names = list(c("name_of_second_header")),  #produces a second header in the first sheet
-#'             sources = c("Source: Henderson and Velleman (1981).
-#'             Building multiple regression models interactively. Biometrics, 37, 391–411.",
-#'                         "Dobson, A. J. (1983) An Introduction to Statistical
-#'                         Modelling. London: Chapman and Hall."),
-#'             metadata1 = c("Bemerkungen zum mtcars-Datensatz: x",
-#'                           "Bemerkungen zum PlantGrowth-Datensatz: x"),
-#'             sheetnames = c("Autos","Blumen"),
-#'             maintitle = "Autos und Pflanzen",
-#'             titlesource = "statzh",
-#'             logo = "statzh",
-#'             auftrag_id="A2021_0000",
-#'             contact = "statzh",
-#'             homepage = "statzh",
-#'             openinghours = "statzh",
-#'             overwrite = T)
-#'
+#'@description Function to export several datasets and/or figures from R to an
+#'  .xlsx-file. The function creates an overview sheet and separate sheets for
+#'  each dataset/figure.
+#'@details When including figures, the heights and widths need to be specified
+#'  as a vector. For example, say you have one dataset and two figures that you
+#'  would like to export. widths = c(5,6) then suggests that the first figure
+#'  will be 5 inches wide, the second 6. To include a figure either save it as a
+#'  ggplot object or indicate a file path to an existing file (possible formats:
+#'  png, jpg, bmp).
+#'@note For some attributes like plot_widths and plot_heights, if a single value
+#'  is provided, it will be reused (behavior of purrr::pmap). This is not the
+#'  case for grouplines and group_names. These must be specified for each dataset.
+#'@param file file name of the spreadsheet. The extension ".xlsx" is added
+#'  automatically.
+#'@param index_title Title to be put on the first (overview) sheet.
+#'@param datasets datasets or plots to be included.
+#'@param plot_widths width of figure in inch (1 inch = 2.54 cm). See details.
+#'@param plot_heights height of figure in inch (1 inch = 2.54 cm). See details.
+#'@param sheetnames names of the sheet tabs.
+#'@param titles titles of the different sheets.
+#'@param logo file path to the logo to be included in the index-sheet. Can be
+#'  "statzh" or "zh". Defaults to "statzh".
+#'@param index_source source to be mentioned on the title sheet beneath the title
+#'@param sources source of the data. Defaults to "statzh".
+#'@param metadata metadata information to be included. Defaults to NA.
+#'@param auftrag_id order number.
+#'@param contactdetails contact information on the title sheet. Defaults to "statzh"
+#'@param homepage web address to be put on the title sheet. Default to "statzh"
+#'@param openinghours openinghours written on the title sheet. Defaults to Data
+#'  Shop
+#'@param grouplines Column for second header(s). Format: List e.g list(c(2,4,6))
+#'@param group_names Name(s) of the second header(s). Format: List e.g
+#'  list(c("title 1", "title 2", "title 3"))
+#'@param overwrite overwrites the existing excel files with the same file name.
+#'  default to FALSE
+#'@examples
 #'# Example with two datasets and one figure
+#'fig <- ggplot2::ggplot(mtcars, ggplot2::aes(x = disp))+
+#'                  ggplot2::geom_histogram()
 #'
-#'dat1 <- mtcars
-#'dat2 <- PlantGrowth
-#'fig <- ggplot(mtcars, aes(x=disp))+
-#'                  geom_histogram()
-#'
-#'datasetsXLSX(file="twoDatasetsandFigure",        # '.xlsx' wird automatisch hinzugef\u00fcgt
-#'             datasets = list(dat1, dat2, fig),   # fig als ggplot Objekt oder File Path
-#'             titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
+#'datasetsXLSX(file = tempfile(fileext = ".xlsx"),
+#'             datasets = list(mtcars, PlantGrowth, fig),
+#'             titles = c("mtcars-Datensatz",
+#'                        "PlantGrowth-Datensatz",
+#'                        "Histogramm"),
 #'             plot_widths = c(5),
 #'             plot_heights = c(5),
-#'             sources = c("Source: Henderson and Velleman (1981).
-#'             Building multiple regression models interactively. Biometrics, 37, 391–411.",
-#'                         "Source: Dobson, A. J. (1983) An Introduction to
-#'                         Statistical Modelling. London: Chapman and Hall."),
-#'             metadata1 = c("Bemerkungen zum mtcars-Datensatz: x",
+#'             sources = c(paste("Source: Henderson and Velleman (1981).",
+#'                               "Building multiple regression models",
+#'                               "interactively. Biometrics, 37, 391–411."),
+#'                         paste("Source: Dobson, A. J. (1983) An Introduction",
+#'                               "to Statistical Modelling.",
+#'                               "London: Chapman and Hall.")),
+#'             metadata = c("Bemerkungen zum mtcars-Datensatz: x",
 #'                          "Bemerkungen zum PlantGrowth-Datensatz: x"),
 #'             sheetnames = c("Autos","Blumen", "Histogramm"),
-#'             maintitle = "Autos und Pflanzen",
-#'             titlesource = "statzh",
-#'             logo="statzh",
-#'             auftrag_id="A2021_0000",
-#'             contact = "statzh",
-#'             homepage = "statzh",
-#'             openinghours = "statzh",
-#'             overwrite = T)
-#'}
-#'}
-
-
-
+#'             index_title = "Autos und Pflanzen",
+#'             auftrag_id = "A2021_0000",
+#'             overwrite = TRUE)
+#' @keywords datasetsXLSX
+#' @importFrom dplyr %>%
+#' @export
 datasetsXLSX <- function(file,
                          datasets,
+                         sheetnames,
                          titles,
+                         sources,
                          plot_widths = NULL,
                          plot_heights = NULL,
+                         metadata = NA,
                          grouplines = NA,
                          group_names = NA,
-                         sources= "statzh",
-                         metadata1=NA,
-                         sheetnames,
-                         maintitle,
-                         titlesource = "statzh",
-                         logo="statzh",
+                         index_title = getOption("statR_toc_title"),
+                         index_source = getOption("statR_source"),
+                         logo = getOption("statR_logo"),
+                         contactdetails = inputHelperContactInfo(),
+                         homepage = getOption("statR_homepage"),
+                         openinghours = getOption("statR_openinghours"),
                          auftrag_id = NULL,
-                         contact = "statzh",
-                         homepage = "statzh",
-                         openinghours = "statzh",
-                         overwrite = F
-){
+                         overwrite = FALSE) {
 
-  if(!any(is.na(group_names)) & any(is.na(grouplines))){
-    stop("if a second header is wanted, the grouplines have to be specified")
-  }
+  # Run checks on arguments ------
+  checkGroupOptionCompatibility(group_names, grouplines)
 
-  wb <- openxlsx::createWorkbook("data")
+  # Initialize new Workbook ------
+  wb <- openxlsx::createWorkbook()
 
+  # Create indexes of which inputs correspond to data.frames or plots-----
   dataframes_index <- which(vapply(datasets, is.data.frame, TRUE))
 
+  implemented_plot_types <- c("gg", "ggplot", "histogram", "character")
+  plot_index <- which(vapply(datasets, function(x) {
+    length(setdiff(class(x), implemented_plot_types)) == 0
+    }, TRUE))
+
+  # Index from input lists using index -----------
+  ### data.frames
   dataframe_datasets <- datasets[dataframes_index]
   dataframe_sheetnames <- sheetnames[dataframes_index]
   dataframe_titles <- titles[dataframes_index]
   dataframe_sources <- sources[dataframes_index]
-  dataframe_metadata1 <- metadata1[dataframes_index]
+  dataframe_metadata <- metadata[dataframes_index]
   dataframe_grouplines <- grouplines[dataframes_index]
   dataframe_group_names <- group_names[dataframes_index]
 
-
-  plot_index <- which(vapply(datasets, function(x) length(setdiff(class(x), c("gg", "ggplot", "histogram", "character"))) == 0, TRUE))
-
+  ### Plots
   plot_datasets <- datasets[plot_index]
   plot_sheetnames <- sheetnames[plot_index]
 
-  insert_index_sheet(wb, logo, contact, homepage, openinghours, titlesource, auftrag_id, maintitle)
+
+  # Insert the initial index sheet ----------
+  insert_index_sheet(wb = wb,
+                     title = index_title,
+                     auftrag_id = auftrag_id,
+                     logo = logo,
+                     contactdetails = contactdetails,
+                     homepage = homepage,
+                     openinghours = openinghours,
+                     source = index_source)
 
 
-  if(length(dataframes_index) > 0){
-
-    purrr::pwalk(list(
-      dataframe_datasets,
-      dataframe_sheetnames,
-      dataframe_titles,
-      dataframe_sources,
-      dataframe_metadata1,
-      dataframe_grouplines,
-      dataframe_group_names
-      ),
-      ~insert_worksheet_nh(
-        data = ..1,
-        wb = wb,
-        sheetname = ..2,
-        title = ..3,
-        source = ..4,
-        metadata = ..5,
-        grouplines = ..6,
-        group_names = ..7
-      ))
-
-  }
-
-  if(length(plot_index)>0){
-
-    temp_list <- purrr::pmap(list(
-      plot_datasets,
-      plot_sheetnames,
-      plot_widths,
-      plot_heights
-    ), ~insert_worksheet_image(
-      image = ..1,
-      wb = wb,
-      sheetname = ..2,
-      width = ..3,
-      height = ..4))
-  }else{
-    temp_list <- NA
+  # Insert datasets according to dataframes_index -------
+  if (length(dataframes_index) > 0) {
+    list(dataframe_datasets,
+         dataframe_sheetnames,
+         dataframe_titles,
+         dataframe_sources,
+         dataframe_metadata,
+         dataframe_grouplines,
+         dataframe_group_names) %>%
+      purrr::pwalk(~insert_worksheet_nh(wb = wb,
+                                        data = ..1,
+                                        sheetname = ..2,
+                                        title = ..3,
+                                        source = ..4,
+                                        metadata = ..5,
+                                        grouplines = ..6,
+                                        group_names = ..7))
   }
 
 
-  hyperlink_table <- data.frame(
-    sheetnames = sheetnames,
-    titles = titles,
-    sheet_row = c(seq(15,15+length(sheetnames)-1))
-  )
-
-  purrr::pwalk(hyperlink_table, ~insert_hyperlinks(wb, ..1, ..2, ..3))
-
-  openxlsx::saveWorkbook(wb, paste(file, ".xlsx", sep = ""), overwrite = overwrite)
-
-  if(!is.na(temp_list)){
-    purrr::walk(temp_list, unlink)
-  }
-}
-
-
-insert_hyperlinks <- function(wb, sheetname, title, sheet_row){
-  openxlsx::writeData(wb,
-                      sheet = "Inhalt",
-                      x = title,
-                      xy = c("C", sheet_row)
-  )
-
-  openxlsx::addStyle(wb
-                     ,sheet = "Inhalt"
-                     ,style = hyperlink_style()
-                     ,rows = sheet_row
-                     ,cols = 3
-  )
-
-  openxlsx::mergeCells(wb, sheet = "Inhalt", cols = 3:8, rows = sheet_row)
-
-  worksheet <- wb$sheetOrder[1]
-
-  field_t <- wb$worksheets[[worksheet]]$sheet_data$t
-  field_t[length(field_t)] <- 3
-
-  field_v <- wb$worksheets[[worksheet]]$sheet_data$v
-  field_v[length(field_v)] <- NA
-
-  field_f <- wb$worksheets[[worksheet]]$sheet_data$f
-  field_f[length(field_f)] <- paste0("<f>=HYPERLINK(&quot;#&apos;",sheetname,"&apos;!A1&quot;, &quot;",title,"&quot;)</f>")
-
-  wb$worksheets[[worksheet]]$sheet_data$t <- as.integer(field_t)
-  wb$worksheets[[worksheet]]$sheet_data$v <- field_v
-  wb$worksheets[[worksheet]]$sheet_data$f <- field_f
-}
-
-
-hyperlink_style <- function(){
-  openxlsx::createStyle(
-    fontName = "Calibri",
-    fontSize = 11,
-    fontColour = "blue",
-    textDecoration = "underline"
-
-  )
-}
-
-
-insert_index_sheet <- function(wb, logo, contact, homepage, openinghours, titlesource, auftrag_id, maintitle){
-  # Create index sheet
-  openxlsx::addWorksheet(wb,"Inhalt")
-
-  #  hide gridlines
-  openxlsx::showGridLines(wb
-                          ,sheet = "Inhalt"
-                          ,showGridLines = F
-  )
-
-  # set col widths
-  openxlsx::setColWidths(wb
-                         ,"Inhalt"
-                         ,cols = 1
-                         ,widths = 1
-  )
-
-  # insert logo
-
-  if(!is.null(logo)){
-
-    if(logo=="statzh") {
-
-      logo <- paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png")
-
-      #
-      logo <- logo[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_STAT-01.png"))]
-
-      openxlsx::insertImage(wb,
-                            "Inhalt",
-                            file=logo,
-                            startRow = 2,
-                            startCol = 2,
-                            width = 2.5,
-                            height = 0.9,
-                            units = "in")
-
-    } else if(logo == "zh"){
-
-      logo <- paste0(.libPaths(),"/statR/extdata/Stempel_Kanton_ZH.png")
-
-      #
-      logo <- logo[file.exists(paste0(.libPaths(),"/statR/extdata/Stempel_Kanton_ZH.png"))]
-
-      openxlsx::insertImage(wb,
-                            "Inhalt",
-                            file=logo,
-                            startRow = 2,
-                            startCol = 2,
-                            width = 2.5,
-                            height = 0.9,
-                            units = "in")
-
-
-    } else if(file.exists(logo)) {
-
-      openxlsx::insertImage(wb, i, logo, width = 2.145, height = 0.7865,
-                            units = "in")
-    }
-    if(!file.exists(logo)) {
-
-      message("no logo found and / or added")
-    }
-
-  }
-
-  # contact
-
-  if(!is.null(contact)){
-    if(any(grepl(contact, pattern = "statzh"))) {
-      contact <- c("Datashop"
-                   ,"Tel.:  +41 43 259 75 00",
-                   "datashop@statistik.zh.ch")
-      openxlsx::writeData(wb
-                          ,sheet = "Inhalt"
-                          ,contact
-                          ,xy = c("O", 2)
-      )
-    } else {
-      openxlsx::writeData(wb
-                          ,sheet = "Inhalt"
-                          ,contact
-                          ,xy = c("O", 2))
-    }
-
+  # Insert images according to plot_index --------
+  if (length(plot_index) > 0) {
+    list(plot_datasets,
+         plot_sheetnames,
+         plot_widths,
+         plot_heights) %>%
+      purrr::pmap(~insert_worksheet_image(wb = wb,
+                                          image = ..1,
+                                          sheetname = ..2,
+                                          width = ..3,
+                                          height = ..4))
   }
 
 
-  if(!is.null(homepage)){
-
-    if(any(grepl(homepage, pattern = "statzh"))) {
-
-      homepage <- "http://www.statistik.zh.ch"
-      class(homepage) <- 'hyperlink'
-      openxlsx::writeData(wb
-                          ,"Inhalt"
-                          ,x = homepage
-                          ,xy = c("O", 5))
-    } else {
-      class(homepage) <- 'hyperlink'
-      openxlsx::writeData(wb
-                          ,"Inhalt"
-                          ,x = homepage
-                          ,xy = c("O", 5))
-    }
-
-  }
+  # Create a table of hyperlinks in index sheet (assumed to be "Index") ------
+  insert_hyperlinks(wb, sheetnames, titles, index_sheet_name = "Index",
+                    sheet_start_row = 15)
 
 
-
-  if(!is.null(openinghours)){
-
-    if(any(grepl(openinghours, pattern = "statzh"))) {
-
-      openinghours <- c("B\u00fcrozeiten"
-                        ,"Montag bis Freitag"
-                        ,"09:00 bis 12:00"
-                        ,"13:00 bis 16:00")
-
-      openxlsx::writeData(wb
-                          ,sheet = "Inhalt"
-                          ,openinghours
-                          ,xy = c("R", 2)
-
-      )
-
-    } else {
-
-      openxlsx::writeData(wb
-                          ,sheet = "Inhalt"
-                          ,openinghours
-                          ,xy = c("R", 2))
-
-    }
-
-  }
-
-
-  # headerline
-  headerline <- openxlsx::createStyle(border="Bottom", borderColour = "#009ee0",borderStyle = getOption("openxlsx.borderStyle", "thick"))
-  openxlsx::addStyle(wb
-                     ,"Inhalt"
-                     ,headerline
-                     ,rows = 6
-                     ,cols = 1:20
-                     ,gridExpand = TRUE
-                     ,stack = TRUE
-  )
-
-  #Erstellungsdatum
-  openxlsx::writeData(wb
-                      ,"Inhalt"
-                      ,paste("Erstellt am "
-                             ,format(Sys.Date(), format="%d.%m.%Y"))
-                      ,xy = c("O", 8)
-  )
-
-
-  if (!is.null(auftrag_id)){
-    # Auftragsnummer
-    openxlsx::writeData(wb
-                        ,sheet = "Inhalt"
-                        ,paste("Auftragsnr.:", auftrag_id)
-                        ,xy = c("O", 9)
-    )
-  }
-
-  # title
-  titleStyle <- openxlsx::createStyle(fontSize=20, textDecoration="bold",fontName="Arial", halign = "left")
-  openxlsx::addStyle(wb
-                     ,"Inhalt"
-                     ,titleStyle
-                     ,rows = 10
-                     ,cols = 3
-                     ,gridExpand = TRUE
-  )
-
-  openxlsx::writeData(wb
-                      ,"Inhalt"
-                      ,x = maintitle
-                      ,headerStyle=titleStyle
-                      ,xy = c("C", 10)
-  )
-
-
-  if(any(grepl(titlesource, pattern = "statzh"))){
-
-    # source
-    openxlsx::writeData(wb
-                        ,"Inhalt"
-                        ,"Quelle: Statistisches Amt des Kantons Z\u00fcrich"
-                        ,xy = c("C", 11)
-    )
-
-  }else {
-
-    openxlsx::writeData(wb
-                        ,"Inhalt"
-                        , titlesource
-                        ,xy = c("C", 11))
-
-  }
-
-
-
-
-  # subtitle
-  subtitleStyle <- openxlsx::createStyle(fontSize=11, textDecoration="bold",fontName="Arial", halign = "left")
-  openxlsx::addStyle(wb
-                     ,sheet = "Inhalt"
-                     ,subtitleStyle
-                     ,rows = 14
-                     ,cols = 3
-                     ,gridExpand = TRUE
-  )
-
-  openxlsx::writeData(wb
-                      ,sheet = "Inhalt"
-                      ,x = "Inhalt"
-                      ,headerStyle=subtitleStyle
-                      ,xy = c("C", 13)
-  )
-
+  # Save workbook at path denoted by argument file ---------
+  openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = overwrite)
 }

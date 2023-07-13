@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">statR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.0</span>
       </span>
     </div>
 
@@ -107,9 +107,12 @@
 
     
     
-<div id="theme_stat-für-ggplot2-grafiken" class="section level1">
+<div id="theme-für-grafiken-im-corporate-design" class="section level1">
 <h1 class="hasAnchor">
-<a href="#theme_stat-f%C3%BCr-ggplot2-grafiken" class="anchor"></a>theme_stat() für ggplot2-Grafiken</h1>
+<a href="#theme-f%C3%BCr-grafiken-im-corporate-design" class="anchor"></a>Theme für Grafiken im Corporate Design</h1>
+<div id="das-theme_stat-für-ggplot2---grafiken" class="section level2">
+<h2 class="hasAnchor">
+<a href="#das-theme_stat-f%C3%BCr-ggplot2---grafiken" class="anchor"></a>Das <code>theme_stat</code> für ggplot2 - Grafiken</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://statistikzh.github.io/statR/">statR</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
@@ -138,7 +141,8 @@ Achsen-Ticks und Gitterlinien bestimmt werden (siehe
              ticks <span class="op">=</span> <span class="st">"x"</span>,
              minor.grid.lines <span class="op">=</span> <span class="st">"y"</span>,
              major.grid.lines <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title"</span>, subtitle <span class="op">=</span> <span class="st">"Subtitle"</span>, caption <span class="op">=</span> <span class="st">"Caption"</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title"</span>, subtitle <span class="op">=</span> <span class="st">"Subtitle"</span>, caption <span class="op">=</span> <span class="st">"Caption"</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataviz</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="Visualisierungen_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 <p>Mit der Funktion <code><a href="../reference/flush_left.html">flush_left()</a></code> können Titel, Untertitel
 und Fussnote nach links verschoben werden, sodass sie bündig sind mit
@@ -152,36 +156,39 @@ der y-Achse der Grafik:</p>
              axis.lines <span class="op">=</span> <span class="st">"x"</span>,
              ticks <span class="op">=</span> <span class="st">"x"</span>,
              minor.grid.lines <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title"</span>, subtitle <span class="op">=</span> <span class="st">"Subtitle"</span>, caption <span class="op">=</span> <span class="st">"Caption"</span><span class="op">)</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Title"</span>, subtitle <span class="op">=</span> <span class="st">"Subtitle"</span>, caption <span class="op">=</span> <span class="st">"Caption"</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataviz</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/flush_left.html">flush_left</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
 <p><img src="Visualisierungen_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 </div>
-<div id="theme_stat-für-karten" class="section level1">
-<h1 class="hasAnchor">
-<a href="#theme_stat-f%C3%BCr-karten" class="anchor"></a>theme_stat() für Karten</h1>
+<div id="das-theme_stat-für-karten" class="section level2">
+<h2 class="hasAnchor">
+<a href="#das-theme_stat-f%C3%BCr-karten" class="anchor"></a>Das <code>theme_stat()</code> für Karten</h2>
 <p>Für Karten kann die Option <code>map</code> auf <code>TRUE</code>
 gesetzt werden.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">downloader</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/downloader/man/download.html">download</a></span><span class="op">(</span><span class="st">"https://www.web.statistik.zh.ch/data/KTZH_151_Gemeinde2020.zip"</span>,<span class="st">"geodata.zip"</span><span class="op">)</span>
-
+<code class="sourceCode R"><span class="co"># Bezug der Geodaten mit den Gemeindegrenzen (Stand 2020)</span>
+<span class="fu">downloader</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/downloader/man/download.html">download</a></span><span class="op">(</span><span class="st">"https://www.web.statistik.zh.ch/ogd/daten/ressourcen/KTZH_00000151_00001653.zip"</span>,<span class="st">"geodata.zip"</span><span class="op">)</span>
 <span class="fu">zip</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zip/man/unzip.html">unzip</a></span><span class="op">(</span><span class="st">"geodata.zip"</span><span class="op">)</span>
 
 <span class="va">shape</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="st">"GEN_A4_GEMEINDEN_2020_shp"</span><span class="op">)</span>
-<span class="co">#&gt; Multiple layers are present in data source /home/b105p01@ji.ktzh.ch/gitrepos/statR/vignettes/GEN_A4_GEMEINDEN_2020_shp, reading layer `GEN_A4_GEMEINDEN_2020'.</span>
+<span class="co">#&gt; Multiple layers are present in data source /home/b105plr@ji.ktzh.ch/gitrepos/statR/vignettes/GEN_A4_GEMEINDEN_2020_shp, reading layer `GEN_A4_GEMEINDEN_2020'.</span>
 <span class="co">#&gt; Use `st_layers' to list all layer names and their type in a data source.</span>
 <span class="co">#&gt; Set the `layer' argument in `st_read' to read a particular layer.</span>
 <span class="co">#&gt; Warning in evalq((function (..., call. = TRUE, immediate. = FALSE, noBreaks. =</span>
 <span class="co">#&gt; FALSE, : automatically selected the first layer in a data source containing more</span>
 <span class="co">#&gt; than one.</span>
 <span class="co">#&gt; Reading layer `GEN_A4_GEMEINDEN_2020' from data source </span>
-<span class="co">#&gt;   `/home/b105p01@ji.ktzh.ch/gitrepos/statR/vignettes/GEN_A4_GEMEINDEN_2020_shp' </span>
+<span class="co">#&gt;   `/home/b105plr@ji.ktzh.ch/gitrepos/statR/vignettes/GEN_A4_GEMEINDEN_2020_shp' </span>
 <span class="co">#&gt;   using driver `ESRI Shapefile'</span>
 <span class="co">#&gt; Simple feature collection with 162 features and 5 fields</span>
 <span class="co">#&gt; Geometry type: POLYGON</span>
 <span class="co">#&gt; Dimension:     XY</span>
 <span class="co">#&gt; Bounding box:  xmin: 2669348 ymin: 1223935 xmax: 2716770 ymax: 1283389</span>
 <span class="co">#&gt; Projected CRS: CH1903+ / LV95</span>
+
+<span class="co"># plot(shape)</span>
 
 <span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">shape</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill<span class="op">=</span><span class="va">BFS</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
@@ -195,32 +202,74 @@ gesetzt werden.</p>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"map.png"</span><span class="op">)</span>
 <span class="co">#&gt; Saving 7.29 x 4.51 in image</span></code></pre></div>
 </div>
-<div id="farbpaletten" class="section level1">
+</div>
+<div id="farbpaletten-barrierefreiheit" class="section level1">
 <h1 class="hasAnchor">
-<a href="#farbpaletten" class="anchor"></a>Farbpaletten</h1>
+<a href="#farbpaletten-barrierefreiheit" class="anchor"></a>Farbpaletten &amp; Barrierefreiheit</h1>
 <p>Das Farbpalettenobjekt <code>zhpal</code> enthält alle im Package
 vorhandenen Farbpaletten und ist mit dem geladenen
 <code>statR</code>-Package global verfügbar.</p>
+<p>Mit der Funktion <code><a href="../reference/display.statcol.all.html">display.statcol.all()</a></code> können alle
+vorhandenen Farbpaletten angezeigt werden:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/display.statcol.all.html">display.statcol.all</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>Mit der Funktion <code><a href="../reference/display.html">display()</a></code> kann man sich die Farben
 einer Palette anschauen:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhdiagonal</span><span class="op">)</span></code></pre></div>
-<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataviz</span><span class="op">)</span></code></pre></div>
+<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Mit der Funktion <code><a href="https://rdrr.io/r/grDevices/colorRamp.html">grDevices::colorRampPalette()</a></code> kann eine
 beliebige Anzahl Farbtöne basierend auf einer statR-Farbpalette erstellt
 werden:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#Mische 20 Farbtöne auf Basis der zhdiagonal-Palette</span>
-<span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span><span class="op">(</span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhdiagonal</span><span class="op">)</span>,space<span class="op">=</span><span class="st">"Lab"</span><span class="op">)</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<p>Anwendungsbeispiel mit kategorialen Daten:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#Mische 20 Farbtöne auf Basis der zhdiagonal-Palette</span>
+<span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span><span class="op">(</span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataviz</span><span class="op">)</span>,space<span class="op">=</span><span class="st">"Lab"</span><span class="op">)</span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p>Anwendungsbeispiel mit kategorialen Daten:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#verwende die Paletten für kategoriale Daten mittels 'scale_fill_manual'</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">class</span>,fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="../reference/theme_stat.html">theme_stat</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhblue</span><span class="op">)</span></code></pre></div>
-<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataviz</span><span class="op">)</span></code></pre></div>
+<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<div id="grafiken-fürs-zhweb" class="section level2">
+<h2 class="hasAnchor">
+<a href="#grafiken-f%C3%BCrs-zhweb" class="anchor"></a>Grafiken fürs ZHWeb</h2>
+<p>Bei Grafiken, welche auf <a href="zh.ch">zh.ch</a> publiziert werden
+sollen, gilt es folgendes zu berücksichtigen:</p>
+<ul>
+<li><p>Maximale Bildgrösse 4000x4000</p></li>
+<li><p>Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen
+direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik
+selber integriert werden</p></li>
+<li><p>es muss eine auf Farbsehschwächen optimierte Farbpalette
+verwendet werden</p></li>
+</ul>
+<p>Im <a href="https://www.zh.ch/de/webangebote-entwickeln-und-gestalten/inhalt/barrierefreiheit/vorgaben-zur-barrierefreiheit/barrierefreiheit-von-infografiken-und-visualisierungen.zhweb-noredirect.zhweb-cache.html?node-id=21442%3A184215&amp;node-id=21330%3A183551&amp;node-id=21297%3A183984">Designsystem</a>
+ist die offizielle Farbpalette für Grafiken im Web publiziert.</p>
+<p>Die offiziellen Farbpaletten sind im statR-Package integriert.</p>
+<ul>
+<li>die Palette <strong>zhwebdataviz</strong> enthält die Farben, die im
+Web genutzt werden sollen</li>
+<li>die Palette <strong>zhwebaccent</strong> enthält die Akzentfarben
+des Designsystems. Diese sollten ber vor allem für Hintergründe
+verwendet werden und nicht für Visualisierungen. Diese Palette ist nicht
+auf Barrierefreiheit ausgelegt.</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">class</span>,fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu"><a href="../reference/theme_stat.html">theme_stat</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhwebdataviz</span><span class="op">[</span><span class="fl">11</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+
+<span class="co"># ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")</span></code></pre></div>
+</div>
 <div id="barrierefreie-grafiken" class="section level2">
 <h2 class="hasAnchor">
 <a href="#barrierefreie-grafiken" class="anchor"></a>Barrierefreie Grafiken</h2>
@@ -260,28 +309,30 @@ bietet sich hier als Mittel an (siehe 1.4).</p>
 <p>In R können mit dem <a href="https://cran.r-project.org/web/packages/dichromat/index.html">dichromat-Package</a>
 diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt
 es Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich
-sind.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+sind. Je heller die Paletten sind, desto weniger geeignet sind sie. Das
+trifft vor allem auf Farbpaletten wie <em>zhextralight</em> oder
+<em>zhultralight</em> zu.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">dichromat</span><span class="op">)</span>
 <span class="co"># Anzeige der Farbpalette zhdiagonal</span>
 <span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhdiagonal</span><span class="op">)</span></code></pre></div>
-<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-8-1.png" width="20%" height="20%"></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-10-1.png" width="20%" height="20%"></p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Simulation Grünsehschwäche (Deuteranomalie)</span>
 <span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/dichromat/man/dichromat.html">dichromat</a></span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhdiagonal</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-8-2.png" width="20%" height="20%"></p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-10-2.png" width="20%" height="20%"></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Simulation Blaublindheit (Tritanopie)</span>
 <span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/dichromat/man/dichromat.html">dichromat</a></span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhdiagonal</span>,type<span class="op">=</span><span class="st">"tritan"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-8-3.png" width="20%" height="20%"></p>
+<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-10-3.png" width="20%" height="20%"></p>
 <p>Die Simulation kann auch anhand von Grafiken vorgenommen werden.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">diamonds</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">clarity</span>, fill<span class="op">=</span><span class="va">cut</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"stack"</span>, width<span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>
 
 <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="../reference/theme_stat.html">theme_stat</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/dichromat/man/dichromat.html">dichromat</a></span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhdiagonal</span>, type<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"tritan"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
 <div id="form--oder-linientypen" class="section level3">
 <h3 class="hasAnchor">
@@ -299,21 +350,24 @@ oder <a href="Fl%C3%A4chen%20schraffieren%20:%20https://coolbutuseless.github.io
 <p><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Ab einer
 gewissen Anzahl an Kategorien, wird die Grafik unübersichtlich.</p>
 <p><strong>Beispiel : Liniengrafik</strong></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="co"># Datenzugriff von: https://www.zh.ch/de/politik-staat/opendata.zhweb-noredirect.zhweb-cache.html?keywords=ogd#/datasets/544@oberjugendanwaltschaft-kanton-zuerich/distributions/1031</span>
+
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"daten/KTZH_00000544_00001031.csv"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols<span class="op">=</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
 
 <span class="va">gg_ojuga</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Jahr</span>, <span class="va">value</span> ,color<span class="op">=</span><span class="va">name</span>,linetype<span class="op">=</span><span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
      <span class="fu"><a href="../reference/theme_stat.html">theme_stat</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><strong>Beispiel : Säulendiagramm</strong></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">class</span>,fill <span class="op">=</span> <span class="va">drv</span>,linetype<span class="op">=</span><span class="va">drv</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span>col <span class="op">=</span><span class="st">"black"</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="../reference/theme_stat.html">theme_stat</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhblue</span><span class="op">)</span><span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"right"</span>, axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle<span class="op">=</span><span class="fl">90</span>,vjust <span class="op">=</span> <span class="fl">0.5</span>, hjust<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
 <div id="direkte-beschriftung" class="section level3">
 <h3 class="hasAnchor">
@@ -322,43 +376,20 @@ gewissen Anzahl an Kategorien, wird die Grafik unübersichtlich.</p>
 auch durch direkte Beschriftung verbessert werden. Das ´ggrepel´-package
 verfügt über die notwendigen Funktionen. Beispielsweise sorgt es dafür,
 dass die Beschriftungen nicht überlappen.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel">ggrepel</a></span><span class="op">)</span>
 
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"daten/KTZH_00000544_00001031.csv"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols<span class="op">=</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Jahr</span>, <span class="va">value</span> ,color<span class="op">=</span><span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Jahr</span><span class="op">==</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Jahr</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">name</span><span class="op">)</span>, direction <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">data</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Jahr</span><span class="op">==</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Jahr</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">name</span><span class="op">)</span>, direction <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span> <span class="op">+</span>
      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
      <span class="fu"><a href="../reference/theme_stat.html">theme_stat</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></code></pre></div>
-<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 </div>
 </div>
-</div>
-<div id="grafiken-fürs-zhweb" class="section level1">
-<h1 class="hasAnchor">
-<a href="#grafiken-f%C3%BCrs-zhweb" class="anchor"></a>Grafiken fürs ZHWeb</h1>
-<p>Bei Grafiken, welche auf <a href="zh.ch">zh.ch</a> Publiziert werden
-sollen, gilt es folgendes zu berücksichtigen:</p>
-<ul>
-<li>Maximale Bildgrösse 4000x4000</li>
-<li>Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt
-im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber
-integriert werden</li>
-</ul>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">class</span>,fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu"><a href="../reference/theme_stat.html">theme_stat</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhblue</span><span class="op">)</span></code></pre></div>
-<p><img src="Visualisierungen_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-
-<span class="co"># ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")</span></code></pre></div>
 </div>
   </div>
 
@@ -368,18 +399,24 @@ integriert werden</li>
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#theme_stat-f%C3%BCr-ggplot2-grafiken">theme_stat() für
-      ggplot2-Grafiken</a></li>
-      <li><a href="#theme_stat-f%C3%BCr-karten">theme_stat() für
-      Karten</a></li>
-      <li>
-<a href="#farbpaletten">Farbpaletten</a>
+<li>
+<a href="#theme-f%C3%BCr-grafiken-im-corporate-design" id="toc-theme-für-grafiken-im-corporate-design">Theme für Grafiken
+      im Corporate Design</a>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#barrierefreie-grafiken">Barrierefreie
-      Grafiken</a></li>
+<li><a href="#das-theme_stat-f%C3%BCr-ggplot2---grafiken" id="toc-das-theme_stat-für-ggplot2---grafiken">Das
+      <code>theme_stat</code> für ggplot2 - Grafiken</a></li>
+      <li><a href="#das-theme_stat-f%C3%BCr-karten" id="toc-das-theme_stat-für-karten">Das <code>theme_stat()</code>
+      für Karten</a></li>
       </ul>
 </li>
-      <li><a href="#grafiken-f%C3%BCrs-zhweb">Grafiken fürs ZHWeb</a></li>
+      <li>
+<a href="#farbpaletten-barrierefreiheit" id="toc-farbpaletten-barrierefreiheit">Farbpaletten &amp;
+      Barrierefreiheit</a>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#grafiken-f%C3%BCrs-zhweb" id="toc-grafiken-fürs-zhweb">Grafiken fürs ZHWeb</a></li>
+      <li><a href="#barrierefreie-grafiken" id="toc-barrierefreie-grafiken">Barrierefreie Grafiken</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       <!-- codefund -->
@@ -392,7 +429,7 @@ integriert werden</li>
 
 
       <footer><div class="copyright">
-  <p>Developed by Andrea Schnell, Michelle Donzallaz, Lara Theiler, Thomas Knecht, Thomas Lo Russo.</p>
+  <p>Developed by Andrea Schnell, Michelle Donzallaz, Lara Theiler, Thomas Knecht, Alexandra Würmli, Thomas Lo Russo.</p>
 </div>
 
 <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#000000 !important;background-color:#FFFFFF !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 0px 9px !important;font-size: 17px !important;letter-spacing:-0.08px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Lato', sans-serif !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#000000 !important;}</style>

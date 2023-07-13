@@ -14,7 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-# theme_stat() für ggplot2-Grafiken
+# Theme für Grafiken im Corporate Design
+
+## Das `theme_stat` für ggplot2 - Grafiken
 
 ```{r setup, warning = F, message = F}
 library(statR)
@@ -28,9 +30,14 @@ library(dichromat)
 library(ggrepel)
 ```
 
-Das **statR**-ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale Corporate Design einzufügen. Es basiert auf dem ggplot2-theme 'minimal' und bestimmt diejenigen Grafikeigenschaften, die nichts mit den Daten an sich zu tun haben (z.B. die Schriftart).  
+Das **statR**-ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale 
+Corporate Design einzufügen. Es basiert auf dem ggplot2-theme 'minimal' und 
+bestimmt diejenigen Grafikeigenschaften, die nichts mit den Daten an sich zu 
+tun haben (z.B. die Schriftart).  
 
-Innerhalb des themes kann die Schriftgrösse, die Position der Achsenbeschriftungen sowie das Vorhandensein von Achsenlinien, Achsen-Ticks und Gitterlinien bestimmt werden (siehe `?theme_stat()`).
+Innerhalb des themes kann die Schriftgrösse, die Position der 
+Achsenbeschriftungen sowie das Vorhandensein von Achsenlinien, Achsen-Ticks 
+und Gitterlinien bestimmt werden (siehe `?theme_stat()`).
 
 ```{r}
 ggplot(mpg, aes(class,fill = drv))+
@@ -42,11 +49,13 @@ ggplot(mpg, aes(class,fill = drv))+
              ticks = "x",
              minor.grid.lines = "y",
              major.grid.lines = "y") +
-  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
+  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")+
+  scale_fill_manual(values=zhpal$zhwebdataviz[11:13])
 ```
 
 
-Mit der Funktion `flush_left()` können Titel, Untertitel und Fussnote nach links verschoben werden, sodass sie bündig sind mit der y-Achse der Grafik:
+Mit der Funktion `flush_left()` können Titel, Untertitel und Fussnote nach 
+links verschoben werden, sodass sie bündig sind mit der y-Achse der Grafik:
 
 ```{r}
 p <- ggplot(mpg, aes(class,fill = drv))+
@@ -57,21 +66,24 @@ p <- ggplot(mpg, aes(class,fill = drv))+
              axis.lines = "x",
              ticks = "x",
              minor.grid.lines = FALSE) +
-  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
+  labs(title = "Title", subtitle = "Subtitle", caption = "Caption")+
+  scale_fill_manual(values=zhpal$zhwebdataviz[11:13])
 
 flush_left(p)
 ```
 
 
-# theme_stat() für Karten
+## Das `theme_stat()` für Karten
 
 Für Karten kann die Option `map` auf `TRUE` gesetzt werden.
 ```{r}
-downloader::download("https://www.web.statistik.zh.ch/data/KTZH_151_Gemeinde2020.zip","geodata.zip")
-
+# Bezug der Geodaten mit den Gemeindegrenzen (Stand 2020)
+downloader::download("https://www.web.statistik.zh.ch/ogd/daten/ressourcen/KTZH_00000151_00001653.zip","geodata.zip")
 zip::unzip("geodata.zip")
 
 shape <- sf::st_read("GEN_A4_GEMEINDEN_2020_shp")
+
+# plot(shape)
 
 map <- ggplot(shape,aes(fill=BFS))+
   geom_sf()+
@@ -85,21 +97,30 @@ ggsave("map.png")
 
 
 
-# Farbpaletten
+# Farbpaletten & Barrierefreiheit
 
-Das Farbpalettenobjekt `zhpal` enthält alle im Package vorhandenen Farbpaletten und ist mit dem geladenen `statR`-Package global verfügbar. 
+Das Farbpalettenobjekt `zhpal` enthält alle im Package vorhandenen Farbpaletten 
+und ist mit dem geladenen `statR`-Package global verfügbar. 
+
+Mit der Funktion `display.statcol.all()` können alle vorhandenen Farbpaletten 
+angezeigt werden:
+
+```{r}
+display.statcol.all()
+```
 
 Mit der Funktion `display()` kann man sich die Farben einer Palette anschauen:
 
 ```{r}
-display(zhpal$zhdiagonal)
+display(zhpal$zhwebdataviz)
 ```
 
-Mit der Funktion `grDevices::colorRampPalette()` kann eine beliebige Anzahl Farbtöne basierend auf einer statR-Farbpalette erstellt werden:
+Mit der Funktion `grDevices::colorRampPalette()` kann eine beliebige Anzahl 
+Farbtöne basierend auf einer statR-Farbpalette erstellt werden:
 
 ```{r}
 #Mische 20 Farbtöne auf Basis der zhdiagonal-Palette
-display(grDevices::colorRampPalette((zhpal$zhdiagonal),space="Lab")(20))
+display(grDevices::colorRampPalette((zhpal$zhwebdataviz),space="Lab")(20))
 ```
 
 Anwendungsbeispiel mit kategorialen Daten:
@@ -109,51 +130,86 @@ Anwendungsbeispiel mit kategorialen Daten:
 ggplot(mpg, aes(class,fill = drv))+
   geom_bar()+
   theme_stat()+
-  scale_fill_manual(values=zhpal$zhblue)
+  scale_fill_manual(values=zhpal$zhwebdataviz)
+```
+
+## Grafiken fürs ZHWeb
+
+Bei Grafiken, welche auf [zh.ch](zh.ch) publiziert werden sollen, gilt es folgendes zu berücksichtigen:
+
+* Maximale Bildgrösse 4000x4000
+* Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden
+* es muss eine auf Farbsehschwächen optimierte Farbpalette verwendet werden
+
+Im [Designsystem](https://www.zh.ch/de/webangebote-entwickeln-und-gestalten/inhalt/barrierefreiheit/vorgaben-zur-barrierefreiheit/barrierefreiheit-von-infografiken-und-visualisierungen.zhweb-noredirect.zhweb-cache.html?node-id=21442%3A184215&node-id=21330%3A183551&node-id=21297%3A183984) ist die offizielle Farbpalette für Grafiken im Web publiziert.
+
+Die offiziellen Farbpaletten sind im statR-Package integriert.
+* die Palette __zhwebdataviz__ enthält die Farben, die im Web genutzt werden sollen
+* die Palette __zhwebaccent__ enthält die Akzentfarben des Designsystems. Diese sollten aber vor allem für Hintergründe verwendet werden und nicht für Visualisierungen. Diese Palette ist nicht auf Barrierefreiheit ausgelegt.
+
+```{r}
+ggplot(mpg, aes(class,fill = drv))+
+  geom_bar()+
+  theme_stat()+
+  scale_fill_manual(values=zhpal$zhwebdataviz[11:13])
+
+# ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")
+
 ```
 
 ## Barrierefreie Grafiken
 
 Bei der Erstellung von Grafiken ist es besonders wichtig darauf zu achten, dass die Grafiken auch für Personen mit (Farb-)Sehschwächen und Sehbehinderungen interpretierbar sind. Um solche barrierefreie Grafiken zu erstellen, bieten sich im Allgemeinen verschiedene Strategien an:
 
-- Daten, die der Grafik zugrunde liegen, zusätzlich als csv oder -html-Tabelle einbinden
+* Daten, die der Grafik zugrunde liegen, zusätzlich als csv oder -html-Tabelle einbinden
+* Einen Alternativtext (alt-Text) hinterlegen, der beschreibt, was auf der Grafik abgebildet ist und wo die Daten zu finden sind
+* Farbpaletten wählen, die für Farbsehschwächen optimiert sind
+* Die Grafik soll nicht ausschliesslich aufgrund einer Farbpalette interpretierbar sein
+* Die Komplexität der Grafiken sollte auf ein Minimum beschränkt werden
 
-- Einen Alternativtext (alt-Text) hinterlegen, der beschreibt, was auf der Grafik abgebildet ist und wo die Daten zu finden sind
+Einige dieser Punkte können direkt bei der Erstellung der Grafiken in R 
+berücksichtigt werden.
 
-- Farbpaletten wählen, die für Farbsehschwächen optimiert sind
-
-- Die Grafik soll nicht ausschliesslich aufgrund einer Farbpalette interpretierbar sein
-
-- Die Komplexität der Grafiken sollte auf ein Minimum beschränkt werden
-
-Einige dieser Punkte können direkt bei der Erstellung der Grafiken in R berücksichtigt werden.
 
 ### 1. Farbsehschwächen
 
-Damit Grafiken auch für Personen mit Farbsehschwächen möglichst gut interpretierbar sind, sollten Farben in Grafiken sowohl bezüglich der *Farbanteile* als auch der *Farbsättigung* variiert werden. Wenn möglich, sollten unterschiedliche Datenkategorien zudem nicht nur über die Farben sondern auch über unterschiedliche Darstellungsformen unterscheidbar sein (z.B. Schraffuren, Punkt- oder Linientypen; siehe 1.3). Auch die direkte Beschriftung von Kategorien bietet sich hier als Mittel an (siehe 1.4).
+Damit Grafiken auch für Personen mit Farbsehschwächen möglichst gut 
+interpretierbar sind, sollten Farben in Grafiken sowohl bezüglich der 
+*Farbanteile* als auch der *Farbsättigung* variiert werden. Wenn möglich, 
+sollten unterschiedliche Datenkategorien zudem nicht nur über die Farben 
+sondern auch über unterschiedliche Darstellungsformen unterscheidbar sein 
+(z.B. Schraffuren, Punkt- oder Linientypen; siehe 1.3). Auch die direkte 
+Beschriftung von Kategorien bietet sich hier als Mittel an (siehe 1.4).
+
 
 ### 1.2 Auswahl Farbpaletten
 
-In R können mit dem [dichromat-Package](https://cran.r-project.org/web/packages/dichromat/index.html) diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt es Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich sind.
+In R können mit dem [dichromat-Package](https://cran.r-project.org/web/packages/dichromat/index.html) 
+diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt es 
+Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich sind. Je 
+heller die Paletten sind, desto weniger geeignet sind sie. Das trifft vor allem 
+auf Farbpaletten wie *zhextralight* oder *zhultralight* zu.
 
 ```{r out.width="20%", out.height="20%"}
 library(dichromat)
 # Anzeige der Farbpalette zhdiagonal
 display(zhpal$zhdiagonal)
+
 # Simulation Grünsehschwäche (Deuteranomalie)
 display(dichromat(zhpal$zhdiagonal))
+
 # Simulation Blaublindheit (Tritanopie)
-display(dichromat(zhpal$zhdiagonal,type="tritan"))
+display(dichromat(zhpal$zhdiagonal,type = "tritan"))
 ```
 
 Die Simulation kann auch anhand von Grafiken vorgenommen werden.
 
 ```{r}
-p <- ggplot(diamonds, aes(clarity, fill=cut)) + 
-  geom_bar(position = "stack", width= 0.5)
+p <- ggplot(diamonds, aes(clarity, fill = cut)) + 
+  geom_bar(position = "stack", width = 0.5)
 
 p + theme_stat() +
-  scale_fill_manual(values=dichromat(zhpal$zhdiagonal, type=c("tritan")))
+  scale_fill_manual(values = dichromat(zhpal$zhdiagonal, type = c("tritan")))
 ```
 
 ### 1.3 Form- oder Linientypen 
@@ -171,23 +227,26 @@ Wenn immer möglich sollten unterschiedliche Kategorien nicht nur mit unterschie
 __Beispiel : Liniengrafik__
 
 ```{r}
-data <- read.csv("https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv") %>% 
+# Datenzugriff von: https://www.zh.ch/de/politik-staat/opendata.zhweb-noredirect.zhweb-cache.html?keywords=ogd#/datasets/544@oberjugendanwaltschaft-kanton-zuerich/distributions/1031
+
+data <- read.csv("daten/KTZH_00000544_00001031.csv") %>% 
   pivot_longer(cols=2:3)
 
-gg_ojuga <- ggplot(data, aes(Jahr, value ,color=name,linetype=name)) + 
+gg_ojuga <- ggplot(data, aes(Jahr, value, color = name, linetype = name)) + 
      geom_line()+
      theme_stat()
+gg_ojuga
 ```
 
 __Beispiel : Säulendiagramm__
 
 ```{r}
-ggplot(mpg, aes(class,fill = drv,linetype=drv))+
-  geom_bar(col ="black")+
-  theme_stat()+
-  scale_fill_manual(values=zhpal$zhblue)+
-  theme(legend.position="right", axis.text.x = element_text(angle=90,vjust = 0.5, hjust=0))
-
+ggplot(mpg, aes(class, fill = drv, linetype = drv))+
+  geom_bar(col = "black") +
+  theme_stat() +
+  scale_fill_manual(values = zhpal$zhblue) +
+  theme(legend.position = "right", 
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 0))
 ```
 
 ### 1.4 Direkte Beschriftung
@@ -197,32 +256,15 @@ Bei gewissen Grafiktypen kann die Unterscheidbarkeit von Kategorien auch durch d
 ```{r}
 library(ggrepel)
 
-data <- read.csv("https://www.web.statistik.zh.ch/ogd/data/ojuga/KANTON-ZUERICH_jugendstrafrechtspflege_geschlechter_verurteilungen.csv") %>% 
+data <- read.csv("daten/KTZH_00000544_00001031.csv") %>% 
   pivot_longer(cols=2:3)
 
-ggplot(data, aes(Jahr, value ,color=name)) + 
-    geom_text_repel(data=data %>% filter(Jahr==max(Jahr)), aes(label=name), direction = "y") +
-     geom_line()+
-     theme_stat()+
-     guides(color="none")
-```
 
-
-# Grafiken fürs ZHWeb
-
-Bei Grafiken, welche auf [zh.ch](zh.ch) Publiziert werden sollen, gilt es folgendes zu berücksichtigen:
-
-- Maximale Bildgrösse 4000x4000
-- Grafik-Titel, Untertitel, Legende, Quelle und Alt-Text müssen direkt im CMS (Bild-Komponente) hinterlegt und nicht in die Grafik selber integriert werden
-
-```{r}
-
-ggplot(mpg, aes(class,fill = drv))+
-  geom_bar()+
-  theme_stat()+
-  scale_fill_manual(values=zhpal$zhblue)
-
-
-# ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")
-
+ggplot(data, aes(Jahr, value, color = name)) + 
+  geom_text_repel(data = data %>% 
+                    filter(Jahr == max(Jahr)), 
+                  aes(label = name), direction = "y") +
+     geom_line() +
+     theme_stat() +
+     guides(color = "none")
 ```

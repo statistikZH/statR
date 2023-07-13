@@ -1,0 +1,13 @@
+statR_config_name: default
+statR_organization: Statistisches Amt des Kantons Zürich
+statR_name: Datashop
+statR_phone: +41 43 259 75 00
+statR_email: datashop@statistik.zh.ch
+statR_homepage: http://www.statistik.zh.ch
+statR_openinghours:
+- Bürozeiten
+- Montag bis Freitag
+- 09:00 bis 12:00
+- 13:00 bis 16:00
+statR_logo: statzh
+statR_source: Statistisches Amt des Kantons Zürich
