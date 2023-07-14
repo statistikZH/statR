@@ -30,6 +30,27 @@ readUserConfig <- function(name = "default") {
 #' @description Writes a user config into a YAML file
 #' @param name Name of the configuration
 #' @param config_list List of options set by user
+#' @examples
+#' \dontrun{
+#' # statzh config list
+#' config_list <- list(
+#'   statR_config_name = "statzh",
+#'   statR_organization = "Statistisches Amt des Kantons Zürich",
+#'   statR_name = "Datashop",
+#'   statR_phone =  "+41 43 259 75 00",
+#'   statR_email = "datashop@statistik.zh.ch",
+#'   statR_homepage = "http://www.statistik.zh.ch",
+#'   statR_openinghours = c("Bürozeiten",
+#'                          "Montag bis Freitag",
+#'                          "09:00 bis 12:00",
+#'                          "13:00 bis 16:00"),
+#'   statR_logo = "statzh",
+#'   statR_source = "Statistisches Amt des Kantons Zürich"
+#' )
+#'
+#' # Write config list to disk
+#' writeUserConfig("statzh", config_list)
+#' }
 #' @export
 writeUserConfig <- function(name, config_list) {
   # config_path <- system.file("extdata/config/", package = "statR")
