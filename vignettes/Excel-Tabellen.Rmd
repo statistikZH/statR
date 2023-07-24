@@ -167,7 +167,7 @@ dat1 <- mtcars
 dat2 <- PlantGrowth
 
 datasetsXLSX(file = "twoDatasets",
-             maintitle = "Autos und Pflanzen", 
+             index_title = "Autos und Pflanzen",
              datasets = list(dat1, dat2),
              sheetnames = c("Autos","Blumen"),
              titles = c("mtcars-Datensatz", "PlantGrowth-Datensatz"),
