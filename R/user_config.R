@@ -12,6 +12,7 @@ getUserConfigs <- function() {
 #' @param name The name of the configuration
 #' @export
 readUserConfig <- function(name = "default") {
+
   # config_path <- system.file("extdata/config/", package = "statR")
   # config_file <- paste0(config_path, name)
 
@@ -83,6 +84,7 @@ setActiveConfig <- function(name, persistent = FALSE) {
   # config_file <- paste0(config_path, name)
   config_path <- system.file("extdata/config", package = "statR")
   config_file <- paste0(c(config_path, "name"), collapse = "/")
+
 
   if (getActiveConfigName() != name & file.exists(config_file)) {
     config <- yaml::read_yaml(config_file)
