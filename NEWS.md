@@ -1,3 +1,9 @@
+# statR 2.3.1
+
+## Bugfixes
+
+* Fixed a problem with user configurations on Windows systems
+
 # statR 2.3.0
 
 ## New Features

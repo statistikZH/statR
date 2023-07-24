@@ -14,3 +14,25 @@ writeUserConfig(name, config_list)
 \description{
 Writes a user config into a YAML file
 }
+\examples{
+\dontrun{
+# statzh config list
+config_list <- list(
+  statR_config_name = "statzh",
+  statR_organization = "Statistisches Amt des Kantons Zürich",
+  statR_name = "Datashop",
+  statR_phone =  "+41 43 259 75 00",
+  statR_email = "datashop@statistik.zh.ch",
+  statR_homepage = "http://www.statistik.zh.ch",
+  statR_openinghours = c("Bürozeiten",
+                         "Montag bis Freitag",
+                         "09:00 bis 12:00",
+                         "13:00 bis 16:00"),
+  statR_logo = "statzh",
+  statR_source = "Statistisches Amt des Kantons Zürich"
+)
+
+# Write config list to disk
+writeUserConfig("statzh", config_list)
+}
+}
