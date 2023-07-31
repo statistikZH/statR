@@ -17,7 +17,8 @@ readUserConfig <- function(name = "default") {
   # config_file <- paste0(config_path, name)
 
   config_path <- system.file("extdata/config", package = "statR")
-  config_file <- paste0(c(config_path, "name"), collapse = "/")
+  config_file <- paste0(c(config_path, name), collapse = "/")
+
 
   if (file.exists(config_file)) {
     config <- yaml::read_yaml(config_file)
@@ -56,7 +57,8 @@ readUserConfig <- function(name = "default") {
 writeUserConfig <- function(name, config_list) {
   # config_path <- system.file("extdata/config/", package = "statR")
   config_path <- system.file("extdata/config", package = "statR")
-  config_file <- paste0(c(config_path, "name"), collapse = "/")
+  config_file <- paste0(c(config_path, name), collapse = "/")
+
 
   config_list[["statR_config_name"]] <- name
   # yaml::write_yaml(config_list, paste0(config_path, name))
@@ -83,7 +85,8 @@ setActiveConfig <- function(name, persistent = FALSE) {
   # config_path <- system.file("extdata/config/", package = "statR")
   # config_file <- paste0(config_path, name)
   config_path <- system.file("extdata/config", package = "statR")
-  config_file <- paste0(c(config_path, "name"), collapse = "/")
+  config_file <- paste0(c(config_path, name), collapse = "/")
+
 
 
   if (getActiveConfigName() != name & file.exists(config_file)) {
