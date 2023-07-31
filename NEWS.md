@@ -1,7 +1,11 @@
+# statR 2.3.2
+
+## Bugfix
+* Fixed a problem where user configurations were not being applied properly
+
 # statR 2.3.1
 
 ## Bugfixes
-
 * Fixed a problem with user configurations on Windows systems
 
 # statR 2.3.0
