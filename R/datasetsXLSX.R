@@ -35,6 +35,7 @@
 #'  list(c("title 1", "title 2", "title 3"))
 #'@param overwrite overwrites the existing excel files with the same file name.
 #'  default to FALSE
+#'@param ... Ellipsis operator to override statR global options
 #'@examples
 #'# Example with two datasets and one figure
 #'fig <- ggplot2::ggplot(mtcars, ggplot2::aes(x = disp))+
@@ -64,9 +65,9 @@
 #' @export
 datasetsXLSX <- function(file,
                          datasets,
-                         sheetnames,
-                         titles,
-                         sources,
+                         sheetnames = NULL,
+                         titles = NULL,
+                         sources = NULL,
                          plot_widths = NULL,
                          plot_heights = NULL,
                          metadata = NA,
@@ -79,7 +80,10 @@ datasetsXLSX <- function(file,
                          homepage = getOption("statR_homepage"),
                          openinghours = getOption("statR_openinghours"),
                          auftrag_id = NULL,
-                         overwrite = FALSE) {
+                         overwrite = FALSE,
+                         ...) {
+
+  setStatROpts(list(...))
 
   # Run checks on arguments ------
   checkGroupOptionCompatibility(group_names, grouplines)
@@ -87,66 +91,64 @@ datasetsXLSX <- function(file,
   # Initialize new Workbook ------
   wb <- openxlsx::createWorkbook()
 
-  # Create indexes of which inputs correspond to data.frames or plots-----
-  dataframes_index <- which(vapply(datasets, is.data.frame, TRUE))
+  if (is.null(attr(datasets, "configured"))) {
+    # Create indexes of which inputs correspond to data.frames or plots-----
+    dataframes_index <- which(vapply(datasets, is.data.frame, TRUE))
 
-  implemented_plot_types <- c("gg", "ggplot", "histogram", "character")
-  plot_index <- which(vapply(datasets, function(x) {
-    length(setdiff(class(x), implemented_plot_types)) == 0
-    }, TRUE))
+    implemented_plot_types <- c("gg", "ggplot", "histogram", "character")
+    plot_index <- which(vapply(datasets, function(x) {
+      length(setdiff(class(x), implemented_plot_types)) == 0
+      }, TRUE))
 
-  # Index from input lists using index -----------
-  ### data.frames
-  dataframe_datasets <- datasets[dataframes_index]
-  dataframe_sheetnames <- sheetnames[dataframes_index]
-  dataframe_titles <- titles[dataframes_index]
-  dataframe_sources <- sources[dataframes_index]
-  dataframe_metadata <- metadata[dataframes_index]
-  dataframe_grouplines <- grouplines[dataframes_index]
-  dataframe_group_names <- group_names[dataframes_index]
+    # Index from input lists using index -----------
+    ### data.frames
+    dataframe_datasets <- datasets[dataframes_index]
+    dataframe_sheetnames <- sheetnames[dataframes_index]
+    dataframe_titles <- titles[dataframes_index]
+    dataframe_sources <- sources[dataframes_index]
+    dataframe_metadata <- metadata[dataframes_index]
+    dataframe_grouplines <- grouplines[dataframes_index]
+    dataframe_group_names <- group_names[dataframes_index]
 
-  ### Plots
-  plot_datasets <- datasets[plot_index]
-  plot_sheetnames <- sheetnames[plot_index]
+    data_objects <- list(dataframe_datasets,
+                         dataframe_sheetnames,
+                         dataframe_titles,
+                         dataframe_sources,
+                         dataframe_metadata,
+                         dataframe_grouplines,
+                         dataframe_group_names)
 
+    ### Plots
+    plot_datasets <- datasets[plot_index]
+    plot_sheetnames <- sheetnames[plot_index]
+
+    plot_objects <- list(plot_datasets,
+                         plot_sheetnames,
+                         plot_widths,
+                         plot_heights)
+  } else {
+    data_objects <- datasets[["data"]]
+    plot_objects <- datasets[["plot"]]
+  }
 
   # Insert the initial index sheet ----------
-  insert_index_sheet(wb = wb,
-                     title = index_title,
-                     auftrag_id = auftrag_id,
-                     logo = logo,
-                     contactdetails = contactdetails,
-                     homepage = homepage,
-                     openinghours = openinghours,
-                     source = index_source)
-
+  insert_index_sheet(
+    wb = wb, sheetname = index_title, title = index_title,
+    auftrag_id = auftrag_id, logo = logo, contactdetails = contactdetails,
+    homepage = homepage, openinghours = openinghours, source = index_source)
 
   # Insert datasets according to dataframes_index -------
   if (length(dataframes_index) > 0) {
-    list(dataframe_datasets,
-         dataframe_sheetnames,
-         dataframe_titles,
-         dataframe_sources,
-         dataframe_metadata,
-         dataframe_grouplines,
-         dataframe_group_names) %>%
-      purrr::pwalk(~insert_worksheet_nh(wb = wb,
-                                        data = ..1,
-                                        sheetname = ..2,
-                                        title = ..3,
-                                        source = ..4,
-                                        metadata = ..5,
-                                        grouplines = ..6,
-                                        group_names = ..7))
+    data_objects %>%
+      purrr::pwalk(~insert_worksheet_nh(
+        wb = wb, data = ..1, sheetname = ..2, title = ..3, source = ..4,
+        metadata = ..5, grouplines = ..6, group_names = ..7))
   }
 
 
   # Insert images according to plot_index --------
   if (length(plot_index) > 0) {
-    list(plot_datasets,
-         plot_sheetnames,
-         plot_widths,
-         plot_heights) %>%
+    plot_objects %>%
       purrr::pmap(~insert_worksheet_image(wb = wb,
                                           image = ..1,
                                           sheetname = ..2,
@@ -156,8 +158,10 @@ datasetsXLSX <- function(file,
 
 
   # Create a table of hyperlinks in index sheet (assumed to be "Index") ------
-  insert_hyperlinks(wb, sheetnames, titles, index_sheet_name = "Index",
-                    sheet_start_row = 15)
+  insert_hyperlinks(
+    wb, sheetnames, titles, index_sheet_name = index_title,
+    sheet_start_row = namedRegionLastRow(wb, index_title) + 1
+  )
 
 
   # Save workbook at path denoted by argument file ---------

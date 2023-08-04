@@ -19,6 +19,11 @@ insert_second_header <- function(wb, sheetname, data_start_row, group_names,
                ~openxlsx::writeData(wb, sheet = sheetname, x = .y,
                                     startCol = .x, startRow = data_start_row))
 
+
+  purrr::walk2(grouplines, c(tail(grouplines, -1) - 1, ncol(data)),
+               ~openxlsx::mergeCells(wb, sheetname, cols = c(.x, .y),
+               rows = data_start_row))
+
   # Apply style ---------
   openxlsx::addStyle(wb, sheet = sheetname, style = style_header(),
                      rows = data_start_row, cols = 1:ncol(data))

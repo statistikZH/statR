@@ -71,7 +71,7 @@ insert_worksheet_nh <- function(wb,
 
   ### Merge cells with title, metadata, and sources to ensure that they're displayed properly
   purrr::walk(namedRegionRowExtent(wb, sheetname, c("title", "source", "metadata")),
-              ~openxlsx::mergeCells(wb, sheetname, cols = 1:26, rows = .))
+              ~openxlsx::mergeCells(wb, sheetname, cols = 1:13, rows = .))
 
   ### Add Line wrapping
   openxlsx::addStyle(wb, sheetname, style_wrap(),

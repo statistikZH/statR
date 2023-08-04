@@ -7,9 +7,9 @@
 datasetsXLSX(
   file,
   datasets,
-  sheetnames,
-  titles,
-  sources,
+  sheetnames = NULL,
+  titles = NULL,
+  sources = NULL,
   plot_widths = NULL,
   plot_heights = NULL,
   metadata = NA,
@@ -22,7 +22,8 @@ datasetsXLSX(
   homepage = getOption("statR_homepage"),
   openinghours = getOption("statR_openinghours"),
   auftrag_id = NULL,
-  overwrite = FALSE
+  overwrite = FALSE,
+  ...
 )
 }
 \arguments{
@@ -66,6 +67,8 @@ Shop}
 
 \item{overwrite}{overwrites the existing excel files with the same file name.
 default to FALSE}
+
+\item{...}{Ellipsis operator to override statR global options}
 }
 \description{
 Function to export several datasets and/or figures from R to an

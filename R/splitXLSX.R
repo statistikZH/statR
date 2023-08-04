@@ -9,6 +9,7 @@
 #'  automatically.
 #' @param sheetvar name of the variable used to split the data and spread them
 #'  over several sheets.
+#' @param ... Ellipsis operator to override statR global options
 #' @examples
 #'splitXLSX(data = mtcars,
 #'          title = "Motor trend car road tests",
@@ -34,7 +35,10 @@ splitXLSX <- function(data,
                       homepage = getOption("statR_homepage"),
                       author = "user",
                       grouplines = NA,
-                      group_names = NA) {
+                      group_names = NA,
+                      ...) {
+
+  setStatROpts(list(...))
 
   # create workbook ------
   wb <- openxlsx::createWorkbook()

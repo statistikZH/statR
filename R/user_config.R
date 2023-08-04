@@ -1,3 +1,13 @@
+
+#' setStatROpts()
+#' @description Sets options
+#' @param opt_list A named list
+#' @export
+setStatROpts <- function(opt_list) {
+  opt_list <- opt_list[which(names(opt_list) %in% names(options()))]
+  options(opt_list)
+}
+
 #' getUserConfigs()
 #' @description Returns a character vector of all user configurations
 #' @export

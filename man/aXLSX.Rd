@@ -14,7 +14,8 @@ aXLSX(
   contactdetails = inputHelperContactInfo(),
   author = "user",
   grouplines = NA,
-  group_names = NA
+  group_names = NA,
+  ...
 )
 }
 \arguments{
@@ -42,6 +43,8 @@ variables visually.}
 
 \item{group_names}{Names for groupings in secondary header. Format:
 List e.g list(c("title 1", "title 2", "title 3"))}
+
+\item{...}{Ellipsis operator to override statR global options}
 }
 \description{
 Function to export data from R to a formatted .xlsx-file. The

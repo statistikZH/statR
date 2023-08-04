@@ -4,6 +4,7 @@
 #' @inheritParams insert_worksheet
 #' @param data data to be exported.
 #' @param file file name of the xlsx-file. The extension ".xlsx" is added
+#' @param ... Ellipsis operator to override statR global options
 #' @keywords quickXLSX
 #' @export
 #' @examples
@@ -26,7 +27,11 @@ quickXLSX <- function(data = NA,
                       contactdetails = inputHelperContactInfo(compact = TRUE),
                       author = "user",
                       grouplines = NA,
-                      group_names = NA) {
+                      group_names = NA,
+                      ...) {
+
+
+  setStatROpts(list(...))
 
   # Create workbook --------
   wb <- openxlsx::createWorkbook()

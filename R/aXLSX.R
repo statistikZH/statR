@@ -5,6 +5,7 @@
 #'  the second sheet.
 #' @inheritParams insert_worksheet
 #' @param file Path of output xlsx-file.
+#' @param ... Ellipsis operator to override statR global options
 #' @examples
 #' aXLSX(data = mtcars,
 #'       title = "Motor trend car road tests",
@@ -28,7 +29,10 @@ aXLSX <- function(data,
                   contactdetails = inputHelperContactInfo(),
                   author = "user",
                   grouplines = NA,
-                  group_names = NA) {
+                  group_names = NA,
+                  ...) {
+
+  setStatROpts(list(...))
 
   # Initialize Workbook object -------
   wb <- openxlsx::createWorkbook()
