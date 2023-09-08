@@ -22,6 +22,8 @@ insert_hyperlinks(
 \item{index_sheet_name}{Name of sheet where hyperlink should be created}
 
 \item{sheet_start_row}{Initial row after which hyperlinks should be created}
+
+\item{sheet_row}{Row where hyperlink should be inserted}
 }
 \description{
 Function for inserting hyperlinks within an openxlsx Workbook

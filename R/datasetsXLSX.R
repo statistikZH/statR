@@ -156,10 +156,120 @@ datasetsXLSX <- function(file,
 
 
   # Create a table of hyperlinks in index sheet (assumed to be "Index") ------
-  insert_hyperlinks(wb, sheetnames, titles, index_sheet_name = "Index",
+  insert_index_hyperlinks(wb, sheetnames, titles, index_sheet_name = "Index",
                     sheet_start_row = 15)
 
 
   # Save workbook at path denoted by argument file ---------
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = overwrite)
 }
+
+
+#'extract_attributes()
+#'
+#'@description Function to export several datasets and/or figures from R to an
+#'  .xlsx-file. The function creates an overview sheet and separate sheets for
+#'  each dataset/figure.
+#'@param file file
+#'@param datasets datasets or plots to be included.
+#'@param sheetnames names of the sheet tabs.
+#'@param titles titles of the different sheets.
+#'@param sources source of the data. Defaults to "statzh".
+#'@param metadata metadata information to be included. Defaults to NA.
+#'@param grouplines Column for second header(s). Format: List e.g list(c(2,4,6))
+#'@param group_names Name(s) of the second header(s). Format: List e.g
+#'  list(c("title 1", "title 2", "title 3"))
+#'@param overwrite overwrites the existing excel files with the same file name.
+#'  default to FALSE
+#' @keywords internal
+extract_attributes <- function(datasets, which, required_val = FALSE) {
+  values <- list()
+
+  for (i in seq_along(datasets)) {
+    df_attr <- attr(datasets[[i]], which)
+
+    if (required_val && (is.null(df_attr) || is.na(df_attr))) {
+      df_attr <- getOption(paste0("statR_default_",which))
+    }
+    values[[i]] <- c(df_attr, NA)[1]
+
+  }
+
+  return(values)
+}
+
+
+#'datasetsXLSX_noplot()
+#'
+#'@description Function to export several datasets and/or figures from R to an
+#'  .xlsx-file. The function creates an overview sheet and separate sheets for
+#'  each dataset/figure.
+#'@param file file
+#'@param datasets datasets or plots to be included.
+#'@param sheetnames names of the sheet tabs.
+#'@param titles titles of the different sheets.
+#'@param sources source of the data. Defaults to "statzh".
+#'@param metadata metadata information to be included. Defaults to NA.
+#'@param grouplines Column for second header(s). Format: List e.g list(c(2,4,6))
+#'@param group_names Name(s) of the second header(s). Format: List e.g
+#'  list(c("title 1", "title 2", "title 3"))
+#'@param overwrite overwrites the existing excel files with the same file name.
+#'  default to FALSE
+#' @keywords datasetsXLSX
+#' @export
+datasetsXLSX_noplot <- function(
+    file,
+    datasets,
+    sheetnames,
+    titles,
+    sources,
+    metadata = NA,
+    grouplines = NA,
+    group_names = NA,
+    overwrite = FALSE
+) {
+
+  # Try to fill in values if not provided
+  if (missing(titles)) titles <- extract_attributes(datasets, "title", TRUE)
+  if (missing(sources)) sources <- extract_attributes(datasets, "source")
+  if (missing(metadata)) metadata <- extract_attributes(datasets, "metadata")
+  if (missing(group_names))
+    group_names <- extract_attributes(datasets, "group_names")
+  if (missing(grouplines))
+    grouplines <- extract_attributes(datasets, "grouplines")
+
+  # Initialize new Workbook ------
+  wb <- openxlsx::createWorkbook()
+
+  # Insert the initial index sheet ----------
+  insert_index_sheet(wb = wb,
+                     title = getOption("statR_toc_title"),
+                     auftrag_id = NULL,
+                     logo = getOption("statR_logo"),
+                     contactdetails = inputHelperContactInfo(),
+                     homepage = getOption("statR_homepage"),
+                     openinghours = getOption("statR_openinghours"),
+                     source = getOption("statR_source"))
+
+  # Insert datasets according to dataframes_index -------
+
+  content <- list(datasets, sheetnames, titles, sources, metadata, grouplines,
+                  group_names)
+
+  content %>%
+    purrr::pwalk(
+      ~insert_worksheet_nh(wb = wb, data = ..1, sheetname = ..2, title = ..3,
+                           source = ..4, metadata = ..5, grouplines = ..6,
+                           group_names = ..7)
+    )
+
+
+  # Create a table of hyperlinks in index sheet (assumed to be "Index") ------
+  insert_index_hyperlinks(wb, sheetnames, titles, index_sheet_name = "Index",
+                    sheet_start_row = 15)
+
+
+  # Save workbook at path denoted by argument file ---------
+  openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = overwrite)
+}
+

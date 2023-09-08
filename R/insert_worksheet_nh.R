@@ -44,6 +44,7 @@ insert_worksheet_nh <- function(wb,
     start_row <- namedRegionLastRow(wb, sheetname) + 3
   }
 
+
   # Insert title, metadata, and sources into worksheet --------
   ### Title
   openxlsx::writeData(wb, sheetname, title, startCol = 1, startRow = start_row,
