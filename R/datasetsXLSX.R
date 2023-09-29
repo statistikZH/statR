@@ -188,10 +188,20 @@ extract_attributes <- function(datasets, which, required_val = FALSE) {
   for (i in seq_along(datasets)) {
     df_attr <- attr(datasets[[i]], which)
 
-    if (required_val && (is.null(df_attr) || is.na(df_attr))) {
-      df_attr <- getOption(paste0("statR_default_",which))
+    if (is.null(df_attr)) {
+      df_attr <- getOption(paste0("statR_default_", which))
+
+      if (is.null(df_attr) || is.na(df_attr)) {
+
+        if (required_val) {
+          stop("No default value found for required argument ", which)
+        } else {
+          df_attr <- NA
+        }
+      }
     }
-    values[[i]] <- c(df_attr, NA)[1]
+
+    values[[i]] <- df_attr
 
   }
 
@@ -238,18 +248,17 @@ datasetsXLSX_noplot <- function(
   if (missing(grouplines))
     grouplines <- extract_attributes(datasets, "grouplines")
 
+
   # Initialize new Workbook ------
   wb <- openxlsx::createWorkbook()
 
   # Insert the initial index sheet ----------
-  insert_index_sheet(wb = wb,
-                     title = getOption("statR_toc_title"),
-                     auftrag_id = NULL,
-                     logo = getOption("statR_logo"),
-                     contactdetails = inputHelperContactInfo(),
-                     homepage = getOption("statR_homepage"),
-                     openinghours = getOption("statR_openinghours"),
-                     source = getOption("statR_source"))
+  insert_index_sheet(
+    wb = wb, title = getOption("statR_toc_title"), auftrag_id = NULL,
+    logo = getOption("statR_logo"), contactdetails = inputHelperContactInfo(),
+    homepage = getOption("statR_homepage"),
+    openinghours = getOption("statR_openinghours"),
+    source = getOption("statR_source"))
 
   # Insert datasets according to dataframes_index -------
 
@@ -273,3 +282,98 @@ datasetsXLSX_noplot <- function(
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = overwrite)
 }
 
+
+#'datasetsXLSX_withplot()
+#'
+#'@description Function to export several datasets and/or figures from R to an
+#'  .xlsx-file. The function creates an overview sheet and separate sheets for
+#'  each dataset/figure.
+#'@param file file
+#'@param datasets datasets or plots to be included.
+#'@param sheetnames names of the sheet tabs.
+#'@param titles titles of the different sheets.
+#'@param sources source of the data. Defaults to "statzh".
+#'@param metadata metadata information to be included. Defaults to NA.
+#'@param grouplines Column for second header(s). Format: List e.g list(c(2,4,6))
+#'@param group_names Name(s) of the second header(s). Format: List e.g
+#'  list(c("title 1", "title 2", "title 3"))
+#'@param overwrite overwrites the existing excel files with the same file name.
+#'  default to FALSE
+#' @keywords datasetsXLSX
+#' @export
+datasetsXLSX_plot <- function(
+    file,
+    datasets,
+    sheetnames,
+    titles,
+    sources,
+    plot_widths,
+    plot_heights,
+    metadata = NA,
+    grouplines = NA,
+    group_names = NA,
+    overwrite = FALSE
+) {
+
+  # Try to fill in values if not provided
+  if (missing(titles))
+    titles <- extract_attributes(datasets, "title", TRUE)
+  if (missing(sources))
+    sources <- extract_attributes(datasets, "source")
+  if (missing(metadata))
+    metadata <- extract_attributes(datasets, "metadata")
+
+  if (missing(group_names))
+    group_names <- extract_attributes(datasets, "group_names")
+  if (missing(grouplines))
+    grouplines <- extract_attributes(datasets, "grouplines")
+
+  if (missing(plot_widths))
+    plot_widths <- extract_attributes(datasets, "plot_width")
+  if (missing(plot_heights))
+    plot_heights <- extract_attributes(datasets, "plot_height")
+
+
+  # Function for determining if input is an implemented plot type
+  is_implemented_plot <- function(x) {
+    implemented_plot_types <- c("gg", "ggplot", "histogram", "character")
+    return(length(setdiff(class(x), implemented_plot_types)) == 0)
+  }
+
+
+  print(grouplines)
+  print(group_names)
+
+  # Initialize new Workbook ------
+  wb <- openxlsx::createWorkbook()
+
+  # Insert the initial index sheet ----------
+  insert_index_sheet(
+    wb = wb, title = getOption("statR_toc_title"), auftrag_id = NULL,
+    logo = getOption("statR_logo"), contactdetails = inputHelperContactInfo(),
+    homepage = getOption("statR_homepage"), openinghours = getOption("statR_openinghours"),
+    source = getOption("statR_source"))
+
+
+  for (i in seq_along(datasets)) {
+    if (is_implemented_plot(datasets[[i]])) {
+      insert_worksheet_image(
+        wb, sheetnames[[i]], image = datasets[[i]], width = plot_widths[[i]],
+        height = plot_heights[[i]])
+
+    } else if (is.data.frame(datasets[[i]])) {
+      insert_worksheet_nh(
+        wb = wb, data = datasets[[i]], sheetname = sheetnames[[i]],
+        title = titles[[i]], source = sources[[i]], metadata = metadata[[i]],
+        grouplines = grouplines[[i]], group_names = group_names[[i]])
+    }
+  }
+
+  # Create a table of hyperlinks in index sheet (assumed to be "Index") ------
+  insert_index_hyperlinks(wb, sheetnames, titles, index_sheet_name = "Index",
+                          sheet_start_row = 15)
+
+
+  # Save workbook at path denoted by argument file ---------
+  openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = overwrite)
+}

@@ -1,3 +1,13 @@
+# statR 2.4.0 
+
+* Fixed an issue where Excel Worksheets created using datasetsXLSX could become corrupted.
+* When defining a second header (either by numeric index or variable name at the beginning of a block) 
+  are now properly merged and centered. Last block terminates at the final column of the dataset.
+* splitXLSX is now based on datasetsXLSX. 
+
+
+
+
 # statR 2.3.2
 
 ## Bugfix

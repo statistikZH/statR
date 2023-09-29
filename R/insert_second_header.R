@@ -8,7 +8,7 @@ insert_second_header <- function(wb, sheetname, data_start_row, group_names,
                                  grouplines, data) {
 
   if (is.character(grouplines)) {
-    groupline_numbers <- get_groupline_index_by_pattern(grouplines, data)
+    groupline_numbers <- match(grouplines, colnames(mtcars))
 
   } else if (is.numeric(grouplines)) {
     groupline_numbers <- grouplines
@@ -19,7 +19,23 @@ insert_second_header <- function(wb, sheetname, data_start_row, group_names,
                ~openxlsx::writeData(wb, sheet = sheetname, x = .y,
                                     startCol = .x, startRow = data_start_row))
 
-  # Apply style ---------
-  openxlsx::addStyle(wb, sheet = sheetname, style = style_header(),
-                     rows = data_start_row, cols = 1:ncol(data))
+  # # Apply style ---------
+  openxlsx::addStyle(
+    wb, sheet = sheetname, style = style_header(), rows = data_start_row,
+    cols = 1:ncol(data))
+
+  # Merge cells for second header
+  groupline_numbers <- unique(c(sort(groupline_numbers), ncol(data) + 1))
+  purrr::walk2(
+    head(groupline_numbers, -1), tail(groupline_numbers, -1) - 1,
+    ~openxlsx::mergeCells(wb, sheetname, .x:.y, data_start_row))
+
+  # Center second header - not yet working
+  purrr::walk2(
+    head(groupline_numbers, -1), tail(groupline_numbers, -1) - 1,
+    ~openxlsx::addStyle(
+      wb, sheet = sheetname, style = openxlsx::createStyle(halign = "center"),
+      rows = data_start_row, cols = .x:.y, stack = TRUE))
+
 }
+

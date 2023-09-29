@@ -84,24 +84,26 @@ hyperlinkStyle <- function() {
 }
 
 style_header <- function() {
-  openxlsx::createStyle(fontSize = 12, fontName = "Calibri", halign = "left",
-                        fontColour = "#000000", border="Bottom",
-                        borderColour = "#009ee0", textDecoration = "bold")
+  openxlsx::createStyle(
+    fontSize = 12, fontName = "Calibri", halign = "left", fontColour = "#000000",
+    border = "Bottom", borderColour = "#009ee0", borderStyle = "medium",
+    textDecoration = "bold")
 }
-
 
 # Linien --------------
 style_headerline <- function() {
-  openxlsx::createStyle(border = "Bottom", borderColour = "#009ee0",
-                        borderStyle = getOption("openxlsx.borderStyle", "thick"))
+  openxlsx::createStyle(
+    border = "Bottom", borderColour = "#009ee0", borderStyle = "thick")
 }
 
 style_bottomline <- function() {
-  openxlsx::createStyle(border="Bottom", borderColour = "#009ee0")
+  openxlsx::createStyle(
+    border = "Bottom", borderColour = "#009ee0", borderStyle = "medium")
 }
 
 style_leftline <- function() {
-  openxlsx::createStyle(border = "Left", borderColour = "#009ee0")
+  openxlsx::createStyle(
+    border = "Left", borderColour = "#009ee0", borderStyle = "medium")
 }
 
 # Linewrap text ---------
