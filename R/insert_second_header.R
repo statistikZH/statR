@@ -30,7 +30,10 @@ insert_second_header <- function(wb, sheetname, data_start_row, group_names,
     head(groupline_numbers, -1), tail(groupline_numbers, -1) - 1,
     ~openxlsx::mergeCells(wb, sheetname, .x:.y, data_start_row))
 
-  # Center second header - not yet working
+  purrr::walk(head(groupline_numbers, - 1),
+              ~openxlsx::addStyle(wb, sheet = sheetname, style = style_leftline(),
+                                  rows = data_start_row, cols = ., stack = TRUE))
+  # Center second header
   purrr::walk2(
     head(groupline_numbers, -1), tail(groupline_numbers, -1) - 1,
     ~openxlsx::addStyle(

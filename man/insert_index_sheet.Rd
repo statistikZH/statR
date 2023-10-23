@@ -41,4 +41,11 @@ Defaults to "statzh"}
 Function which generates an index sheet inside an openxlsx
   workbook.
 }
+\details{
+The logo can be customized via the `statR_logo` global option. This
+  should point to the path of the logo file. Other options such as the image
+  size in the final .xlsx can either be changed via the options
+  `statR_logo_width` and `statR_logo_height`, or set along with contact
+  information in a custom profile.
+}
 \keyword{insert_index_sheet}

@@ -37,8 +37,9 @@ Defaults to "statzh"}
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
 
-\item{grouplines}{defaults to NA. Can be used to separate grouped
-variables visually.}
+\item{grouplines}{Can be used to group variables visually. Values should
+either correspond to numeric column indices or column names, denoting the first
+variable in a block. Defaults to NA, meaning no lines are added.}
 
 \item{group_names}{Names for groupings in secondary header. Format:
 List e.g list(c("title 1", "title 2", "title 3"))}
@@ -47,6 +48,11 @@ List e.g list(c("title 1", "title 2", "title 3"))}
 Function to export data from R to a formatted .xlsx-file. The
  data is exported to the first sheet. Metadata information is exported to
  the second sheet.
+}
+\note{
+This function is well-suited for applications where a single dataset
+  needs to be accompanied by a second sheet with explanations or other complex
+  metadata.
 }
 \examples{
 aXLSX(data = mtcars,

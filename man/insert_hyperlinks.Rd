@@ -11,16 +11,16 @@ insert_hyperlinks(wb, sheetnames, text, where, start_row, file = NULL)
 
 \item{sheetnames}{Names of sheets to create hyperlinks to}
 
-\item{sheet_row}{Row where hyperlink should be inserted}
+\item{text}{Text to display in the cell with the hyperlink}
 
-\item{index_sheet_name}{Name of sheet where hyperlink should be created}
+\item{where}{Name of the worksheet where the hyperlinks should be inserted}
 
-\item{titles}{Titles of Hyperlinks}
+\item{start_row}{First row from which hyperlink should be inserted}
 
-\item{sheet_start_row}{Initial row after which hyperlinks should be created}
+\item{file}{External file. Default: NULL}
 }
 \description{
 Function for inserting hyperlinks within an openxlsx Workbook.
-             Provides support for links to external .xlsx
+             Provides support for links to external .xlsx.
 }
 \keyword{insert_hyperlinks}

@@ -18,7 +18,15 @@
     statR_default_source = "Source",
     statR_default_metadata = NA,
     statR_default_grouplines = NA,
-    statR_default_group_names = NA
+    statR_default_group_names = NA,
+
+    # Default plot dimensions used in openxlsx
+    statR_default_plot_width = 6,
+    statR_default_plot_height = 3,
+
+    # Default values for statZH logo and corporate design
+    statR_logo_width = 2.145,
+    statR_logo_height = 0.7865
   )
 
   options(defaults)

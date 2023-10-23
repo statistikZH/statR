@@ -23,10 +23,11 @@ insert_metadata_sheet <- function(
   sheetname <- verifyInputSheetname(sheetname)
   openxlsx::addWorksheet(wb, sheetname)
 
+
   # Insert logo --------
   insert_worksheet_image(
     wb = wb, sheetname = sheetname, image = inputHelperLogoPath(logo),
-    startrow = 1, startcol = 1, width = 2.145, height = 0.7865)
+    startrow = 1, startcol = 1)
 
   # Insert contact info, title, metadata, and sources into worksheet --------
   ### Contact info
@@ -54,23 +55,35 @@ insert_metadata_sheet <- function(
     wb, sheetname, style_title(), rows = namedRegionLastRow(wb, sheetname, "title"),
     cols = 1)
 
-  ### Source and metadata
-  openxlsx::writeData(
-    wb, sheetname, inputHelperSource(source, collapse = NULL),
-    startRow = namedRegionLastRow(wb, sheetname, "title") + 1,
-    name = paste(sheetname, "source", sep = "_"))
+  if (!is.null(source) && !all(is.na(source))) {
+    openxlsx::writeData(
+      wb, sheetname, inputHelperSource(source, collapse = NULL),
+      startRow = namedRegionLastRow(wb, sheetname, "title") + 1,
+      name = paste(sheetname, "source", sep = "_"))
+  }
 
-  openxlsx::writeData(
-    wb, sheetname, inputHelperMetadata(metadata, collapse = NULL),
-    startRow = namedRegionLastRow(wb, sheetname, "source") + 1,
-    name = paste(sheetname, "metadata", sep = "_"))
+  if (!is.null(metadata) && !all(is.na(metadata))) {
+    openxlsx::writeData(
+      wb, sheetname, inputHelperMetadata(metadata, collapse = NULL),
+      startRow = namedRegionLastRow(wb, sheetname, "source") + 1,
+      name = paste(sheetname, "metadata", sep = "_"))
+  }
+
+  ### Merge cells with title, metadata, and sources to ensure that they're displayed properly
+  purrr::walk(namedRegionRowExtent(wb, sheetname, c("title", "source", "metadata")),
+              ~openxlsx::mergeCells(wb, sheetname, cols = 1:18, rows = .))
+
+  ### Add Line wrapping
+  openxlsx::addStyle(wb, sheetname, style_wrap(),
+                     namedRegionRowExtent(wb, sheetname, c("title", "source", "metadata")), 1,
+                     stack = TRUE, gridExpand = TRUE)
+
 
   # openxlsx::addStyle(wb, sheetname, style_subtitle2(),
   #                    c(namedRegionFirstRow(wb, sheetname, "source"),
   #                      namedRegionFirstRow(wb, sheetname, "metadata")), 1)
 
-  openxlsx::addStyle(wb, sheetname, rows = namedRegionRowExtent(wb, sheetname, "metadata"),
-                     style = style_wrap(), cols = 1, stack = TRUE)
+
 
   ### Hide gridlines
   openxlsx::showGridLines(wb, sheetname, FALSE)

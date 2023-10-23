@@ -28,4 +28,5 @@ insert_index_hyperlinks(
 \description{
 Function for inserting hyperlinks within an openxlsx Workbook
 }
-\keyword{insert_hyperlinks}
+\keyword{insert_hyperlinks,}
+\keyword{internal}

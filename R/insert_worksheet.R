@@ -55,8 +55,7 @@ insert_worksheet <- function(wb,
   # Insert logo ------
   insert_worksheet_image(wb = wb, sheetname = sheetname,
                          image = inputHelperLogoPath(logo),
-                         startrow = 1, startcol = 1,
-                         width = 2.145, height = 0.7865)
+                         startrow = 1, startcol = 1)
 
 
   # Insert contact info, date created, and author -----
@@ -105,7 +104,8 @@ insert_worksheet <- function(wb,
 #'
 #' @description Function to add formatted worksheets to an existing Workbook.
 #'   The worksheets do not include contact information or logos.
-#' @note The function does not write the result into a .xlsx file. A separate
+#' @note This function doesn't include any contact information. The function
+#'  does not write the result into a .xlsx file. A separate
 #'  call to `openxlsx::saveWorkbook()` is required.
 #' @inheritParams insert_worksheet
 #' @examples
@@ -127,15 +127,9 @@ insert_worksheet <- function(wb,
 #'                     grouplines = c(1,5,6), group_names = "carb")
 #' @keywords insert_worksheet_nh
 #' @export
-insert_worksheet_nh <- function(wb,
-                                sheetname = "Daten",
-                                data,
-                                title = "Title",
-                                source = getOption("statR_source"),
-                                metadata = NA,
-                                grouplines = NA,
-                                group_names = NA) {
-  # Initialize new worksheet ------
+insert_worksheet_nh <- function(
+    wb, sheetname, data, title, source = getOption("statR_source"),
+    metadata = NA, grouplines = NA, group_names = NA) {
 
   sheetname <- verifyInputSheetname(sheetname)
 
@@ -147,6 +141,22 @@ insert_worksheet_nh <- function(wb,
     start_row <- namedRegionLastRow(wb, sheetname) + 3
   }
 
+  # Try to fill in values if not provided
+  if (missing(title) || is.null(title))
+    title <- extract_attribute(data, "title", TRUE)
+
+  if (missing(source) || is.null(source))
+    source <- extract_attribute(data, "source")
+
+  if (missing(metadata) || is.null(metadata))
+    metadata <- extract_attribute(data, "metadata")
+
+  if (missing(grouplines) || is.null(grouplines))
+    grouplines <- extract_attribute(data, "grouplines")
+
+  if (missing(group_names) || is.null(group_names))
+    group_names <- extract_attribute(data, "group_names")
+
 
   # Insert title, metadata, and sources into worksheet --------
   ### Title
@@ -155,25 +165,28 @@ insert_worksheet_nh <- function(wb,
   openxlsx::addStyle(wb, sheetname, style_title(), start_row, 1)
 
   ### Source
-  openxlsx::writeData(
-    wb, sheetname, inputHelperSource(source),
-    startRow = namedRegionLastRow(wb, sheetname, "title") + 1,
-    name = paste(sheetname, "source", sep = "_"))
+  if (!is.null(source) && !all(is.na(source))) {
+    openxlsx::writeData(
+      wb, sheetname, inputHelperSource(source),
+      startRow = namedRegionLastRow(wb, sheetname, "title") + 1,
+      name = paste(sheetname, "source", sep = "_"))
 
-  openxlsx::addStyle(
-    wb, sheetname, style_subtitle(), namedRegionFirstRow(wb, sheetname, "source"),
-    1, stack = TRUE, gridExpand = TRUE)
+    openxlsx::addStyle(
+      wb, sheetname, style_subtitle(), namedRegionRowExtent(wb, sheetname, "source"),
+      1, stack = TRUE, gridExpand = TRUE)
+  }
 
-  ### Metadata
-  openxlsx::writeData(
-    wb, sheetname, inputHelperMetadata(metadata),
-    startRow = namedRegionLastRow(wb, sheetname, "source") + 1,
-    name = paste(sheetname, "metadata", sep = "_"))
+  if (!is.null(metadata) & !all(is.na(metadata))) {
+    ### Metadata
+    openxlsx::writeData(
+      wb, sheetname, inputHelperMetadata(metadata),
+      startRow = namedRegionLastRow(wb, sheetname, "source") + 1,
+      name = paste(sheetname, "metadata", sep = "_"))
 
-  openxlsx::addStyle(
-    wb, sheetname, style_subtitle(), namedRegionFirstRow(wb, sheetname, "metadata"),
-    1, stack = TRUE, gridExpand = TRUE)
-
+    openxlsx::addStyle(
+      wb, sheetname, style_subtitle(), namedRegionRowExtent(wb, sheetname, "metadata"),
+      1, stack = TRUE, gridExpand = TRUE)
+  }
 
   ### Merge cells with title, metadata, and sources to ensure that they're displayed properly
   purrr::walk(namedRegionRowExtent(wb, sheetname, c("title", "source", "metadata")),
@@ -184,9 +197,8 @@ insert_worksheet_nh <- function(wb,
                      namedRegionRowExtent(wb, sheetname, c("title", "source", "metadata")), 1,
                      stack = TRUE, gridExpand = TRUE)
 
-
   # Insert data --------
-  data_start_row <- namedRegionLastRow(wb, sheetname, "metadata") + 2
+  data_start_row <- namedRegionLastRow(wb, sheetname, c("title", "source", "metadata")) + 2
 
 
   # Grouplines ---------
@@ -204,7 +216,7 @@ insert_worksheet_nh <- function(wb,
       data_start_row <- data_start_row + 1
     }
 
-    data_row_extent <- data_start_row + 1:nrow(data)
+    data_row_extent <- data_start_row + 0:nrow(data)
     openxlsx::addStyle(wb, sheetname, style_leftline(),
                        data_row_extent, groupline_numbers,
                        gridExpand = TRUE, stack = TRUE)

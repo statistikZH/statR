@@ -43,8 +43,9 @@ Defaults to "statzh"}
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
 
-\item{grouplines}{defaults to NA. Can be used to separate grouped
-variables visually.}
+\item{grouplines}{Can be used to group variables visually. Values should
+either correspond to numeric column indices or column names, denoting the first
+variable in a block. Defaults to NA, meaning no lines are added.}
 
 \item{group_names}{Names for groupings in secondary header. Format:
 List e.g list(c("title 1", "title 2", "title 3"))}

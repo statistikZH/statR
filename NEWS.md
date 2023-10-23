@@ -3,9 +3,17 @@
 * Fixed an issue where Excel Worksheets created using datasetsXLSX could become corrupted.
 * When defining a second header (either by numeric index or variable name at the beginning of a block) 
   are now properly merged and centered. Last block terminates at the final column of the dataset.
-* splitXLSX is now based on datasetsXLSX. 
-
-
+* splitXLSX is now based on datasetsXLSX.
+* When including images with datasetsXLSX, users can now specify a title, source, and metadata.
+* Users can now attach an additional metadata sheet in datasetsXLSX.
+* insert_worksheet allows users to leave the source and metadata arguments at NULL. In these instances,
+  the function no longer includes an empty row.
+* Reworked datasetsXLSX to allow a tidyverse-like workflow where titles, sources, metadata, etc. are
+  attached as attributes to objects (see examples).
+* As part of this syntax, users can more easily control how sources and metadata are displayed. add_source()
+  and add_metadata() both take prefix and collapse as input.
+* insert_hyperlinks now (formally) allows users to point to external files.
+* 
 
 
 # statR 2.3.2

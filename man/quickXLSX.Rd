@@ -37,25 +37,35 @@ Defaults to "statzh"}
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
 
-\item{grouplines}{defaults to NA. Can be used to separate grouped
-variables visually.}
+\item{grouplines}{Can be used to group variables visually. Values should
+either correspond to numeric column indices or column names, denoting the first
+variable in a block. Defaults to NA, meaning no lines are added.}
 
 \item{group_names}{Names for groupings in secondary header. Format:
 List e.g list(c("title 1", "title 2", "title 3"))}
 }
 \description{
-Function to export data from R to a formatted .xlsx-spreadsheet.
+A simple function for exporting data from R to a single formatted
+  .xlsx-spreadsheet.
 }
 \examples{
+
+title <- "Motor trend car road tests"
+source <- paste(
+  "Henderson and Velleman (1981). Building",
+  "multiple regression models interactively.",
+  "Biometrics, 37, 391–411.")
+metadata <- paste(
+  "The data was extracted from the 1974 Motor",
+  "Trend US magazine and comprises fuel consumption",
+  "and 10 aspects of automobile design and",
+  "performance for 32 automobiles (1973–74 models).")
+
 quickXLSX(data = mtcars,
-         title = "Motor trend car road tests",
-         file = tempfile(fileext = ".xlsx"),
-         source = paste("Source: Henderson and Velleman (1981). Building",
-                        "multiple regression models interactively.",
-                        "Biometrics, 37, 391–411."),
-         metadata = paste("The data was extracted from the 1974 Motor",
-                          "Trend US magazine and comprises fuel consumption",
-                          "and 10 aspects of automobile design and",
-                          "performance for 32 automobiles (1973–74 models)."))
+          file = tempfile(fileext = ".xlsx"),
+          title = title,
+          source = source,
+          metadata = metadata)
+
 }
 \keyword{quickXLSX}

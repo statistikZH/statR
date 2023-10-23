@@ -56,15 +56,17 @@ verifyDataUngrouped <- function(data) {
 #' @returns A character string
 #' @keywords internal
 #' @noRd
-inputHelperSource <- function(source, prefix = getOption("statR_prefix_source"),
-                              collapse = getOption("statR_collapse")) {
+inputHelperSource <- function(source, prefix = NULL, collapse = NULL) {
+
+  collapse <- c(collapse, attr(source, "collapse"), NA)[1]
+  prefix <- c(prefix, attr(source, "prefix"))[1]
 
   if (all(is.na(source))) {
-    return("")
+    return(NULL)
   }
 
-  if (!is.null(collapse)) {
-    return(paste(prefix, paste0(source, collapse = collapse)))
+  if (!is.null(collapse) && !is.na(collapse)) {
+    return(paste0(prefix, paste0(source, collapse = collapse)))
   }
 
   return(c(prefix, source))
@@ -79,15 +81,17 @@ inputHelperSource <- function(source, prefix = getOption("statR_prefix_source"),
 #' @returns A character vector
 #' @keywords internal
 #' @noRd
-inputHelperMetadata <- function(metadata, prefix = getOption("statR_prefix_metadata"),
-                                collapse = getOption("statR_collapse")) {
+inputHelperMetadata <- function(metadata, prefix = NULL, collapse = NULL) {
+
+  collapse <- c(collapse, attr(metadata, "collapse"), NA)[1]
+  prefix <- c(prefix, attr(metadata, "prefix"))[1]
 
   if (all(is.na(metadata))) {
-    return("")
+    return(NULL)
   }
 
-  if (!is.null(collapse)) {
-    return(paste(prefix, paste0(metadata, collapse = collapse)))
+  if (!is.null(collapse) && !is.na(collapse)) {
+    return(paste0(prefix, paste0(metadata, collapse = collapse)))
   }
 
   return(c(prefix, metadata))
@@ -102,15 +106,24 @@ inputHelperMetadata <- function(metadata, prefix = getOption("statR_prefix_metad
 #' @returns A character string
 #' @keywords internal
 #' @noRd
-inputHelperLogoPath <- function(logo) {
+inputHelperLogoPath <- function(logo,
+                                width = getOption("statR_logo_width"),
+                                height = getOption("statR_logo_height")) {
   if (is.null(logo)) {
     message("No logo added.")
 
-  } else if (logo == "statzh") {
-    logo <- paste0(find.package("statR"), "/extdata/", statzh_logo)
+  } else {
 
-  } else if (logo == "zh") {
-    logo <- paste0(find.package("statR"), "/extdata/", zh_logo)
+    if (logo == "statzh") {
+      logo <- paste0(find.package("statR"), "/extdata/", statzh_logo)
+
+    } else if (logo == "zh") {
+      logo <- paste0(find.package("statR"), "/extdata/", zh_logo)
+    }
+
+    attr(logo, "plot_width") <- width
+    attr(logo, "plot_height") <- height
+
   }
 
   return(logo)
@@ -400,4 +413,164 @@ namedRegionFirstCol <- function(wb, sheet, region_name = NULL) {
 #' @keywords internal
 namedRegionLastCol <- function(wb, sheet, region_name = NULL) {
   max(namedRegionColumnExtent(wb, sheet, region_name))
+}
+
+#' cleanNamedRegions()
+#'
+#' @description Function to clean up unneeded named regions.
+#' @details Named regions are used as a convenient tool during the construction
+#'   of the output workbook. This function can be used to remove some or all
+#'   named regions. Note: this doesn't extend to the data contained in a named
+#'   region.
+#' @note When working with insert-like functions, this function should only be
+#'   called just before the conversion of the workbook into an .xlsx file.
+#' @param wb A workbook object
+#' @param which Either keep_data (to keep any named regions pertaining to tables),
+#'   or all.
+#' @returns A character string
+#' @keywords internal
+#' @noRd
+cleanNamedRegions <- function(wb, which = c("keep_data", "all")) {
+  named_regions <- openxlsx::getNamedRegions(wb)
+  delete_regions <- c()
+
+  if (which == "keep_data") {
+    delete_regions <- named_regions[!grepl("_data", named_regions)]
+  } else if (which == "all") {
+    delete_regions <- named_regions
+  }
+
+  if (length(delete_regions > 0)) {
+    purrr::walk(delete_regions, ~openxlsx::deleteNamedRegion(wb, .))
+  }
+}
+#' add_title()
+#'
+#' @description Add title to an object
+#' @param object The object to add an attribute to
+#' @param value A value
+#' @export
+add_title <- function(object, value) {
+  attr(object, "title") <- value
+  return(object)
+}
+
+#' add_title()
+#'
+#' @description Add title to an object
+#' @param object The object to add an attribute to
+#' @param value A value
+#' @param prefix A prefix, default to NULL
+#' @param collapse Separator to collapse character vectors on, defaults to NULL
+#' @export
+add_source <- function(object, value, prefix = NULL, collapse = NULL) {
+
+  attr(value, "prefix") <- prefix
+  attr(value, "collapse") <- collapse
+  attr(object, "source") <- value
+
+  return(object)
+}
+#' add_metadata()
+#'
+#' @description Add title to an object
+#' @param object The object to add an attribute to
+#' @param value A value
+#' @param prefix A prefix, default to NULL
+#' @param collapse Separator to collapse character vectors on, defaults to NULL
+#' @export
+add_metadata <- function(object, value, prefix = NULL, collapse = NULL) {
+
+  attr(value, "prefix") <- prefix
+  attr(value, "collapse") <- collapse
+  attr(object, "metadata") <- value
+
+  return(object)
+}
+#' add_grouplines()
+#'
+#' @description Add title to an object
+#' @param object The object to add an attribute to
+#' @param value A value
+#' @export
+add_grouplines <- function(object, value) {
+  attr(object, "grouplines") <- value
+  return(object)
+}
+
+#' add_group_names()
+#'
+#' @description Add title to an object
+#' @param object The object to add an attribute to
+#' @param value A value
+#' @export
+add_group_names <- function(object, value) {
+  attr(object, "group_names") <- value
+  return(object)
+}
+#' add_plot_height()
+#'
+#' @description Add title to an object
+#' @param object The object to add an attribute to
+#' @param value A value
+#' @export
+add_plot_height <- function(object, value) {
+  attr(object, "plot_height") <- value
+  return(object)
+}
+
+#' add_plot_width()
+#'
+#' @description Add title to an object
+#' @param object The object to add an attribute to
+#' @param value A value
+#' @export
+add_plot_width <- function(object, value) {
+  attr(object, "plot_width") <- value
+  return(object)
+}
+
+
+#'extract_attribute()
+#'
+#' @description Function to extract attributes from an object
+#' @param object Object to extract attribute from. In practice a data.frame,
+#'   ggplot object, or a character string providing a path to an image.
+#' @param which Which attribute to extract.
+#' @param required_val Boolean, if TRUE tries to look up a default if attribute not
+#'   found, otherwise raises error
+#' @keywords internal
+extract_attribute <- function(object, which, required_val = FALSE) {
+
+  value <- attr(object, which)
+
+  if (is.null(value)) {
+    if (required_val) {
+      value <- getOption(paste0("statR_default_", which))
+
+      if (is.null(value)) {
+        stop("No default value found for required argument ", which)
+      }
+    } else {
+      value <- NA
+    }
+  }
+
+  return(value)
+}
+
+#'extract_attributes()
+#'
+#' @description Function to extract attributes from multiple objects in a list
+#' @inheritParams extract_attribute
+#' @param datasets List of objects
+#' @keywords internal
+extract_attributes <- function(datasets, which, required_val = FALSE) {
+  values <- list()
+
+  for (i in seq_along(datasets)) {
+    values[[i]] <- extract_attribute(datasets[[i]], which, required_val)
+  }
+
+  return(values)
 }

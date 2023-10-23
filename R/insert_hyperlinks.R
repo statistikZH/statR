@@ -13,13 +13,18 @@ insert_index_hyperlinks <- function(wb, sheetnames, titles,
                               index_sheet_name = "Index",
                               sheet_start_row = 15) {
 
+  insert_hyperlinks(
+    wb, sheetnames, sheetnames, index_sheet_name, sheet_start_row)
 
-  insert_hyperlinks(wb, sheetnames, titles, index_sheet_name, sheet_start_row,
-                    NULL)
+  openxlsx::writeData(
+    wb, index_sheet_name, unlist(titles), startCol = 7, startRow = sheet_start_row)
 
   purrr::walk(
     15 + seq_along(sheetnames) - 1,
-    ~openxlsx::mergeCells(wb, index_sheet_name, 3:13, .x))
+    ~openxlsx::mergeCells(wb, index_sheet_name, 3:6, .x))
+  purrr::walk(
+    15 + seq_along(sheetnames) - 1,
+    ~openxlsx::mergeCells(wb, index_sheet_name, 7:20, .x))
 }
 
 
@@ -28,11 +33,11 @@ insert_index_hyperlinks <- function(wb, sheetnames, titles,
 #' @description Function for inserting hyperlinks within an openxlsx Workbook.
 #'              Provides support for links to external .xlsx.
 #' @inheritParams insert_worksheet
-#' @param sheet_row Row where hyperlink should be inserted
-#' @param index_sheet_name Name of sheet where hyperlink should be created
 #' @param sheetnames Names of sheets to create hyperlinks to
-#' @param titles Titles of Hyperlinks
-#' @param sheet_start_row Initial row after which hyperlinks should be created
+#' @param text Text to display in the cell with the hyperlink
+#' @param where Name of the worksheet where the hyperlinks should be inserted
+#' @param start_row First row from which hyperlink should be inserted
+#' @param file External file. Default: NULL
 #' @keywords insert_hyperlinks
 #' @importFrom openxlsx makeHyperlinkString writeFormula addStyle
 #' @export
