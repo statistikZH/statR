@@ -26,16 +26,17 @@ insert_index_sheet(
 \item{auftrag_id}{Order ID}
 
 \item{logo}{path of the file to be included as logo (png / jpeg / svg).
-Defaults to "statzh"}
+Default can be adjusted via user profiles.}
 
-\item{contactdetails}{contact details of the data publisher. Defaults to
-"statzh".}
+\item{contactdetails}{contact details of the data publisher. Default can be
+adjusted via user profiles.}
 
-\item{homepage}{Homepage of data publisher. Defaults to "statzh".}
+\item{homepage}{Homepage of data publisher. Default can be adjusted via user
+profiles.}
 
 \item{openinghours}{statzh or a character string or vector with opening hours}
 
-\item{source}{source of the data. Defaults to "statzh".}
+\item{source}{source of the data. Default can be adjusted via user profiles}
 }
 \description{
 Function which generates an index sheet inside an openxlsx

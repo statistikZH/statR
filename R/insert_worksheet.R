@@ -8,29 +8,31 @@
 #' @param wb workbook object to add new worksheet to.
 #' @param title title to be put above the data.
 #' @param sheetname name of the sheet tab.
-#' @param source source of the data. Defaults to "statzh".
-#' @param metadata metadata information to be included. Defaults to NA.
+#' @param source source of the data. Default can be adjusted via user profiles
+#' @param metadata metadata information to be included. Defaults to NA, meaning
+#'   no metadata are attached.
 #' @param logo path of the file to be included as logo (png / jpeg / svg).
-#'  Defaults to "statzh"
-#' @param contactdetails contact details of the data publisher. Defaults to
-#'  "statzh".
-#' @param homepage Homepage of data publisher. Defaults to "statzh".
-#' @param grouplines Can be used to group variables visually. Values should
-#'   either correspond to numeric column indices or column names, denoting the first
-#'   variable in a block. Defaults to NA, meaning no lines are added.
+#'   Default can be adjusted via user profiles.
+#' @param contactdetails contact details of the data publisher. Default can be
+#'   adjusted via user profiles.
+#' @param homepage Homepage of data publisher. Default can be adjusted via user
+#'   profiles.
 #' @param author defaults to the last two letters (initials) or numbers of the
 #'  internal user name.
-#' @param group_names Names for groupings in secondary header. Format:
-#'   List e.g list(c("title 1", "title 2", "title 3"))
+#' @param grouplines Can be used to visually group variables. Values should
+#'   either correspond to numeric column indices or column names, denoting the
+#'   first variable in a group. Defaults to NA, meaning no lines are added.
+#' @param group_names A vector of names for groups to be displayed in a
+#'   secondary header. Should be of the same length as grouplines, and cannot
+#'   be used unless these are set. Defaults to NA, meaning no secondary header
+#'   is created.
 #' @examples
 #' # Initialize Workbook
 #' wb <- openxlsx::createWorkbook()
 #'
 #'# Insert mtcars dataset with STATZH design
-#' insert_worksheet(data = mtcars,
-#'                  wb = wb,
-#'                  title = "mtcars dataset",
-#'                  sheetname = "carb")
+#' insert_worksheet(
+#'   wb = wb, sheetname = "carb", data = mtcars, title = "mtcars dataset")
 #'
 #' @keywords insert_worksheet
 #' @export
@@ -46,6 +48,13 @@ insert_worksheet <- function(wb,
                              author = "user",
                              grouplines = NA,
                              group_names = NA) {
+
+
+  # Try to fill in values if not provided
+  if (missing(sheetname) || is.null(sheetname))
+    sheetname <- extract_attribute(data, "sheetname", TRUE)
+
+
 
   # Initialize new worksheet ------
   sheetname <- verifyInputSheetname(sheetname)
@@ -114,17 +123,17 @@ insert_worksheet <- function(wb,
 #'
 #' ## insert a new worksheet
 #' insert_worksheet_nh(wb, sheetname = "data1", data = head(mtcars),
-#'   title = "Title", source = "statzh", metadata = "Note: ...")
+#'   title = "Title", source = "Source: ...", metadata = "Note: ...")
 #'
 #' ## insert a further worksheet
 #' insert_worksheet_nh(wb, sheetname = "data2", data = tail(mtcars),
-#'   title = "Title", source = "statzh", metadata = "Note: ...")
+#'   title = "Title", source = "Source: ...", metadata = "Note: ...")
 #'
 #' ## insert a worksheet with group lines and second header
-#' insert_worksheet_nh(wb, sheetname = "data3", data = head(mtcars),
-#'                     title = "grouplines", source = "statzh",
-#'                     metadata = "Note: ...",
-#'                     grouplines = c(1,5,6), group_names = "carb")
+#' insert_worksheet_nh(
+#'   wb, sheetname = "data3", data = head(mtcars), title = "grouplines",
+#'   source = "Source: ...", metadata = "Note: ...",
+#'   grouplines = c(5,8), group_names = c("First group", "Second group"))
 #' @keywords insert_worksheet_nh
 #' @export
 insert_worksheet_nh <- function(

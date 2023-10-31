@@ -134,8 +134,11 @@ datasetsXLSX(file = tempfile(fileext = ".xlsx"),
 
 # Newer method
 df <- mtcars \%>\%
+  add_sheetname("cars") \%>\%
   add_title("Cars dataset") \%>\%
-  add_source("Henderson and Velleman (1981). Building multiple regression models interactively. Biometrics, 37, 391–411.",
+  add_source(paste("Henderson and Velleman (1981). Building multiple",
+                   "regression models interactively.",
+                   "Biometrics, 37, 391–411."),
     prefix = "Source: ", collapse = "") \%>\%
   add_metadata("Obtained in R by calling 'mtcars'",
     prefix = "Hinweis: ", collapse = "") \%>\%
@@ -143,25 +146,23 @@ df <- mtcars \%>\%
   add_group_names(c("Group1", "Group2", "Group3"))
 
 df2 <- airquality \%>\%
+  add_sheetname("airquality") \%>\%
   add_title("Airquality") \%>\%
-  add_metadata(c("1. Part of R package 'datasets'", "2. Contains some missing values"),
+  add_metadata(c("1. Part of R package 'datasets'",
+                 "2. Contains some missing values"),
     prefix = "Hinweise")
-df3 <- PlantGrowth \%>\%
-  add_title("Plants") \%>\%
-  add_source("Dobson, A. J. (1983) An Introduction to Statistical Modelling. London: Chapman and Hall.")
 
-plt <- ggplot(mtcars) + geom_histogram(aes(x = cyl))
-
-plt <- plt \%>\%
+plt <- (ggplot(mtcars) + geom_histogram(aes(x = cyl))) \%>\%
+  add_sheetname("Histogram") \%>\%
   add_title("A histogram") \%>\%
-  add_source("mtcars data from R package 'datasets'", prefix = "Datenquelle:", collapse = " ") \%>\%
-  add_plot_width(12) \%>\%
+  add_source("mtcars data from R package 'datasets'",
+    prefix = "Datenquelle:", collapse = " ") \%>\%
+  add_plot_width(6) \%>\%
   add_plot_height(3)
 
 datasetsXLSX(
   file = "dsxlsx_test.xlsx",
-  datasets = list(df,  df2, plt, df3),
-  sheetnames = c("mtcars", "airquality", "histogram", "plantgrowth"),
+  datasets = list(df,  df2, plt),
   metadata_sheet = list(
     title = "Title of the metadata sheet",
     source = "A reference to the responsible organization or similar",

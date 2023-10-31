@@ -2,20 +2,28 @@
 % Please edit documentation in R/helper.R
 \name{extract_attribute}
 \alias{extract_attribute}
-\title{extract_attribute()}
+\alias{extract_attributes}
+\title{Extract attributes from target object}
 \usage{
 extract_attribute(object, which, required_val = FALSE)
+
+extract_attributes(object_list, which, required_val = FALSE)
 }
 \arguments{
 \item{object}{Object to extract attribute from. In practice a data.frame,
 ggplot object, or a character string providing a path to an image.}
 
-\item{which}{Which attribute to extract.}
+\item{which}{Name of the attribute to extract.}
 
-\item{required_val}{Boolean, if TRUE tries to look up a default if attribute not
-found, otherwise raises error}
+\item{required_val}{Boolean, if TRUE tries to look up a default in global
+options if attribute not found, and raises an error if none was defined.}
+
+\item{object_list}{A list of objects of arbitrary types.}
 }
 \description{
-Function to extract attributes from an object
+Function to extract attributes from objects.
+  \code{extract_attribute} expects the input object to be the target. When
+  the target object is nested in a list (as is the case in
+  \code{datasetsXLSX}), \code{extract_attributes} should be used instead.
 }
 \keyword{internal}

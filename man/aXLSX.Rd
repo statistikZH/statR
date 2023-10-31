@@ -5,8 +5,8 @@
 \title{aXLSX()}
 \usage{
 aXLSX(
-  data,
   file,
+  data,
   title = "Title",
   source = getOption("statR_source"),
   metadata = NA,
@@ -18,31 +18,34 @@ aXLSX(
 )
 }
 \arguments{
-\item{data}{data to be included.}
-
 \item{file}{Path of output xlsx-file.}
+
+\item{data}{data to be included.}
 
 \item{title}{title to be put above the data.}
 
-\item{source}{source of the data. Defaults to "statzh".}
+\item{source}{source of the data. Default can be adjusted via user profiles}
 
-\item{metadata}{metadata information to be included. Defaults to NA.}
+\item{metadata}{metadata information to be included. Defaults to NA, meaning
+no metadata are attached.}
 
 \item{logo}{path of the file to be included as logo (png / jpeg / svg).
-Defaults to "statzh"}
+Default can be adjusted via user profiles.}
 
-\item{contactdetails}{contact details of the data publisher. Defaults to
-"statzh".}
+\item{contactdetails}{contact details of the data publisher. Default can be
+adjusted via user profiles.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
 
-\item{grouplines}{Can be used to group variables visually. Values should
-either correspond to numeric column indices or column names, denoting the first
-variable in a block. Defaults to NA, meaning no lines are added.}
+\item{grouplines}{Can be used to visually group variables. Values should
+either correspond to numeric column indices or column names, denoting the
+first variable in a group. Defaults to NA, meaning no lines are added.}
 
-\item{group_names}{Names for groupings in secondary header. Format:
-List e.g list(c("title 1", "title 2", "title 3"))}
+\item{group_names}{A vector of names for groups to be displayed in a
+secondary header. Should be of the same length as grouplines, and cannot
+be used unless these are set. Defaults to NA, meaning no secondary header
+is created.}
 }
 \description{
 Function to export data from R to a formatted .xlsx-file. The
@@ -55,9 +58,9 @@ This function is well-suited for applications where a single dataset
   metadata.
 }
 \examples{
-aXLSX(data = mtcars,
+aXLSX(file = tempfile(fileext = ".xlsx"),
+      data = mtcars,
       title = "Motor trend car road tests",
-      file = tempfile(fileext = ".xlsx"),
       source = paste("Source: Henderson and Velleman (1981). Building",
                      "multiple regression models interactively.",
                      "Biometrics, 37, 391–411."),

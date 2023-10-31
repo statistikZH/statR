@@ -5,49 +5,7 @@
 #' @noRd
 
 
-### Metadata
-style_metadata_title <- function() {
-  openxlsx::createStyle(fontSize = 14, textDecoration = "bold", fontName = "Arial")
-}
-style_metadata_subtitle <- function() {
-  openxlsx::createStyle(fontSize = 12, textDecoration = "bold", fontName = "Arial")
-}
-style_metadata_headerline <- function() {
-  openxlsx::createStyle(border = "Bottom", borderColour = "#009ee0",
-                        borderStyle = getOption("openxlsx.borderStyle", "thick"))
-}
-
-### Index
-
-
-### worksheet
-style_worksheet_title <- function() {
-  openxlsx::createStyle(fontSize = 14, textDecoration = "bold",
-                        fontName = "Arial")
-}
-
-style_worksheet_subtitle <- function() {
-  openxlsx::createStyle(fontSize = 12, textDecoration = "italic",
-                        fontName = "Arial")
-}
-
-style_worksheet_header <- function() {
-  openxlsx::createStyle(fontSize = 12, fontColour = "#000000", halign = "left",
-                        border = "Bottom", borderColour = "#009ee0",
-                        textDecoration = "bold")
-}
-
-style_worksheet_headerline <- function() {
-
-}
-
 ### Worksheet no header
-
-mainTitleStyle <- function() {
-  openxlsx::createStyle(fontSize = 20, textDecoration = "bold", halign = "left",
-                        fontName = "Arial")
-}
-
 style_maintitle <- function() {
   openxlsx::createStyle(fontSize = 20, textDecoration = "bold", halign = "left",
                         fontName = "Arial")
@@ -60,32 +18,22 @@ style_title <- function() {
 
 subtitleStyle <- function() {
   openxlsx::createStyle(fontSize = 11, textDecoration = "bold", halign = "left",
-                        fontName = "Arial")
+                        fontName = "Arial", valign = "top" )
 }
 
 style_subtitle <- function() {
   openxlsx::createStyle(fontSize = 12, textDecoration = "italic",
-                        fontName = "Arial")
+                        fontName = "Arial", halign = "left", valign = "top" )
 }
-
-style_subtitle3 <- function() {
-  openxlsx::createStyle(fontSize = 11, fontName = "Calibri")
-}
-
-style_subtitle2 <- function() {
-  openxlsx::createStyle(fontSize = 12, textDecoration = "bold",
-                        fontName = "Arial")
-}
-
 
 hyperlinkStyle <- function() {
-  openxlsx::createStyle(fontSize = 11, fontName = "Calibri",
+  openxlsx::createStyle(fontSize = 11, fontName = "Arial",
                         fontColour = "blue", textDecoration = "underline")
 }
 
 style_header <- function() {
   openxlsx::createStyle(
-    fontSize = 12, fontName = "Calibri", halign = "left", fontColour = "#000000",
+    fontSize = 12, fontName = "Arial", halign = "left", fontColour = "#000000",
     border = "Bottom", borderColour = "#009ee0", borderStyle = "medium",
     textDecoration = "bold")
 }
@@ -94,11 +42,6 @@ style_header <- function() {
 style_headerline <- function() {
   openxlsx::createStyle(
     border = "Bottom", borderColour = "#009ee0", borderStyle = "thick")
-}
-
-style_bottomline <- function() {
-  openxlsx::createStyle(
-    border = "Bottom", borderColour = "#009ee0", borderStyle = "medium")
 }
 
 style_leftline <- function() {

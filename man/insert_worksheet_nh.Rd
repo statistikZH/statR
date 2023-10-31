@@ -24,16 +24,19 @@ insert_worksheet_nh(
 
 \item{title}{title to be put above the data.}
 
-\item{source}{source of the data. Defaults to "statzh".}
+\item{source}{source of the data. Default can be adjusted via user profiles}
 
-\item{metadata}{metadata information to be included. Defaults to NA.}
+\item{metadata}{metadata information to be included. Defaults to NA, meaning
+no metadata are attached.}
 
-\item{grouplines}{Can be used to group variables visually. Values should
-either correspond to numeric column indices or column names, denoting the first
-variable in a block. Defaults to NA, meaning no lines are added.}
+\item{grouplines}{Can be used to visually group variables. Values should
+either correspond to numeric column indices or column names, denoting the
+first variable in a group. Defaults to NA, meaning no lines are added.}
 
-\item{group_names}{Names for groupings in secondary header. Format:
-List e.g list(c("title 1", "title 2", "title 3"))}
+\item{group_names}{A vector of names for groups to be displayed in a
+secondary header. Should be of the same length as grouplines, and cannot
+be used unless these are set. Defaults to NA, meaning no secondary header
+is created.}
 }
 \description{
 Function to add formatted worksheets to an existing Workbook.
@@ -50,16 +53,16 @@ wb <- openxlsx::createWorkbook()
 
 ## insert a new worksheet
 insert_worksheet_nh(wb, sheetname = "data1", data = head(mtcars),
-  title = "Title", source = "statzh", metadata = "Note: ...")
+  title = "Title", source = "Source: ...", metadata = "Note: ...")
 
 ## insert a further worksheet
 insert_worksheet_nh(wb, sheetname = "data2", data = tail(mtcars),
-  title = "Title", source = "statzh", metadata = "Note: ...")
+  title = "Title", source = "Source: ...", metadata = "Note: ...")
 
 ## insert a worksheet with group lines and second header
-insert_worksheet_nh(wb, sheetname = "data3", data = head(mtcars),
-                    title = "grouplines", source = "statzh",
-                    metadata = "Note: ...",
-                    grouplines = c(1,5,6), group_names = "carb")
+insert_worksheet_nh(
+  wb, sheetname = "data3", data = head(mtcars), title = "grouplines",
+  source = "Source: ...", metadata = "Note: ...",
+  grouplines = c(5,8), group_names = c("First group", "Second group"))
 }
 \keyword{insert_worksheet_nh}

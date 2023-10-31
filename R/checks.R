@@ -18,5 +18,18 @@ checkGroupOptionCompatibility <- function (group_names, grouplines){
 #' @keywords internal
 #' @noRd
 checkImplementedPlotType <- function(image) {
-  length(setdiff(class(image), c("gg", "ggplot", "histogram"))) == 0
+
+  valid_objects <- c("gg", "ggplot", "histogram", "character")
+
+  correct_object_type <- inherits(image, valid_objects)
+
+  if (!correct_object_type) {
+    return(FALSE)
+  }
+
+  if (is(image, "character") && !file.exists(image)) {
+    stop("Image file not found!")
+  }
+
+  return(TRUE)
 }

@@ -17,31 +17,21 @@ knitr::opts_chunk$set(
 ## Allgemeine Informationen
 
 `statR` enthält mehrere Funktionen, mit welchen Datensätze aus `R` als 
-Excel-Dateien exportiert werden können. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf.  
+Excel-Dateien exportiert werden können. Die Funktionen bauen auf dem [openxlsx-package](https://github.com/awalker89/openxlsx) auf.
 
-Per Default wird bei allen Funktionen das Logo des Statistischen Amts eingefügt 
-und es werden die Kontaktangaben des Data Shops angegeben 
-(`contactdetails = "statzh", logo = "statzh", source = "statzh"`). 
+Die Voreinstellungen orientieren sich am Design, das im Statistischen Amt Kanton
+Zürich verwendet wird. Entsprechend werden in den erstellten Excel-Tabellen das 
+Amtslogo und Kontaktangaben des Amts eingefügt. Nutzer können das Verhalten aber
+auch auf ihre Bedürfnisse anpassen; entweder, indem diese die entsprechenden 
+Eingabeargumente bereitstellen um die Defaults zu übersteuern, oder indem diese
+eine eigene Konfiguration anlegen.
 
-Mit den Funktionsargumenten können die Dateinamen, Titel, Quellenangaben sowie 
-Metadaten und Namenskürzel spezifiziert werden. Um längere Quellen- und 
-Metadatenangaben über mehrere Zeilen eines Arbeitsblatts zu verteilen, kann man 
-sie in verschiedene Vektorelemente aufteilen 
-(Beispiel: `c("Text Zeile 1, "Text Zeile 2", "Text Zeile 3")`. 
 
-Mit dem Argument `grouplines` werden zudem vertikale Linien zwischen 
-ausgewählten Spalten in der Excel-Tabelle eingefügt und die Spalten optisch 
-voneinander separiert.   
-
-Die Spalteninhalte können bei allen Funktionen entsprechend ihrer Einheit 
-formatiert werden, indem pro Variablennamen die `class` festlegt wird. 
-Mit `class(data$variable1) <- "percentage"` können die Werte der `variable1` 
-(reichen von 0 bis 1) als Prozent mit Prozentzeichen ausgegeben werden. 
-
-Weblinks können mit `class(data$variable2) <- "hyperlink"` aufrufbar gemacht 
-werden und mit `class(data$variable3) <- "scientific"` können Zahlen in der 
-wissenschaftlichen Notation dargestellt werden.
-
+Die Hauptfunktionalitäten werden dabei von den folgenden Funktionen angeboten
+* quickXLSX
+* aXLSX
+* splitXLSX
+* datasetsXLSX
 
 
 ## Funktionen und Beispiele
@@ -63,10 +53,9 @@ Default werden die Initialen bzw. letzten zwei Ziffern des hinterlegten
 Benutzernamens eingefügt.  
 
 ```{r, echo = TRUE, eval = FALSE}
-dat <- mtcars
-aXLSX(data = dat,
-      title = "Motor trend car road tests",
+aXLSX(data = mtcars,
       file = "motor_trend_car_road_tests",
+      title = "Motor trend car road tests",
       source = paste0("Henderson and Velleman (1981). ", 
                       "Building multiple regression models interactively. ",
                       "Biometrics, 37, 391–411."),
@@ -87,16 +76,12 @@ aXLSX(data = dat,
 Mit der Funktion `quickXLSX()` kann -- wie mit `aXLSX()` -- ein Datensatz aus 
 `R` als vorformatierte Excel-Datei exportiert werden. Der Unterschied zu 
 `aXLSX()` besteht darin, dass `quickXLSX()` die Metadaten und die Daten auf ein 
-einzelnes Excel-Sheet exportiert, während `aXLSX()` die Daten und Metadaten 
-voneinander trennt, indem sie auf zwei Excel-Sheets verteilt werden.  
+einzelnes Excel-Sheet exportiert. Für 
 
 ```{r, echo = TRUE, eval = FALSE}
-# Beispiel anhand des Datensatzes 'mtcars'
-dat <- mtcars
-
-quickXLSX(data = dat, 
+quickXLSX(data = mtcars, 
+          file = "motor_trend_car_road_tests",
           title = "Motor trend car road tests", 
-          file = "motor_trend_car_road_tests", # '.xlsx' wird automatisch hinzugefügt
           source = paste0("Henderson and Velleman (1981). Building multiple ",
                           "regression models interactively. ",
                           "Biometrics, 37, 391–411.",
@@ -128,14 +113,10 @@ Im Beispiel unten wird ein Arbeitsblatt pro Zylinderanzahl der Autos im
 
 
 ```{r,echo = TRUE, eval = FALSE}
-dat <- mtcars
-
-splitXLSX(data = dat,
-          title = "Motor trend car road tests",
+splitXLSX(data = mtcars,
           file = "motor_trend_car_road_tests",
-          # Variable, nach der die Daten auf die Tabellenblätter aufgeteilt 
-          #   werden sollen
-          sheetvar = cyl, 
+          sheetvar = "cyl",
+          title = "Motor trend car road tests",
           source = paste0("Henderson and Velleman (1981), Building multiple ",
                           "regression models interactively. ",
                           "Biometrics, 37, 391–411."),
@@ -167,8 +148,7 @@ dat1 <- mtcars
 dat2 <- PlantGrowth
 
 datasetsXLSX(file = "twoDatasets",
-             index_title = "Autos und Pflanzen",
-             datasets = list(dat1, dat2),
+             datasets = list(mtcars, PlantGrowth),
              sheetnames = c("Autos","Blumen"),
              titles = c("mtcars-Datensatz", "PlantGrowth-Datensatz"),
              sources = c(
@@ -179,8 +159,7 @@ datasetsXLSX(file = "twoDatasets",
                       "Modelling. London: Chapman and Hall.")
              ),
              metadata = c("Bemerkungen zum mtcars-Datensatz: x", 
-                          "Bemerkungen zum PlantGrowth-Datensatz: x"),
-             auftrag_id="A2021_0000"
+                          "Bemerkungen zum PlantGrowth-Datensatz: x")
 )
 ```
 
@@ -230,4 +209,86 @@ datasetsXLSX(file = "twoDatasetsandFigure",
              auftrag_id = "A2021_0000"
 )
 ```
+
+
+## Weitere Hinweise und Tricks
+
+### Visuelle Gruppierung von Spalten
+Mit dem Argument `grouplines` können vertikale Linien eingefügt werden, um
+bestimmte Spalten visuell zu gruppieren. Dazu müssen im Argument entweder der
+Spaltennamen oder Spalten-Nr. der Spalten angegeben werden, bei denen eine neue
+Gruppe anfängt. 
+
+Ferner können für die Gruppen noch zusätzliche Überschriften erstellt werden.
+Dazu müssen im Argument `group_names` die Überschriftentitel angegeben werden.
+
+### Definition der Titel, Quellen, Metadaten, etc. in einer Pipeline
+Die Funktion `datasetsXLSX` kann je nach Anwendungsfall recht komplex werden. Je
+mehr Datensätze und Grafiken hinzugefügt werden sollen, desto unübersichtlicher
+wird der Prozess. Ein weiteres Problem besteht darin, dass die Quellenangaben 
+separat vom Datensatz definiert werden. Wird die Reihenfolge von Datensätzen 
+angepasst, muss dasselbe auch für sämtliche anderen Argumente wiederholt werden.
+
+Eine elegante Möglichkeit, dieses Problem zu umgehen, bieten die Funktionen
+`add_sheetname`, `add_title`, `add_source`, etc. Mit diesen können Nutzer die
+Argumente im vorfeld definieren, um den `datasetsXLSX` Aufruf deutlich zu vereinfachen.
+Darüber hinaus bietet diese Methode Möglichkeiten, die bei einem regulären Aufruf
+von `datasetsXLSX` nicht möglich wären.
+
+
+```{r, echo = TRUE, eval = FALSE}
+library(dplyr)
+library(ggplot2)
+
+# Load data and assign attributes in one pipeline
+df <- mtcars %>%
+  add_sheetname("Cars") %>%
+  add_title("Motor Trend Car Road Tests") %>%
+  add_source(
+    c("Henderson and Velleman (1981),",
+      "Building multiple regression models interactively.",
+      "Biometrics, 37, 391–411."),
+    prefix = "Source:",
+    collapse = " ") %>%
+  add_metadata(
+    c("The data was extracted from the 1974 Motor",
+      "Trend US magazine and comprises fuel consumption",
+      "and 10 aspects of automobile design and",
+      "performance for 32 automobiles (1973–74 models)."),
+    collapse = " ")
+
+# Create a plot and assign attributes in one pipeline
+plt <- (ggplot(mtcars) +
+  geom_histogram(aes(x = hp))) %>%
+    add_sheetname("PS") %>%
+    add_title("Histogram of horsepower") %>%
+    add_plot_height(3) %>%
+    add_plot_width(6)
+
+# Generate outputfile using minimal call
+datasetsXLSX(
+  file = tempfile(fileext = ".xlsx"),
+  datasets = list(df, plt))
+```
+
+
+### Zeilentrennung für Quellen oder Metadaten
+![Microsoft Excel bietet keine Möglichkeit, die Zeilenhöhe von verbundenen Zellen automatisch anzupassen](https://support.microsoft.com/en-us/topic/you-cannot-use-the-autofit-feature-for-rows-or-columns-that-contain-merged-cells-in-excel-34b54dd7-9bfc-6c8f-5ee3-2715d7db4353). 
+
+Entsprechend kann es zu Darstellungsproblemen kommen, wenn der Input für die 
+Argumente `metadata` oder `source` zu lange ist. In solchen Fällen muss die 
+Zeilenhöhe manuell angepasst werden. Alternativ kann man die Zeilenumbrüche 
+manuell vorzunehmen, indem man den Text über mehrere Vektorelemente verteilt 
+(Beispiel: `c("Text Zeile 1, "Text Zeile 2", "Text Zeile 3")`. 
+
+
+### Formatierung von Spalteninhalten
+Die Spalteninhalte können bei allen Funktionen entsprechend ihrer Einheit 
+formatiert werden, indem pro Variablennamen die `class` festlegt wird. 
+Mit `class(data$variable1) <- "percentage"` können die Werte der `variable1` 
+(reichen von 0 bis 1) als Prozent mit Prozentzeichen ausgegeben werden. 
+
+Weblinks können mit `class(data$variable2) <- "hyperlink"` aufrufbar gemacht 
+werden und mit `class(data$variable3) <- "scientific"` können Zahlen in der 
+wissenschaftlichen Notation dargestellt werden.
 

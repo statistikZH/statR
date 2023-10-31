@@ -82,8 +82,9 @@
 #'
 #' # Newer method
 #' df <- mtcars %>%
+#'   add_sheetname("cars") %>%
 #'   add_title("Cars dataset") %>%
-#'   add_source(paste("Henderson and Velleman (1981). Building multiple"
+#'   add_source(paste("Henderson and Velleman (1981). Building multiple",
 #'                    "regression models interactively.",
 #'                    "Biometrics, 37, 391–411."),
 #'     prefix = "Source: ", collapse = "") %>%
@@ -93,27 +94,23 @@
 #'   add_group_names(c("Group1", "Group2", "Group3"))
 #'
 #' df2 <- airquality %>%
+#'   add_sheetname("airquality") %>%
 #'   add_title("Airquality") %>%
 #'   add_metadata(c("1. Part of R package 'datasets'",
 #'                  "2. Contains some missing values"),
 #'     prefix = "Hinweise")
-#' df3 <- PlantGrowth %>%
-#'   add_title("Plants") %>%
-#'   add_source(paste("Dobson, A. J. (1983) An Introduction to Statistical",
-#'                    "Modelling. London: Chapman and Hall."))
 #'
-#' plt <- ggplot(mtcars) + geom_histogram(aes(x = cyl))
-#'
-#' plt <- plt %>%
+#' plt <- (ggplot(mtcars) + geom_histogram(aes(x = cyl))) %>%
+#'   add_sheetname("Histogram") %>%
 #'   add_title("A histogram") %>%
-#'   add_source("mtcars data from R package 'datasets'", prefix = "Datenquelle:", collapse = " ") %>%
-#'   add_plot_width(12) %>%
+#'   add_source("mtcars data from R package 'datasets'",
+#'     prefix = "Datenquelle:", collapse = " ") %>%
+#'   add_plot_width(6) %>%
 #'   add_plot_height(3)
 #'
 #' datasetsXLSX(
 #'   file = "dsxlsx_test.xlsx",
-#'   datasets = list(df,  df2, plt, df3),
-#'   sheetnames = c("mtcars", "airquality", "histogram", "plantgrowth"),
+#'   datasets = list(df,  df2, plt),
 #'   metadata_sheet = list(
 #'     title = "Title of the metadata sheet",
 #'     source = "A reference to the responsible organization or similar",
@@ -138,8 +135,11 @@ datasetsXLSX <- function(
 
 
   # Try to fill in values if not provided
+  if (missing(sheetnames))
+    sheetnames <- extract_attributes(datasets, "sheetname", TRUE)
+
   if (missing(titles))
-    titles <- extract_attributes(datasets, "title", TRUE)
+    titles <- extract_attributes(datasets, "title")
 
   if (missing(sources))
     sources <- extract_attributes(datasets, "source")
@@ -149,9 +149,8 @@ datasetsXLSX <- function(
     group_names <- extract_attributes(datasets, "group_names")
   if (missing(grouplines))
     grouplines <- extract_attributes(datasets, "grouplines")
-
-  # Run checks on arguments ------
-  # checkGroupOptionCompatibility(group_names, grouplines)
+  if (all(is.null(metadata_sheet)))
+    metadata_sheet <- extract_attribute(datasets, "metadata_sheet")
 
   # Initialize new Workbook ------
   wb <- openxlsx::createWorkbook()
@@ -190,7 +189,7 @@ datasetsXLSX <- function(
 
   # Metadatasheet is intended to receive a list with title, source, and long-form metadata
   # as a character vector, universally applicable and too long to be included with the data.
-  if (!is.null(metadata_sheet)) {
+  if (!is.null(metadata_sheet) && length(metadata_sheet) > 0 && !all(is.na(metadata_sheet))) {
     insert_metadata_sheet(
       wb, sheetname = "Metadatenblatt", title = metadata_sheet[["title"]],
       source = metadata_sheet[["source"]],
@@ -217,10 +216,10 @@ datasetsXLSX <- function(
 #' @param sheetvar name of the variable used to split the data and spread them
 #'  over several sheets.
 #' @examples
-#'splitXLSX(data = mtcars,
-#'          title = "Motor trend car road tests",
-#'          file = tempfile(fileext = ".xlsx"),
+#'splitXLSX(file = tempfile(fileext = ".xlsx"),
+#'          data = mtcars,
 #'          sheetvar = "cyl",
+#'          title = "Motor trend car road tests",
 #'          source = paste("Source: Henderson and Velleman (1981),",
 #'                         "Building multiple regression models interactively.",
 #'                         "Biometrics, 37, 391–411."),
@@ -231,7 +230,7 @@ datasetsXLSX <- function(
 #' @keywords splitXLSX
 #' @export
 splitXLSX <- function(
-    data, file, sheetvar, title = "Titel", source = getOption("statR_source"),
+    file, data, sheetvar, title = "Titel", source = getOption("statR_source"),
     metadata = NA, logo = getOption("statR_logo"),
     contactdetails = inputHelperContactInfo(compact = TRUE),
     homepage = getOption("statR_homepage"),
@@ -263,9 +262,9 @@ splitXLSX <- function(
 #' @inheritParams insert_worksheet
 #' @param file Path of output xlsx-file.
 #' @examples
-#' aXLSX(data = mtcars,
+#' aXLSX(file = tempfile(fileext = ".xlsx"),
+#'       data = mtcars,
 #'       title = "Motor trend car road tests",
-#'       file = tempfile(fileext = ".xlsx"),
 #'       source = paste("Source: Henderson and Velleman (1981). Building",
 #'                      "multiple regression models interactively.",
 #'                      "Biometrics, 37, 391–411."),
@@ -277,7 +276,7 @@ splitXLSX <- function(
 #' @keywords aXLSX
 #' @export
 aXLSX <- function(
-    data, file, title = "Title", source = getOption("statR_source"),
+    file, data, title = "Title", source = getOption("statR_source"),
     metadata = NA, logo = getOption("statR_logo"), contactdetails = inputHelperContactInfo(),
     author = "user", grouplines = NA, group_names = NA) {
 
@@ -324,15 +323,15 @@ aXLSX <- function(
 #'   "and 10 aspects of automobile design and",
 #'   "performance for 32 automobiles (1973–74 models).")
 #'
-#' quickXLSX(data = mtcars,
-#'           file = tempfile(fileext = ".xlsx"),
+#' quickXLSX(file = tempfile(fileext = ".xlsx"),
+#'           data = mtcars,
 #'           title = title,
 #'           source = source,
 #'           metadata = metadata)
 #'
 quickXLSX <- function(
-    data = NA, file, title = "Title", source = getOption("statR_source"),
-    metadata = NA, logo = getOption("statR_logo"),
+    file, data, title, source = getOption("statR_source"),
+    metadata, logo = getOption("statR_logo"),
     contactdetails = inputHelperContactInfo(compact = TRUE),
     author = "user", grouplines = NA, group_names = NA) {
 

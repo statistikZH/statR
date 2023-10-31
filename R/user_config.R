@@ -1,3 +1,11 @@
+# setStatRConfigPath <- function() {
+#
+# }
+#
+# getStatRConfigPath <- function() {
+#
+# }
+
 #' getUserConfigs()
 #' @description Returns a character vector of all user configurations
 #' @export
@@ -55,10 +63,8 @@ readUserConfig <- function(name = "default") {
 #' }
 #' @export
 writeUserConfig <- function(name, config_list) {
-  # config_path <- system.file("extdata/config/", package = "statR")
   config_path <- system.file("extdata/config", package = "statR")
-  config_file <- paste0(c(config_path, name), collapse = "/")
-
+  config_file <- file.path(config_path, name)
 
   config_list[["statR_config_name"]] <- name
   # yaml::write_yaml(config_list, paste0(config_path, name))

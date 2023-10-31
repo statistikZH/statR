@@ -22,15 +22,16 @@ insert_metadata_sheet(
 
 \item{title}{title to be put above the data.}
 
-\item{source}{source of the data. Defaults to "statzh".}
+\item{source}{source of the data. Default can be adjusted via user profiles}
 
-\item{metadata}{metadata information to be included. Defaults to NA.}
+\item{metadata}{metadata information to be included. Defaults to NA, meaning
+no metadata are attached.}
 
 \item{logo}{path of the file to be included as logo (png / jpeg / svg).
-Defaults to "statzh"}
+Default can be adjusted via user profiles.}
 
-\item{contactdetails}{contact details of the data publisher. Defaults to
-"statzh".}
+\item{contactdetails}{contact details of the data publisher. Default can be
+adjusted via user profiles.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}

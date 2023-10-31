@@ -8,7 +8,7 @@ insert_second_header <- function(wb, sheetname, data_start_row, group_names,
                                  grouplines, data) {
 
   if (is.character(grouplines)) {
-    groupline_numbers <- match(grouplines, colnames(mtcars))
+    groupline_numbers <- match(grouplines, colnames(data))
 
   } else if (is.numeric(grouplines)) {
     groupline_numbers <- grouplines

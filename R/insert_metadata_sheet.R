@@ -79,7 +79,7 @@ insert_metadata_sheet <- function(
                      stack = TRUE, gridExpand = TRUE)
 
 
-  # openxlsx::addStyle(wb, sheetname, style_subtitle2(),
+  # openxlsx::addStyle(wb, sheetname, style_subtitle(),
   #                    c(namedRegionFirstRow(wb, sheetname, "source"),
   #                      namedRegionFirstRow(wb, sheetname, "metadata")), 1)
 

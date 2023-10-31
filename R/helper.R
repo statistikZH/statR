@@ -106,19 +106,20 @@ inputHelperMetadata <- function(metadata, prefix = NULL, collapse = NULL) {
 #' @returns A character string
 #' @keywords internal
 #' @noRd
-inputHelperLogoPath <- function(logo,
-                                width = getOption("statR_logo_width"),
-                                height = getOption("statR_logo_height")) {
+inputHelperLogoPath <- function(
+    logo, width = getOption("statR_logo_width"),
+    height = getOption("statR_logo_height")) {
+
   if (is.null(logo)) {
     message("No logo added.")
 
   } else {
 
     if (logo == "statzh") {
-      logo <- paste0(find.package("statR"), "/extdata/", statzh_logo)
+      logo <- paste0(find.package("statR"), "/extdata/Stempel_Kanton_ZH.png")
 
     } else if (logo == "zh") {
-      logo <- paste0(find.package("statR"), "/extdata/", zh_logo)
+      logo <- paste0(find.package("statR"), "/extdata/Stempel_STAT-01.png")
     }
 
     attr(logo, "plot_width") <- width
@@ -151,25 +152,6 @@ inputHelperContactInfo <- function(compact = FALSE) {
            phone, getOption("statR_email")))
 }
 
-
-#' inputHelperOfficeHours()
-#'
-#' @description Replace default value "statzh" with the office hours
-#'  of the Statistics Office of Canton Zurich, otherwise returns
-#'  the input value.
-#' @param openinghours A character vector with opening hours.
-#' @returns A character vector
-#' @keywords internal
-#' @noRd
-inputHelperOfficeHours <- function(openinghours) {
-  if (openinghours == "statzh") {
-    openinghours <- statzh_openinghours
-  }
-
-  return(openinghours)
-}
-
-
 #' inputHelperHomepage()
 #'
 #' @description Formats homepage as a hyperlink object.
@@ -199,7 +181,6 @@ inputHelperPhone <- function(phone, prefix = getOption("statR_prefix_phone")) {
 
   return(phone)
 }
-
 
 #' inputHelperDateCreated()
 #'
@@ -295,7 +276,7 @@ excelIndexToRowCol <- function(index) {
 }
 
 
-#' namedRegionExtent()
+#' Determine the row and column extent of named regions
 #'
 #' @description Get extent of a named region in a workbook object
 #' @details If a single name is provided, returns the extent of the associated
@@ -303,7 +284,7 @@ excelIndexToRowCol <- function(index) {
 #'   returned instead. If left at default (NULL), the combined extent of all
 #'   regions is returned.
 #' @param wb A workbook object
-#' @param sheet Name of a worksheet
+#' @param sheetname Name of a worksheet
 #' @param region_name names of regions in Workbook.
 #' @param which either "row", "col", or "both" (default).
 #' @returns A list with two numeric vectors row and col, containing
@@ -348,72 +329,50 @@ namedRegionExtent <- function(wb, sheetname, region_name = NULL,
 }
 
 
-#' namedRegionRowExtent()
+#' Determine the extent of a named region in a particular direction
 #'
-#' @description Get row extent of a named region in a workbook object
+#' @description Get row or column extent of a named region in a workbook object.
 #' @inheritParams namedRegionExtent
-#' @returns A numeric vector of row indices
+#' @returns A numeric vector of indices
+#' @rdname namedRegionExtent1D
 #' @keywords internal
-#'
 namedRegionRowExtent <- function(wb, sheetname, region_name = NULL) {
   unlist(namedRegionExtent(wb, sheetname, region_name, "row"))
 }
-
-
-#' namedRegionColumnExtent()
-#'
-#' @description Get column extent of a named region in a Workbook object
-#' @inheritParams namedRegionExtent
-#' @returns A numeric vector of column indices
+#' @rdname namedRegionExtent1D
 #' @keywords internal
-#'
-namedRegionColumnExtent <- function(wb, sheetname, name = NULL) {
-  unlist(namedRegionExtent(wb, sheetname, name, "col"))
+namedRegionColumnExtent <- function(wb, sheetname, region_name = NULL) {
+  unlist(namedRegionExtent(wb, sheetname, region_name, "col"))
 }
 
 
-#' namedRegionFirstRow()
+#' Functions to determine the outer boundaries of named regions
 #'
-#' @description Get first row number of named region
+#' @description Methods for determining the first and last index of
+#'   a namedRegion in row and column directions.
 #' @inheritParams namedRegionExtent
-#' @returns Numeric value corresponding to first row of named region
+#' @returns Numeric value
 #' @keywords internal
-namedRegionFirstRow <- function(wb, sheet, region_name = NULL) {
-  min(namedRegionRowExtent(wb, sheet, region_name))
+#' @rdname namedRegionBoundary
+namedRegionFirstRow <- function(wb, sheetname, region_name = NULL) {
+  min(namedRegionRowExtent(wb, sheetname, region_name))
+}
+#' @rdname namedRegionBoundary
+#' @keywords internal
+namedRegionLastRow <- function(wb, sheetname, region_name = NULL) {
+  max(namedRegionRowExtent(wb, sheetname, region_name))
+}
+#' @rdname namedRegionBoundary
+#' @keywords internal
+namedRegionFirstCol <- function(wb, sheetname, region_name = NULL) {
+  min(namedRegionColumnExtent(wb, sheetname, region_name))
+}
+#' @rdname namedRegionBoundary
+#' @keywords internal
+namedRegionLastCol <- function(wb, sheetname, region_name = NULL) {
+  max(namedRegionColumnExtent(wb, sheetname, region_name))
 }
 
-
-#' namedRegionLastRow()
-#'
-#' @description Get last row number of named region
-#' @inheritParams namedRegionExtent
-#' @returns Numeric value corresponding to last row of named region
-#' @keywords internal
-namedRegionLastRow <- function(wb, sheet, region_name = NULL) {
-  max(namedRegionRowExtent(wb, sheet, region_name))
-}
-
-
-#' namedRegionFirstCol()
-#'
-#' @description Get first col number of named region
-#' @inheritParams namedRegionExtent
-#' @returns Numeric value corresponding to first column of named region
-#' @keywords internal
-namedRegionFirstCol <- function(wb, sheet, region_name = NULL) {
-  min(namedRegionColumnExtent(wb, sheet, region_name))
-}
-
-
-#' namedRegionLastCol()
-#'
-#' @description Get last col number of named region
-#' @inheritParams namedRegionExtent
-#' @returns Numeric value corresponding to last column of named region
-#' @keywords internal
-namedRegionLastCol <- function(wb, sheet, region_name = NULL) {
-  max(namedRegionColumnExtent(wb, sheet, region_name))
-}
 
 #' cleanNamedRegions()
 #'
@@ -422,12 +381,11 @@ namedRegionLastCol <- function(wb, sheet, region_name = NULL) {
 #'   of the output workbook. This function can be used to remove some or all
 #'   named regions. Note: this doesn't extend to the data contained in a named
 #'   region.
-#' @note When working with insert-like functions, this function should only be
-#'   called just before the conversion of the workbook into an .xlsx file.
+#' @note When working with insert-like functions to construct a custom output,
+#'   this function should only be called just before the conversion of the workbook into an .xlsx file.
 #' @param wb A workbook object
-#' @param which Either keep_data (to keep any named regions pertaining to tables),
-#'   or all.
-#' @returns A character string
+#' @param which Either "keep_data" (to keep any named regions pertaining to tables),
+#'   or "all".
 #' @keywords internal
 #' @noRd
 cleanNamedRegions <- function(wb, which = c("keep_data", "all")) {
@@ -444,24 +402,93 @@ cleanNamedRegions <- function(wb, which = c("keep_data", "all")) {
     purrr::walk(delete_regions, ~openxlsx::deleteNamedRegion(wb, .))
   }
 }
-#' add_title()
+
+
+#' Helper functions for adding attributes to input objects
 #'
-#' @description Add title to an object
+#' @description A set of helper functions which serve the purpose of allowing
+#'   users to assign information like sheetnames, titles, sources, metadata, and
+#'   more to an object. These attributes are then used in place of the function
+#'   arguments.
+#'
+#' @details
+#'   \code{add_sheetname}: Adds a sheetname.
+#'
+#'   \code{add_title}: Adds a title
+#'
+#'   \code{add_source}: Adds a source. Behavior can be modified further via the
+#'     prefix and collapse argument. Setting collapse to a value other than NULL
+#'     will result in the input provided in value being concatenated.
+#'
+#'   \code{add_metadata}: Adds metadata. Behavior can be modified further via the
+#'     prefix and collapse argument, just like with \code{add_source}.
+#'
+#'   \code{add_grouplines}: Adds group lines. Throws an error if input object is
+#'     not a data.frame.
+#'
+#'   \code{add_group_names}: Adds group names. Throws an error if group lines
+#'     have not been set.
+#'
+#'   \code{add_plot_height}: Adds plot height. Throws an error if input object is
+#'     not a valid plot type.
+#'
+#'   \code{add_plot_width}: Adds plot width. Throws an error if input object is
+#'     not a valid plot type.
+#'
+#'   \code{add_plot_size}: Assigns both height and width in one call. Expects a
+#'     vector of length 2, with the first element corresponding to width, and the
+#'     second to height.
 #' @param object The object to add an attribute to
 #' @param value A value
+#' @param prefix A prefix, default to NULL
+#' @param collapse Separator to collapse character vectors on, defaults to NULL
+#' @rdname add_attribute
+#' @examples
+#' library(dplyr)
+#' library(ggplot2)
+#'
+#' # Load data and assign attributes in one pipeline
+#' df <- mtcars %>%
+#'   add_sheetname("Cars") %>%
+#'   add_title("Motor Trend Car Road Tests") %>%
+#'   add_source(
+#'     c("Henderson and Velleman (1981),",
+#'       "Building multiple regression models interactively.",
+#'       "Biometrics, 37, 391–411."),
+#'     prefix = "Source:",
+#'     collapse = " ") %>%
+#'   add_metadata(
+#'     c("The data was extracted from the 1974 Motor",
+#'       "Trend US magazine and comprises fuel consumption",
+#'       "and 10 aspects of automobile design and",
+#'       "performance for 32 automobiles (1973–74 models)."),
+#'     collapse = " ")
+#'
+#' # Create a plot and assign attributes in one pipeline
+#' plt <- (ggplot(mtcars) +
+#'   geom_histogram(aes(x = hp))) %>%
+#'     add_sheetname("PS") %>%
+#'     add_title("Histogram of horsepower") %>%
+#'     add_plot_size(c(6, 3))
+#'
+#' \dontrun{
+#' # Generate outputfile using minimal call
+#' datasetsXLSX(
+#'   file = tempfile(fileext = ".xlsx"),
+#'   datasets = list(df, plt))
+#' }
+#' @export
+add_sheetname <- function(object, value) {
+  attr(object, "sheetname") <- value
+  return(object)
+}
+#' @rdname add_attribute
 #' @export
 add_title <- function(object, value) {
   attr(object, "title") <- value
   return(object)
 }
-
-#' add_title()
-#'
-#' @description Add title to an object
-#' @param object The object to add an attribute to
-#' @param value A value
-#' @param prefix A prefix, default to NULL
-#' @param collapse Separator to collapse character vectors on, defaults to NULL
+#' @rdname add_attribute
 #' @export
 add_source <- function(object, value, prefix = NULL, collapse = NULL) {
 
@@ -471,13 +498,7 @@ add_source <- function(object, value, prefix = NULL, collapse = NULL) {
 
   return(object)
 }
-#' add_metadata()
-#'
-#' @description Add title to an object
-#' @param object The object to add an attribute to
-#' @param value A value
-#' @param prefix A prefix, default to NULL
-#' @param collapse Separator to collapse character vectors on, defaults to NULL
+#' @rdname add_attribute
 #' @export
 add_metadata <- function(object, value, prefix = NULL, collapse = NULL) {
 
@@ -487,70 +508,91 @@ add_metadata <- function(object, value, prefix = NULL, collapse = NULL) {
 
   return(object)
 }
-#' add_grouplines()
-#'
-#' @description Add title to an object
-#' @param object The object to add an attribute to
-#' @param value A value
+#' @rdname add_attribute
 #' @export
 add_grouplines <- function(object, value) {
+  if (!is.data.frame(object)) {
+    stop("Cannot only assign grouplines for data")
+  }
+
   attr(object, "grouplines") <- value
   return(object)
 }
-
-#' add_group_names()
-#'
-#' @description Add title to an object
-#' @param object The object to add an attribute to
-#' @param value A value
+#' @rdname add_attribute
 #' @export
 add_group_names <- function(object, value) {
+  if (is.null(extract_attribute(object, "grouplines"))) {
+    stop("Group names can only be used when grouplines have been defined.")
+  }
+
   attr(object, "group_names") <- value
   return(object)
 }
-#' add_plot_height()
-#'
-#' @description Add title to an object
-#' @param object The object to add an attribute to
-#' @param value A value
+#' @rdname add_attribute
 #' @export
 add_plot_height <- function(object, value) {
+
+  if (!(is.character(object) | inherits(object, c("gg", "ggplot")))) {
+    stop("Can only assign plot dimension to valid plot types")
+  }
+
   attr(object, "plot_height") <- value
   return(object)
 }
-
-#' add_plot_width()
-#'
-#' @description Add title to an object
-#' @param object The object to add an attribute to
-#' @param value A value
+#' @rdname add_attribute
 #' @export
 add_plot_width <- function(object, value) {
+
+  if (!(is.character(object) | inherits(object, c("gg", "ggplot")))) {
+    stop("Can only assign plot dimension to valid plot types")
+  }
+
   attr(object, "plot_width") <- value
   return(object)
 }
+#' @rdname add_attribute
+#' @export
+add_plot_size <- function(object, value) {
 
+  if (!(is.character(object) | inherits(object, c("gg", "ggplot")))) {
+    stop("Can only assign plot dimension to valid plot types")
+  }
+  if (length(value) != 2) {
+    stop("Expected 2 values but got ", length(value))
+  }
 
-#'extract_attribute()
+  attr(object, "plot_width") <- value[1]
+  attr(object, "plot_height") <- value[2]
+  return(object)
+}
+
+#' Extract attributes from target object
 #'
-#' @description Function to extract attributes from an object
+#' @description Function to extract attributes from objects.
+#'   \code{extract_attribute} expects the input object to be the target. When
+#'   the target object is nested in a list (as is the case in
+#'   \code{datasetsXLSX}), \code{extract_attributes} should be used instead.
 #' @param object Object to extract attribute from. In practice a data.frame,
 #'   ggplot object, or a character string providing a path to an image.
-#' @param which Which attribute to extract.
-#' @param required_val Boolean, if TRUE tries to look up a default if attribute not
-#'   found, otherwise raises error
+#' @param object_list A list of objects of arbitrary types.
+#' @param which Name of the attribute to extract.
+#' @param required_val Boolean, if TRUE tries to look up a default in global
+#'   options if attribute not found, and raises an error if none was defined.
+#' @rdname extract_attribute
 #' @keywords internal
 extract_attribute <- function(object, which, required_val = FALSE) {
 
   value <- attr(object, which)
 
-  if (is.null(value)) {
+  if (all(is.null(value))) {
+
     if (required_val) {
       value <- getOption(paste0("statR_default_", which))
 
-      if (is.null(value)) {
+      if (all(is.null(value))) {
         stop("No default value found for required argument ", which)
       }
+
     } else {
       value <- NA
     }
@@ -558,19 +600,25 @@ extract_attribute <- function(object, which, required_val = FALSE) {
 
   return(value)
 }
-
-#'extract_attributes()
-#'
-#' @description Function to extract attributes from multiple objects in a list
-#' @inheritParams extract_attribute
-#' @param datasets List of objects
+#' @rdname extract_attribute
 #' @keywords internal
-extract_attributes <- function(datasets, which, required_val = FALSE) {
+extract_attributes <- function(object_list, which, required_val = FALSE) {
   values <- list()
 
-  for (i in seq_along(datasets)) {
-    values[[i]] <- extract_attribute(datasets[[i]], which, required_val)
+  for (i in seq_along(object_list)) {
+    values[[i]] <- extract_attribute(object_list[[i]], which, required_val)
   }
 
   return(values)
+}
+
+#' Convert missing input to NULL
+#'
+#' @keywords internal
+missingToNull <- function(input_value) {
+  if (missing(input_value)) {
+    return(NULL)
+  } else {
+    return(input_value)
+  }
 }
