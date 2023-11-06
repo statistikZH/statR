@@ -155,12 +155,6 @@ datasetsXLSX <- function(
   # Initialize new Workbook ------
   wb <- openxlsx::createWorkbook()
 
-  # Function for determining if input is an implemented plot type
-  is_implemented_plot <- function(x) {
-    implemented_plot_types <- c("gg", "ggplot", "histogram", "character")
-    return(length(setdiff(class(x), implemented_plot_types)) == 0)
-  }
-
   # Insert the initial index sheet ----------
   insert_index_sheet(
     wb = wb, title = index_title, auftrag_id = auftrag_id, logo = logo,
@@ -169,7 +163,7 @@ datasetsXLSX <- function(
 
   # Iterate over datasets
   for (i in seq_along(datasets)) {
-    if (is_implemented_plot(datasets[[i]])) {
+    if (checkImplementedPlotType(datasets[[i]])) {
       insert_worksheet_image(
         wb, sheetnames[[i]], image = datasets[[i]], width = plot_widths,
         height = plot_heights,
