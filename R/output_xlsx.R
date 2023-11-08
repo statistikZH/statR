@@ -125,7 +125,7 @@
 #' @export
 datasetsXLSX <- function(
     file, datasets, sheetnames, titles, sources, metadata, grouplines,
-    group_names, plot_widths = 6, plot_heights = 3,
+    group_names, plot_widths, plot_heights,
     index_title = getOption("statR_toc_title"),
     index_source = getOption("statR_source"), logo = getOption("statR_logo"),
     contactdetails = inputHelperContactInfo(),
@@ -138,19 +138,65 @@ datasetsXLSX <- function(
   if (missing(sheetnames))
     sheetnames <- extract_attributes(datasets, "sheetname", TRUE)
 
+  # Fix: length of sheetnames is truncated to 31 as required by Excel. This is
+  # implemented in insert_worksheet_nh. As this function reuses 'sheetnames' to
+  # create hyperlinks, the check needs to happen here rather than in the
+  # subsequent insert_worksheet_nh calls.
+  sheetnames <- verifyInputSheetnames(sheetnames)
+
   if (missing(titles))
     titles <- extract_attributes(datasets, "title")
 
   if (missing(sources))
     sources <- extract_attributes(datasets, "source")
+
   if (missing(metadata))
     metadata <- extract_attributes(datasets, "metadata")
+
   if (missing(group_names))
     group_names <- extract_attributes(datasets, "group_names")
+
   if (missing(grouplines))
     grouplines <- extract_attributes(datasets, "grouplines")
+
   if (all(is.null(metadata_sheet)))
     metadata_sheet <- extract_attribute(datasets, "metadata_sheet")
+
+  # Plot related
+  is_plot <- sapply(datasets, checkImplementedPlotType)
+
+  if (any(is_plot)) {
+
+    if (missing(plot_heights)) {
+      plot_heights <- extract_attributes(datasets, "plot_height", TRUE)
+
+    } else if (length(plot_heights) == 1) {
+      plot_heights <- as.list(ifelse(is_plot, plot_heights, NA))
+
+    } else if (length(plot_heights) == sum(is_plot)) {
+      values <- unlist(plot_heights)
+      plot_heights <- as.list(rep(NA, length(datasets)))
+      plot_heights[which(is_plot)] <- values
+
+    } else if (length(plot_heights) != length(datasets)) {
+      stop("Invalid number of values given for plot_heights")
+    }
+
+    if (missing(plot_widths)){
+      plot_widths <- extract_attributes(datasets, "plot_width", TRUE)
+
+    } else if (length(plot_widths) == 1) {
+      plot_widths <- as.list(ifelse(is_plot, plot_widths, NA))
+
+    } else if (length(plot_widths) == sum(is_plot)) {
+      values <- unlist(plot_widths)
+      plot_widths <- as.list(rep(NA, length(datasets)))
+      plot_widths[which(is_plot)] <- values
+
+    } else if (length(plot_widths) != length(datasets)) {
+      stop("Invalid number of values given for plot_widths")
+    }
+  }
 
   # Initialize new Workbook ------
   wb <- openxlsx::createWorkbook()
@@ -165,8 +211,8 @@ datasetsXLSX <- function(
   for (i in seq_along(datasets)) {
     if (checkImplementedPlotType(datasets[[i]])) {
       insert_worksheet_image(
-        wb, sheetnames[[i]], image = datasets[[i]], width = plot_widths,
-        height = plot_heights,
+        wb, sheetnames[[i]], image = datasets[[i]], width = plot_widths[[i]],
+        height = plot_heights[[i]],
         title = titles[[i]], source = sources[[i]], metadata = metadata[[i]])
 
     } else if (is.data.frame(datasets[[i]])) {
@@ -271,8 +317,9 @@ splitXLSX <- function(
 #' @export
 aXLSX <- function(
     file, data, title = "Title", source = getOption("statR_source"),
-    metadata = NA, logo = getOption("statR_logo"), contactdetails = inputHelperContactInfo(),
-    author = "user", grouplines = NA, group_names = NA) {
+    metadata = NA, logo = getOption("statR_logo"),
+    contactdetails = inputHelperContactInfo(), author = "user", grouplines = NA,
+    group_names = NA) {
 
   # Initialize Workbook object -------
   wb <- openxlsx::createWorkbook()
@@ -324,7 +371,7 @@ aXLSX <- function(
 #'           metadata = metadata)
 #'
 quickXLSX <- function(
-    file, data, title, source = getOption("statR_source"),
+    file, data, title, source,
     metadata, logo = getOption("statR_logo"),
     contactdetails = inputHelperContactInfo(compact = TRUE),
     author = "user", grouplines = NA, group_names = NA) {

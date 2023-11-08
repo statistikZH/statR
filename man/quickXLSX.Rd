@@ -8,7 +8,7 @@ quickXLSX(
   file,
   data,
   title,
-  source = getOption("statR_source"),
+  source,
   metadata,
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(compact = TRUE),

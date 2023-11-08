@@ -9,13 +9,50 @@
 #' @keywords internal
 #' @noRd
 verifyInputSheetname <- function(sheetname) {
+
+  forbidden_chars <- c("/", "\\", "?", "*", ":", "[", "]")
+  pattern <- paste0("(", paste0(
+    paste0("\\", forbidden_chars), collapse = "|"), ")")
+
   if (nchar(sheetname) > 31) {
-    message("sheetname truncated at 31 characters to satisfy MS-Excel limit.")
+    message("sheetname ", sheetname, "truncated at 31 characters (Excel limit).")
+    sheetname <- substr(sheetname, 0, 31)
   }
 
-  return(substr(sheetname, 0, 31))
+  if (grepl(pattern, sheetname)) {
+    message("Found (and replaced with '_') forbidden characters: ",
+            paste(forbidden_chars, collapse = " "))
+    sheetname <- gsub(pattern, "_", sheetname)
+  }
+
+  return(sheetname)
 }
 
+#' verifyInputSheetnames()
+#'
+#' @description Function which truncates multiple sheetnames to 31 characters and
+#'  checks for uniqueness.
+#' @details MS Excel imposes a character limit of 31 characters for names of
+#'  worksheets. This function truncates sheetnames accordingly and notify the
+#'  user via a message. If the truncated sheetnames aren't unique, the function
+#'  raises an error.
+#' @param sheetname A character string with the name for an XLSX worksheet
+#' @returns A character string
+#' @keywords internal
+#' @noRd
+verifyInputSheetnames <- function(sheetnames) {
+
+  output_sheetnames <- sapply(sheetnames, verifyInputSheetname)
+  counts <- table(output_sheetnames)
+
+  if (any(counts > 1)) {
+    duplicates <- names(counts)[counts > 1]
+    stop("Duplicate sheetnames after truncation for datasets ",
+         paste(which(output_sheetnames %in% duplicates), collapse = ", "))
+  }
+
+  return(output_sheetnames)
+}
 
 #' verifyInputFilename()
 #'
@@ -296,12 +333,13 @@ namedRegionExtent <- function(wb, sheetname, region_name = NULL,
 
   if (!(sheetname %in% names(wb))) {
     stop("Sheetname does not exist in Workbook")
+
+  } else if (all(is.null(named_regions))) {
+    stop("No named regions defined.")
   }
 
   sheet_ind <- which(sheetname == attr(named_regions, "sheet"))
   region_names <- named_regions[sheet_ind]
-
-
   positions <- attr(named_regions, "position")[sheet_ind]
 
   if (which == "both") {
@@ -606,7 +644,11 @@ extract_attributes <- function(object_list, which, required_val = FALSE) {
   values <- list()
 
   for (i in seq_along(object_list)) {
-    values[[i]] <- extract_attribute(object_list[[i]], which, required_val)
+    values[[i]] <- tryCatch(
+      extract_attribute(object_list[[i]], which, required_val),
+      error = function(err) {
+        stop("missing value in required field '", which, "' of dataset ", i)
+      })
   }
 
   return(values)

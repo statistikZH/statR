@@ -36,10 +36,8 @@ insert_worksheet_image <- function(
   # If image is.null, pass
   if (is.null(image)) return()
 
-  else if (is.character(image)) image_path <- image
-
   else if (checkImplementedPlotType(image)) {
-    image_path <- tempfile(fileext = ".png")
+    image_path <- ifelse(is.character(image), image, tempfile(fileext = ".png"))
 
   } else {
     stop("Plot muss als ggplot Objekt oder als Filepath vorliegen.")
@@ -64,6 +62,7 @@ insert_worksheet_image <- function(
 
 
   # Create png of plot ----------
+  # - histogram (a legacy option.)
   if (is(image, "histogram")) {
     grDevices::png(image_path, width = width, height = height, units = units,
                    res = dpi)
@@ -71,7 +70,7 @@ insert_worksheet_image <- function(
     grDevices::dev.off()
   }
 
-  else if (is(image, "gg") | is(image, "ggplot2")) {
+  else if (inherits(image, c("gg", "ggplot"))) {
     ggplot2::ggsave(image_path, plot = image, device = "png",
                     width = width, height = height, units = units, dpi = dpi)
   }
