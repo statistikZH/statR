@@ -20,74 +20,48 @@ insert_index_sheet <- function(
   # Initialize new worksheet as index sheet ------
   openxlsx::addWorksheet(wb, sheetname)
 
-  # Insert logo ----------
-  insert_worksheet_image(
-    wb = wb, sheetname = sheetname, image = inputHelperLogoPath(logo),
-    startrow = 1, startcol = 1)
+
+  # # Insert logo ----------
+  insert_worksheet_image(wb, sheetname, inputHelperLogoPath(logo), startrow = 1, startcol = 1)
 
   # Insert contact info, title, metadata, and sources into worksheet --------
   ### Contact information
-  openxlsx::writeData(
-    wb, sheetname, contactdetails, startCol = 15, startRow = 2,
-    name = paste(sheetname,"contact", sep = "_"))
+  writeText(wb, sheetname, contactdetails, 2, 15, NULL, "contact")
 
   ### Office hours
-  openxlsx::writeData(
-    wb, sheetname, openinghours, startCol = 18,
-    startRow = namedRegionFirstRow(wb, sheetname, "contact"),
-    name = paste(sheetname, "officehours", sep = "_"))
+  writeText(wb, sheetname, openinghours, namedRegionFirstRow(wb, sheetname, "contact"),
+            18, NULL, "officehours")
 
-  ### Homepage
-  openxlsx::writeData(
-    wb, sheetname, inputHelperHomepage(homepage), startCol = 15,
-    startRow = namedRegionLastRow(wb, sheetname, "contact") + 1,
-    name = paste(sheetname, "homepage", sep = "_"))
-
-
-  ### Add Headerline
-  openxlsx::addStyle(
-    wb, sheetname, style_headerline(),
-    namedRegionLastRow(wb, sheetname, "homepage") + 1, 1:20,
-    gridExpand = TRUE, stack = TRUE)
+  # ### Homepage
+  writeText(wb, sheetname, inputHelperHomepage(homepage), namedRegionLastRow(wb, sheetname, "contact") + 1,
+            15, NULL, "homepage")
 
   ### Request information
-  openxlsx::writeData(
-    wb, sheetname, c(inputHelperDateCreated(),
-                     inputHelperOrderNumber(auftrag_id)),
-    startCol = 15, startRow = namedRegionLastRow(wb, sheetname, "homepage") + 3,
-    name = paste(sheetname, "info", sep = "_"))
+  writeText(wb, sheetname, c(inputHelperDateCreated(), inputHelperOrderNumber(auftrag_id)),
+            namedRegionLastRow(wb, sheetname, "homepage") + 3, 15, NULL, "info")
 
-  ### Title
-  openxlsx::writeData(
-    wb, sheetname, title, 3, namedRegionLastRow(wb, sheetname, "info") + 1,
-    name = paste(sheetname, "title", sep = "_"))
+  ### Add Headerline
+  openxlsx::addStyle(wb, sheetname, style_headerline(),
+    namedRegionLastRow(wb, sheetname, "info") + 1, 1:20,
+    gridExpand = TRUE, stack = TRUE)
 
-  openxlsx::addStyle(
-    wb, sheetname, style_maintitle(),
-    namedRegionLastRow(wb, sheetname, "title"), 3)
 
-  ### Source
-  openxlsx::writeData(
-    wb, sheetname, inputHelperSource(source, collapse = "; "), startCol = 3,
-    startRow = namedRegionLastRow(wb, sheetname, "title") + 1,
-    name = paste(sheetname, "source", sep = "_"))
+  ### Title - needs to exist
+  writeText(wb, sheetname, title, namedRegionLastRow(wb, sheetname, "info") + 3,
+            3, style_maintitle(), "title")
+
+  ### Source - needs to exist
+  writeText(wb, sheetname, source, namedRegionLastRow(wb, sheetname, "title") + 1,
+            3, style_subtitle(), "source")
+
+  # Merge cells
+  row_extent <- namedRegionRowExtent(wb, sheetname, c("title", "source"))
+  purrr::walk(row_extent, ~openxlsx::mergeCells(wb, sheetname, cols = 3:18, rows = .))
+
 
   ### Table of content caption
-  openxlsx::writeData(
-    wb, sheetname, getOption("statR_toc_title"), 3,
-    namedRegionLastRow(wb, sheetname, "source") + 3,
-    name = paste(sheetname, "toc", sep = "_"))
-
-  openxlsx::addStyle(
-    wb, sheetname, subtitleStyle(), namedRegionLastRow(wb, sheetname, "toc"), 3)
-
-  # purrr::walk(
-  #   namedRegionRowExtent(wb, sheetname, c("title", "source", "toc")),
-  #   ~openxlsx::mergeCells(wb, sheetname, cols = 3:13, rows = .x))
-  #
-  # purrr::walk(
-  #   namedRegionRowExtent(wb, sheetname, c("title", "source", "toc")),
-  #   ~openxlsx::addStyle(wb, sheetname, style_wrap(), cols = 3:13, rows = .x, stack = TRUE))
+  writeText(wb, sheetname, getOption("statR_toc_title"), namedRegionLastRow(wb, sheetname, "source") + 3,
+            3, style_indextitle(), "toc")
 
   # Format ---------
   ### Set column width of first column to 1

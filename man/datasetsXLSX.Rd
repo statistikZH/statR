@@ -2,7 +2,10 @@
 % Please edit documentation in R/output_xlsx.R
 \name{datasetsXLSX}
 \alias{datasetsXLSX}
-\title{datasetsXLSX()}
+\alias{datasetsXLSX.list}
+\alias{datasetsXLSX.ContentList}
+\alias{datasetsXLSX.default}
+\title{Export datasets and graphics into a multi-worksheet workbook}
 \usage{
 datasetsXLSX(
   file,
@@ -23,7 +26,73 @@ datasetsXLSX(
   openinghours = getOption("statR_openinghours"),
   auftrag_id = NULL,
   metadata_sheet = NULL,
-  overwrite = FALSE
+  overwrite = TRUE
+)
+
+\method{datasetsXLSX}{list}(
+  file,
+  datasets,
+  sheetnames,
+  titles,
+  sources,
+  metadata,
+  grouplines,
+  group_names,
+  plot_widths,
+  plot_heights,
+  index_title = getOption("statR_toc_title"),
+  index_source = getOption("statR_source"),
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  homepage = getOption("statR_homepage"),
+  openinghours = getOption("statR_openinghours"),
+  auftrag_id = NULL,
+  metadata_sheet = NULL,
+  overwrite = TRUE
+)
+
+\method{datasetsXLSX}{ContentList}(
+  file,
+  datasets,
+  sheetnames,
+  titles,
+  sources,
+  metadata,
+  grouplines,
+  group_names,
+  plot_widths,
+  plot_heights,
+  index_title = getOption("statR_toc_title"),
+  index_source = getOption("statR_source"),
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  homepage = getOption("statR_homepage"),
+  openinghours = getOption("statR_openinghours"),
+  auftrag_id = NULL,
+  metadata_sheet = NULL,
+  overwrite = TRUE
+)
+
+\method{datasetsXLSX}{default}(
+  file,
+  datasets,
+  sheetnames,
+  titles,
+  sources,
+  metadata,
+  grouplines,
+  group_names,
+  plot_widths,
+  plot_heights,
+  index_title = getOption("statR_toc_title"),
+  index_source = getOption("statR_source"),
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  homepage = getOption("statR_homepage"),
+  openinghours = getOption("statR_openinghours"),
+  auftrag_id = NULL,
+  metadata_sheet = NULL,
+  overwrite = TRUE
 )
 }
 \arguments{
@@ -34,7 +103,8 @@ automatically.}
 and file paths for images in the order in which they should appear in the
 output file.}
 
-\item{sheetnames}{Names of individual worksheets in output file.}
+\item{sheetnames}{Names of individual worksheets in output file. Note that these
+will be truncated to 31 characters and must be unique.}
 
 \item{titles}{Titles shown at the top of the different worksheets.}
 
@@ -44,10 +114,12 @@ Elements of this list can also be character vectors to insert more than one sour
 \item{metadata}{A list containing metadata for each element of `datasets`.
 Elements of this list can also be character vectors to insert more than one source.}
 
-\item{grouplines}{A list containing vectors of indices/names of columns at the beginning of a group.}
+\item{grouplines}{A list containing vectors of indices/names of columns at
+the beginning of a group.}
 
-\item{group_names}{A list of character vectors containing the names of the groups
-as defined in `grouplines`.}
+\item{group_names}{A list of character vectors containing the names of the
+groups as defined in `grouplines`. Should not be specified unless
+grouplines is also specified.}
 
 \item{plot_widths}{Either a single numeric value denoting the width of all included plots
 in inches (1 inch = 2.54 cm), or a list of the same length as `datasets`}
@@ -55,15 +127,16 @@ in inches (1 inch = 2.54 cm), or a list of the same length as `datasets`}
 \item{plot_heights}{Either a single numeric value denoting the height of all included plots
 in inches (1 inch = 2.54 cm), or a list of the same length as `datasets`}
 
-\item{index_title}{Title to be put on the first (overview) sheet.}
+\item{index_title}{Title to be put on the index sheet.}
 
-\item{index_source}{Source to be mentioned on the title sheet beneath the title}
+\item{index_source}{Source to be shown below the index title.}
 
 \item{logo}{File path to the logo to be included in the index-sheet. Defaults to the
 logo of the Statistical Office of Kanton Zurich.}
 
 \item{contactdetails}{Character vector with contact information to be displayed
-on the title sheet.}
+on the title sheet. By default uses \code{inputHelperContactInfo()} to
+construct it based on the user config user defined values.}
 
 \item{homepage}{Web address to be put on the title sheet.}
 
@@ -76,25 +149,23 @@ project or order.}
 Intended for conveying long-form information. Default is NULL, not included.}
 
 \item{overwrite}{Overwrites the existing excel files with the same file name.
-default to FALSE}
+default to TRUE}
 }
 \description{
-Function to export several datasets and/or figures from R to an
- .xlsx-file. The function creates an overview sheet and separate sheets for
- each dataset/figure.
+Function to export multiple datasets and/or figures from R to a workbook.
+The function creates an index sheet, separate worksheets for each input
+object, hyperlinks to each content worksheet, and an optional sheet for
+long-form metadata.
 }
 \details{
-When including figures, the heights and widths need to be specified
- as a vector. For example, say you have one dataset and two figures that you
- would like to export. widths = c(5,6) then suggests that the first figure
- will be 5 inches wide, the second 6. To include a figure either save it as a
- ggplot object or indicate a file path to an existing file (possible formats:
- png, jpg, bmp).
-}
-\note{
-For some attributes like plot_widths and plot_heights, if a single value
- is provided, it will be reused (behavior of purrr::pmap). This is not the
- case for grouplines and group_names. These must be specified for each dataset.
+The arguments datasets, sheetnames, titles, sources, and metadata
+ should be of equal length. For more complex workbooks, it may be more
+ convenient to parametrize these for each individual input using functions
+ like \code{add_sheetname()}, which can be chained using %>% operators.
+
+ All elements in datasets must be of type data.frame, ggplot, or character.
+ In the latter case, the inputs must correspond to paths to existing image
+ files.
 }
 \examples{
 library(dplyr)
@@ -174,3 +245,4 @@ datasetsXLSX(
 
 }
 \keyword{datasetsXLSX}
+\keyword{internal}

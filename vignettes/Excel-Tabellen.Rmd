@@ -76,7 +76,7 @@ aXLSX(data = mtcars,
 Mit der Funktion `quickXLSX()` kann -- wie mit `aXLSX()` -- ein Datensatz aus 
 `R` als vorformatierte Excel-Datei exportiert werden. Der Unterschied zu 
 `aXLSX()` besteht darin, dass `quickXLSX()` die Metadaten und die Daten auf ein 
-einzelnes Excel-Sheet exportiert. Für 
+einzelnes Excel-Sheet exportiert.
 
 ```{r, echo = TRUE, eval = FALSE}
 quickXLSX(data = mtcars, 
@@ -168,20 +168,19 @@ datasetsXLSX(file = "twoDatasets",
 ![Screenshot des ersten Blatts der Datei twoDatasets.xlsx](./output-datasetsXLSX-2.PNG){width=95%}
 
 Um eine Grafik in die Excel-Datei einzufügen, muss sie der `datasets`-Liste 
-hinzugefügt werden: `datasets = list(dataset1, dataset2, grafik1)`.  
+hinzugefügt werden: `datasets = list(dataset1, dataset2, grafik1)`. grafik1 muss
+dabei entweder ein ggplot Objekt oder eine Pfadangabe zu einer Grafik sein.
 
-Mit den Argumenten `startrows` und `startcols` kann bestimmt werden, wo im 
-Arbeitsblatt die Grafik platziert werden soll und mit `widths` und `heights` 
-kann man die Höhe und die Breite adjustieren (aktuell in Zoll/*inches*, 
-1 Zoll = 2.54 cm). Die Grösse und Position wird mittels eines Vektors bestimmt, 
-wobei es pro Arbeitsblatt ein Vektorelement gibt. Die Vektorelemente müssen 
-überall auf `= 0` gesetzt sein ausser bei den Visualisierungen. Bei zwei 
-Datensätzen und einer Grafik sieht der Vektor bspw. folgendermassen aus: 
+Die Argumente  `plot_widths` und `plot_heights` kontrollieren die Höhe und die 
+Breite der Grafik im Excel. Die Grösse und Position wird mittels eines Vektors bestimmt, 
+wobei es entweder pro Arbeitsblatt ein Vektorelement geben sollte, oder einen globalen
+Wert. Bei zweiDatensätzen und einer Grafik sieht der Vektor bspw. folgendermassen aus: 
 `c(0,0,4)`. 
 
-Hätte man einen Datensatz und zwei Grafiken, sähe der Vektor hingegen so aus: 
-`c(0,4,4)`.  
-
+Beim Einbinden von Bild-Dateien gilt es letztlich zu beachten, dass die Darstellung 
+verzerrt wird, wenn die Höhe und Breite falsch gesetzt werden. Bei ggplot-Objekten
+ist das hingegen kein Problem, weil die Grafik mit denselben Breite und Höhe generiert
+wird. 
 
 ```{r, echo = TRUE, eval = FALSE}
 dat1 <- mtcars
@@ -189,12 +188,7 @@ dat2 <- PlantGrowth
 fig <- hist(mtcars$disp)
 
 datasetsXLSX(file = "twoDatasetsandFigure",
-             index_title = "Autos und Pflanzen",
              datasets = list(dat1, dat2, fig),
-             widths = c(0,0,5),
-             heights = c(0,0,5),
-             startrows = c(0,0,3),
-             startcols = c(0,0,3),
              sheetnames = c("Autos","Blumen", "Histogramm"),
              titles = c("mtcars-Datensatz","PlantGrowth-Datensatz", "Histogramm"),
              sources = c(
@@ -206,12 +200,11 @@ datasetsXLSX(file = "twoDatasetsandFigure",
              ),
              metadata = c("Bemerkungen zum mtcars-Datensatz: x",
                           "Bemerkungen zum PlantGrowth-Datensatz: x"),
-             auftrag_id = "A2021_0000"
+             plot_widths = c(0,0,5),
+             plot_heights = c(0,0,5)
 )
 ```
 
-
-## Weitere Hinweise und Tricks
 
 ### Visuelle Gruppierung von Spalten
 Mit dem Argument `grouplines` können vertikale Linien eingefügt werden, um
@@ -221,6 +214,7 @@ Gruppe anfängt.
 
 Ferner können für die Gruppen noch zusätzliche Überschriften erstellt werden.
 Dazu müssen im Argument `group_names` die Überschriftentitel angegeben werden.
+
 
 ### Definition der Titel, Quellen, Metadaten, etc. in einer Pipeline
 Die Funktion `datasetsXLSX` kann je nach Anwendungsfall recht komplex werden. Je
@@ -275,11 +269,10 @@ datasetsXLSX(
 ### Zeilentrennung für Quellen oder Metadaten
 ![Microsoft Excel bietet keine Möglichkeit, die Zeilenhöhe von verbundenen Zellen automatisch anzupassen](https://support.microsoft.com/en-us/topic/you-cannot-use-the-autofit-feature-for-rows-or-columns-that-contain-merged-cells-in-excel-34b54dd7-9bfc-6c8f-5ee3-2715d7db4353). 
 
-Entsprechend kann es zu Darstellungsproblemen kommen, wenn der Input für die 
-Argumente `metadata` oder `source` zu lange ist. In solchen Fällen muss die 
-Zeilenhöhe manuell angepasst werden. Alternativ kann man die Zeilenumbrüche 
-manuell vorzunehmen, indem man den Text über mehrere Vektorelemente verteilt 
-(Beispiel: `c("Text Zeile 1, "Text Zeile 2", "Text Zeile 3")`. 
+Entsprechend kann es zu Darstellungsproblemen kommen, wenn der Input für die Argumente `metadata` 
+oder `source` zu lange ist. In solchen Fällen muss die Zeilenhöhe manuell angepasst werden. 
+Alternativ kann man die Zeilenumbrüche manuell vorzunehmen, indem man den Text über mehrere 
+Vektorelemente verteilt (Beispiel: `c("Text Zeile 1, "Text Zeile 2", "Text Zeile 3")`. 
 
 
 ### Formatierung von Spalteninhalten
@@ -292,3 +285,32 @@ Weblinks können mit `class(data$variable2) <- "hyperlink"` aufrufbar gemacht
 werden und mit `class(data$variable3) <- "scientific"` können Zahlen in der 
 wissenschaftlichen Notation dargestellt werden.
 
+
+## User Configurations
+
+### Überblick
+```{r, echo = TRUE, eval = FALSE}
+# Zeige alle Userkonfigurationen an
+getUserConfigs()
+
+# Exportiere default Konfiguration
+(default_config <- exportUserConfig("default"))
+
+# Ändere einen Eintrag
+default_config$statR_name <- "Data Management"
+
+# Speichere die geänderte Config
+writeUserConfig("new_config", default_config)
+
+# Lade die neue Config; optional: setze persistent = TRUE,
+# um die neue Config beim nächsten Start zu laden
+readUserConfig("new_config", persistent = FALSE)
+```
+
+### Troubleshooting: Major Version updates von R
+Die Konfigurationsdateien werden im Installationsverzeichnis des Packages hinterlegt.
+Da bei major version updates von R jeweils ein neues Package repository angelegt wird,
+sind bestehende Konfigurationen nach dem Update nicht verfügbar.
+
+### Troubleshooting: statR Update
+Warnung: Konfigurations-Files werden durch das Update gelöscht resp. überschrieben.

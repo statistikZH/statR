@@ -20,9 +20,9 @@ insert_second_header <- function(wb, sheetname, data_start_row, group_names,
                                     startCol = .x, startRow = data_start_row))
 
   # # Apply style ---------
-  openxlsx::addStyle(
-    wb, sheet = sheetname, style = style_header(), rows = data_start_row,
-    cols = 1:ncol(data))
+  # openxlsx::addStyle(
+  #   wb, sheet = sheetname, style = style_header(), rows = data_start_row,
+  #   cols = 1:ncol(data))
 
   # Merge cells for second header
   groupline_numbers <- unique(c(sort(groupline_numbers), ncol(data) + 1))
@@ -37,8 +37,8 @@ insert_second_header <- function(wb, sheetname, data_start_row, group_names,
   purrr::walk2(
     head(groupline_numbers, -1), tail(groupline_numbers, -1) - 1,
     ~openxlsx::addStyle(
-      wb, sheet = sheetname, style = openxlsx::createStyle(halign = "center"),
+      wb, sheet = sheetname,
+      style = openxlsx::createStyle(halign = "center", textDecoration = "bold"),
       rows = data_start_row, cols = .x:.y, stack = TRUE))
-
 }
 

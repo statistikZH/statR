@@ -32,6 +32,12 @@ config_list <- list(
   statR_source = "Statistisches Amt des Kantons Zürich"
 )
 
+# or alternatively
+config_list <- exportUserConfig(name = "statzh")
+
+# Modify list:
+config_list[["statR_name"]] <- "Data Management"
+
 # Write config list to disk
 writeUserConfig("statzh", config_list)
 }

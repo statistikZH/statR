@@ -1,10 +1,3 @@
-# setStatRConfigPath <- function() {
-#
-# }
-#
-# getStatRConfigPath <- function() {
-#
-# }
 
 #' getUserConfigs()
 #' @description Returns a character vector of all user configurations
@@ -14,23 +7,38 @@ getUserConfigs <- function() {
   list.files(config_path)
 }
 
+#' exportUserConfig()
+#' @description Reads a user config. By default loads the default config
+#' @param name The name of the configuration
+#' @export
+exportUserConfig <- function(name = "default") {
+  config_path <- system.file("extdata/config/", package = "statR")
+  config_file <- file.path(config_path, name)
+
+  if (file.exists(config_file)){
+    return(yaml::read_yaml(config_file))
+  }
+}
+
 
 #' readUserConfig()
 #' @description Reads a user config. By default loads the default config
 #' @param name The name of the configuration
+#' @param persistent Whether to load the configuration by default on next
 #' @export
-readUserConfig <- function(name = "default") {
-
-  # config_path <- system.file("extdata/config/", package = "statR")
-  # config_file <- paste0(config_path, name)
+readUserConfig <- function(name = "default", persistent = FALSE) {
 
   config_path <- system.file("extdata/config", package = "statR")
-  config_file <- paste0(c(config_path, name), collapse = "/")
-
+  config_file <- file.path(config_path, name)
 
   if (file.exists(config_file)) {
     config <- yaml::read_yaml(config_file)
     config[["statR_config_name"]] <- name
+
+    if (persistent) {
+      writeUserConfig("persistent", config)
+    }
+
     options(config)
   }
 }
@@ -58,6 +66,12 @@ readUserConfig <- function(name = "default") {
 #'   statR_source = "Statistisches Amt des Kantons Zürich"
 #' )
 #'
+#' # or alternatively
+#' config_list <- exportUserConfig(name = "statzh")
+#'
+#' # Modify list:
+#' config_list[["statR_name"]] <- "Data Management"
+#'
 #' # Write config list to disk
 #' writeUserConfig("statzh", config_list)
 #' }
@@ -67,7 +81,6 @@ writeUserConfig <- function(name, config_list) {
   config_file <- file.path(config_path, name)
 
   config_list[["statR_config_name"]] <- name
-  # yaml::write_yaml(config_list, paste0(config_path, name))
   yaml::write_yaml(config_list, config_file)
 }
 
@@ -80,28 +93,17 @@ getActiveConfigName <- function() {
 }
 
 
-#' setActiveConfig()
-#' @description Sets a configuration to active and optionally makes it
-#'   persistent
-#' @param name Name of the configuration
-#' @param persistent Whether to load the configuration by default on next
-#'   startup
-#' @export
-setActiveConfig <- function(name, persistent = FALSE) {
-  # config_path <- system.file("extdata/config/", package = "statR")
-  # config_file <- paste0(config_path, name)
-  config_path <- system.file("extdata/config", package = "statR")
-  config_file <- paste0(c(config_path, name), collapse = "/")
+#TODO Tool to export configs from old R installation
+function(old_version) {
+  current_path <- system.file("extdata/config", package = "statR")
 
+  old_path <- stringr::str_replace(
+    current_path, "([0-9\\.]+)/statR", paste0(4.2, "/statR")
+  )
 
+  configs <- list.files(old_path)
 
-  if (getActiveConfigName() != name & file.exists(config_file)) {
-    config <- yaml::read_yaml(config_file)
-
-    if (persistent) {
-      writeUserConfig("persistent", config)
-    }
-
-    options(config)
-  }
+  file.copy(file.path(old_path, configs),
+            file.path(new_path, configs),
+            overwrite = TRUE)
 }

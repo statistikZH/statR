@@ -1,50 +1,72 @@
-#'datasetsXLSX()
+#' Export datasets and graphics into a multi-worksheet workbook
 #'
-#'@description Function to export several datasets and/or figures from R to an
-#'  .xlsx-file. The function creates an overview sheet and separate sheets for
-#'  each dataset/figure.
-#'@details When including figures, the heights and widths need to be specified
-#'  as a vector. For example, say you have one dataset and two figures that you
-#'  would like to export. widths = c(5,6) then suggests that the first figure
-#'  will be 5 inches wide, the second 6. To include a figure either save it as a
-#'  ggplot object or indicate a file path to an existing file (possible formats:
-#'  png, jpg, bmp).
-#'@note For some attributes like plot_widths and plot_heights, if a single value
-#'  is provided, it will be reused (behavior of purrr::pmap). This is not the
-#'  case for grouplines and group_names. These must be specified for each dataset.
-#'@param file file name of the spreadsheet. The extension ".xlsx" is added
+#' Function to export multiple datasets and/or figures from R to a workbook.
+#' The function creates an index sheet, separate worksheets for each input
+#' object, hyperlinks to each content worksheet, and an optional sheet for
+#' long-form metadata.
+#'
+#' @details The arguments datasets, sheetnames, titles, sources, and metadata
+#'  should be of equal length. For more complex workbooks, it may be more
+#'  convenient to parametrize these for each individual input using functions
+#'  like \code{add_sheetname()}, which can be chained using %>% operators.
+#'
+#'  All elements in datasets must be of type data.frame, ggplot, or character.
+#'  In the latter case, the inputs must correspond to paths to existing image
+#'  files.
+#' @param file file name of the spreadsheet. The extension ".xlsx" is added
 #'  automatically.
-#'@param datasets A list of an arbitrary number of data.frames, ggplot objects,
+#'
+#' @param datasets A list of an arbitrary number of data.frames, ggplot objects,
 #'  and file paths for images in the order in which they should appear in the
 #'  output file.
-#'@param sheetnames Names of individual worksheets in output file.
-#'@param titles Titles shown at the top of the different worksheets.
-#'@param sources A list of sources for the different elements of `datasets`.
+#'
+#' @param sheetnames Names of individual worksheets in output file. Note that these
+#'   will be truncated to 31 characters and must be unique.
+#'
+#' @param titles Titles shown at the top of the different worksheets.
+#'
+#' @param sources A list of sources for the different elements of `datasets`.
 #'  Elements of this list can also be character vectors to insert more than one source.
-#'@param metadata A list containing metadata for each element of `datasets`.
+#'
+#' @param metadata A list containing metadata for each element of `datasets`.
 #'  Elements of this list can also be character vectors to insert more than one source.
-#'@param grouplines A list containing vectors of indices/names of columns at the beginning of a group.
-#'@param group_names A list of character vectors containing the names of the groups
-#'  as defined in `grouplines`.
-#'@param plot_widths Either a single numeric value denoting the width of all included plots
+#'
+#' @param grouplines A list containing vectors of indices/names of columns at
+#'   the beginning of a group.
+#'
+#' @param group_names A list of character vectors containing the names of the
+#'   groups as defined in `grouplines`. Should not be specified unless
+#'   grouplines is also specified.
+#'
+#' @param plot_widths Either a single numeric value denoting the width of all included plots
 #'  in inches (1 inch = 2.54 cm), or a list of the same length as `datasets`
-#'@param plot_heights Either a single numeric value denoting the height of all included plots
+#'
+#' @param plot_heights Either a single numeric value denoting the height of all included plots
 #'  in inches (1 inch = 2.54 cm), or a list of the same length as `datasets`
-#'@param index_title Title to be put on the first (overview) sheet.
-#'@param index_source Source to be mentioned on the title sheet beneath the title
-#'@param logo File path to the logo to be included in the index-sheet. Defaults to the
+#'
+#' @param index_title Title to be put on the index sheet.
+#'
+#' @param index_source Source to be shown below the index title.
+#'
+#' @param logo File path to the logo to be included in the index-sheet. Defaults to the
 #'  logo of the Statistical Office of Kanton Zurich.
-#'@param contactdetails Character vector with contact information to be displayed
-#'  on the title sheet.
-#'@param homepage Web address to be put on the title sheet.
-#'@param openinghours A character vector with office hours
-#'@param auftrag_id An identifier to denote that the output corresponds to a specific
+#'
+#' @param contactdetails Character vector with contact information to be displayed
+#'  on the title sheet. By default uses \code{inputHelperContactInfo()} to
+#'  construct it based on the user config user defined values.
+#'
+#' @param homepage Web address to be put on the title sheet.
+#'
+#' @param openinghours A character vector with office hours
+#'
+#' @param auftrag_id An identifier to denote that the output corresponds to a specific
 #'  project or order.
-#'@param metadata_sheet A list with named elements 'title', 'source', and 'text'.
+#'
+#' @param metadata_sheet A list with named elements 'title', 'source', and 'text'.
 #'  Intended for conveying long-form information. Default is NULL, not included.
-#'@param overwrite Overwrites the existing excel files with the same file name.
-#'  default to FALSE
-#'@examples
+#' @param overwrite Overwrites the existing excel files with the same file name.
+#'  default to TRUE
+#' @examples
 #' library(dplyr)
 #' library(statR)
 #' library(openxlsx)
@@ -131,18 +153,62 @@ datasetsXLSX <- function(
     contactdetails = inputHelperContactInfo(),
     homepage = getOption("statR_homepage"),
     openinghours = getOption("statR_openinghours"),
-    auftrag_id = NULL, metadata_sheet = NULL, overwrite = FALSE) {
+    auftrag_id = NULL, metadata_sheet = NULL, overwrite = TRUE) {
+  UseMethod("datasetsXLSX", datasets)
+}
 
+
+#' @keywords internal
+#' @export
+#' @rdname datasetsXLSX
+datasetsXLSX.list <- function(
+    file, datasets, sheetnames, titles, sources, metadata, grouplines,
+    group_names, plot_widths, plot_heights,
+    index_title = getOption("statR_toc_title"),
+    index_source = getOption("statR_source"), logo = getOption("statR_logo"),
+    contactdetails = inputHelperContactInfo(),
+    homepage = getOption("statR_homepage"),
+    openinghours = getOption("statR_openinghours"),
+    auftrag_id = NULL, metadata_sheet = NULL, overwrite = TRUE) {
+
+
+  if (any(sapply(datasets, inherits, what = "Content"))) {
+    class(datasets) <- c("ContentList", class(datasets))
+
+
+    return(datasetsXLSX.ContentList(
+      file, datasets, sheetnames, titles, sources, metadata, grouplines,
+      group_names, plot_widths, plot_heights, index_title, index_source,
+      logo, contactdetails, homepage, openinghours, auftrag_id, metadata_sheet,
+      overwrite))
+
+  }
+
+  datasetsXLSX.default(
+    file, datasets, sheetnames, titles, sources, metadata, grouplines,
+    group_names, plot_widths, plot_heights, index_title, index_source,
+    logo, contactdetails, homepage, openinghours, auftrag_id, metadata_sheet,
+    overwrite)
+}
+
+#' @export
+#' @keywords internal
+#' @rdname datasetsXLSX
+datasetsXLSX.ContentList <- function(
+    file, datasets, sheetnames, titles, sources, metadata, grouplines,
+    group_names, plot_widths, plot_heights,
+    index_title = getOption("statR_toc_title"),
+    index_source = getOption("statR_source"), logo = getOption("statR_logo"),
+    contactdetails = inputHelperContactInfo(),
+    homepage = getOption("statR_homepage"),
+    openinghours = getOption("statR_openinghours"),
+    auftrag_id = NULL, metadata_sheet = NULL, overwrite = TRUE) {
 
   # Try to fill in values if not provided
+
+  ## Mandatory
   if (missing(sheetnames))
     sheetnames <- extract_attributes(datasets, "sheetname", TRUE)
-
-  # Fix: length of sheetnames is truncated to 31 as required by Excel. This is
-  # implemented in insert_worksheet_nh. As this function reuses 'sheetnames' to
-  # create hyperlinks, the check needs to happen here rather than in the
-  # subsequent insert_worksheet_nh calls.
-  sheetnames <- verifyInputSheetnames(sheetnames)
 
   if (missing(titles))
     titles <- extract_attributes(datasets, "title")
@@ -162,15 +228,47 @@ datasetsXLSX <- function(
   if (all(is.null(metadata_sheet)))
     metadata_sheet <- extract_attribute(datasets, "metadata_sheet")
 
+
+  ## Mandatory if there are plots
+  if (missing(plot_widths))
+    plot_widths <- extract_attributes(datasets, "plot_width")
+
+  if (missing(plot_heights))
+    plot_heights <- extract_attributes(datasets, "plot_height")
+
+
+  datasetsXLSX.default(
+    file, datasets, sheetnames, titles, sources, metadata, grouplines,
+    group_names, plot_widths, plot_heights, index_title, index_source,
+    logo, contactdetails, homepage, openinghours, auftrag_id, metadata_sheet,
+    overwrite)
+}
+
+#' @keywords internal
+#' @export
+#' @rdname datasetsXLSX
+datasetsXLSX.default <- function(
+    file, datasets, sheetnames, titles, sources, metadata, grouplines,
+    group_names, plot_widths, plot_heights,
+    index_title = getOption("statR_toc_title"),
+    index_source = getOption("statR_source"), logo = getOption("statR_logo"),
+    contactdetails = inputHelperContactInfo(),
+    homepage = getOption("statR_homepage"),
+    openinghours = getOption("statR_openinghours"),
+    auftrag_id = NULL, metadata_sheet = NULL, overwrite = TRUE) {
+
+  # Fix: length of sheetnames is truncated to 31 as required by Excel. This is
+  # implemented in insert_worksheet_nh. As this function reuses 'sheetnames' to
+  # create hyperlinks, the check needs to happen here rather than in the
+  # subsequent insert_worksheet_nh calls.
+  sheetnames <- verifyInputSheetnames(sheetnames)
+
   # Plot related
   is_plot <- sapply(datasets, checkImplementedPlotType)
 
   if (any(is_plot)) {
 
-    if (missing(plot_heights)) {
-      plot_heights <- extract_attributes(datasets, "plot_height", TRUE)
-
-    } else if (length(plot_heights) == 1) {
+    if (length(plot_heights) == 1) {
       plot_heights <- as.list(ifelse(is_plot, plot_heights, NA))
 
     } else if (length(plot_heights) == sum(is_plot)) {
@@ -182,10 +280,8 @@ datasetsXLSX <- function(
       stop("Invalid number of values given for plot_heights")
     }
 
-    if (missing(plot_widths)){
-      plot_widths <- extract_attributes(datasets, "plot_width", TRUE)
 
-    } else if (length(plot_widths) == 1) {
+    if (length(plot_widths) == 1) {
       plot_widths <- as.list(ifelse(is_plot, plot_widths, NA))
 
     } else if (length(plot_widths) == sum(is_plot)) {
@@ -225,7 +321,7 @@ datasetsXLSX <- function(
 
   # Create a table of hyperlinks in index sheet (assumed to be "Index") ------
   insert_index_hyperlinks(wb, sheetnames, titles, index_sheet_name = "Index",
-                          sheet_start_row = 15)
+                          sheet_start_row = namedRegionLastRow(wb, "Index", "toc") + 1)
 
   # Metadatasheet is intended to receive a list with title, source, and long-form metadata
   # as a character vector, universally applicable and too long to be included with the data.
@@ -244,15 +340,14 @@ datasetsXLSX <- function(
 }
 
 
-#' splitXLSX()
+#' Export a dataset split by a covariate into a workbook
 #'
-#' @description Function to export data from R as a formatted .xlsx-file, distributed
-#'  over multiple worksheets based on a grouping variable (e.g., year).
+#' @description Function to export data from R as a formatted .xlsx-file,
+#'   distributed over multiple worksheets based on a grouping variable (e.g., year).
 #' @note User should make sure that the grouping variable is of binary,
 #'   categorical or other types with a limited number of levels.
-#' @inheritParams insert_worksheet
-#' @param file file name of the output .xlsx-file. The extension is added
-#'  automatically.
+#' @inheritParams quickXLSX
+#' @param homepage Web address to be put on the title sheet.
 #' @param sheetvar name of the variable used to split the data and spread them
 #'  over several sheets.
 #' @examples
@@ -270,11 +365,11 @@ datasetsXLSX <- function(
 #' @keywords splitXLSX
 #' @export
 splitXLSX <- function(
-    file, data, sheetvar, title = "Titel", source = getOption("statR_source"),
-    metadata = NA, logo = getOption("statR_logo"),
+    file, data, sheetvar, title, source, metadata, grouplines = NA,
+    group_names = NA, logo = getOption("statR_logo"),
     contactdetails = inputHelperContactInfo(compact = TRUE),
     homepage = getOption("statR_homepage"),
-    author = "user", grouplines = NA, group_names = NA) {
+    author = "user") {
 
   datasets <- split.data.frame(data, data[,sheetvar])
   sheetnames <- paste0(sheetvar, "_", names(datasets))
@@ -291,7 +386,7 @@ splitXLSX <- function(
 }
 
 
-#' aXLSX()
+#' Export a single dataset to a workbook with an index sheet
 #'
 #' @description Function to export data from R to a formatted .xlsx-file. The
 #'  data is exported to the first sheet. Metadata information is exported to
@@ -299,8 +394,7 @@ splitXLSX <- function(
 #' @note This function is well-suited for applications where a single dataset
 #'   needs to be accompanied by a second sheet with explanations or other complex
 #'   metadata.
-#' @inheritParams insert_worksheet
-#' @param file Path of output xlsx-file.
+#' @inheritParams quickXLSX
 #' @examples
 #' aXLSX(file = tempfile(fileext = ".xlsx"),
 #'       data = mtcars,
@@ -316,10 +410,44 @@ splitXLSX <- function(
 #' @keywords aXLSX
 #' @export
 aXLSX <- function(
-    file, data, title = "Title", source = getOption("statR_source"),
-    metadata = NA, logo = getOption("statR_logo"),
-    contactdetails = inputHelperContactInfo(), author = "user", grouplines = NA,
-    group_names = NA) {
+    file, data, title, source, metadata, grouplines = NA, group_names = NA,
+    logo = getOption("statR_logo"), contactdetails = inputHelperContactInfo(),
+    author = "user") {
+  UseMethod("aXLSX", data)
+}
+
+#' @rdname aXLSX
+#' @export
+aXLSX.Content <- function(
+    file, data, title, source, metadata, grouplines = NA, group_names = NA,
+    logo = getOption("statR_logo"), contactdetails = inputHelperContactInfo(),
+    author = "user") {
+
+  if (missing(title))
+    title <- extract_attribute(data, "title")
+
+  if (missing(source))
+    source <- extract_attribute(data, "source")
+
+  if (missing(metadata))
+    metadata <- extract_attribute(data, "metadata")
+
+  if (missing(grouplines))
+    grouplines <- extract_attribute(data, "grouplines")
+
+  if (missing(group_names))
+    group_names <- extract_attribute(data, "group_names")
+
+  aXLSX.default(
+    file, data, title, source, metadata, grouplines, group_names, logo, contactdetails, author)
+}
+
+#' @rdname aXLSX
+#' @export
+aXLSX.default <- function(
+    file, data, title, source, metadata, grouplines = NA, group_names = NA,
+    logo = getOption("statR_logo"), contactdetails = inputHelperContactInfo(),
+    author = "user") {
 
   # Initialize Workbook object -------
   wb <- openxlsx::createWorkbook()
@@ -342,12 +470,11 @@ aXLSX <- function(
 }
 
 
-#' quickXLSX()
+#' Export a single dataset to a single formatted worksheet
 #'
 #' @description A simple function for exporting data from R to a single formatted
 #'   .xlsx-spreadsheet.
 #' @inheritParams insert_worksheet
-#' @param data data to be exported.
 #' @param file file name of the xlsx-file. The extension ".xlsx" is added
 #' @keywords quickXLSX
 #' @export
@@ -371,10 +498,10 @@ aXLSX <- function(
 #'           metadata = metadata)
 #'
 quickXLSX <- function(
-    file, data, title, source,
-    metadata, logo = getOption("statR_logo"),
-    contactdetails = inputHelperContactInfo(compact = TRUE),
-    author = "user", grouplines = NA, group_names = NA) {
+    file, data, title, source, metadata, grouplines = NA, group_names = NA,
+    logo = getOption("statR_logo"),
+    contactdetails = statR:::inputHelperContactInfo(compact = TRUE),
+    author = "user") {
 
   # Create workbook --------
   wb <- openxlsx::createWorkbook()

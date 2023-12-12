@@ -42,8 +42,8 @@ verifyInputSheetname <- function(sheetname) {
 #' @noRd
 verifyInputSheetnames <- function(sheetnames) {
 
-  output_sheetnames <- sapply(sheetnames, verifyInputSheetname)
-  counts <- table(output_sheetnames)
+  output_sheetnames <- lapply(sheetnames, verifyInputSheetname)
+  counts <- table(unlist(output_sheetnames))
 
   if (any(counts > 1)) {
     duplicates <- names(counts)[counts > 1]
@@ -67,7 +67,6 @@ verifyInputFilename <- function(filename, extension = ".xlsx") {
   paste0(gsub(regex_pattern, "", filename), extension)
 }
 
-
 #' verifyDataUngrouped()
 #'
 #' @description Function which checks if a data.frame is a grouped_df, in which
@@ -84,58 +83,8 @@ verifyDataUngrouped <- function(data) {
   return(dplyr::ungroup(data))
 }
 
-#' inputHelperSource()
-#'
-#' @description Substitute default value "statzh" with official title
-#' @param source A character vector with source information
-#' @param prefix A character string giving prepended to the sources
-#' @param collapse Separator for collapsing multiple sources with
-#' @returns A character string
-#' @keywords internal
-#' @noRd
-inputHelperSource <- function(source, prefix = NULL, collapse = NULL) {
 
-  collapse <- c(collapse, attr(source, "collapse"), NA)[1]
-  prefix <- c(prefix, attr(source, "prefix"))[1]
-
-  if (all(is.na(source))) {
-    return(NULL)
-  }
-
-  if (!is.null(collapse) && !is.na(collapse)) {
-    return(paste0(prefix, paste0(source, collapse = collapse)))
-  }
-
-  return(c(prefix, source))
-}
-
-
-#' inputHelperMetadata()
-#'
-#' @description Concatenate metadata into a formatted string.
-#' @inheritParams inputHelperSource
-#' @param metadata A character vector with metadata information
-#' @returns A character vector
-#' @keywords internal
-#' @noRd
-inputHelperMetadata <- function(metadata, prefix = NULL, collapse = NULL) {
-
-  collapse <- c(collapse, attr(metadata, "collapse"), NA)[1]
-  prefix <- c(prefix, attr(metadata, "prefix"))[1]
-
-  if (all(is.na(metadata))) {
-    return(NULL)
-  }
-
-  if (!is.null(collapse) && !is.na(collapse)) {
-    return(paste0(prefix, paste0(metadata, collapse = collapse)))
-  }
-
-  return(c(prefix, metadata))
-}
-
-
-#' inputHelperLogoPath()
+#' Set up logo path and attach settings for width and height
 #'
 #' @description Replace default values "zh" and "statzh" with the file path to
 #'  the respective logo (included in /extdata), otherwise returns the input value.
@@ -159,23 +108,22 @@ inputHelperLogoPath <- function(
       logo <- paste0(find.package("statR"), "/extdata/Stempel_STAT-01.png")
     }
 
-    attr(logo, "plot_width") <- width
-    attr(logo, "plot_height") <- height
-
+    logo <- add_plot_size(logo, c(width, height))
   }
 
   return(logo)
 }
 
 
-#' inputHelperContactInfo()
+#' Construct a vector with contact information from defaults
 #'
-#' @description Replaces default value "statzh" with the contact information of
-#'  the Statistics Office of Canton Zurich, otherwise returns the input value.
-#' @param compact A boolean which controls the format of the contact information. Default: FALSE
+#' A helper function which constructs a character vector from the contact
+#' information defined in the user profile. If \code{compact = TRUE}, the
+#' organization is dropped, and the name and phone number are displayed in the
+#' same row.
+#' @param compact A boolean. If TRUE, a shortened version is displayed
 #' @returns A character vector
-#' @keywords internal
-#' @noRd
+#' @export
 inputHelperContactInfo <- function(compact = FALSE) {
 
   phone <- inputHelperPhone(getOption("statR_phone"))
@@ -189,13 +137,12 @@ inputHelperContactInfo <- function(compact = FALSE) {
            phone, getOption("statR_email")))
 }
 
-#' inputHelperHomepage()
+#' Set homepage to a hyperlink
 #'
-#' @description Formats homepage as a hyperlink object.
+#' Formats homepage as a hyperlink object.
 #' @param homepage A character string
 #' @returns A character string or a 'hyperlink' object
-#' @keywords internal
-#' @noRd
+#' @export
 inputHelperHomepage <- function(homepage) {
   if (!is.null(homepage)) {
     class(homepage) <- "hyperlink"
@@ -233,7 +180,6 @@ inputHelperDateCreated <- function(prefix = getOption("statR_prefix_date"),
   paste(prefix, format(Sys.Date(), format = date_format))
 }
 
-
 #' inputHelperOrderNumber()
 #'
 #' @description Returns current date as a string with format specified by date_format
@@ -250,7 +196,6 @@ inputHelperOrderNumber <- function(order_num,
 
   return(order_num)
 }
-
 
 #' inputHelperAuthorName()
 #'
@@ -272,8 +217,6 @@ inputHelperAuthorName <- function(author,
 
   return(paste(prefix, author))
 }
-
-
 
 #' excelIndexToRowCol()
 #'
@@ -442,217 +385,6 @@ cleanNamedRegions <- function(wb, which = c("keep_data", "all")) {
 }
 
 
-#' Helper functions for adding attributes to input objects
-#'
-#' @description A set of helper functions which serve the purpose of allowing
-#'   users to assign information like sheetnames, titles, sources, metadata, and
-#'   more to an object. These attributes are then used in place of the function
-#'   arguments.
-#'
-#' @details
-#'   \code{add_sheetname}: Adds a sheetname.
-#'
-#'   \code{add_title}: Adds a title
-#'
-#'   \code{add_source}: Adds a source. Behavior can be modified further via the
-#'     prefix and collapse argument. Setting collapse to a value other than NULL
-#'     will result in the input provided in value being concatenated.
-#'
-#'   \code{add_metadata}: Adds metadata. Behavior can be modified further via the
-#'     prefix and collapse argument, just like with \code{add_source}.
-#'
-#'   \code{add_grouplines}: Adds group lines. Throws an error if input object is
-#'     not a data.frame.
-#'
-#'   \code{add_group_names}: Adds group names. Throws an error if group lines
-#'     have not been set.
-#'
-#'   \code{add_plot_height}: Adds plot height. Throws an error if input object is
-#'     not a valid plot type.
-#'
-#'   \code{add_plot_width}: Adds plot width. Throws an error if input object is
-#'     not a valid plot type.
-#'
-#'   \code{add_plot_size}: Assigns both height and width in one call. Expects a
-#'     vector of length 2, with the first element corresponding to width, and the
-#'     second to height.
-#' @param object The object to add an attribute to
-#' @param value A value
-#' @param prefix A prefix, default to NULL
-#' @param collapse Separator to collapse character vectors on, defaults to NULL
-#' @rdname add_attribute
-#' @examples
-#' library(dplyr)
-#' library(ggplot2)
-#'
-#' # Load data and assign attributes in one pipeline
-#' df <- mtcars %>%
-#'   add_sheetname("Cars") %>%
-#'   add_title("Motor Trend Car Road Tests") %>%
-#'   add_source(
-#'     c("Henderson and Velleman (1981),",
-#'       "Building multiple regression models interactively.",
-#'       "Biometrics, 37, 391–411."),
-#'     prefix = "Source:",
-#'     collapse = " ") %>%
-#'   add_metadata(
-#'     c("The data was extracted from the 1974 Motor",
-#'       "Trend US magazine and comprises fuel consumption",
-#'       "and 10 aspects of automobile design and",
-#'       "performance for 32 automobiles (1973–74 models)."),
-#'     collapse = " ")
-#'
-#' # Create a plot and assign attributes in one pipeline
-#' plt <- (ggplot(mtcars) +
-#'   geom_histogram(aes(x = hp))) %>%
-#'     add_sheetname("PS") %>%
-#'     add_title("Histogram of horsepower") %>%
-#'     add_plot_size(c(6, 3))
-#'
-#' \dontrun{
-#' # Generate outputfile using minimal call
-#' datasetsXLSX(
-#'   file = tempfile(fileext = ".xlsx"),
-#'   datasets = list(df, plt))
-#' }
-#' @export
-add_sheetname <- function(object, value) {
-  attr(object, "sheetname") <- value
-  return(object)
-}
-#' @rdname add_attribute
-#' @export
-add_title <- function(object, value) {
-  attr(object, "title") <- value
-  return(object)
-}
-#' @rdname add_attribute
-#' @export
-add_source <- function(object, value, prefix = NULL, collapse = NULL) {
-
-  attr(value, "prefix") <- prefix
-  attr(value, "collapse") <- collapse
-  attr(object, "source") <- value
-
-  return(object)
-}
-#' @rdname add_attribute
-#' @export
-add_metadata <- function(object, value, prefix = NULL, collapse = NULL) {
-
-  attr(value, "prefix") <- prefix
-  attr(value, "collapse") <- collapse
-  attr(object, "metadata") <- value
-
-  return(object)
-}
-#' @rdname add_attribute
-#' @export
-add_grouplines <- function(object, value) {
-  if (!is.data.frame(object)) {
-    stop("Cannot only assign grouplines for data")
-  }
-
-  attr(object, "grouplines") <- value
-  return(object)
-}
-#' @rdname add_attribute
-#' @export
-add_group_names <- function(object, value) {
-  if (is.null(extract_attribute(object, "grouplines"))) {
-    stop("Group names can only be used when grouplines have been defined.")
-  }
-
-  attr(object, "group_names") <- value
-  return(object)
-}
-#' @rdname add_attribute
-#' @export
-add_plot_height <- function(object, value) {
-
-  if (!(is.character(object) | inherits(object, c("gg", "ggplot")))) {
-    stop("Can only assign plot dimension to valid plot types")
-  }
-
-  attr(object, "plot_height") <- value
-  return(object)
-}
-#' @rdname add_attribute
-#' @export
-add_plot_width <- function(object, value) {
-
-  if (!(is.character(object) | inherits(object, c("gg", "ggplot")))) {
-    stop("Can only assign plot dimension to valid plot types")
-  }
-
-  attr(object, "plot_width") <- value
-  return(object)
-}
-#' @rdname add_attribute
-#' @export
-add_plot_size <- function(object, value) {
-
-  if (!(is.character(object) | inherits(object, c("gg", "ggplot")))) {
-    stop("Can only assign plot dimension to valid plot types")
-  }
-  if (length(value) != 2) {
-    stop("Expected 2 values but got ", length(value))
-  }
-
-  attr(object, "plot_width") <- value[1]
-  attr(object, "plot_height") <- value[2]
-  return(object)
-}
-
-#' Extract attributes from target object
-#'
-#' @description Function to extract attributes from objects.
-#'   \code{extract_attribute} expects the input object to be the target. When
-#'   the target object is nested in a list (as is the case in
-#'   \code{datasetsXLSX}), \code{extract_attributes} should be used instead.
-#' @param object Object to extract attribute from. In practice a data.frame,
-#'   ggplot object, or a character string providing a path to an image.
-#' @param object_list A list of objects of arbitrary types.
-#' @param which Name of the attribute to extract.
-#' @param required_val Boolean, if TRUE tries to look up a default in global
-#'   options if attribute not found, and raises an error if none was defined.
-#' @rdname extract_attribute
-#' @keywords internal
-extract_attribute <- function(object, which, required_val = FALSE) {
-
-  value <- attr(object, which)
-
-  if (all(is.null(value))) {
-
-    if (required_val) {
-      value <- getOption(paste0("statR_default_", which))
-
-      if (all(is.null(value))) {
-        stop("No default value found for required argument ", which)
-      }
-
-    } else {
-      value <- NA
-    }
-  }
-
-  return(value)
-}
-#' @rdname extract_attribute
-#' @keywords internal
-extract_attributes <- function(object_list, which, required_val = FALSE) {
-  values <- list()
-
-  for (i in seq_along(object_list)) {
-    values[[i]] <- tryCatch(
-      extract_attribute(object_list[[i]], which, required_val),
-      error = function(err) {
-        stop("missing value in required field '", which, "' of dataset ", i)
-      })
-  }
-
-  return(values)
-}
 
 #' Convert missing input to NULL
 #'

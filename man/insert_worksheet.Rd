@@ -2,21 +2,100 @@
 % Please edit documentation in R/insert_worksheet.R
 \name{insert_worksheet}
 \alias{insert_worksheet}
-\title{insert_worksheet()}
+\alias{insert_worksheet.default}
+\alias{insert_worksheet.Content}
+\alias{insert_worksheet_nh}
+\alias{insert_worksheet_nh.Content}
+\alias{insert_worksheet_nh.default}
+\alias{insert_header}
+\title{Functions for generating formatted worksheets for data}
 \usage{
 insert_worksheet(
   wb,
-  sheetname = "Daten",
+  sheetname,
   data,
   title,
   source,
-  metadata = NA,
+  metadata,
+  grouplines = NA,
+  group_names = NA,
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  homepage = getOption("statR_homepage"),
+  author = "user"
+)
+
+\method{insert_worksheet}{default}(
+  wb,
+  sheetname,
+  data,
+  title,
+  source,
+  metadata,
+  grouplines = NA,
+  group_names = NA,
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  homepage = getOption("statR_homepage"),
+  author = "user"
+)
+
+\method{insert_worksheet}{Content}(
+  wb,
+  sheetname,
+  data,
+  title,
+  source,
+  metadata,
+  grouplines = NA,
+  group_names = NA,
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  homepage = getOption("statR_homepage"),
+  author = "user"
+)
+
+insert_worksheet_nh(
+  wb,
+  sheetname,
+  data,
+  title,
+  source,
+  metadata,
+  grouplines = NULL,
+  group_names = NULL
+)
+
+\method{insert_worksheet_nh}{Content}(
+  wb,
+  sheetname,
+  data,
+  title,
+  source,
+  metadata,
+  grouplines = NULL,
+  group_names = NULL
+)
+
+\method{insert_worksheet_nh}{default}(
+  wb,
+  sheetname,
+  data,
+  title,
+  source,
+  metadata,
+  grouplines = NULL,
+  group_names = NULL
+)
+
+insert_header(
+  wb,
+  sheetname,
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(),
   homepage = getOption("statR_homepage"),
   author = "user",
-  grouplines = NA,
-  group_names = NA
+  contact_col = 13
 )
 }
 \arguments{
@@ -33,6 +112,15 @@ insert_worksheet(
 \item{metadata}{metadata information to be included. Defaults to NA, meaning
 no metadata are attached.}
 
+\item{grouplines}{Can be used to visually group variables. Values should
+either correspond to numeric column indices or column names, denoting the
+first variable in a group. Defaults to NA, meaning no lines are added.}
+
+\item{group_names}{A vector of names for groups to be displayed in a
+secondary header. Should be of the same length as grouplines, and cannot
+be used unless these are set. Defaults to NA, meaning no secondary header
+is created.}
+
 \item{logo}{path of the file to be included as logo (png / jpeg / svg).
 Default can be adjusted via user profiles.}
 
@@ -44,19 +132,13 @@ profiles.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
-
-\item{grouplines}{Can be used to visually group variables. Values should
-either correspond to numeric column indices or column names, denoting the
-first variable in a group. Defaults to NA, meaning no lines are added.}
-
-\item{group_names}{A vector of names for groups to be displayed in a
-secondary header. Should be of the same length as grouplines, and cannot
-be used unless these are set. Defaults to NA, meaning no secondary header
-is created.}
 }
 \description{
-Function to insert a formatted worksheet into an existing
- Workbook object.
+Inserts a data.frame into a new formatted worksheet.
+  The distinction between \code{insert_worksheet} and
+  \code{insert_worksheet_nh} is that the former generates a header with
+  contact information. By default, contact information is imported from the
+  user configuration, but all fields can be overridden if needed.
 }
 \note{
 The function does not write the result into a .xlsx file.
@@ -68,7 +150,18 @@ wb <- openxlsx::createWorkbook()
 
 # Insert mtcars dataset with STATZH design
 insert_worksheet(
-  wb = wb, sheetname = "carb", data = mtcars, title = "mtcars dataset")
+  wb = wb, sheetname = "cars1", data = mtcars, title = "mtcars dataset",
+  source = "Source: ...", metadata = "Note: ...",
+  grouplines = c(5,8), group_names = c("First group", "Second group")
+
+# The same, but without header
+insert_worksheet_nh(
+  wb, sheetname = "cars2", data = mtcars, title = "mtcars dataset (no header)",
+  source = "Source: ...", metadata = "Note: ...",
+  grouplines = c(5,8), group_names = c("First group", "Second group"))
 
 }
+\keyword{insert_header}
 \keyword{insert_worksheet}
+\keyword{insert_worksheet_nh}
+\keyword{internal}

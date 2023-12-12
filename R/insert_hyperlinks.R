@@ -20,10 +20,10 @@ insert_index_hyperlinks <- function(wb, sheetnames, titles,
     wb, index_sheet_name, unlist(titles), startCol = 7, startRow = sheet_start_row)
 
   purrr::walk(
-    15 + seq_along(sheetnames) - 1,
+    sheet_start_row + seq_along(sheetnames) - 1,
     ~openxlsx::mergeCells(wb, index_sheet_name, 3:6, .x))
   purrr::walk(
-    15 + seq_along(sheetnames) - 1,
+    sheet_start_row + seq_along(sheetnames) - 1,
     ~openxlsx::mergeCells(wb, index_sheet_name, 7:20, .x))
 }
 
@@ -42,7 +42,7 @@ insert_index_hyperlinks <- function(wb, sheetnames, titles,
 #' @importFrom openxlsx makeHyperlinkString writeFormula addStyle
 #' @export
 insert_hyperlinks <- function(wb, sheetnames, text, where,
-                              start_row, file = NULL) {
+                              start_row = 15, file = NULL) {
 
   # If File not found or not an xlsx, set to NULL and raise warning
   if (!is.null(file) && !(file.exists(file) || !grepl(".xlsx", file))) {

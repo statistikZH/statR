@@ -2,26 +2,25 @@
 % Please edit documentation in R/output_xlsx.R
 \name{splitXLSX}
 \alias{splitXLSX}
-\title{splitXLSX()}
+\title{Export a dataset split by a covariate into a workbook}
 \usage{
 splitXLSX(
   file,
   data,
   sheetvar,
-  title = "Titel",
-  source = getOption("statR_source"),
-  metadata = NA,
+  title,
+  source,
+  metadata,
+  grouplines = NA,
+  group_names = NA,
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(compact = TRUE),
   homepage = getOption("statR_homepage"),
-  author = "user",
-  grouplines = NA,
-  group_names = NA
+  author = "user"
 )
 }
 \arguments{
-\item{file}{file name of the output .xlsx-file. The extension is added
-automatically.}
+\item{file}{file name of the xlsx-file. The extension ".xlsx" is added}
 
 \item{data}{data to be included.}
 
@@ -35,18 +34,6 @@ over several sheets.}
 \item{metadata}{metadata information to be included. Defaults to NA, meaning
 no metadata are attached.}
 
-\item{logo}{path of the file to be included as logo (png / jpeg / svg).
-Default can be adjusted via user profiles.}
-
-\item{contactdetails}{contact details of the data publisher. Default can be
-adjusted via user profiles.}
-
-\item{homepage}{Homepage of data publisher. Default can be adjusted via user
-profiles.}
-
-\item{author}{defaults to the last two letters (initials) or numbers of the
-internal user name.}
-
 \item{grouplines}{Can be used to visually group variables. Values should
 either correspond to numeric column indices or column names, denoting the
 first variable in a group. Defaults to NA, meaning no lines are added.}
@@ -55,10 +42,21 @@ first variable in a group. Defaults to NA, meaning no lines are added.}
 secondary header. Should be of the same length as grouplines, and cannot
 be used unless these are set. Defaults to NA, meaning no secondary header
 is created.}
+
+\item{logo}{path of the file to be included as logo (png / jpeg / svg).
+Default can be adjusted via user profiles.}
+
+\item{contactdetails}{contact details of the data publisher. Default can be
+adjusted via user profiles.}
+
+\item{homepage}{Web address to be put on the title sheet.}
+
+\item{author}{defaults to the last two letters (initials) or numbers of the
+internal user name.}
 }
 \description{
-Function to export data from R as a formatted .xlsx-file, distributed
- over multiple worksheets based on a grouping variable (e.g., year).
+Function to export data from R as a formatted .xlsx-file,
+  distributed over multiple worksheets based on a grouping variable (e.g., year).
 }
 \note{
 User should make sure that the grouping variable is of binary,

@@ -1,6 +1,7 @@
 #' Style definitions
 #'
-#' Functions which generate style objects. Not intended to be called directly by the user.
+#' Functions which generate style objects. Not intended to be called directly
+#' by the user.
 #' @keywords internal
 #' @noRd
 
@@ -16,18 +17,19 @@ style_title <- function() {
                         fontName = "Arial")
 }
 
-subtitleStyle <- function() {
-  openxlsx::createStyle(fontSize = 11, textDecoration = "bold", halign = "left",
+style_indextitle <- function() {
+  openxlsx::createStyle(fontSize = 10, textDecoration = "bold", halign = "left",
                         fontName = "Arial", valign = "top" )
 }
 
 style_subtitle <- function() {
-  openxlsx::createStyle(fontSize = 12, textDecoration = "italic",
-                        fontName = "Arial", halign = "left", valign = "top" )
+  openxlsx::createStyle(fontSize = 10, textDecoration = NULL,
+                        fontName = "Arial", halign = "left", valign = "top",
+                        wrapText = TRUE)
 }
 
 hyperlinkStyle <- function() {
-  openxlsx::createStyle(fontSize = 11, fontName = "Arial",
+  openxlsx::createStyle(fontSize = 10, fontName = "Arial",
                         fontColour = "blue", textDecoration = "underline")
 }
 
@@ -41,12 +43,12 @@ style_header <- function() {
 # Linien --------------
 style_headerline <- function() {
   openxlsx::createStyle(
-    border = "Bottom", borderColour = "#009ee0", borderStyle = "thick")
+    border = "Bottom", borderColour = "#009ee0", borderStyle = "medium")
 }
 
 style_leftline <- function() {
   openxlsx::createStyle(
-    border = "Left", borderColour = "#009ee0", borderStyle = "medium")
+    border = "Left", borderColour = "#009ee0", borderStyle = "thin")
 }
 
 # Linewrap text ---------

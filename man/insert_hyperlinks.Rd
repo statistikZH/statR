@@ -4,7 +4,7 @@
 \alias{insert_hyperlinks}
 \title{insert_hyperlinks()}
 \usage{
-insert_hyperlinks(wb, sheetnames, text, where, start_row, file = NULL)
+insert_hyperlinks(wb, sheetnames, text, where, start_row = 15, file = NULL)
 }
 \arguments{
 \item{wb}{workbook object to add new worksheet to.}

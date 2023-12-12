@@ -2,23 +2,51 @@
 % Please edit documentation in R/output_xlsx.R
 \name{aXLSX}
 \alias{aXLSX}
-\title{aXLSX()}
+\alias{aXLSX.Content}
+\alias{aXLSX.default}
+\title{Export a single dataset to a workbook with an index sheet}
 \usage{
 aXLSX(
   file,
   data,
-  title = "Title",
-  source = getOption("statR_source"),
-  metadata = NA,
+  title,
+  source,
+  metadata,
+  grouplines = NA,
+  group_names = NA,
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(),
-  author = "user",
+  author = "user"
+)
+
+\method{aXLSX}{Content}(
+  file,
+  data,
+  title,
+  source,
+  metadata,
   grouplines = NA,
-  group_names = NA
+  group_names = NA,
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  author = "user"
+)
+
+\method{aXLSX}{default}(
+  file,
+  data,
+  title,
+  source,
+  metadata,
+  grouplines = NA,
+  group_names = NA,
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  author = "user"
 )
 }
 \arguments{
-\item{file}{Path of output xlsx-file.}
+\item{file}{file name of the xlsx-file. The extension ".xlsx" is added}
 
 \item{data}{data to be included.}
 
@@ -29,15 +57,6 @@ aXLSX(
 \item{metadata}{metadata information to be included. Defaults to NA, meaning
 no metadata are attached.}
 
-\item{logo}{path of the file to be included as logo (png / jpeg / svg).
-Default can be adjusted via user profiles.}
-
-\item{contactdetails}{contact details of the data publisher. Default can be
-adjusted via user profiles.}
-
-\item{author}{defaults to the last two letters (initials) or numbers of the
-internal user name.}
-
 \item{grouplines}{Can be used to visually group variables. Values should
 either correspond to numeric column indices or column names, denoting the
 first variable in a group. Defaults to NA, meaning no lines are added.}
@@ -46,6 +65,15 @@ first variable in a group. Defaults to NA, meaning no lines are added.}
 secondary header. Should be of the same length as grouplines, and cannot
 be used unless these are set. Defaults to NA, meaning no secondary header
 is created.}
+
+\item{logo}{path of the file to be included as logo (png / jpeg / svg).
+Default can be adjusted via user profiles.}
+
+\item{contactdetails}{contact details of the data publisher. Default can be
+adjusted via user profiles.}
+
+\item{author}{defaults to the last two letters (initials) or numbers of the
+internal user name.}
 }
 \description{
 Function to export data from R to a formatted .xlsx-file. The
