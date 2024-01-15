@@ -11,7 +11,7 @@ initUserConfigStore <- function(path = "~/.config/R/statR") {
     dir.create(path, recursive = TRUE)
   }
 
-  store_file <- file.path(path, "statR_profile.conf")
+  store_file <- file.path(path, "statR_profile.csv")
 
   if (!file.exists(store_file)) {
     file.create(store_file)
@@ -21,7 +21,7 @@ initUserConfigStore <- function(path = "~/.config/R/statR") {
 }
 
 readUserConfigStore <- function(path = "~/.config/R/statR") {
-  store_file <- file.path(path, "statR_profile.conf")
+  store_file <- file.path(path, "statR_profile.csv")
   read.table(store_file, header = TRUE, sep = ",")
 }
 
@@ -30,7 +30,12 @@ readUserConfigStore <- function(path = "~/.config/R/statR") {
 addUserConfig <- function(name = "default", path = NULL,
                           store_path = "~/.config/R/statR") {
 
-  store_file <- file.path(store_path, "statR_profile.conf")
+  store_file <- file.path(store_path, "statR_profile.csv")
+
+  if(!file.exists(store_file)){
+    initUserConfigStore(store_path)
+  }
+
   configs <- readUserConfigStore(store_path)
   if (is.null(path) && name != "default") {
     stop("Must provide a path")
@@ -51,8 +56,9 @@ addUserConfig <- function(name = "default", path = NULL,
       removeUserConfig(name, store_path)
   }
 
-  browser()
-  write.table(rbind(configs, c(name, path)), store_file, row.names = FALSE)
+  out <- rbind(configs, data.frame(config_name = name, config_path = path))
+
+  write.table(out, store_file, row.names = FALSE, sep = ",")
 }
 
 
@@ -60,10 +66,10 @@ addUserConfig <- function(name = "default", path = NULL,
 #'
 #'
 removeUserConfig <- function(name, store_path = "~/.config/R/statR") {
-  store_file <- file.path(store_path, "statR_profile.conf")
+  store_file <- file.path(store_path, "statR_profile.csv")
   configs <- readUserConfigStore(store_path)
   write.table(subset(configs, configs$config_name != name),
-              store_file, row.names = FALSE)
+              store_file, row.names = FALSE, sep = ",")
 
   # When default config is deleted, replace it with the package default
   if (name == "default") {
