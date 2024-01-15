@@ -1,6 +1,6 @@
 Package: statR
 Title: statR
-Version: 2.3.2
+Version: 2.4
 Authors@R: as.person(c(
     "Andrea Schnell <andrea.schnell@statistik.ji.zh.ch> [aut]",
     "Michelle Donzallaz <michelle.donzallaz@statistik.ji.zh.ch> [aut]",
@@ -28,7 +28,9 @@ Imports:
     stringr,
     purrr,
     methods,
-    yaml
+    yaml,
+    tools,
+    usethis
 URL: https://statistikzh.github.io/statR/
 BugReports: https://github.com/statistikZH/statR/issues
 Suggests: 

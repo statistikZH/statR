@@ -9,7 +9,7 @@
 #' @param axis.lines presence of axis lines, can be set to "x", "y", "both", or "none".
 #' @param ticks presence of axis ticks, can be set to "x", "y", "both", or "none".
 #' @param major.grid.lines presence of major grid lines, can be set to "x", "y", "both", or "none".
-#' @param minor.grid.lines presence of minor grid lines, can be set to "x", "y", "both", or "none".
+#' @param minor.grid.lines presence of minor grid line<s, can be set to "x", "y", "both", or "none".
 #' @param map whether the theme should be optimized for maps, can be set to TRUE or FALSE.
 #' @keywords theme_stat
 #' @export

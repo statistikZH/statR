@@ -176,7 +176,7 @@ inputHelperPhone <- function(phone, prefix = getOption("statR_prefix_phone")) {
 #' @seealso format
 #' @noRd
 inputHelperDateCreated <- function(prefix = getOption("statR_prefix_date"),
-                                   date_format = getOption("date_format")) {
+                                   date_format = getOption("statR_date_format")) {
   paste(prefix, format(Sys.Date(), format = date_format))
 }
 
@@ -209,6 +209,11 @@ inputHelperOrderNumber <- function(order_num,
 #'
 inputHelperAuthorName <- function(author,
                                   prefix = getOption("statR_prefix_author")) {
+
+  if (is.null(author) || is.na(author)) {
+    return(NULL)
+  }
+
   if (author == "user") {
     sys_vals <- c(Sys.getenv("USERNAME"), Sys.getenv("USER"))
     author_name <- sys_vals[which(sys_vals != "")[1]]
@@ -218,7 +223,7 @@ inputHelperAuthorName <- function(author,
   return(paste(prefix, author))
 }
 
-#' excelIndexToRowCol()
+#' Convert Excel index to row/column indices
 #'
 #' @description Converts an Excel style index (e.g. A1) into numeric row and
 #'   column indices. Handles cells (A1) as well as matrices (A1:B2)
@@ -390,9 +395,6 @@ cleanNamedRegions <- function(wb, which = c("keep_data", "all")) {
 #'
 #' @keywords internal
 missingToNull <- function(input_value) {
-  if (missing(input_value)) {
-    return(NULL)
-  } else {
+  if (!missing(input_value))
     return(input_value)
-  }
 }

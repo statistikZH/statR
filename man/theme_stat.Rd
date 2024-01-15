@@ -25,7 +25,7 @@ theme_stat(
 
 \item{major.grid.lines}{presence of major grid lines, can be set to "x", "y", "both", or "none".}
 
-\item{minor.grid.lines}{presence of minor grid lines, can be set to "x", "y", "both", or "none".}
+\item{minor.grid.lines}{presence of minor grid line<s, can be set to "x", "y", "both", or "none".}
 
 \item{map}{whether the theme should be optimized for maps, can be set to TRUE or FALSE.}
 }

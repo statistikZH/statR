@@ -3,7 +3,6 @@
 \name{datasetsXLSX}
 \alias{datasetsXLSX}
 \alias{datasetsXLSX.list}
-\alias{datasetsXLSX.ContentList}
 \alias{datasetsXLSX.default}
 \title{Export datasets and graphics into a multi-worksheet workbook}
 \usage{
@@ -30,28 +29,6 @@ datasetsXLSX(
 )
 
 \method{datasetsXLSX}{list}(
-  file,
-  datasets,
-  sheetnames,
-  titles,
-  sources,
-  metadata,
-  grouplines,
-  group_names,
-  plot_widths,
-  plot_heights,
-  index_title = getOption("statR_toc_title"),
-  index_source = getOption("statR_source"),
-  logo = getOption("statR_logo"),
-  contactdetails = inputHelperContactInfo(),
-  homepage = getOption("statR_homepage"),
-  openinghours = getOption("statR_openinghours"),
-  auftrag_id = NULL,
-  metadata_sheet = NULL,
-  overwrite = TRUE
-)
-
-\method{datasetsXLSX}{ContentList}(
   file,
   datasets,
   sheetnames,

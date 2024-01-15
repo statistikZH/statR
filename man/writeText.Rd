@@ -2,7 +2,7 @@
 % Please edit documentation in R/writeText.R
 \name{writeText}
 \alias{writeText}
-\title{Compact function to write text into a worksheet and apply a style}
+\title{Compact function to write and format text}
 \usage{
 writeText(wb, sheetname, x, row, column, style, name)
 }
@@ -15,13 +15,18 @@ writeText(wb, sheetname, x, row, column, style, name)
 
 \item{row}{The row at which to insert text}
 
-\item{column}{The column at which to insert text}
+\item{column}{The column at which to insert text. Can be a vector.}
 
 \item{style}{A style object as defined by openxlsx::createStyle}
 
 \item{name}{A name to assign to the text. Note that this has to be unique}
 }
 \description{
-A shorthand function for openxlsx::writeData and openxlsx::addStyle
+A shorthand function for
+}
+\details{
+Facilitates the process of inserting text content into workbooks. This
+function integrates operations openxlsx::writeData and openxlsx::addStyle,
+providing a convenience function for text blocks.
 }
 \keyword{writeText}

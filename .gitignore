@@ -5,3 +5,5 @@ inst/doc
 docs
 *.xlsx
 sqlnet.log
+/doc/
+/Meta/

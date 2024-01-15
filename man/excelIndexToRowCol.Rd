@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper.R
 \name{excelIndexToRowCol}
 \alias{excelIndexToRowCol}
-\title{excelIndexToRowCol()}
+\title{Convert Excel index to row/column indices}
 \usage{
 excelIndexToRowCol(index)
 }

@@ -192,7 +192,7 @@ datasetsXLSX.list <- function(
 }
 
 #' @export
-#' @keywords internal
+#' @noRd
 #' @rdname datasetsXLSX
 datasetsXLSX.ContentList <- function(
     file, datasets, sheetnames, titles, sources, metadata, grouplines,
@@ -258,9 +258,9 @@ datasetsXLSX.default <- function(
     auftrag_id = NULL, metadata_sheet = NULL, overwrite = TRUE) {
 
   # Fix: length of sheetnames is truncated to 31 as required by Excel. This is
-  # implemented in insert_worksheet_nh. As this function reuses 'sheetnames' to
-  # create hyperlinks, the check needs to happen here rather than in the
-  # subsequent insert_worksheet_nh calls.
+  # implemented in insert_worksheet_nh, but this function reuses 'sheetnames' to
+  # create hyperlinks. Hence the check needs to happen here rather than in the
+  # subsequent insert_worksheet_nh calls to avoid dead links.
   sheetnames <- verifyInputSheetnames(sheetnames)
 
   # Plot related
@@ -323,8 +323,9 @@ datasetsXLSX.default <- function(
   insert_index_hyperlinks(wb, sheetnames, titles, index_sheet_name = "Index",
                           sheet_start_row = namedRegionLastRow(wb, "Index", "toc") + 1)
 
-  # Metadatasheet is intended to receive a list with title, source, and long-form metadata
-  # as a character vector, universally applicable and too long to be included with the data.
+  # Metadata sheets are constructed from a list with title, source, and
+  # long-form metadata by insert_metadata_sheet. It is meant to be used to
+  # provide globally applicable information for multiple analyses.
   if (!is.null(metadata_sheet) && length(metadata_sheet) > 0 && !all(is.na(metadata_sheet))) {
     insert_metadata_sheet(
       wb, sheetname = "Metadatenblatt", title = metadata_sheet[["title"]],
@@ -332,8 +333,9 @@ datasetsXLSX.default <- function(
       metadata = metadata_sheet[["text"]])
   }
 
-  # Clean unneeded named regions
-  cleanNamedRegions(wb, "keep_data")
+  # Clean unneeded named regions - keep_data or all. Using 'all' here as a
+  # quick fix for region names with non-standard characters. See NEWS.md
+  cleanNamedRegions(wb, "all")
 
   # Save workbook at path denoted by argument file ---------
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = overwrite)
@@ -463,7 +465,7 @@ aXLSX.default <- function(
     contactdetails = contactdetails, author = author)
 
   # Clean unneeded named regions
-  cleanNamedRegions(wb, "keep_data")
+  cleanNamedRegions(wb, "all")
 
   # Write workbook to disk --------
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
@@ -513,7 +515,7 @@ quickXLSX <- function(
     grouplines = grouplines, group_names = group_names)
 
   # Clean unneeded named regions
-  cleanNamedRegions(wb, "keep_data")
+  cleanNamedRegions(wb, "all")
 
   # Save workbook---------
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)

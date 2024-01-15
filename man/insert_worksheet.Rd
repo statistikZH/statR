@@ -94,7 +94,9 @@ insert_header(
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(),
   homepage = getOption("statR_homepage"),
+  auftrag_id = NULL,
   author = "user",
+  openinghours = NULL,
   contact_col = 13
 )
 }

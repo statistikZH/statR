@@ -8,27 +8,16 @@
 #'   for inputs of type gg, ggplot or histogram object at path given by
 #'   `tempfile()`.
 #' @param wb workbook object to write new worksheet in
-#'
 #' @param sheetname Name of the sheet where the image should be inserted
-#'
 #' @param image Image, either a ggplot object or the path to an existing image.
-#'
 #' @param title Title of the image. Can be NULL
-#'
 #' @param source Source associated with the image. Can be NULL.
-#'
 #' @param metadata Metadata associated with the image. Can be NULL.
-#'
 #' @param startrow row coordinate of upper left corner of figure
-#'
 #' @param startcol column coordinate of upper left corner of figure
-#'
 #' @param width width of figure
-#'
 #' @param height height of figure
-#'
 #' @param units unit of measurement (default: in)
-#'
 #' @param dpi image resolution (default: 300)
 #'
 #' @examples
@@ -49,32 +38,24 @@ insert_worksheet_image <- function(wb, sheetname, image, title = NULL,
   UseMethod("insert_worksheet_image", image)
 }
 
-#' @rdname insert_worksheet_image
 #' @keywords internal
-insert_worksheet_image.default <- function(
-  wb, sheetname, image, title = NULL, source = NULL, metadata = NULL,
-  width = NULL, height = NULL, startrow = 3, startcol = 3, units = "in", dpi = 300) {
+insert_worksheet_image.default <- function(wb, sheetname, image, title = NULL,
+                                           source = NULL, metadata = NULL,
+                                           width = NULL, height = NULL,
+                                           startrow = 3, startcol = 3,
+                                           units = "in", dpi = 300) {
 
   # If image is.null, pass
   if (is.null(image)) return()
 
-  else if (checkImplementedPlotType(image)) {
+  if (checkImplementedPlotType(image)) {
     image_path <- ifelse(is.character(image), image, tempfile(fileext = ".png"))
 
   } else {
     stop("Plot muss ein ggplot Objekt oder Dateipfad sein.")
   }
 
-  # Create png of plot ----------
-  # - histogram (a legacy option.)
-  if (is(image, "histogram")) {
-    grDevices::png(image_path, width = width, height = height, units = units,
-                   res = dpi)
-    plot(image)
-    grDevices::dev.off()
-  }
-
-  else if (inherits(image, c("gg", "ggplot"))) {
+  if (inherits(image, c("gg", "ggplot"))) {
     ggplot2::ggsave(image_path, plot = image, device = "png",
                     width = width, height = height, units = units, dpi = dpi)
   }
@@ -91,24 +72,18 @@ insert_worksheet_image.default <- function(
   }
 
   if (is.character(title)) {
-    writeText(wb, sheetname, title, startrow, startcol, style_title(), "imgtitle")
+    writeText(wb, sheetname, title, startrow, startcol + 0:17, style_title(), "imgtitle")
     startrow <- namedRegionLastRow(wb, sheetname, "imgtitle") + 1
   }
 
   if (is.character(source)) {
-    writeText(wb, sheetname, source, startrow, startcol, style_subtitle(), "imgsource")
+    writeText(wb, sheetname, source, startrow, startcol + 0:17, style_subtitle(), "imgsource")
     startrow <- namedRegionLastRow(wb, sheetname, "imgsource") + 1
   }
 
   if (is.character(metadata)) {
-    writeText(wb, sheetname, metadata, startrow, startcol, style_subtitle(), "imgmetadata")
+    writeText(wb, sheetname, metadata, startrow, startcol + 0:17, style_subtitle(), "imgmetadata")
     startrow <- namedRegionLastRow(wb, sheetname, "imgmetadata") + 1
-  }
-
-  if (is.character(title) || is.character(source) || is.character(metadata)) {
-    header_rows <- namedRegionExtent(wb, sheetname, c("imgtitle", "imgsource", "imgmetadata"))
-    purrr::walk(header_rows, ~openxlsx::mergeCells(wb, sheetname, cols = startcol + 0:17, rows = .))
-    openxlsx::addStyle(wb, sheetname, style_wrap(), header_rows, startcol, stack = TRUE, gridExpand = TRUE)
   }
 
   # Insert image ---------
@@ -117,11 +92,12 @@ insert_worksheet_image.default <- function(
                         startCol = startcol, units = units, dpi = dpi)
 }
 
-#' @rdname insert_worksheet_image
 #' @keywords internal
-insert_worksheet_image.Content <- function(
-  wb, sheetname, image, title = NULL, source = NULL, metadata = NULL,
-  width = NULL, height = NULL, startrow = 3, startcol = 3, units = "in", dpi = 300) {
+insert_worksheet_image.Content <- function(wb, sheetname, image, title = NULL,
+                                           source = NULL, metadata = NULL,
+                                           width = NULL, height = NULL,
+                                           startrow = 3, startcol = 3,
+                                           units = "in", dpi = 300) {
 
   # Try to fill in values if not provided
   if (is.null(title))

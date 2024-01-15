@@ -17,47 +17,15 @@ insert_index_sheet <- function(
     contactdetails = inputHelperContactInfo(), homepage = getOption("statR_homepage"),
     openinghours = getOption("statR_openinghours"), source = getOption("statR_source")) {
 
-  # Initialize new worksheet as index sheet ------
-  openxlsx::addWorksheet(wb, sheetname)
-
-
-  # # Insert logo ----------
-  insert_worksheet_image(wb, sheetname, inputHelperLogoPath(logo), startrow = 1, startcol = 1)
-
-  # Insert contact info, title, metadata, and sources into worksheet --------
-  ### Contact information
-  writeText(wb, sheetname, contactdetails, 2, 15, NULL, "contact")
-
-  ### Office hours
-  writeText(wb, sheetname, openinghours, namedRegionFirstRow(wb, sheetname, "contact"),
-            18, NULL, "officehours")
-
-  # ### Homepage
-  writeText(wb, sheetname, inputHelperHomepage(homepage), namedRegionLastRow(wb, sheetname, "contact") + 1,
-            15, NULL, "homepage")
-
-  ### Request information
-  writeText(wb, sheetname, c(inputHelperDateCreated(), inputHelperOrderNumber(auftrag_id)),
-            namedRegionLastRow(wb, sheetname, "homepage") + 3, 15, NULL, "info")
-
-  ### Add Headerline
-  openxlsx::addStyle(wb, sheetname, style_headerline(),
-    namedRegionLastRow(wb, sheetname, "info") + 1, 1:20,
-    gridExpand = TRUE, stack = TRUE)
-
+  insert_header(wb, sheetname, logo, contactdetails, homepage, auftrag_id, NULL, openinghours, contact_col = 15)
 
   ### Title - needs to exist
-  writeText(wb, sheetname, title, namedRegionLastRow(wb, sheetname, "info") + 3,
-            3, style_maintitle(), "title")
+  writeText(wb, sheetname, title, namedRegionLastRow(wb, sheetname, "header_body") + 3,
+            3:18, style_maintitle(), "title")
 
   ### Source - needs to exist
   writeText(wb, sheetname, source, namedRegionLastRow(wb, sheetname, "title") + 1,
-            3, style_subtitle(), "source")
-
-  # Merge cells
-  row_extent <- namedRegionRowExtent(wb, sheetname, c("title", "source"))
-  purrr::walk(row_extent, ~openxlsx::mergeCells(wb, sheetname, cols = 3:18, rows = .))
-
+            3:18, style_subtitle(), "source")
 
   ### Table of content caption
   writeText(wb, sheetname, getOption("statR_toc_title"), namedRegionLastRow(wb, sheetname, "source") + 3,

@@ -1,109 +1,87 @@
+# TODO: breaks down. After some remove/add operations, the store is now
+# of dim = c(8,1) instead of c(2,2). Somewhere along the path, an rbind
+# or similar operation is going awry.
+#' Intended to be ran once after setup
+#'
+#' @param path the path to the file which will store names and paths of
+#'   different statR configs
+initUserConfigStore <- function(path = "~/.config/R/statR") {
 
-#' getUserConfigs()
-#' @description Returns a character vector of all user configurations
-#' @export
-getUserConfigs <- function() {
-  config_path <- system.file("extdata/config/", package = "statR")
-  list.files(config_path)
-}
+  if (!dir.exists(path)) {
+    dir.create(path, recursive = TRUE)
+  }
 
-#' exportUserConfig()
-#' @description Reads a user config. By default loads the default config
-#' @param name The name of the configuration
-#' @export
-exportUserConfig <- function(name = "default") {
-  config_path <- system.file("extdata/config/", package = "statR")
-  config_file <- file.path(config_path, name)
+  store_file <- file.path(path, "statR_profile.conf")
 
-  if (file.exists(config_file)){
-    return(yaml::read_yaml(config_file))
+  if (!file.exists(store_file)) {
+    file.create(store_file)
+    writeLines("config_name,config_path", store_file)
+    addUserConfig(store_path = path)
   }
 }
 
+readUserConfigStore <- function(path = "~/.config/R/statR") {
+  store_file <- file.path(path, "statR_profile.conf")
+  read.table(store_file, header = TRUE, sep = ",")
+}
 
-#' readUserConfig()
-#' @description Reads a user config. By default loads the default config
-#' @param name The name of the configuration
-#' @param persistent Whether to load the configuration by default on next
-#' @export
-readUserConfig <- function(name = "default", persistent = FALSE) {
 
-  config_path <- system.file("extdata/config", package = "statR")
-  config_file <- file.path(config_path, name)
+#' Add a new configuration using a name and path
+addUserConfig <- function(name = "default", path = NULL,
+                          store_path = "~/.config/R/statR") {
 
-  if (file.exists(config_file)) {
-    config <- yaml::read_yaml(config_file)
-    config[["statR_config_name"]] <- name
+  store_file <- file.path(store_path, "statR_profile.conf")
+  configs <- readUserConfigStore(store_path)
+  if (is.null(path) && name != "default") {
+    stop("Must provide a path")
+  }
 
-    if (persistent) {
-      writeUserConfig("persistent", config)
-    }
+  if (!is.null(path) && !file.exists(path)) {
+    stop("No config file found at ", path)
+  }
 
-    options(config)
+  if (name == "default" && is.null(path)) {
+    path <- system.file("extdata/config/default", package = "statR")
+  }
+
+
+  if (name %in% configs$config_name &&
+      rstudioapi::showQuestion("Overwrite config?",
+                               "Overwrite the configuration file?")) {
+      removeUserConfig(name, store_path)
+  }
+
+  browser()
+  write.table(rbind(configs, c(name, path)), store_file, row.names = FALSE)
+}
+
+
+#' Remove a configuration using a name
+#'
+#'
+removeUserConfig <- function(name, store_path = "~/.config/R/statR") {
+  store_file <- file.path(store_path, "statR_profile.conf")
+  configs <- readUserConfigStore(store_path)
+  write.table(subset(configs, configs$config_name != name),
+              store_file, row.names = FALSE)
+
+  # When default config is deleted, replace it with the package default
+  if (name == "default") {
+    addUserConfig(store_path = store_path)
   }
 }
 
+readUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
+  all_configs <- readUserConfigStore(store_path)
+  path <- subset(all_configs, name == all_configs$config_name)$config_path
 
-#' writeUserConfig()
-#' @description Writes a user config into a YAML file
-#' @param name Name of the configuration
-#' @param config_list List of options set by user
-#' @examples
-#' \dontrun{
-#' # statzh config list
-#' config_list <- list(
-#'   statR_config_name = "statzh",
-#'   statR_organization = "Statistisches Amt des Kantons Zürich",
-#'   statR_name = "Datashop",
-#'   statR_phone =  "+41 43 259 75 00",
-#'   statR_email = "datashop@statistik.zh.ch",
-#'   statR_homepage = "http://www.statistik.zh.ch",
-#'   statR_openinghours = c("Bürozeiten",
-#'                          "Montag bis Freitag",
-#'                          "09:00 bis 12:00",
-#'                          "13:00 bis 16:00"),
-#'   statR_logo = "statzh",
-#'   statR_source = "Statistisches Amt des Kantons Zürich"
-#' )
-#'
-#' # or alternatively
-#' config_list <- exportUserConfig(name = "statzh")
-#'
-#' # Modify list:
-#' config_list[["statR_name"]] <- "Data Management"
-#'
-#' # Write config list to disk
-#' writeUserConfig("statzh", config_list)
-#' }
-#' @export
-writeUserConfig <- function(name, config_list) {
-  config_path <- system.file("extdata/config", package = "statR")
-  config_file <- file.path(config_path, name)
+  if (!file.exists(path)) {
+    stop("Configuration ", name, " not found.")
+  }
 
-  config_list[["statR_config_name"]] <- name
-  yaml::write_yaml(config_list, config_file)
+  yaml::read_yaml(path)
 }
 
-
-#' getActiveConfigName()
-#' @description Returns the name of the active config
-#' @export
-getActiveConfigName <- function() {
-  getOption("statR_config_name")
-}
-
-
-#TODO Tool to export configs from old R installation
-function(old_version) {
-  current_path <- system.file("extdata/config", package = "statR")
-
-  old_path <- stringr::str_replace(
-    current_path, "([0-9\\.]+)/statR", paste0(4.2, "/statR")
-  )
-
-  configs <- list.files(old_path)
-
-  file.copy(file.path(old_path, configs),
-            file.path(new_path, configs),
-            overwrite = TRUE)
+loadUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
+  options(readUserConfig(name, store_path))
 }
