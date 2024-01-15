@@ -2,44 +2,16 @@
 % Please edit documentation in R/output_xlsx.R
 \name{aXLSX}
 \alias{aXLSX}
-\alias{aXLSX.Content}
-\alias{aXLSX.default}
 \title{Export a single dataset to a workbook with an index sheet}
 \usage{
 aXLSX(
   file,
   data,
-  title,
-  source,
-  metadata,
-  grouplines = NA,
-  group_names = NA,
-  logo = getOption("statR_logo"),
-  contactdetails = inputHelperContactInfo(),
-  author = "user"
-)
-
-\method{aXLSX}{Content}(
-  file,
-  data,
-  title,
-  source,
-  metadata,
-  grouplines = NA,
-  group_names = NA,
-  logo = getOption("statR_logo"),
-  contactdetails = inputHelperContactInfo(),
-  author = "user"
-)
-
-\method{aXLSX}{default}(
-  file,
-  data,
-  title,
-  source,
-  metadata,
-  grouplines = NA,
-  group_names = NA,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
+  grouplines = NULL,
+  group_names = NULL,
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(),
   author = "user"
@@ -74,6 +46,8 @@ adjusted via user profiles.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
+
+\item{meta_infos}{metadata information as a list}
 }
 \description{
 Function to export data from R to a formatted .xlsx-file. The

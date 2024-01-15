@@ -15,9 +15,12 @@
 #' @seealso createWorkbook, addWorksheet, writeData
 #' @export
 insert_metadata_sheet <- function(
-    wb, sheetname = "Metadaten", title = "Title", source = getOption("statR_source"),
-    metadata = NA, logo = getOption("statR_logo"),
+    wb, sheetname, meta_infos, logo = getOption("statR_logo"),
     contactdetails = inputHelperContactInfo(compact = TRUE), author = "user") {
+
+  title <- meta_infos[["title"]]
+  source <- meta_infos[["source"]]
+  metadata <- meta_infos[["metadata"]]
 
 
   insert_header(wb, sheetname, logo, contactdetails, NULL, NULL, author, NULL, 15)

@@ -6,10 +6,8 @@
 \usage{
 insert_metadata_sheet(
   wb,
-  sheetname = "Metadaten",
-  title = "Title",
-  source = getOption("statR_source"),
-  metadata = NA,
+  sheetname,
+  meta_infos,
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(compact = TRUE),
   author = "user"
@@ -19,13 +17,6 @@ insert_metadata_sheet(
 \item{wb}{workbook object to add new worksheet to.}
 
 \item{sheetname}{name of the sheet tab.}
-
-\item{title}{title to be put above the data.}
-
-\item{source}{source of the data. Default can be adjusted via user profiles}
-
-\item{metadata}{metadata information to be included. Defaults to NA, meaning
-no metadata are attached.}
 
 \item{logo}{path of the file to be included as logo (png / jpeg / svg).
 Default can be adjusted via user profiles.}

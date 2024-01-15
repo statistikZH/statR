@@ -16,7 +16,7 @@ initUserConfigStore <- function(path = "~/.config/R/statR") {
   if (!file.exists(store_file)) {
     file.create(store_file)
     writeLines("config_name,config_path", store_file)
-    addUserConfig(store_path = path)
+
   }
 }
 

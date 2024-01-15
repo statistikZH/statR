@@ -164,6 +164,22 @@ add_plot_size <- function(object, value) {
 }
 
 
+check_for_attributes <- function(object){
+  attributes_to_check <- c("title","source","metadata","grouplines","group_names","metadata_sheet","plot_width","plot_height")
+
+  check <- names(attributes(object))
+
+  if(any(attributes_to_check %in% check)){
+    return(TRUE)
+  }else{
+    return(FALSE)
+  }
+
+
+
+}
+
+
 #' Extract attributes from target object
 #'
 #' @description Function to extract attributes from objects.

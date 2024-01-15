@@ -7,11 +7,11 @@
 quickXLSX(
   file,
   data,
-  title,
-  source,
-  metadata,
-  grouplines = NA,
-  group_names = NA,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
+  grouplines = NULL,
+  group_names = NULL,
   logo = getOption("statR_logo"),
   contactdetails = statR:::inputHelperContactInfo(compact = TRUE),
   author = "user"

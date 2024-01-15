@@ -2,11 +2,7 @@
 % Please edit documentation in R/insert_worksheet.R
 \name{insert_worksheet}
 \alias{insert_worksheet}
-\alias{insert_worksheet.default}
-\alias{insert_worksheet.Content}
 \alias{insert_worksheet_nh}
-\alias{insert_worksheet_nh.Content}
-\alias{insert_worksheet_nh.default}
 \alias{insert_header}
 \title{Functions for generating formatted worksheets for data}
 \usage{
@@ -25,65 +21,13 @@ insert_worksheet(
   author = "user"
 )
 
-\method{insert_worksheet}{default}(
-  wb,
-  sheetname,
-  data,
-  title,
-  source,
-  metadata,
-  grouplines = NA,
-  group_names = NA,
-  logo = getOption("statR_logo"),
-  contactdetails = inputHelperContactInfo(),
-  homepage = getOption("statR_homepage"),
-  author = "user"
-)
-
-\method{insert_worksheet}{Content}(
-  wb,
-  sheetname,
-  data,
-  title,
-  source,
-  metadata,
-  grouplines = NA,
-  group_names = NA,
-  logo = getOption("statR_logo"),
-  contactdetails = inputHelperContactInfo(),
-  homepage = getOption("statR_homepage"),
-  author = "user"
-)
-
 insert_worksheet_nh(
   wb,
   sheetname,
   data,
-  title,
-  source,
-  metadata,
-  grouplines = NULL,
-  group_names = NULL
-)
-
-\method{insert_worksheet_nh}{Content}(
-  wb,
-  sheetname,
-  data,
-  title,
-  source,
-  metadata,
-  grouplines = NULL,
-  group_names = NULL
-)
-
-\method{insert_worksheet_nh}{default}(
-  wb,
-  sheetname,
-  data,
-  title,
-  source,
-  metadata,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
   grouplines = NULL,
   group_names = NULL
 )
@@ -165,5 +109,4 @@ insert_worksheet_nh(
 }
 \keyword{insert_header}
 \keyword{insert_worksheet}
-\keyword{insert_worksheet_nh}
 \keyword{internal}

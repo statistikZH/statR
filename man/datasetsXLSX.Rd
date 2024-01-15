@@ -2,65 +2,19 @@
 % Please edit documentation in R/output_xlsx.R
 \name{datasetsXLSX}
 \alias{datasetsXLSX}
-\alias{datasetsXLSX.list}
-\alias{datasetsXLSX.default}
 \title{Export datasets and graphics into a multi-worksheet workbook}
 \usage{
 datasetsXLSX(
   file,
   datasets,
-  sheetnames,
-  titles,
-  sources,
-  metadata,
-  grouplines,
-  group_names,
-  plot_widths,
-  plot_heights,
-  index_title = getOption("statR_toc_title"),
-  index_source = getOption("statR_source"),
-  logo = getOption("statR_logo"),
-  contactdetails = inputHelperContactInfo(),
-  homepage = getOption("statR_homepage"),
-  openinghours = getOption("statR_openinghours"),
-  auftrag_id = NULL,
-  metadata_sheet = NULL,
-  overwrite = TRUE
-)
-
-\method{datasetsXLSX}{list}(
-  file,
-  datasets,
-  sheetnames,
-  titles,
-  sources,
-  metadata,
-  grouplines,
-  group_names,
-  plot_widths,
-  plot_heights,
-  index_title = getOption("statR_toc_title"),
-  index_source = getOption("statR_source"),
-  logo = getOption("statR_logo"),
-  contactdetails = inputHelperContactInfo(),
-  homepage = getOption("statR_homepage"),
-  openinghours = getOption("statR_openinghours"),
-  auftrag_id = NULL,
-  metadata_sheet = NULL,
-  overwrite = TRUE
-)
-
-\method{datasetsXLSX}{default}(
-  file,
-  datasets,
-  sheetnames,
-  titles,
-  sources,
-  metadata,
-  grouplines,
-  group_names,
-  plot_widths,
-  plot_heights,
+  sheetnames = NULL,
+  titles = NULL,
+  sources = NULL,
+  metadata = NULL,
+  grouplines = NULL,
+  group_names = NULL,
+  plot_widths = NULL,
+  plot_heights = NULL,
   index_title = getOption("statR_toc_title"),
   index_source = getOption("statR_source"),
   logo = getOption("statR_logo"),
@@ -222,4 +176,3 @@ datasetsXLSX(
 
 }
 \keyword{datasetsXLSX}
-\keyword{internal}

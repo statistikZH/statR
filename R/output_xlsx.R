@@ -146,24 +146,8 @@
 #' @importFrom dplyr %>%
 #' @export
 datasetsXLSX <- function(
-    file, datasets, sheetnames, titles, sources, metadata, grouplines,
-    group_names, plot_widths, plot_heights,
-    index_title = getOption("statR_toc_title"),
-    index_source = getOption("statR_source"), logo = getOption("statR_logo"),
-    contactdetails = inputHelperContactInfo(),
-    homepage = getOption("statR_homepage"),
-    openinghours = getOption("statR_openinghours"),
-    auftrag_id = NULL, metadata_sheet = NULL, overwrite = TRUE) {
-  UseMethod("datasetsXLSX", datasets)
-}
-
-
-#' @keywords internal
-#' @export
-#' @rdname datasetsXLSX
-datasetsXLSX.list <- function(
-    file, datasets, sheetnames, titles, sources, metadata, grouplines,
-    group_names, plot_widths, plot_heights,
+    file, datasets, sheetnames = NULL, titles = NULL, sources = NULL, metadata = NULL, grouplines = NULL,
+    group_names = NULL, plot_widths = NULL, plot_heights = NULL,
     index_title = getOption("statR_toc_title"),
     index_source = getOption("statR_source"), logo = getOption("statR_logo"),
     contactdetails = inputHelperContactInfo(),
@@ -172,90 +156,32 @@ datasetsXLSX.list <- function(
     auftrag_id = NULL, metadata_sheet = NULL, overwrite = TRUE) {
 
 
-  if (any(sapply(datasets, inherits, what = "Content"))) {
-    class(datasets) <- c("ContentList", class(datasets))
 
 
-    return(datasetsXLSX.ContentList(
-      file, datasets, sheetnames, titles, sources, metadata, grouplines,
-      group_names, plot_widths, plot_heights, index_title, index_source,
-      logo, contactdetails, homepage, openinghours, auftrag_id, metadata_sheet,
-      overwrite))
-
+  if(!is.null(titles)){
+    datasets <- purrr::map2(datasets, titles, ~add_title(..1, ..2))
+  }
+  if(!is.null(sources)){
+    datasets <- purrr::map2(datasets, sources, ~add_source(..1, ..2))
+  }
+  if(!is.null(metadata)){
+    datasets <- purrr::map2(datasets, metadata, ~add_metadata(..1, ..2))
+  }
+  if(!is.null(grouplines)){
+    datasets <- purrr::map2(datasets, grouplines, ~add_grouplines(..1, ..2))
+  }
+  if(!is.null(group_names)){
+    datasets <- purrr::map2(datasets, group_names, ~add_group_names(..1, ..2))
   }
 
-  datasetsXLSX.default(
-    file, datasets, sheetnames, titles, sources, metadata, grouplines,
-    group_names, plot_widths, plot_heights, index_title, index_source,
-    logo, contactdetails, homepage, openinghours, auftrag_id, metadata_sheet,
-    overwrite)
-}
-
-#' @export
-#' @noRd
-#' @rdname datasetsXLSX
-datasetsXLSX.ContentList <- function(
-    file, datasets, sheetnames, titles, sources, metadata, grouplines,
-    group_names, plot_widths, plot_heights,
-    index_title = getOption("statR_toc_title"),
-    index_source = getOption("statR_source"), logo = getOption("statR_logo"),
-    contactdetails = inputHelperContactInfo(),
-    homepage = getOption("statR_homepage"),
-    openinghours = getOption("statR_openinghours"),
-    auftrag_id = NULL, metadata_sheet = NULL, overwrite = TRUE) {
-
-  # Try to fill in values if not provided
-
-  ## Mandatory
-  if (missing(sheetnames))
-    sheetnames <- extract_attributes(datasets, "sheetname", TRUE)
-
-  if (missing(titles))
-    titles <- extract_attributes(datasets, "title")
-
-  if (missing(sources))
-    sources <- extract_attributes(datasets, "source")
-
-  if (missing(metadata))
-    metadata <- extract_attributes(datasets, "metadata")
-
-  if (missing(group_names))
-    group_names <- extract_attributes(datasets, "group_names")
-
-  if (missing(grouplines))
-    grouplines <- extract_attributes(datasets, "grouplines")
-
-  if (all(is.null(metadata_sheet)))
-    metadata_sheet <- extract_attribute(datasets, "metadata_sheet")
-
-
-  ## Mandatory if there are plots
-  if (missing(plot_widths))
-    plot_widths <- extract_attributes(datasets, "plot_width")
-
-  if (missing(plot_heights))
+  if(is.null(sheetnames)){
+    sheetnames <- extract_attributes(datasets, "sheetname")
+  }
+  if(is.null(plot_heights)){
     plot_heights <- extract_attributes(datasets, "plot_height")
+    plot_widths <- extract_attributes(datasets, "plot_width")
+  }
 
-
-  datasetsXLSX.default(
-    file, datasets, sheetnames, titles, sources, metadata, grouplines,
-    group_names, plot_widths, plot_heights, index_title, index_source,
-    logo, contactdetails, homepage, openinghours, auftrag_id, metadata_sheet,
-    overwrite)
-}
-
-#' @keywords internal
-#' @export
-#' @rdname datasetsXLSX
-datasetsXLSX.default <- function(
-    file, datasets, sheetnames, titles, sources, metadata, grouplines,
-    group_names, plot_widths, plot_heights,
-    index_title = getOption("statR_toc_title"),
-    index_source = getOption("statR_source"), logo = getOption("statR_logo"),
-    contactdetails = inputHelperContactInfo(),
-    homepage = getOption("statR_homepage"),
-    openinghours = getOption("statR_openinghours"),
-    auftrag_id = NULL, metadata_sheet = NULL, overwrite = TRUE) {
 
   # Fix: length of sheetnames is truncated to 31 as required by Excel. This is
   # implemented in insert_worksheet_nh, but this function reuses 'sheetnames' to
@@ -292,7 +218,12 @@ datasetsXLSX.default <- function(
     } else if (length(plot_widths) != length(datasets)) {
       stop("Invalid number of values given for plot_widths")
     }
+
+    plot_size_list <- purrr::map2(plot_heights, plot_widths, ~c(..1,..2))
+
+    datasets <- purrr::map2(datasets, plot_size_list, ~add_plot_size(..1, ..2))
   }
+
 
   # Initialize new Workbook ------
   wb <- openxlsx::createWorkbook()
@@ -306,21 +237,21 @@ datasetsXLSX.default <- function(
   # Iterate over datasets
   for (i in seq_along(datasets)) {
     if (checkImplementedPlotType(datasets[[i]])) {
-      insert_worksheet_image(
-        wb, sheetnames[[i]], image = datasets[[i]], width = plot_widths[[i]],
-        height = plot_heights[[i]],
-        title = titles[[i]], source = sources[[i]], metadata = metadata[[i]])
+      insert_worksheet_image(wb, sheetname = sheetnames[i], image = datasets[[i]])
 
     } else if (is.data.frame(datasets[[i]])) {
-      insert_worksheet_nh(
-        wb = wb, data = datasets[[i]], sheetname = sheetnames[[i]],
-        title = titles[[i]], source = sources[[i]], metadata = metadata[[i]],
-        grouplines = grouplines[[i]], group_names = group_names[[i]])
+      insert_worksheet_nh(wb, sheetname = sheetnames[i], data = datasets[[i]])
     }
   }
 
+
+
+
+
   # Create a table of hyperlinks in index sheet (assumed to be "Index") ------
-  insert_index_hyperlinks(wb, sheetnames, titles, index_sheet_name = "Index",
+  titles <- extract_attributes(datasets,"title")
+
+  insert_index_hyperlinks(wb, sheetnames, titles = titles, index_sheet_name = "Index",
                           sheet_start_row = namedRegionLastRow(wb, "Index", "toc") + 1)
 
   # Metadata sheets are constructed from a list with title, source, and
@@ -328,9 +259,7 @@ datasetsXLSX.default <- function(
   # provide globally applicable information for multiple analyses.
   if (!is.null(metadata_sheet) && length(metadata_sheet) > 0 && !all(is.na(metadata_sheet))) {
     insert_metadata_sheet(
-      wb, sheetname = "Metadatenblatt", title = metadata_sheet[["title"]],
-      source = metadata_sheet[["source"]],
-      metadata = metadata_sheet[["text"]])
+      wb, sheetname = "Metadatenblatt", meta_infos = metadata_sheet)
   }
 
   # Clean unneeded named regions - keep_data or all. Using 'all' here as a
@@ -373,19 +302,24 @@ splitXLSX <- function(
     homepage = getOption("statR_homepage"),
     author = "user") {
 
+
+
   datasets <- split.data.frame(data, data[,sheetvar])
   sheetnames <- paste0(sheetvar, "_", names(datasets))
   titles <- paste0(title, " (", sheetvar, ": ", names(datasets), ")")
-  sources <- list(source)[rep(1, length(datasets))]
-  metadata <- list(metadata)[rep(1, length(datasets))]
-  grouplines <- list(grouplines)[rep(1, length(datasets))]
-  group_names <- list(group_names)[rep(1, length(datasets))]
 
-  datasetsXLSX(
-    file = file, datasets = datasets, sheetnames = sheetnames,
-    titles = titles, sources = sources, metadata = metadata,
-    grouplines = grouplines, group_names = group_names, overwrite = TRUE)
+  datasets <- purrr::map2(datasets, titles, ~add_title(..1, ..2))
+  datasets <- lapply(datasets, function(x) add_metadata(x, metadata))
+  datasets <- lapply(datasets, function(x) add_source(x, source))
+  datasets <- lapply(datasets, function(x) add_grouplines(x, grouplines))
+  datasets <- lapply(datasets, function(x) add_group_names(x, group_names))
+
+
+  datasetsXLSX(file = file, datasets = datasets, sheetnames = sheetnames)
 }
+
+
+
 
 
 #' Export a single dataset to a workbook with an index sheet
@@ -397,6 +331,7 @@ splitXLSX <- function(
 #'   needs to be accompanied by a second sheet with explanations or other complex
 #'   metadata.
 #' @inheritParams quickXLSX
+#' @param meta_infos metadata information as a list
 #' @examples
 #' aXLSX(file = tempfile(fileext = ".xlsx"),
 #'       data = mtcars,
@@ -412,57 +347,45 @@ splitXLSX <- function(
 #' @keywords aXLSX
 #' @export
 aXLSX <- function(
-    file, data, title, source, metadata, grouplines = NA, group_names = NA,
-    logo = getOption("statR_logo"), contactdetails = inputHelperContactInfo(),
-    author = "user") {
-  UseMethod("aXLSX", data)
-}
-
-#' @rdname aXLSX
-#' @export
-aXLSX.Content <- function(
-    file, data, title, source, metadata, grouplines = NA, group_names = NA,
+    file, data, title = NULL, source = NULL, metadata = NULL, grouplines = NULL, group_names = NULL,
     logo = getOption("statR_logo"), contactdetails = inputHelperContactInfo(),
     author = "user") {
 
-  if (missing(title))
-    title <- extract_attribute(data, "title")
 
-  if (missing(source))
-    source <- extract_attribute(data, "source")
+  if(!is.null(title)){
+    data <- add_title(data, title)
+  }
+  if(!is.null(source)){
+    data <- add_source(data, source)
+  }
+  if(!is.null(metadata)){
+    data <- add_metadata(data, metadata)
+  }
+  if(!is.null(grouplines)){
+    data <- add_grouplines(data, grouplines)
+  }
+  if(!is.null(group_names)){
+    data <- add_group_names(data, group_names)
+  }
 
-  if (missing(metadata))
-    metadata <- extract_attribute(data, "metadata")
+  class(data) <- c(class(data), "Content")
 
-  if (missing(grouplines))
-    grouplines <- extract_attribute(data, "grouplines")
 
-  if (missing(group_names))
-    group_names <- extract_attribute(data, "group_names")
 
-  aXLSX.default(
-    file, data, title, source, metadata, grouplines, group_names, logo, contactdetails, author)
-}
-
-#' @rdname aXLSX
-#' @export
-aXLSX.default <- function(
-    file, data, title, source, metadata, grouplines = NA, group_names = NA,
-    logo = getOption("statR_logo"), contactdetails = inputHelperContactInfo(),
-    author = "user") {
-
-  # Initialize Workbook object -------
   wb <- openxlsx::createWorkbook()
 
   # Insert data -----
-  insert_worksheet_nh(
-    wb, sheetname = "Data", data = data, title = title, source = source,
-    metadata = NA, grouplines = grouplines, group_names = group_names)
+  insert_worksheet_nh(wb, sheetname = "Data", data = data, metadata = NA)
+
+
+  meta_info <- list(
+    title = extract_attribute(data, "title"),
+    source = extract_attribute(data, "source"),
+    metadata = extract_attribute(data, "metadata")
+  )
 
   # Insert metadata -------
-  insert_metadata_sheet(
-    wb, title = title, source = source, metadata = metadata, logo = logo,
-    contactdetails = contactdetails, author = author)
+  insert_metadata_sheet(wb, sheetname = "Metadaten", meta_infos = meta_info, logo = logo, contactdetails = contactdetails, author = author)
 
   # Clean unneeded named regions
   cleanNamedRegions(wb, "all")
@@ -470,6 +393,9 @@ aXLSX.default <- function(
   # Write workbook to disk --------
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
 }
+
+
+
 
 
 #' Export a single dataset to a single formatted worksheet
@@ -500,19 +426,36 @@ aXLSX.default <- function(
 #'           metadata = metadata)
 #'
 quickXLSX <- function(
-    file, data, title, source, metadata, grouplines = NA, group_names = NA,
+    file, data, title = NULL, source = NULL, metadata = NULL, grouplines = NULL, group_names = NULL,
     logo = getOption("statR_logo"),
     contactdetails = statR:::inputHelperContactInfo(compact = TRUE),
     author = "user") {
+
+
+  if(!is.null(title)){
+    data <- add_title(data, title)
+  }
+  if(!is.null(source)){
+    data <- add_source(data, source)
+  }
+  if(!is.null(metadata)){
+    data <- add_metadata(data, metadata)
+  }
+  if(!is.null(grouplines)){
+    data <- add_grouplines(data, grouplines)
+  }
+  if(!is.null(group_names)){
+    data <- add_group_names(data, group_names)
+  }
+
+  class(data) <- c(class(data), "Content")
+
 
   # Create workbook --------
   wb <- openxlsx::createWorkbook()
 
   # Insert data --------
-  insert_worksheet(
-    wb, sheetname = "Inhalt", data = data, title = title, source = source,
-    metadata = metadata, logo = logo, contactdetails = contactdetails, author = author,
-    grouplines = grouplines, group_names = group_names)
+  insert_worksheet(wb, sheetname = "Inhalt", data = data)
 
   # Clean unneeded named regions
   cleanNamedRegions(wb, "all")
