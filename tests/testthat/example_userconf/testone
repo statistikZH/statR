@@ -1,0 +1,34 @@
+# Configuration file for statR
+statR_config_name: default
+
+# Contact information
+statR_organization: Statistisches Amt des Kantons Zürich
+statR_name: Datashop
+statR_phone: +41 43 259 75 00
+statR_email: datashop@statistik.zh.ch
+statR_homepage: http://www.statistik.zh.ch
+statR_openinghours:
+- Bürozeiten
+- Montag bis Freitag
+- 09:00 bis 12:00
+- 13:00 bis 16:00
+
+# Logo: this can be one of the values statzh or zh, or a path to an image
+statR_logo: statzh
+statR_logo_width: 2.145
+statR_logo_height: 0.7865
+
+# Prefixes for strings
+statR_prefix_date: "Aktualisiert am:"
+statR_prefix_author: "durch:"
+statR_prefix_phone: "Tel."
+statR_prefix_order_id: "Auftragsnr.:"
+
+# Default values
+statR_toc_title: Inhalt
+statR_source: Statistisches Amt des Kantons Zürich
+statR_default_plot_width: 6
+statR_default_plot_height: 3
+
+# Miscellaneous
+statR_date_format: "%d.%m.%Y"

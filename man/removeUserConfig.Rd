@@ -2,10 +2,13 @@
 % Please edit documentation in R/user_config.R
 \name{removeUserConfig}
 \alias{removeUserConfig}
-\title{Remove a configuration using a name}
+\title{Löschen eines Konfigurations-Eintrages}
 \usage{
 removeUserConfig(name, store_path = "~/.config/R/statR")
 }
+\arguments{
+\item{name}{Welcher registrierte Eintrag soll gelöscht werden}
+}
 \description{
-Remove a configuration using a name
+Löschen eines Konfigurations-Eintrages
 }

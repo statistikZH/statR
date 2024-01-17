@@ -2,14 +2,17 @@
 % Please edit documentation in R/user_config.R
 \name{initUserConfigStore}
 \alias{initUserConfigStore}
-\title{Intended to be ran once after setup}
+\title{Initialisiert die Excel-Header-Konfiguration}
 \usage{
 initUserConfigStore(path = "~/.config/R/statR")
 }
 \arguments{
-\item{path}{the path to the file which will store names and paths of
-different statR configs}
+\item{path}{Pfad unter welchem das Konfigurationsfile für das registrieren
+von Header-Config-Yaml-Files liegen soll}
 }
 \description{
-Intended to be ran once after setup
+Die Header-Konfiguration wird über globale Options gelöst, welche in einem Yaml file definiert werden.
+Per default wird die Konfiguration des Packages angezogen.
+Es besteht die Möglichkeit, eine eigene Konfiguration zu hinterlegen.
+Siehe dazu die Funktion: addUserConfig()
 }

@@ -2,10 +2,15 @@
 % Please edit documentation in R/user_config.R
 \name{addUserConfig}
 \alias{addUserConfig}
-\title{Add a new configuration using a name and path}
+\title{Registrieren eines neuen Header-Config-Yaml Files}
 \usage{
 addUserConfig(name = "default", path = NULL, store_path = "~/.config/R/statR")
 }
+\arguments{
+\item{name}{unter welchem namen soll die Header-Konfiguration abrufbar sein.}
+
+\item{path}{Pfad zum Header-Konfigurations-Yaml-File}
+}
 \description{
-Add a new configuration using a name and path
+Registrieren eines neuen Header-Config-Yaml Files
 }

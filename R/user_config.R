@@ -1,10 +1,14 @@
-# TODO: breaks down. After some remove/add operations, the store is now
-# of dim = c(8,1) instead of c(2,2). Somewhere along the path, an rbind
-# or similar operation is going awry.
-#' Intended to be ran once after setup
+#' Initialisiert die Excel-Header-Konfiguration
 #'
-#' @param path the path to the file which will store names and paths of
-#'   different statR configs
+#' Die Header-Konfiguration wird über globale Options gelöst, welche in einem Yaml file definiert werden.
+#' Per default wird die Konfiguration des Packages angezogen.
+#' Es besteht die Möglichkeit, eine eigene Konfiguration zu hinterlegen.
+#' Siehe dazu die Funktion: addUserConfig()
+#'
+#' @param path Pfad unter welchem das Konfigurationsfile für das registrieren
+#'  von Header-Config-Yaml-Files liegen soll
+#'
+#' @export
 initUserConfigStore <- function(path = "~/.config/R/statR") {
 
   if (!dir.exists(path)) {
@@ -18,15 +22,30 @@ initUserConfigStore <- function(path = "~/.config/R/statR") {
     writeLines("config_name,config_path", store_file)
 
   }
+
+  addUserConfig(store_path = path)
+
+  loadUserConfig(store_path = path)
 }
 
+
+#' Liest das Konfigurationsfile in welchem die Pfade zum Header-Config file
+#' hinterlegt sind
 readUserConfigStore <- function(path = "~/.config/R/statR") {
   store_file <- file.path(path, "statR_profile.csv")
   read.table(store_file, header = TRUE, sep = ",")
 }
 
 
-#' Add a new configuration using a name and path
+#' Registrieren eines neuen Header-Config-Yaml Files
+#'
+#' @param name unter welchem namen soll die Header-Konfiguration abrufbar sein.
+#'
+#' @param path Pfad zum Header-Konfigurations-Yaml-File
+#'
+#' @inheritParams initUserConfigStore
+#'
+#' @export
 addUserConfig <- function(name = "default", path = NULL,
                           store_path = "~/.config/R/statR") {
 
@@ -49,34 +68,81 @@ addUserConfig <- function(name = "default", path = NULL,
     path <- system.file("extdata/config/default", package = "statR")
   }
 
+  if(name == "default" & "default" %in% configs$config_name){
 
-  if (name %in% configs$config_name &&
-      rstudioapi::showQuestion("Overwrite config?",
-                               "Overwrite the configuration file?")) {
-      removeUserConfig(name, store_path)
+    return("Alles bereit")
   }
 
-  out <- rbind(configs, data.frame(config_name = name, config_path = path))
+
+  if(name %in% configs$config_name){
+
+    if(configs[configs$config_name == name, "config_path"] == path){
+      stop("Diese Konfiguration existiert bereits! Verwende die updateUserConfig()-Funktion um den Pfad zu ändern.")
+    }else{
+      stop(paste0("Der Konfigurationsname: ",configs[configs$config_name == name, "config_name"]," existiert bereits. Setze einn neuen Pfad mit der updateUserConfig()-Funktion"))
+    }
+
+  }else{
+    out <- rbind(configs, data.frame(config_name = name, config_path = path))
+  }
+
 
   write.table(out, store_file, row.names = FALSE, sep = ",")
 }
 
 
-#' Remove a configuration using a name
+
+#' Anpassen eines Header-Config-Yaml-Files-Pfades
 #'
+#' @param name Zu welchem Eintrag möchtest du den Pfad anpassen
 #'
+#' @param path Pfad zum Header-Konfigurations-Yaml-File
+#'
+#' @inheritParams initUserConfigStore
+#'
+#' @export
+updateUserConfig <- function(name, path, store_path = "~/.config/R/statR"){
+  if (!is.null(path) && !file.exists(path)) {
+    stop("No config file found at ", path)
+  }
+
+  configs <- readUserConfigStore(store_path)
+
+  configs[configs$config_name == name, "config_path"] <- path
+
+  out <- configs
+
+  store_file <- file.path(store_path, "statR_profile.csv")
+  write.table(out, store_file, row.names = FALSE, sep = ",")
+}
+
+#' Löschen eines Konfigurations-Eintrages
+#'
+#' @param name Welcher registrierte Eintrag soll gelöscht werden
+#'
+#' @inheritParams initUserConfigStore
+#'
+#' @export
 removeUserConfig <- function(name, store_path = "~/.config/R/statR") {
+
+  if (name == "default") {
+    stop("Der Default-Wert kann nicht gelöscht werden. Wenn du den Pfad anpassen möchtest, verwende die updateUserConfig()-Funktion")
+  }
+
   store_file <- file.path(store_path, "statR_profile.csv")
   configs <- readUserConfigStore(store_path)
   write.table(subset(configs, configs$config_name != name),
               store_file, row.names = FALSE, sep = ",")
 
   # When default config is deleted, replace it with the package default
-  if (name == "default") {
-    addUserConfig(store_path = store_path)
-  }
+
 }
 
+#' Liest das Header-Konfigurations-Yaml-File
+#'
+#' @param name welches file soll angezogen werden
+#'
+#' @inheritParams initUserConfigStore
 readUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
   all_configs <- readUserConfigStore(store_path)
   path <- subset(all_configs, name == all_configs$config_name)$config_path
@@ -88,6 +154,14 @@ readUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
   yaml::read_yaml(path)
 }
 
+
+#' Setzt die Header-Konfigurationen als options
+#'
+#' @param name welches file soll angezogen werden
+#'
+#' @inheritParams initUserConfigStore
+#'
+#' @param
 loadUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
   options(readUserConfig(name, store_path))
 }
