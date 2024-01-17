@@ -33,8 +33,30 @@ Die Hauptfunktionalitäten werden dabei von den folgenden Funktionen angeboten
 * splitXLSX
 * datasetsXLSX
 
-
 ## Funktionen und Beispiele
+
+### quickXLSX() 
+Die Funktion `quickXLSX()` bietet die einfachste Möglichkeit, in R eine 
+Excel-Datei mit einem Datensatz zu erzeugen. Die Output-Datei besteht aus einem
+einzelen Arbeitsblatt, wahlweise mit einem Header mit Kontaktangaben, Titel,
+Quelle und Metadaten.
+
+```{r, echo = TRUE, eval = FALSE}
+quickXLSX(data = mtcars, 
+          file = "motor_trend_car_road_tests",
+          title = "Motor trend car road tests", 
+          source = paste0("Henderson and Velleman (1981). Building multiple ",
+                          "regression models interactively. ",
+                          "Biometrics, 37, 391–411.",
+          metadata = paste0("The data was extracted from the 1974 Motor Trend ",
+                            "US magazine and comprises fuel consumption and ",
+                            "10 aspects of automobile design and performance ",
+                            "for 32 automobiles (1973–74 models).")
+)
+```
+
+![Screenshot der Datei motor_trend_car_road_tests.xlsx](./output-quickXLSX.PNG){width=95%}
+
 
 ### aXLSX()
 
@@ -69,32 +91,6 @@ aXLSX(data = mtcars,
 ![Screenshot des Datenblatts in der Datei motor_trend_car_road_tests.xlsx](./output-aXLSX-1.PNG){width=95%}
 
 ![Screenshot des Metadatenblatts der Datei motor_trend_car_road_tests.xlsx](./output-aXLSX-2.PNG){width=95%}
-
-
-### quickXLSX() 
-
-Mit der Funktion `quickXLSX()` kann -- wie mit `aXLSX()` -- ein Datensatz aus 
-`R` als vorformatierte Excel-Datei exportiert werden. Der Unterschied zu 
-`aXLSX()` besteht darin, dass `quickXLSX()` die Metadaten und die Daten auf ein 
-einzelnes Excel-Sheet exportiert.
-
-```{r, echo = TRUE, eval = FALSE}
-quickXLSX(data = mtcars, 
-          file = "motor_trend_car_road_tests",
-          title = "Motor trend car road tests", 
-          source = paste0("Henderson and Velleman (1981). Building multiple ",
-                          "regression models interactively. ",
-                          "Biometrics, 37, 391–411.",
-          metadata = paste0("The data was extracted from the 1974 Motor Trend ",
-                            "US magazine and comprises fuel consumption and ",
-                            "10 aspects of automobile design and performance ",
-                            "for 32 automobiles (1973–74 models).")
-)
-```
-
-
-![Screenshot der Datei motor_trend_car_road_tests.xlsx](./output-quickXLSX.PNG){width=95%}
-
 
 
 ### splitXLSX()
@@ -135,8 +131,9 @@ splitXLSX(data = mtcars,
 Die Funktion `datasetsXLSX()` erlaubt es, mehrere Datensätze und/oder Grafiken 
 aus R in eine XLSX-Datei zu exportieren. Pro Arbeitsblatt wird ein Datensatz 
 oder eine Grafik dargestellt. Es kann auch eine Auftragsnummer hinzugefügt 
-werden. Die Funktion eignet sich besonders für Fälle, wo man mehrere Datensätze 
-an eine/n Empfänger/in verschicken möchte.  
+werden. Die Funktion eignet sich in Fällen, in denen mehrere verwandte Datensätze 
+exportiert werden sollen oder in denen eine Mischung aus Daten und Grafiken hinterlegt
+werden soll.  
 
 Die Datensätze, die zusammen in einer Excel-Datei erscheinen sollen, müssen dem 
 Funktionsargument `datasets` als Liste übergeben werden 
@@ -288,6 +285,7 @@ wissenschaftlichen Notation dargestellt werden.
 
 ## User Configurations
 
+# TODO: update this section 
 ### Überblick
 ```{r, echo = TRUE, eval = FALSE}
 # Zeige alle Userkonfigurationen an

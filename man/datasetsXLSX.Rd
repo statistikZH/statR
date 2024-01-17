@@ -27,15 +27,15 @@ datasetsXLSX(
 )
 }
 \arguments{
-\item{file}{file name of the spreadsheet. The extension ".xlsx" is added
-automatically.}
+\item{file}{file name of the xlsx-file. The extension ".xlsx" is added}
 
 \item{datasets}{A list of an arbitrary number of data.frames, ggplot objects,
 and file paths for images in the order in which they should appear in the
 output file.}
 
-\item{sheetname}{Names of individual worksheets in output file. Note that these
-will be truncated to 31 characters and must be unique.}
+\item{sheetname}{Names of individual worksheets in output file. Note that
+these names will be truncated to 31 characters, must be unique, and cannot
+contain some special characters (namely the following: /, \, ?, *, :, [, ]).}
 
 \item{title}{Titles shown at the top of the different worksheets.}
 
@@ -62,19 +62,23 @@ in inches (1 inch = 2.54 cm), or a list of the same length as `datasets`}
 
 \item{index_source}{Source to be shown below the index title.}
 
-\item{logo}{File path to the logo to be included in the index-sheet. Defaults to the
-logo of the Statistical Office of Kanton Zurich.}
+\item{logo}{File path to the logo to be included in the index-sheet.
+Defaults to the logo of the Statistical Office of Kanton Zurich. This can
+either be overridden with a path to an image file, or configured in a user
+profile.}
 
 \item{contactdetails}{Character vector with contact information to be displayed
 on the title sheet. By default uses \code{inputHelperContactInfo()} to
-construct it based on the user config user defined values.}
+construct it based on values defined in the active user configuration.}
 
-\item{homepage}{Web address to be put on the title sheet.}
+\item{homepage}{Homepage of data publisher. Default can be adjusted via user
+configuration.}
 
-\item{openinghours}{A character vector with office hours}
+\item{openinghours}{A character vector with office hours. Defaults to NULL (
+no output).}
 
-\item{auftrag_id}{An identifier to denote that the output corresponds to a specific
-project or order.}
+\item{auftrag_id}{An ID associated with the Excel file. Defaults to NULL (
+no output).}
 
 \item{metadata_sheet}{A list with named elements 'title', 'source', and 'text'.
 Intended for conveying long-form information. Default is NULL, not included.}
@@ -101,38 +105,39 @@ The arguments datasets, sheetnames, titles, sources, and metadata
 \examples{
 library(dplyr)
 library(statR)
-library(openxlsx)
 library(ggplot2)
 
 # Example with two datasets and one figure - legacy method
-fig <- ggplot2::ggplot(mtcars, ggplot2::aes(x = disp))+
-                 ggplot2::geom_histogram()
+fig <- ggplot2::ggplot(mtcars, ggplot2::aes(x = disp)) +
+  ggplot2::geom_histogram()
 
+\dontrun{
 datasetsXLSX(file = tempfile(fileext = ".xlsx"),
-            datasets = list(mtcars, PlantGrowth, fig),
-            titles = c("mtcars-Datensatz",
-                       "PlantGrowth-Datensatz",
-                       "Histogramm"),
-            plot_widths = c(5),
-            plot_heights = c(5),
-            sources = list(
-              paste(
-                "Source: Henderson and Velleman (1981).",
-                "Building multiple regression models",
-                "interactively. Biometrics, 37, 391–411."),
-              paste(
-                "Source: Dobson, A. J. (1983) An Introduction",
-                "to Statistical Modelling.",
-                "London: Chapman and Hall."),
-              NULL),
-            metadata = list(
-              "Bemerkungen zum mtcars-Datensatz: x",
-              "Bemerkungen zum PlantGrowth-Datensatz: x",
-              NULL),
-            sheetnames = c("Autos","Blumen", "Histogramm"),
-            index_title = "Autos und Pflanzen",
-            auftrag_id = "A2021_0000",
-            overwrite = TRUE)
+             datasets = list(mtcars, PlantGrowth, fig),
+             titles = c("mtcars-Datensatz",
+                        "PlantGrowth-Datensatz",
+                        "Histogramm"),
+             plot_widths = c(5),
+             plot_heights = c(5),
+             sources = list(
+               paste(
+                 "Source: Henderson and Velleman (1981).",
+                 "Building multiple regression models",
+                 "interactively. Biometrics, 37, 391–411."),
+               paste(
+                 "Source: Dobson, A. J. (1983) An Introduction",
+                 "to Statistical Modelling.",
+                 "London: Chapman and Hall."),
+               NULL),
+             metadata = list(
+               "Bemerkungen zum mtcars-Datensatz: x",
+               "Bemerkungen zum PlantGrowth-Datensatz: x",
+               NULL),
+             sheetnames = c("Autos","Blumen", "Histogramm"),
+             index_title = "Autos und Pflanzen",
+             auftrag_id = "A2021_0000",
+             overwrite = TRUE)
+}
 
 # Newer method
 df <- mtcars \%>\%
@@ -140,39 +145,37 @@ df <- mtcars \%>\%
   add_title("Cars dataset") \%>\%
   add_source(paste("Henderson and Velleman (1981). Building multiple",
                    "regression models interactively.",
-                   "Biometrics, 37, 391–411."),
-    prefix = "Source: ", collapse = "") \%>\%
-  add_metadata("Obtained in R by calling 'mtcars'",
-    prefix = "Hinweis: ", collapse = "") \%>\%
-  add_grouplines(c(2,5,8)) \%>\%
+                   "Biometrics, 37, 391–411.")) \%>\%
+  add_metadata("Obtained in R by calling 'mtcars'") \%>\%
+  add_grouplines(c(2, 5, 8)) \%>\%
   add_group_names(c("Group1", "Group2", "Group3"))
 
 df2 <- airquality \%>\%
   add_sheetname("airquality") \%>\%
   add_title("Airquality") \%>\%
-  add_metadata(c("1. Part of R package 'datasets'",
-                 "2. Contains some missing values"),
-    prefix = "Hinweise")
+  add_metadata("Obtained in R by calling 'airquality'")
 
 plt <- (ggplot(mtcars) + geom_histogram(aes(x = cyl))) \%>\%
   add_sheetname("Histogram") \%>\%
   add_title("A histogram") \%>\%
-  add_source("mtcars data from R package 'datasets'",
-    prefix = "Datenquelle:", collapse = " ") \%>\%
-  add_plot_width(6) \%>\%
-  add_plot_height(3)
+  add_source("mtcars data from R package 'datasets'") \%>\%
+  add_plot_size(c(6,3))
 
+metadata_sheet <- list(
+  title = "Title of the metadata sheet",
+  source = "A reference to the responsible organization or similar",
+  text = c("The metadatasheet is intended for universally applicable",
+           "long-form explanations which don't fit neatly above the data.",
+           "",
+           "Each element is printed in a new row."))
+
+\dontrun{
 datasetsXLSX(
-  file = "dsxlsx_test.xlsx",
-  datasets = list(df,  df2, plt),
-  metadata_sheet = list(
-    title = "Title of the metadata sheet",
-    source = "A reference to the responsible organization or similar",
-    text = c("The metadatasheet is intended for universally applicable",
-      "long-form explanations which don't fit neatly above the data.",
-      "",
-      "Each element is printed in a new row.")
-  ), overwrite = TRUE)
+  file = tempfile(fileext = ".xlsx"),
+  datasets = list(df, df2, plt),
+  metadata_sheet = metadata_sheet,
+  overwrite = TRUE)
+}
 
 }
 \keyword{datasetsXLSX}

@@ -13,55 +13,30 @@
 #'  All elements in datasets must be of type data.frame, ggplot, or character.
 #'  In the latter case, the inputs must correspond to paths to existing image
 #'  files.
-#' @param file file name of the spreadsheet. The extension ".xlsx" is added
-#'  automatically.
-#'
+#' @inheritParams insert_worksheet
+#' @inheritParams quickXLSX
 #' @param datasets A list of an arbitrary number of data.frames, ggplot objects,
 #'  and file paths for images in the order in which they should appear in the
 #'  output file.
-#'
-#' @param sheetname Names of individual worksheets in output file. Note that these
-#'   will be truncated to 31 characters and must be unique.
-#'
+#' @param sheetname Names of individual worksheets in output file. Note that
+#'   these names will be truncated to 31 characters, must be unique, and cannot
+#'   contain some special characters (namely the following: /, \, ?, *, :, [, ]).
 #' @param title Titles shown at the top of the different worksheets.
-#'
 #' @param source A list of sources for the different elements of `datasets`.
 #'  Elements of this list can also be character vectors to insert more than one source.
-#'
 #' @param metadata A list containing metadata for each element of `datasets`.
 #'  Elements of this list can also be character vectors to insert more than one source.
-#'
 #' @param grouplines A list containing vectors of indices/names of columns at
 #'   the beginning of a group.
-#'
 #' @param group_names A list of character vectors containing the names of the
 #'   groups as defined in `grouplines`. Should not be specified unless
 #'   grouplines is also specified.
-#'
 #' @param plot_width Either a single numeric value denoting the width of all included plots
 #'  in inches (1 inch = 2.54 cm), or a list of the same length as `datasets`
-#'
 #' @param plot_height Either a single numeric value denoting the height of all included plots
 #'  in inches (1 inch = 2.54 cm), or a list of the same length as `datasets`
-#'
 #' @param index_title Title to be put on the index sheet.
-#'
 #' @param index_source Source to be shown below the index title.
-#'
-#' @param logo File path to the logo to be included in the index-sheet. Defaults to the
-#'  logo of the Statistical Office of Kanton Zurich.
-#'
-#' @param contactdetails Character vector with contact information to be displayed
-#'  on the title sheet. By default uses \code{inputHelperContactInfo()} to
-#'  construct it based on the user config user defined values.
-#'
-#' @param homepage Web address to be put on the title sheet.
-#'
-#' @param openinghours A character vector with office hours
-#'
-#' @param auftrag_id An identifier to denote that the output corresponds to a specific
-#'  project or order.
-#'
 #' @param metadata_sheet A list with named elements 'title', 'source', and 'text'.
 #'  Intended for conveying long-form information. Default is NULL, not included.
 #' @param overwrite Overwrites the existing excel files with the same file name.
@@ -69,38 +44,39 @@
 #' @examples
 #' library(dplyr)
 #' library(statR)
-#' library(openxlsx)
 #' library(ggplot2)
 #'
 #'# Example with two datasets and one figure - legacy method
-#'fig <- ggplot2::ggplot(mtcars, ggplot2::aes(x = disp))+
-#'                  ggplot2::geom_histogram()
+#' fig <- ggplot2::ggplot(mtcars, ggplot2::aes(x = disp)) +
+#'   ggplot2::geom_histogram()
 #'
-#'datasetsXLSX(file = tempfile(fileext = ".xlsx"),
-#'             datasets = list(mtcars, PlantGrowth, fig),
-#'             titles = c("mtcars-Datensatz",
-#'                        "PlantGrowth-Datensatz",
-#'                        "Histogramm"),
-#'             plot_widths = c(5),
-#'             plot_heights = c(5),
-#'             sources = list(
-#'               paste(
-#'                 "Source: Henderson and Velleman (1981).",
-#'                 "Building multiple regression models",
-#'                 "interactively. Biometrics, 37, 391–411."),
-#'               paste(
-#'                 "Source: Dobson, A. J. (1983) An Introduction",
-#'                 "to Statistical Modelling.",
-#'                 "London: Chapman and Hall."),
-#'               NULL),
-#'             metadata = list(
-#'               "Bemerkungen zum mtcars-Datensatz: x",
-#'               "Bemerkungen zum PlantGrowth-Datensatz: x",
-#'               NULL),
-#'             sheetnames = c("Autos","Blumen", "Histogramm"),
-#'             index_title = "Autos und Pflanzen",
-#'             auftrag_id = "A2021_0000",
-#'             overwrite = TRUE)
+#' \dontrun{
+#' datasetsXLSX(file = tempfile(fileext = ".xlsx"),
+#'              datasets = list(mtcars, PlantGrowth, fig),
+#'              titles = c("mtcars-Datensatz",
+#'                         "PlantGrowth-Datensatz",
+#'                         "Histogramm"),
+#'              plot_widths = c(5),
+#'              plot_heights = c(5),
+#'              sources = list(
+#'                paste(
+#'                  "Source: Henderson and Velleman (1981).",
+#'                  "Building multiple regression models",
+#'                  "interactively. Biometrics, 37, 391–411."),
+#'                paste(
+#'                  "Source: Dobson, A. J. (1983) An Introduction",
+#'                  "to Statistical Modelling.",
+#'                  "London: Chapman and Hall."),
+#'                NULL),
+#'              metadata = list(
+#'                "Bemerkungen zum mtcars-Datensatz: x",
+#'                "Bemerkungen zum PlantGrowth-Datensatz: x",
+#'                NULL),
+#'              sheetnames = c("Autos","Blumen", "Histogramm"),
+#'              index_title = "Autos und Pflanzen",
+#'              auftrag_id = "A2021_0000",
+#'              overwrite = TRUE)
+#' }
 #'
 #' # Newer method
 #' df <- mtcars %>%
@@ -108,47 +84,45 @@
 #'   add_title("Cars dataset") %>%
 #'   add_source(paste("Henderson and Velleman (1981). Building multiple",
 #'                    "regression models interactively.",
-#'                    "Biometrics, 37, 391–411."),
-#'     prefix = "Source: ", collapse = "") %>%
-#'   add_metadata("Obtained in R by calling 'mtcars'",
-#'     prefix = "Hinweis: ", collapse = "") %>%
-#'   add_grouplines(c(2,5,8)) %>%
+#'                    "Biometrics, 37, 391–411.")) %>%
+#'   add_metadata("Obtained in R by calling 'mtcars'") %>%
+#'   add_grouplines(c(2, 5, 8)) %>%
 #'   add_group_names(c("Group1", "Group2", "Group3"))
 #'
 #' df2 <- airquality %>%
 #'   add_sheetname("airquality") %>%
 #'   add_title("Airquality") %>%
-#'   add_metadata(c("1. Part of R package 'datasets'",
-#'                  "2. Contains some missing values"),
-#'     prefix = "Hinweise")
+#'   add_metadata("Obtained in R by calling 'airquality'")
 #'
 #' plt <- (ggplot(mtcars) + geom_histogram(aes(x = cyl))) %>%
 #'   add_sheetname("Histogram") %>%
 #'   add_title("A histogram") %>%
-#'   add_source("mtcars data from R package 'datasets'",
-#'     prefix = "Datenquelle:", collapse = " ") %>%
-#'   add_plot_width(6) %>%
-#'   add_plot_height(3)
+#'   add_source("mtcars data from R package 'datasets'") %>%
+#'   add_plot_size(c(6,3))
 #'
+#' metadata_sheet <- list(
+#'   title = "Title of the metadata sheet",
+#'   source = "A reference to the responsible organization or similar",
+#'   text = c("The metadatasheet is intended for universally applicable",
+#'            "long-form explanations which don't fit neatly above the data.",
+#'            "",
+#'            "Each element is printed in a new row."))
+#'
+#' \dontrun{
 #' datasetsXLSX(
-#'   file = "dsxlsx_test.xlsx",
-#'   datasets = list(df,  df2, plt),
-#'   metadata_sheet = list(
-#'     title = "Title of the metadata sheet",
-#'     source = "A reference to the responsible organization or similar",
-#'     text = c("The metadatasheet is intended for universally applicable",
-#'       "long-form explanations which don't fit neatly above the data.",
-#'       "",
-#'       "Each element is printed in a new row.")
-#'   ), overwrite = TRUE)
+#'   file = tempfile(fileext = ".xlsx"),
+#'   datasets = list(df, df2, plt),
+#'   metadata_sheet = metadata_sheet,
+#'   overwrite = TRUE)
+#' }
 #'
 #' @keywords datasetsXLSX
 #' @importFrom dplyr %>%
 #' @export
 datasetsXLSX <- function(
-    file, datasets, sheetname = NULL, title = NULL, source = NULL, metadata = NULL, grouplines = NULL,
-    group_names = NULL, plot_width = NULL, plot_height = NULL,
-    index_title = getOption("statR_toc_title"),
+    file, datasets, sheetname = NULL, title = NULL, source = NULL,
+    metadata = NULL, grouplines = NULL, group_names = NULL, plot_width = NULL,
+    plot_height = NULL, index_title = getOption("statR_toc_title"),
     index_source = getOption("statR_source"), logo = getOption("statR_logo"),
     contactdetails = inputHelperContactInfo(),
     homepage = getOption("statR_homepage"),
@@ -175,6 +149,10 @@ datasetsXLSX <- function(
 
   if (any(is_plot)) {
 
+    # Reads object with name == arg, if NULL tries to extract attribute.
+    # If length == 1, all plots are assigned the same plot size, otherwise
+    # assigns plot_size in order of plots. Overrides all attributes if non-null
+    # plot_size is provided.
     for (arg in c("plot_height", "plot_width")){
       buffer <- as.list(rep(NA, length.out = length(datasets)))
 
@@ -236,22 +214,24 @@ datasetsXLSX <- function(
 #'   distributed over multiple worksheets based on a grouping variable (e.g., year).
 #' @note User should make sure that the grouping variable is of binary,
 #'   categorical or other types with a limited number of levels.
+#' @inheritParams insert_worksheet
 #' @inheritParams quickXLSX
-#' @param homepage Web address to be put on the title sheet.
 #' @param sheetvar name of the variable used to split the data and spread them
 #'  over several sheets.
 #' @examples
-#'splitXLSX(file = tempfile(fileext = ".xlsx"),
-#'          data = mtcars,
-#'          sheetvar = "cyl",
-#'          title = "Motor trend car road tests",
-#'          source = paste("Source: Henderson and Velleman (1981),",
-#'                         "Building multiple regression models interactively.",
-#'                         "Biometrics, 37, 391–411."),
-#'          metadata = paste("The data was extracted from the 1974 Motor Trend",
-#'                           "US magazine and comprises fuel consumption and",
-#'                           "10 aspects of automobile design and performance",
-#'                           "for 32 automobiles (1973–74 models)."))
+#' \dontrun{
+#' splitXLSX(file = tempfile(fileext = ".xlsx"),
+#'           data = mtcars,
+#'           sheetvar = "cyl",
+#'           title = "Motor trend car road tests",
+#'           source = paste("Source: Henderson and Velleman (1981),",
+#'                          "Building multiple regression models interactively.",
+#'                          "Biometrics, 37, 391–411."),
+#'           metadata = paste("The data was extracted from the 1974 Motor Trend",
+#'                            "US magazine and comprises fuel consumption and",
+#'                            "10 aspects of automobile design and performance",
+#'                            "for 32 automobiles (1973–74 models)."))
+#' }
 #' @keywords splitXLSX
 #' @export
 splitXLSX <- function(
@@ -262,7 +242,7 @@ splitXLSX <- function(
     author = "user") {
 
   # Shared values: these are attached to the source data.frame before
-  # splitting on sheetvar.
+  # splitting on sheetvar using split.data.frame(), which preserves attributes
   for (value in c("source", "metadata", "grouplines", "group_names")) {
     if (!is.null(eval(as.name(value)))) {
       data <- add_attribute(data, value, eval(as.name(value)))
@@ -286,9 +266,10 @@ splitXLSX <- function(
 #' @note This function is well-suited for applications where a single dataset
 #'   needs to be accompanied by a second sheet with explanations or other complex
 #'   metadata.
+#' @inheritParams insert_worksheet
 #' @inheritParams quickXLSX
-#' @param meta_infos metadata information as a list
 #' @examples
+#' \dontrun{
 #' aXLSX(file = tempfile(fileext = ".xlsx"),
 #'       data = mtcars,
 #'       title = "Motor trend car road tests",
@@ -300,6 +281,7 @@ splitXLSX <- function(
 #'                        "consumption and 10 aspects of automobile design",
 #'                        "and performance for 32 automobiles",
 #'                        "(1973–74 models)."))
+#' }
 #' @keywords aXLSX
 #' @export
 aXLSX <- function(
@@ -348,18 +330,18 @@ aXLSX <- function(
 #'   "Trend US magazine and comprises fuel consumption",
 #'   "and 10 aspects of automobile design and",
 #'   "performance for 32 automobiles (1973–74 models).")
-#'
+#' \dontrun{
 #' quickXLSX(file = tempfile(fileext = ".xlsx"),
 #'           data = mtcars,
 #'           title = title,
 #'           source = source,
 #'           metadata = metadata)
-#'
+#' }
 quickXLSX <- function(
     data, file, title = NULL, source = NULL, metadata = NULL, grouplines = NULL,
     group_names = NULL, logo = getOption("statR_logo"),
     contactdetails = statR:::inputHelperContactInfo(compact = TRUE),
-    author = "user", clean_named_regions = "all") {
+    author = "user") {
 
   for (value in c("title", "source", "metadata", "grouplines", "group_names")) {
     if (!is.null(eval(as.name(value)))) {

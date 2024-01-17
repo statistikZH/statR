@@ -1,14 +1,14 @@
-#' insert_index_hyperlinks()
+#' Insert hyperlinks with titles and sheetnames
 #'
 #' @description Function for inserting hyperlinks within an openxlsx Workbook
 #' @inheritParams insert_worksheet
-#' @param sheet_row Row where hyperlink should be inserted
 #' @param index_sheet_name Name of sheet where hyperlink should be created
 #' @param sheetname Names of sheets to create hyperlinks to
 #' @param title Titles of Hyperlinks
 #' @param sheet_start_row Initial row after which hyperlinks should be created
-#' @keywords insert_hyperlinks, internal
+#' @keywords insert_hyperlinks
 #' @importFrom openxlsx makeHyperlinkString writeFormula addStyle
+#' @export
 insert_index_hyperlinks <- function(wb, sheetname, title,
                               index_sheet_name = "Index",
                               sheet_start_row = 15) {
@@ -28,7 +28,7 @@ insert_index_hyperlinks <- function(wb, sheetname, title,
 }
 
 
-#' insert_hyperlinks()
+#' Insert hyperlinks
 #'
 #' @description Function for inserting hyperlinks within an openxlsx Workbook.
 #'              Provides support for links to external .xlsx.

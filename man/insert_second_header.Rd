@@ -16,7 +16,9 @@ insert_second_header(
 \arguments{
 \item{wb}{workbook object to add new worksheet to.}
 
-\item{sheetname}{name of the sheet tab.}
+\item{sheetname}{Names of the worksheet in output file. Note that this name
+will be truncated to 31 characters, must be unique, and cannot contain
+some special characters (namely the following: /, \, ?, *, :, [, ]).}
 
 \item{data_start_row}{Row index for first row with data}
 

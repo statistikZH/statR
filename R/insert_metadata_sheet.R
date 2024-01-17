@@ -1,4 +1,4 @@
-#' insert_metadata_sheet()
+#' Insert sheet with metadata
 #'
 #' @description Function to add a formatted worksheet with metadata to an
 #'   existing Workbook object.

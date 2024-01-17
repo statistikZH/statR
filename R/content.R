@@ -48,15 +48,12 @@
 #'   add_source(
 #'     c("Henderson and Velleman (1981),",
 #'       "Building multiple regression models interactively.",
-#'       "Biometrics, 37, 391–411."),
-#'     prefix = "Source:",
-#'     collapse = " ") %>%
+#'       "Biometrics, 37, 391–411.")) %>%
 #'   add_metadata(
 #'     c("The data was extracted from the 1974 Motor",
 #'       "Trend US magazine and comprises fuel consumption",
 #'       "and 10 aspects of automobile design and",
-#'       "performance for 32 automobiles (1973–74 models)."),
-#'     collapse = " ")
+#'       "performance for 32 automobiles (1973–74 models)."))
 #'
 #' # Create a plot and assign attributes in one pipeline
 #' plt <- (ggplot(mtcars) +
@@ -65,15 +62,13 @@
 #'     add_title("Histogram of horsepower") %>%
 #'     add_plot_size(c(6, 3))
 #'
-#' \dontrun{
 #' # Generate outputfile using minimal call
+#' \dontrun{
 #' datasetsXLSX(
 #'   file = tempfile(fileext = ".xlsx"),
 #'   datasets = list(df, plt))
 #' }
 #' @export
-#'
-#'
 add_attribute <- function(object, what, value) {
   UseMethod("add_attribute", object)
 }
@@ -193,7 +188,7 @@ check_for_attributes <- function(object){
 #' @param required_val Boolean, if TRUE tries to look up a default in global
 #'   options if attribute not found, and raises an error if none was defined.
 #' @rdname extract_attribute
-#' @keywords internal
+#' @export
 extract_attribute <- function(object, which, required_val = FALSE) {
 
   value <- attr(object, which)
@@ -215,7 +210,7 @@ extract_attribute <- function(object, which, required_val = FALSE) {
   return(value)
 }
 #' @rdname extract_attribute
-#' @keywords internal
+#' @export
 extract_attributes <- function(object_list, which, required_val = FALSE) {
   values <- list()
 

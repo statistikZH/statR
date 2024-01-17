@@ -2,7 +2,7 @@
 % Please edit documentation in R/insert_hyperlinks.R
 \name{insert_hyperlinks}
 \alias{insert_hyperlinks}
-\title{insert_hyperlinks()}
+\title{Insert hyperlinks}
 \usage{
 insert_hyperlinks(wb, sheetname, text, where, start_row = 15, file = NULL)
 }

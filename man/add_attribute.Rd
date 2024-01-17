@@ -87,15 +87,12 @@ df <- mtcars \%>\%
   add_source(
     c("Henderson and Velleman (1981),",
       "Building multiple regression models interactively.",
-      "Biometrics, 37, 391–411."),
-    prefix = "Source:",
-    collapse = " ") \%>\%
+      "Biometrics, 37, 391–411.")) \%>\%
   add_metadata(
     c("The data was extracted from the 1974 Motor",
       "Trend US magazine and comprises fuel consumption",
       "and 10 aspects of automobile design and",
-      "performance for 32 automobiles (1973–74 models)."),
-    collapse = " ")
+      "performance for 32 automobiles (1973–74 models)."))
 
 # Create a plot and assign attributes in one pipeline
 plt <- (ggplot(mtcars) +
@@ -104,8 +101,8 @@ plt <- (ggplot(mtcars) +
     add_title("Histogram of horsepower") \%>\%
     add_plot_size(c(6, 3))
 
-\dontrun{
 # Generate outputfile using minimal call
+\dontrun{
 datasetsXLSX(
   file = tempfile(fileext = ".xlsx"),
   datasets = list(df, plt))

@@ -1,4 +1,4 @@
-#' verifyInputSheetname()
+#' Ensure that a sheetname are unique and legal according to MS Excel
 #'
 #' @description Function which truncates a sheetname to 31 characters
 #' @details MS Excel imposes a character limit of 31 characters for names of
@@ -7,7 +7,7 @@
 #' @param sheetname A character string with the name for an XLSX worksheet
 #' @returns A character string
 #' @keywords internal
-#' @noRd
+#' @rdname verifyInputSheetname
 verifyInputSheetname <- function(sheetname) {
 
   forbidden_chars <- c("/", "\\", "?", "*", ":", "[", "]")
@@ -28,18 +28,7 @@ verifyInputSheetname <- function(sheetname) {
   return(sheetname)
 }
 
-#' verifyInputSheetnames()
-#'
-#' @description Function which truncates multiple sheetnames to 31 characters and
-#'  checks for uniqueness.
-#' @details MS Excel imposes a character limit of 31 characters for names of
-#'  worksheets. This function truncates sheetnames accordingly and notify the
-#'  user via a message. If the truncated sheetnames aren't unique, the function
-#'  raises an error.
-#' @param sheetname A character string with the name for an XLSX worksheet
-#' @returns A character string
-#' @keywords internal
-#' @noRd
+#' @rdname verifyInputSheetname
 verifyInputSheetnames <- function(sheetnames) {
 
   output_sheetnames <- lapply(sheetnames, verifyInputSheetname)
@@ -54,7 +43,8 @@ verifyInputSheetnames <- function(sheetnames) {
   return(output_sheetnames)
 }
 
-#' verifyInputFilename()
+
+#' Ensure that filename has file extension
 #'
 #' @description Function which adds a file extension to a filename if missing .
 #' @param filename A character string with the filename
@@ -62,12 +52,12 @@ verifyInputSheetnames <- function(sheetnames) {
 #' @returns A character string
 #' @keywords internal
 #' @noRd
-verifyInputFilename <- function(filename, extension = ".xlsx") {
-  regex_pattern <- paste0(extension, "$")
-  paste0(gsub(regex_pattern, "", filename), extension)
+verifyInputFilename <- function(filename, extension = "xlsx") {
+  regex_pattern <- paste0("[.]", extension, "$")
+  paste0(gsub(regex_pattern, "", filename), ".", extension)
 }
 
-#' verifyDataUngrouped()
+#' Ensure that input data is ungrouped
 #'
 #' @description Function which checks if a data.frame is a grouped_df, in which
 #'  case it calls dplyr::ungroup().

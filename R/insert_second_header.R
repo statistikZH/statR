@@ -4,6 +4,7 @@
 #' @inheritParams insert_worksheet
 #' @param data_start_row Row index for first row with data
 #' @keywords internal
+#' @importFrom utils head tail
 insert_second_header <- function(wb, sheetname, data_start_row, group_names,
                                  grouplines, data) {
 

@@ -35,15 +35,14 @@ insert_worksheet_image <- function(wb, sheetname, image, title = NULL,
                                    height = NULL, startrow = 3, startcol = 3,
                                    units = "in", dpi = 300) {
 
-  UseMethod("insert_worksheet_image", image)
-}
+  for (value in c("title", "source", "metadata")) {
+    if (is.null(eval(as.name(value)))) {
+      assign(value, extract_attribute(image, value))
+    }
+  }
 
-#' @keywords internal
-insert_worksheet_image.default <- function(wb, sheetname, image, title = NULL,
-                                           source = NULL, metadata = NULL,
-                                           width = NULL, height = NULL,
-                                           startrow = 3, startcol = 3,
-                                           units = "in", dpi = 300) {
+  if (is.null(width)) width <- extract_attribute(image, "plot_width", TRUE)
+  if (is.null(height)) height <- extract_attribute(image, "plot_height", TRUE)
 
   # If image is.null, pass
   if (is.null(image)) return()
@@ -90,31 +89,4 @@ insert_worksheet_image.default <- function(wb, sheetname, image, title = NULL,
   openxlsx::insertImage(wb, sheet = sheetname, file = image_path,
                         width = width, height = height, startRow = startrow,
                         startCol = startcol, units = units, dpi = dpi)
-}
-
-#' @keywords internal
-insert_worksheet_image.Content <- function(wb, sheetname, image, title = NULL,
-                                           source = NULL, metadata = NULL,
-                                           width = NULL, height = NULL,
-                                           startrow = 3, startcol = 3,
-                                           units = "in", dpi = 300) {
-
-  # Try to fill in values if not provided
-  if (is.null(title))
-    title <- extract_attribute(image, "title")
-
-  if (is.null(source))
-    source <- extract_attribute(image, "source")
-
-  if (is.null(metadata))
-    metadata <- extract_attribute(image, "metadata")
-
-  if (is.null(height))
-    height <- extract_attribute(image, "plot_height", TRUE)
-
-  if (is.null(width))
-    width <- extract_attribute(image, "plot_width", TRUE)
-
-  insert_worksheet_image.default(wb, sheetname, image, title, source, metadata,
-                                 width, height, startrow, startcol, units, dpi)
 }

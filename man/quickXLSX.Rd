@@ -14,8 +14,7 @@ quickXLSX(
   group_names = NULL,
   logo = getOption("statR_logo"),
   contactdetails = statR:::inputHelperContactInfo(compact = TRUE),
-  author = "user",
-  clean_named_regions = "all"
+  author = "user"
 )
 }
 \arguments{
@@ -39,11 +38,14 @@ secondary header. Should be of the same length as grouplines, and cannot
 be used unless these are set. Defaults to NA, meaning no secondary header
 is created.}
 
-\item{logo}{path of the file to be included as logo (png / jpeg / svg).
-Default can be adjusted via user profiles.}
+\item{logo}{File path to the logo to be included in the index-sheet.
+Defaults to the logo of the Statistical Office of Kanton Zurich. This can
+either be overridden with a path to an image file, or configured in a user
+profile.}
 
-\item{contactdetails}{contact details of the data publisher. Default can be
-adjusted via user profiles.}
+\item{contactdetails}{Character vector with contact information to be displayed
+on the title sheet. By default uses \code{inputHelperContactInfo()} to
+construct it based on values defined in the active user configuration.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
@@ -64,12 +66,12 @@ metadata <- paste(
   "Trend US magazine and comprises fuel consumption",
   "and 10 aspects of automobile design and",
   "performance for 32 automobiles (1973–74 models).")
-
+\dontrun{
 quickXLSX(file = tempfile(fileext = ".xlsx"),
           data = mtcars,
           title = title,
           source = source,
           metadata = metadata)
-
+}
 }
 \keyword{quickXLSX}

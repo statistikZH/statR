@@ -43,13 +43,17 @@ secondary header. Should be of the same length as grouplines, and cannot
 be used unless these are set. Defaults to NA, meaning no secondary header
 is created.}
 
-\item{logo}{path of the file to be included as logo (png / jpeg / svg).
-Default can be adjusted via user profiles.}
+\item{logo}{File path to the logo to be included in the index-sheet.
+Defaults to the logo of the Statistical Office of Kanton Zurich. This can
+either be overridden with a path to an image file, or configured in a user
+profile.}
 
-\item{contactdetails}{contact details of the data publisher. Default can be
-adjusted via user profiles.}
+\item{contactdetails}{Character vector with contact information to be displayed
+on the title sheet. By default uses \code{inputHelperContactInfo()} to
+construct it based on values defined in the active user configuration.}
 
-\item{homepage}{Web address to be put on the title sheet.}
+\item{homepage}{Homepage of data publisher. Default can be adjusted via user
+configuration.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
@@ -63,16 +67,18 @@ User should make sure that the grouping variable is of binary,
   categorical or other types with a limited number of levels.
 }
 \examples{
+\dontrun{
 splitXLSX(file = tempfile(fileext = ".xlsx"),
-         data = mtcars,
-         sheetvar = "cyl",
-         title = "Motor trend car road tests",
-         source = paste("Source: Henderson and Velleman (1981),",
-                        "Building multiple regression models interactively.",
-                        "Biometrics, 37, 391–411."),
-         metadata = paste("The data was extracted from the 1974 Motor Trend",
-                          "US magazine and comprises fuel consumption and",
-                          "10 aspects of automobile design and performance",
-                          "for 32 automobiles (1973–74 models)."))
+          data = mtcars,
+          sheetvar = "cyl",
+          title = "Motor trend car road tests",
+          source = paste("Source: Henderson and Velleman (1981),",
+                         "Building multiple regression models interactively.",
+                         "Biometrics, 37, 391–411."),
+          metadata = paste("The data was extracted from the 1974 Motor Trend",
+                           "US magazine and comprises fuel consumption and",
+                           "10 aspects of automobile design and performance",
+                           "for 32 automobiles (1973–74 models)."))
+}
 }
 \keyword{splitXLSX}

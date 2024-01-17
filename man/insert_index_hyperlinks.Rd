@@ -2,7 +2,7 @@
 % Please edit documentation in R/insert_hyperlinks.R
 \name{insert_index_hyperlinks}
 \alias{insert_index_hyperlinks}
-\title{insert_index_hyperlinks()}
+\title{Insert hyperlinks with titles and sheetnames}
 \usage{
 insert_index_hyperlinks(
   wb,
@@ -22,11 +22,8 @@ insert_index_hyperlinks(
 \item{index_sheet_name}{Name of sheet where hyperlink should be created}
 
 \item{sheet_start_row}{Initial row after which hyperlinks should be created}
-
-\item{sheet_row}{Row where hyperlink should be inserted}
 }
 \description{
 Function for inserting hyperlinks within an openxlsx Workbook
 }
-\keyword{insert_hyperlinks,}
-\keyword{internal}
+\keyword{insert_hyperlinks}

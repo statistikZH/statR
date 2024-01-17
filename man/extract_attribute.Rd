@@ -26,4 +26,3 @@ Function to extract attributes from objects.
   the target object is nested in a list (as is the case in
   \code{datasetsXLSX}), \code{extract_attributes} should be used instead.
 }
-\keyword{internal}
