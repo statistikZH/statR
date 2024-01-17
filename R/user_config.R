@@ -77,7 +77,7 @@ addUserConfig <- function(name = "default", path = NULL,
   if(name %in% configs$config_name){
 
     if(configs[configs$config_name == name, "config_path"] == path){
-      stop("Diese Konfiguration existiert bereits! Verwende die updateUserConfig()-Funktion um den Pfad zu ändern.")
+      stop("Diese Konfiguration existiert bereits! Verwende die updateUserConfig()-Funktion um den Pfad zu aendern.")
     }else{
       stop(paste0("Der Konfigurationsname: ",configs[configs$config_name == name, "config_name"]," existiert bereits. Setze einn neuen Pfad mit der updateUserConfig()-Funktion"))
     }
@@ -126,7 +126,7 @@ updateUserConfig <- function(name, path, store_path = "~/.config/R/statR"){
 removeUserConfig <- function(name, store_path = "~/.config/R/statR") {
 
   if (name == "default") {
-    stop("Der Default-Wert kann nicht gelöscht werden. Wenn du den Pfad anpassen möchtest, verwende die updateUserConfig()-Funktion")
+    stop("Der Default-Wert kann nicht geloescht werden. Wenn du den Pfad anpassen möchtest, verwende die updateUserConfig()-Funktion")
   }
 
   store_file <- file.path(store_path, "statR_profile.csv")
@@ -148,7 +148,7 @@ readUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
   path <- subset(all_configs, name == all_configs$config_name)$config_path
 
   if (!file.exists(path)) {
-    stop("Configuration ", name, " not found.")
+    stop("Header-Konfigurations-YAML-File: ", path, " existiert nicht.")
   }
 
   yaml::read_yaml(path)
