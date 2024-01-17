@@ -1,4 +1,3 @@
-
 #' Helper functions for adding attributes to input objects
 #'
 #' @description A set of helper functions which serve the purpose of allowing
@@ -149,8 +148,10 @@ add_group_names <- function(object, value) {
 #' @export
 add_plot_size <- function(object, value) {
 
+  if (all(is.na(value))) return(object)
+
   if (!checkImplementedPlotType(object)) {
-    warning("Can only assign plot dimension to valid plot types")
+    warning("Tried to attach plot dimension attributes to non-plot object")
     return(object)
   }
 
@@ -163,20 +164,19 @@ add_plot_size <- function(object, value) {
     add_attribute("plot_height", value[2])
 }
 
-
+#' Check for presence of keyword attributes in input data.frame
+#'
+#' A function which checks for presence of certain attributes in an input
+#' data.frame.
+#' @param object Input data.frame
+#' @keywords internal
 check_for_attributes <- function(object){
-  attributes_to_check <- c("title","source","metadata","grouplines","group_names","metadata_sheet","plot_width","plot_height")
+  attributes_to_check <- c("title", "source", "metadata", "grouplines",
+                           "group_names", "metadata_sheet", "plot_width",
+                           "plot_height")
 
   check <- names(attributes(object))
-
-  if(any(attributes_to_check %in% check)){
-    return(TRUE)
-  }else{
-    return(FALSE)
-  }
-
-
-
+  return(any(attributes_to_check %in% check))
 }
 
 

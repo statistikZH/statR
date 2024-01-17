@@ -5,8 +5,8 @@
 \title{Export a single dataset to a single formatted worksheet}
 \usage{
 quickXLSX(
-  file,
   data,
+  file,
   title = NULL,
   source = NULL,
   metadata = NULL,
@@ -14,13 +14,14 @@ quickXLSX(
   group_names = NULL,
   logo = getOption("statR_logo"),
   contactdetails = statR:::inputHelperContactInfo(compact = TRUE),
-  author = "user"
+  author = "user",
+  clean_named_regions = "all"
 )
 }
 \arguments{
-\item{file}{file name of the xlsx-file. The extension ".xlsx" is added}
-
 \item{data}{data to be included.}
+
+\item{file}{file name of the xlsx-file. The extension ".xlsx" is added}
 
 \item{title}{title to be put above the data.}
 

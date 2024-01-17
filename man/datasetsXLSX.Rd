@@ -7,14 +7,14 @@
 datasetsXLSX(
   file,
   datasets,
-  sheetnames = NULL,
-  titles = NULL,
-  sources = NULL,
+  sheetname = NULL,
+  title = NULL,
+  source = NULL,
   metadata = NULL,
   grouplines = NULL,
   group_names = NULL,
-  plot_widths = NULL,
-  plot_heights = NULL,
+  plot_width = NULL,
+  plot_height = NULL,
   index_title = getOption("statR_toc_title"),
   index_source = getOption("statR_source"),
   logo = getOption("statR_logo"),
@@ -34,12 +34,12 @@ automatically.}
 and file paths for images in the order in which they should appear in the
 output file.}
 
-\item{sheetnames}{Names of individual worksheets in output file. Note that these
+\item{sheetname}{Names of individual worksheets in output file. Note that these
 will be truncated to 31 characters and must be unique.}
 
-\item{titles}{Titles shown at the top of the different worksheets.}
+\item{title}{Titles shown at the top of the different worksheets.}
 
-\item{sources}{A list of sources for the different elements of `datasets`.
+\item{source}{A list of sources for the different elements of `datasets`.
 Elements of this list can also be character vectors to insert more than one source.}
 
 \item{metadata}{A list containing metadata for each element of `datasets`.
@@ -52,10 +52,10 @@ the beginning of a group.}
 groups as defined in `grouplines`. Should not be specified unless
 grouplines is also specified.}
 
-\item{plot_widths}{Either a single numeric value denoting the width of all included plots
+\item{plot_width}{Either a single numeric value denoting the width of all included plots
 in inches (1 inch = 2.54 cm), or a list of the same length as `datasets`}
 
-\item{plot_heights}{Either a single numeric value denoting the height of all included plots
+\item{plot_height}{Either a single numeric value denoting the height of all included plots
 in inches (1 inch = 2.54 cm), or a list of the same length as `datasets`}
 
 \item{index_title}{Title to be put on the index sheet.}

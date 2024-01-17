@@ -6,8 +6,8 @@
 \usage{
 insert_index_hyperlinks(
   wb,
-  sheetnames,
-  titles,
+  sheetname,
+  title,
   index_sheet_name = "Index",
   sheet_start_row = 15
 )
@@ -15,9 +15,9 @@ insert_index_hyperlinks(
 \arguments{
 \item{wb}{workbook object to add new worksheet to.}
 
-\item{sheetnames}{Names of sheets to create hyperlinks to}
+\item{sheetname}{Names of sheets to create hyperlinks to}
 
-\item{titles}{Titles of Hyperlinks}
+\item{title}{Titles of Hyperlinks}
 
 \item{index_sheet_name}{Name of sheet where hyperlink should be created}
 

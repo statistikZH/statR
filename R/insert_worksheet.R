@@ -47,57 +47,30 @@
 #'
 #' @keywords insert_worksheet
 #' @export
-#
-# insert_worksheet <- function(wb, sheetname, data, title, source,
-#                              metadata, grouplines = NA, group_names = NA,
-#                              logo = getOption("statR_logo"),
-#                              contactdetails = inputHelperContactInfo(),
-#                              homepage = getOption("statR_homepage"),
-#                              author = "user") {
-#   UseMethod("insert_worksheet", data)
-# }
-
-#' @rdname insert_worksheet
-#' @keywords internal
-insert_worksheet <- function(wb, sheetname, data, title, source,
-                                     metadata, grouplines = NA, group_names = NA,
-                                     logo = getOption("statR_logo"),
-                                     contactdetails = inputHelperContactInfo(),
-                                     homepage = getOption("statR_homepage"),
-                                     author = "user") {
-
+insert_worksheet <- function(wb, sheetname, data, title, source, metadata,
+                             grouplines = NA, group_names = NA,
+                             logo = getOption("statR_logo"),
+                             contactdetails = inputHelperContactInfo(),
+                             homepage = getOption("statR_homepage"),
+                             author = "user") {
 
   sheetname <- verifyInputSheetname(sheetname)
-  insert_header(wb, sheetname, logo, contactdetails, homepage, NULL, author, NULL,
-                contact_col = max(ncol(data) - 2, 4))
-
+  insert_header(wb, sheetname, logo, contactdetails, homepage, NULL, author,
+                NULL, contact_col = max(ncol(data) - 2, 4))
   insert_worksheet_nh(wb, sheetname, data)
 }
 
 
-
-
-
 #' @rdname insert_worksheet
-#' @keywords internal
 insert_worksheet_nh <- function(wb, sheetname, data, title = NULL, source = NULL,
-                                        metadata = NULL, grouplines = NULL,
-                                        group_names = NULL) {
+                                metadata = NULL, grouplines = NULL,
+                                group_names = NULL) {
 
-  if (is.null(title))
-    title <- extract_attribute(data, "title")
-
-  if (is.null(source))
-    source <- extract_attribute(data, "source")
-
-  if (is.null(metadata))
-    metadata <- extract_attribute(data, "metadata")
-
-  if (is.null(grouplines))
-    grouplines <- extract_attribute(data, "grouplines")
-
-  if (is.null(group_names))
-    group_names <- extract_attribute(data, "group_names")
+  for (value in c("title", "source", "metadata", "grouplines", "group_names")) {
+    if (is.null(eval(as.name(value)))) {
+      assign(value, extract_attribute(data, value))
+    }
+  }
 
   sheetname <- verifyInputSheetname(sheetname)
 
@@ -169,9 +142,6 @@ insert_worksheet_nh <- function(wb, sheetname, data, title = NULL, source = NULL
   openxlsx::setColWidths(wb, sheetname, 1:ncol(data), "auto", ignoreMergedCells = TRUE)
 }
 
-
-
-#' @keywords insert_header
 #' @rdname insert_worksheet
 insert_header <- function(wb, sheetname, logo = getOption("statR_logo"),
                           contactdetails = inputHelperContactInfo(),
@@ -180,11 +150,7 @@ insert_header <- function(wb, sheetname, logo = getOption("statR_logo"),
                           openinghours = NULL, contact_col = 13) {
 
   sheetname <- verifyInputSheetname(sheetname)
-
-  # Add sheet if not existing
-  if (!(sheetname %in% names(wb))) {
-    openxlsx::addWorksheet(wb, sheetname)
-  }
+  if (!(sheetname %in% names(wb))) openxlsx::addWorksheet(wb, sheetname)
 
   # Insert logo ------
   insert_worksheet_image(wb, sheetname, image = inputHelperLogoPath(logo),

@@ -107,6 +107,4 @@ insert_worksheet_nh(
   grouplines = c(5,8), group_names = c("First group", "Second group"))
 
 }
-\keyword{insert_header}
 \keyword{insert_worksheet}
-\keyword{internal}

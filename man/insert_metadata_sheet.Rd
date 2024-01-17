@@ -18,6 +18,8 @@ insert_metadata_sheet(
 
 \item{sheetname}{name of the sheet tab.}
 
+\item{meta_infos}{a list with title, source, and metadata as named objects}
+
 \item{logo}{path of the file to be included as logo (png / jpeg / svg).
 Default can be adjusted via user profiles.}
 
@@ -30,15 +32,6 @@ internal user name.}
 \description{
 Function to add a formatted worksheet with metadata to an
   existing Workbook object.
-}
-\examples{
-# Create Workbook
-wb <- openxlsx::createWorkbook()
-
-# Insert a simple metadata sheet
-insert_metadata_sheet(wb, title = "Title of mtcars",
-  metadata = c("Meta data information."))
-
 }
 \seealso{
 createWorkbook, addWorksheet, writeData

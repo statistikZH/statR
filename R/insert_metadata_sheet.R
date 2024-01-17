@@ -3,14 +3,7 @@
 #' @description Function to add a formatted worksheet with metadata to an
 #'   existing Workbook object.
 #' @inheritParams insert_worksheet
-#' @examples
-#' # Create Workbook
-#' wb <- openxlsx::createWorkbook()
-#'
-#' # Insert a simple metadata sheet
-#' insert_metadata_sheet(wb, title = "Title of mtcars",
-#'   metadata = c("Meta data information."))
-#'
+#' @param meta_infos a list with title, source, and metadata as named objects
 #' @keywords insert_metadata_sheet
 #' @seealso createWorkbook, addWorksheet, writeData
 #' @export
@@ -22,10 +15,10 @@ insert_metadata_sheet <- function(
   source <- meta_infos[["source"]]
   metadata <- meta_infos[["metadata"]]
 
-
   insert_header(wb, sheetname, logo, contactdetails, NULL, NULL, author, NULL, 15)
 
   start_row <- namedRegionLastRow(wb, sheetname, "info") + 3
+
 
   if (is.character(title)){
     writeText(wb, sheetname, title, start_row, 1:18, style_title(), "title")
@@ -42,6 +35,5 @@ insert_metadata_sheet <- function(
     start_row <- namedRegionLastRow(wb, sheetname, "metadata") + 1
   }
 
-  ### Hide gridlines
   openxlsx::showGridLines(wb, sheetname, FALSE)
 }
