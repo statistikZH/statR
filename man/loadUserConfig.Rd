@@ -8,6 +8,9 @@ loadUserConfig(name = "default", store_path = "~/.config/R/statR")
 }
 \arguments{
 \item{name}{welches file soll angezogen werden}
+
+\item{store_path}{Pfad unter welchem das Konfigurationsfile für das registrieren
+von Header-Config-Yaml-Files liegen soll}
 }
 \description{
 Setzt die Header-Konfigurationen als options

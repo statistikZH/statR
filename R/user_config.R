@@ -5,17 +5,17 @@
 #' Es besteht die Möglichkeit, eine eigene Konfiguration zu hinterlegen.
 #' Siehe dazu die Funktion: addUserConfig()
 #'
-#' @param path Pfad unter welchem das Konfigurationsfile für das registrieren
+#' @param store_path Pfad unter welchem das Konfigurationsfile für das registrieren
 #'  von Header-Config-Yaml-Files liegen soll
 #'
 #' @export
-initUserConfigStore <- function(path = "~/.config/R/statR") {
+initUserConfigStore <- function(store_path = "~/.config/R/statR") {
 
-  if (!dir.exists(path)) {
-    dir.create(path, recursive = TRUE)
+  if (!dir.exists(store_path)) {
+    dir.create(store_path, recursive = TRUE)
   }
 
-  store_file <- file.path(path, "statR_profile.csv")
+  store_file <- file.path(store_path, "statR_profile.csv")
 
   if (!file.exists(store_file)) {
     file.create(store_file)
@@ -23,16 +23,18 @@ initUserConfigStore <- function(path = "~/.config/R/statR") {
 
   }
 
-  addUserConfig(store_path = path)
+  addUserConfig(store_path = store_path)
 
-  loadUserConfig(store_path = path)
+  loadUserConfig(store_path = store_path)
 }
 
 
 #' Liest das Konfigurationsfile in welchem die Pfade zum Header-Config file
 #' hinterlegt sind
-readUserConfigStore <- function(path = "~/.config/R/statR") {
-  store_file <- file.path(path, "statR_profile.csv")
+#'
+#' @inheritParams initUserConfigStore
+readUserConfigStore <- function(store_path = "~/.config/R/statR") {
+  store_file <- file.path(store_path, "statR_profile.csv")
   read.table(store_file, header = TRUE, sep = ",")
 }
 
@@ -159,9 +161,9 @@ readUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
 #'
 #' @param name welches file soll angezogen werden
 #'
-#' @inheritParams initUserConfigStore
+#' @inheritParams readUserConfig
 #'
-#' @param
+#' @export
 loadUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
   options(readUserConfig(name, store_path))
 }

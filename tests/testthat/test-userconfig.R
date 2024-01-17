@@ -1,5 +1,5 @@
 test_that("config file correctly initiated", {
-  initUserConfigStore(path = confdir)
+  initUserConfigStore(store_path = confdir)
 
   testthat::expect_true(file.exists(config_file_path))
 
@@ -25,7 +25,7 @@ test_that("config file correctly initiated", {
 
 test_that("default value is not set twice if already existing",{
 
-  initUserConfigStore(path = confdir)
+  initUserConfigStore(store_path = confdir)
 
   addUserConfig(store_path = confdir)
   out <- addUserConfig(store_path = confdir)
@@ -43,7 +43,7 @@ test_that("default value is not set twice if already existing",{
 
 test_that("second entry is added correctly",{
 
-  initUserConfigStore(path = confdir)
+  initUserConfigStore(store_path = confdir)
 
   addUserConfig("test", testthat::test_path("example_userconf", "test"),store_path = confdir)
 
@@ -63,7 +63,7 @@ test_that("second entry is added correctly",{
 
 test_that("defautl can be changed and is not overwritten again",{
 
-  initUserConfigStore(path = confdir)
+  initUserConfigStore(store_path = confdir)
 
 
   updateUserConfig("default", testthat::test_path("example_userconf", "test"),store_path = confdir)
@@ -90,7 +90,7 @@ test_that("defautl can be changed and is not overwritten again",{
 
 test_that("the default entry can not be removed",{
 
-  initUserConfigStore(path = confdir)
+  initUserConfigStore(store_path = confdir)
 
 
   testthat::expect_error(removeUserConfig("default"), "Der Default-Wert kann nicht")
@@ -103,7 +103,7 @@ test_that("the default entry can not be removed",{
 
 test_that("an additional entry can be deleted",{
 
-  initUserConfigStore(path = confdir)
+  initUserConfigStore(store_path = confdir)
 
   addUserConfig("test", testthat::test_path("example_userconf", "test"),store_path = confdir)
 
@@ -124,7 +124,7 @@ test_that("an additional entry can be deleted",{
 
 test_that("an entry can not be overwritten with the addUserConfig-function",{
 
-  initUserConfigStore(path = confdir)
+  initUserConfigStore(store_path = confdir)
 
   addUserConfig("test", testthat::test_path("example_userconf", "test"),store_path = confdir)
 
@@ -140,7 +140,7 @@ test_that("an entry can not be overwritten with the addUserConfig-function",{
 
 test_that("own header config is loaded",{
 
-  initUserConfigStore(path = confdir)
+  initUserConfigStore(store_path = confdir)
 
   addUserConfig("test", testthat::test_path("example_userconf", "test"),store_path = confdir)
 

@@ -10,6 +10,9 @@ addUserConfig(name = "default", path = NULL, store_path = "~/.config/R/statR")
 \item{name}{unter welchem namen soll die Header-Konfiguration abrufbar sein.}
 
 \item{path}{Pfad zum Header-Konfigurations-Yaml-File}
+
+\item{store_path}{Pfad unter welchem das Konfigurationsfile für das registrieren
+von Header-Config-Yaml-Files liegen soll}
 }
 \description{
 Registrieren eines neuen Header-Config-Yaml Files

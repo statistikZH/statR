@@ -5,7 +5,11 @@
 \title{Liest das Konfigurationsfile in welchem die Pfade zum Header-Config file
 hinterlegt sind}
 \usage{
-readUserConfigStore(path = "~/.config/R/statR")
+readUserConfigStore(store_path = "~/.config/R/statR")
+}
+\arguments{
+\item{store_path}{Pfad unter welchem das Konfigurationsfile für das registrieren
+von Header-Config-Yaml-Files liegen soll}
 }
 \description{
 Liest das Konfigurationsfile in welchem die Pfade zum Header-Config file

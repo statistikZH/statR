@@ -4,10 +4,10 @@
 \alias{initUserConfigStore}
 \title{Initialisiert die Excel-Header-Konfiguration}
 \usage{
-initUserConfigStore(path = "~/.config/R/statR")
+initUserConfigStore(store_path = "~/.config/R/statR")
 }
 \arguments{
-\item{path}{Pfad unter welchem das Konfigurationsfile für das registrieren
+\item{store_path}{Pfad unter welchem das Konfigurationsfile für das registrieren
 von Header-Config-Yaml-Files liegen soll}
 }
 \description{
