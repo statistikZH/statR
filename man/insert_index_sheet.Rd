@@ -13,7 +13,8 @@ insert_index_sheet(
   contactdetails = inputHelperContactInfo(),
   homepage = getOption("statR_homepage"),
   openinghours = getOption("statR_openinghours"),
-  source = getOption("statR_source")
+  source = getOption("statR_source"),
+  author = "user"
 )
 }
 \arguments{
@@ -42,6 +43,9 @@ configuration.}
 \item{openinghours}{statzh or a character string or vector with opening hours}
 
 \item{source}{source of the data. Default can be adjusted via user profiles}
+
+\item{author}{defaults to the last two letters (initials) or numbers of the
+internal user name.}
 }
 \description{
 Function which initializes an empty index sheet. The function is

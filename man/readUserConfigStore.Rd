@@ -8,7 +8,7 @@ hinterlegt sind}
 readUserConfigStore(store_path = "~/.config/R/statR")
 }
 \arguments{
-\item{store_path}{Pfad unter welchem das Konfigurationsfile für das registrieren
+\item{store_path}{Pfad unter welchem das Konfigurationsfile fuer das registrieren
 von Header-Config-Yaml-Files liegen soll}
 }
 \description{

@@ -17,9 +17,10 @@
 insert_index_sheet <- function(
     wb, sheetname = "Index", title, auftrag_id, logo = getOption("statR_logo"),
     contactdetails = inputHelperContactInfo(), homepage = getOption("statR_homepage"),
-    openinghours = getOption("statR_openinghours"), source = getOption("statR_source")) {
+    openinghours = getOption("statR_openinghours"), source = getOption("statR_source"),
+    author = "user") {
 
-  insert_header(wb, sheetname, logo, contactdetails, homepage, auftrag_id, NULL,
+  insert_header(wb, sheetname, logo, contactdetails, homepage, auftrag_id, author,
                 openinghours, contact_col = 15)
 
   ### Title - needs to exist

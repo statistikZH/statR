@@ -9,13 +9,15 @@
 #' @export
 insert_metadata_sheet <- function(
     wb, sheetname, meta_infos, logo = getOption("statR_logo"),
-    contactdetails = inputHelperContactInfo(compact = TRUE), author = "user") {
+    contactdetails = inputHelperContactInfo(compact = TRUE),
+    homepage = getOption("statR_homepage"), author = "user") {
 
   title <- meta_infos[["title"]]
   source <- meta_infos[["source"]]
   metadata <- meta_infos[["metadata"]]
 
-  insert_header(wb, sheetname, logo, contactdetails, NULL, NULL, author, NULL, 15)
+  insert_header(wb, sheetname, logo, contactdetails, homepage, NULL, author,
+                NULL, 15)
 
   start_row <- namedRegionLastRow(wb, sheetname, "info") + 3
 

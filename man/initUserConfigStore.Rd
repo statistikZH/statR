@@ -7,12 +7,12 @@
 initUserConfigStore(store_path = "~/.config/R/statR")
 }
 \arguments{
-\item{store_path}{Pfad unter welchem das Konfigurationsfile für das registrieren
+\item{store_path}{Pfad unter welchem das Konfigurationsfile fuer das registrieren
 von Header-Config-Yaml-Files liegen soll}
 }
 \description{
-Die Header-Konfiguration wird über globale Options gelöst, welche in einem Yaml file definiert werden.
-Per default wird die Konfiguration des Packages angezogen.
-Es besteht die Möglichkeit, eine eigene Konfiguration zu hinterlegen.
-Siehe dazu die Funktion: addUserConfig()
+Die Header-Konfiguration wird ueber globale Options geloest, welche in
+einem Yaml file definiert werden. Per default wird die Konfiguration des
+Packages angezogen. Es besteht die Moeglichkeit, eine eigene Konfiguration
+zu hinterlegen. Siehe dazu die Funktion: addUserConfig()
 }

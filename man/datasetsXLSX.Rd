@@ -22,6 +22,7 @@ datasetsXLSX(
   homepage = getOption("statR_homepage"),
   openinghours = getOption("statR_openinghours"),
   auftrag_id = NULL,
+  author = "user",
   metadata_sheet = NULL,
   overwrite = TRUE
 )
@@ -80,6 +81,9 @@ no output).}
 \item{auftrag_id}{An ID associated with the Excel file. Defaults to NULL (
 no output).}
 
+\item{author}{defaults to the last two letters (initials) or numbers of the
+internal user name.}
+
 \item{metadata_sheet}{A list with named elements 'title', 'source', and 'text'.
 Intended for conveying long-form information. Default is NULL, not included.}
 
@@ -114,12 +118,12 @@ fig <- ggplot2::ggplot(mtcars, ggplot2::aes(x = disp)) +
 \dontrun{
 datasetsXLSX(file = tempfile(fileext = ".xlsx"),
              datasets = list(mtcars, PlantGrowth, fig),
-             titles = c("mtcars-Datensatz",
-                        "PlantGrowth-Datensatz",
-                        "Histogramm"),
-             plot_widths = c(5),
-             plot_heights = c(5),
-             sources = list(
+             title = c("mtcars-Datensatz",
+                       "PlantGrowth-Datensatz",
+                       "Histogramm"),
+             plot_width = c(5),
+             plot_height = c(5),
+             source = list(
                paste(
                  "Source: Henderson and Velleman (1981).",
                  "Building multiple regression models",
@@ -133,7 +137,7 @@ datasetsXLSX(file = tempfile(fileext = ".xlsx"),
                "Bemerkungen zum mtcars-Datensatz: x",
                "Bemerkungen zum PlantGrowth-Datensatz: x",
                NULL),
-             sheetnames = c("Autos","Blumen", "Histogramm"),
+             sheetname = c("Autos","Blumen", "Histogramm"),
              index_title = "Autos und Pflanzen",
              auftrag_id = "A2021_0000",
              overwrite = TRUE)

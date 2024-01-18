@@ -91,11 +91,11 @@ inputHelperLogoPath <- function(
 
   } else {
 
-    if (logo == "statzh") {
-      logo <- paste0(find.package("statR"), "/extdata/Stempel_Kanton_ZH.png")
+    if (logo == "zh") {
+      logo <- system.file("extdata/Stempel_Kanton_ZH.png", package = "statR")
 
-    } else if (logo == "zh") {
-      logo <- paste0(find.package("statR"), "/extdata/Stempel_STAT-01.png")
+    } else if (logo == "statzh") {
+      logo <- system.file("extdata/Stempel_STAT-01.png", package = "statR")
     }
 
     logo <- add_plot_size(logo, c(width, height))

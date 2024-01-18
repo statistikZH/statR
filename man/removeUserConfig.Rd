@@ -2,16 +2,16 @@
 % Please edit documentation in R/user_config.R
 \name{removeUserConfig}
 \alias{removeUserConfig}
-\title{Löschen eines Konfigurations-Eintrages}
+\title{Loeschen eines Konfigurations-Eintrages}
 \usage{
 removeUserConfig(name, store_path = "~/.config/R/statR")
 }
 \arguments{
-\item{name}{Welcher registrierte Eintrag soll gelöscht werden}
+\item{name}{Welcher registrierte Eintrag soll geloescht werden}
 
-\item{store_path}{Pfad unter welchem das Konfigurationsfile für das registrieren
+\item{store_path}{Pfad unter welchem das Konfigurationsfile fuer das registrieren
 von Header-Config-Yaml-Files liegen soll}
 }
 \description{
-Löschen eines Konfigurations-Eintrages
+Loeschen eines Konfigurations-Eintrages
 }

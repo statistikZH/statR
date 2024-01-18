@@ -63,8 +63,9 @@
 #'
 #' @keywords insert_worksheet
 #' @export
-insert_worksheet <- function(wb, sheetname, data, title, source, metadata,
-                             grouplines = NA, group_names = NA,
+insert_worksheet <- function(wb, sheetname, data, title = NULL,
+                             source = NULL, metadata = NULL,
+                             grouplines = NULL, group_names = NULL,
                              logo = getOption("statR_logo"),
                              contactdetails = inputHelperContactInfo(),
                              homepage = getOption("statR_homepage"),
@@ -73,7 +74,9 @@ insert_worksheet <- function(wb, sheetname, data, title, source, metadata,
   sheetname <- verifyInputSheetname(sheetname)
   insert_header(wb, sheetname, logo, contactdetails, homepage, NULL, author,
                 NULL, contact_col = max(ncol(data) - 2, 4))
-  insert_worksheet_nh(wb, sheetname, data)
+  insert_worksheet_nh(wb, sheetname, data, title = title, source = source,
+                      metadata = metadata, grouplines = grouplines,
+                      group_names = group_names)
 }
 
 #' @rdname insert_worksheet
@@ -98,6 +101,8 @@ insert_worksheet_nh <- function(wb, sheetname, data, title = NULL, source = NULL
     start_row <- namedRegionLastRow(wb, sheetname) + 3
   }
 
+  openxlsx::createNamedRegion(wb, sheetname, 1, start_row, paste0(sheetname, "_content_start"))
+
   # Insert title, metadata, and sources into worksheet --------
   if (is.character(title)) {
     writeText(wb, sheetname, title, start_row, 1:18, style_title(), "title")
@@ -114,7 +119,7 @@ insert_worksheet_nh <- function(wb, sheetname, data, title = NULL, source = NULL
     start_row <- namedRegionLastRow(wb, sheetname, "metadata") + 1
   }
 
-  data_start_row <- max(namedRegionLastRow(wb, sheetname, c("title", "source", "metadata")) + 2,
+  data_start_row <- max(namedRegionLastRow(wb, sheetname, c("content_start, title", "source", "metadata")) + 2,
                         start_row)
 
   # Grouplines ---------

@@ -14,6 +14,7 @@ aXLSX(
   group_names = NULL,
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(),
+  homepage = getOption("statR_homepage"),
   author = "user"
 )
 }
@@ -46,6 +47,9 @@ profile.}
 \item{contactdetails}{Character vector with contact information to be displayed
 on the title sheet. By default uses \code{inputHelperContactInfo()} to
 construct it based on values defined in the active user configuration.}
+
+\item{homepage}{Homepage of data publisher. Default can be adjusted via user
+configuration.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}

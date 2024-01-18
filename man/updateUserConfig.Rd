@@ -7,11 +7,11 @@
 updateUserConfig(name, path, store_path = "~/.config/R/statR")
 }
 \arguments{
-\item{name}{Zu welchem Eintrag möchtest du den Pfad anpassen}
+\item{name}{Zu welchem Eintrag moechtest du den Pfad anpassen}
 
 \item{path}{Pfad zum Header-Konfigurations-Yaml-File}
 
-\item{store_path}{Pfad unter welchem das Konfigurationsfile für das registrieren
+\item{store_path}{Pfad unter welchem das Konfigurationsfile fuer das registrieren
 von Header-Config-Yaml-Files liegen soll}
 }
 \description{

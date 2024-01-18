@@ -53,12 +53,12 @@
 #' \dontrun{
 #' datasetsXLSX(file = tempfile(fileext = ".xlsx"),
 #'              datasets = list(mtcars, PlantGrowth, fig),
-#'              titles = c("mtcars-Datensatz",
-#'                         "PlantGrowth-Datensatz",
-#'                         "Histogramm"),
-#'              plot_widths = c(5),
-#'              plot_heights = c(5),
-#'              sources = list(
+#'              title = c("mtcars-Datensatz",
+#'                        "PlantGrowth-Datensatz",
+#'                        "Histogramm"),
+#'              plot_width = c(5),
+#'              plot_height = c(5),
+#'              source = list(
 #'                paste(
 #'                  "Source: Henderson and Velleman (1981).",
 #'                  "Building multiple regression models",
@@ -72,7 +72,7 @@
 #'                "Bemerkungen zum mtcars-Datensatz: x",
 #'                "Bemerkungen zum PlantGrowth-Datensatz: x",
 #'                NULL),
-#'              sheetnames = c("Autos","Blumen", "Histogramm"),
+#'              sheetname = c("Autos","Blumen", "Histogramm"),
 #'              index_title = "Autos und Pflanzen",
 #'              auftrag_id = "A2021_0000",
 #'              overwrite = TRUE)
@@ -127,7 +127,7 @@ datasetsXLSX <- function(
     contactdetails = inputHelperContactInfo(),
     homepage = getOption("statR_homepage"),
     openinghours = getOption("statR_openinghours"),
-    auftrag_id = NULL, metadata_sheet = NULL, overwrite = TRUE) {
+    auftrag_id = NULL, author = "user", metadata_sheet = NULL, overwrite = TRUE) {
 
   # "Optional" input arguments
   for (value in c("title", "source", "metadata", "grouplines", "group_names")){
@@ -178,7 +178,8 @@ datasetsXLSX <- function(
   insert_index_sheet(wb, sheetname = "Index", title = index_title,
                      auftrag_id = auftrag_id, logo = logo,
                      contactdetails = contactdetails, homepage = homepage,
-                     openinghours = openinghours, source = index_source)
+                     openinghours = openinghours, source = index_source,
+                     author = author)
 
   # Iterate over datasets
   for (i in seq_along(datasets)) {
@@ -235,11 +236,10 @@ datasetsXLSX <- function(
 #' @keywords splitXLSX
 #' @export
 splitXLSX <- function(
-    file, data, sheetvar, title, source, metadata, grouplines = NA,
-    group_names = NA, logo = getOption("statR_logo"),
+    file, data, sheetvar, title = NULL, source = NULL, metadata = NULL,
+    grouplines = NULL, group_names = NULL, logo = getOption("statR_logo"),
     contactdetails = inputHelperContactInfo(compact = TRUE),
-    homepage = getOption("statR_homepage"),
-    author = "user") {
+    homepage = getOption("statR_homepage"), author = "user") {
 
   # Shared values: these are attached to the source data.frame before
   # splitting on sheetvar using split.data.frame(), which preserves attributes
@@ -254,7 +254,8 @@ splitXLSX <- function(
   titles <- paste0(title, " (", sheetvar, ": ", names(datasets), ")")
 
   datasetsXLSX(file = file, datasets = datasets, sheetname = sheetnames,
-               title = titles)
+               title = titles, logo = logo, contactdetails = contactdetails,
+               homepage = homepage, author = author)
 }
 
 
@@ -287,7 +288,8 @@ splitXLSX <- function(
 aXLSX <- function(
     file, data, title = NULL, source = NULL, metadata = NULL, grouplines = NULL,
     group_names = NULL, logo = getOption("statR_logo"),
-    contactdetails = inputHelperContactInfo(), author = "user") {
+    contactdetails = inputHelperContactInfo(),
+    homepage = getOption("statR_homepage"), author = "user") {
 
   for (value in c("title", "source", "metadata", "grouplines", "group_names")) {
     if (!is.null(eval(as.name(value)))) {
@@ -304,7 +306,7 @@ aXLSX <- function(
   wb <- openxlsx::createWorkbook()
   insert_worksheet_nh(wb, sheetname = "Data", data = data, metadata = NA)
   insert_metadata_sheet(wb, "Metadaten", meta_info_list, logo,
-                        contactdetails, author = author)
+                        contactdetails, homepage, author)
   cleanNamedRegions(wb, "all")
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
 }
@@ -341,6 +343,7 @@ quickXLSX <- function(
     data, file, title = NULL, source = NULL, metadata = NULL, grouplines = NULL,
     group_names = NULL, logo = getOption("statR_logo"),
     contactdetails = statR:::inputHelperContactInfo(compact = TRUE),
+    homepage = getOption("statR_homepage"),
     author = "user") {
 
   for (value in c("title", "source", "metadata", "grouplines", "group_names")) {
@@ -350,7 +353,9 @@ quickXLSX <- function(
   }
 
   wb <- openxlsx::createWorkbook()
-  insert_worksheet(wb, sheetname = "Inhalt", data = data)
+  insert_worksheet(wb, sheetname = "Inhalt", data = data, logo = logo,
+                   contactdetails = contactdetails, homepage = homepage,
+                   author = author)
   cleanNamedRegions(wb, "all")
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
 }
