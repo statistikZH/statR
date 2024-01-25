@@ -164,11 +164,11 @@ datasetsXLSX <- function(
         stop("Invalid number of values for ", arg)
       }
 
-      buffer[which(is_plot)] <- values
+      buffer[which(is_plot)] <- na.omit(values)
       assign(arg, buffer)
     }
 
-    plot_size_list <- purrr::map2(plot_height, plot_width, ~c(..1,..2))
+    plot_size_list <- purrr::map2(plot_width, plot_height, ~c(..1,..2))
     datasets <- purrr::map2(datasets, plot_size_list, ~add_plot_size(..1, ..2))
   }
 
@@ -198,8 +198,10 @@ datasetsXLSX <- function(
   # Metadata sheets are constructed from a list with title, source, and
   # long-form metadata by insert_metadata_sheet. It is meant to be used to
   # provide globally applicable information for multiple analyses.
-  if (!is.null(metadata_sheet) && length(metadata_sheet) > 0 && !all(is.na(metadata_sheet))) {
-    insert_metadata_sheet(wb, "Metadatenblatt", metadata_sheet)
+  if (!is.null(metadata_sheet)) {
+    insert_metadata_sheet(wb, "Beiblatt", metadata_sheet, logo = logo,
+                          contactdetails = contactdetails, homepage = homepage,
+                          author = author)
   }
 
   # Clean unneeded named regions - keep_data or all. Using 'all' here as a
