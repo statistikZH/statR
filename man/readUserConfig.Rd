@@ -2,13 +2,16 @@
 % Please edit documentation in R/user_config.R
 \name{readUserConfig}
 \alias{readUserConfig}
-\title{readUserConfig()}
+\title{Liest das Header-Konfigurations-Yaml-File}
 \usage{
-readUserConfig(name = "default")
+readUserConfig(name = "default", store_path = "~/.config/R/statR")
 }
 \arguments{
-\item{name}{The name of the configuration}
+\item{name}{welches file soll angezogen werden}
+
+\item{store_path}{Pfad unter welchem das Konfigurationsfile fuer das registrieren
+von Header-Config-Yaml-Files liegen soll}
 }
 \description{
-Reads a user config. By default loads the default config
+Liest das Header-Konfigurations-Yaml-File
 }

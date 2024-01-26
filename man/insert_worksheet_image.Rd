@@ -2,16 +2,19 @@
 % Please edit documentation in R/insert_image.R
 \name{insert_worksheet_image}
 \alias{insert_worksheet_image}
-\title{insert_worksheet_image()}
+\title{Insert image into workbooks}
 \usage{
 insert_worksheet_image(
   wb,
   sheetname,
   image,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
+  width = NULL,
+  height = NULL,
   startrow = 3,
   startcol = 3,
-  width,
-  height,
   units = "in",
   dpi = 300
 )
@@ -19,24 +22,32 @@ insert_worksheet_image(
 \arguments{
 \item{wb}{workbook object to write new worksheet in}
 
-\item{sheetname}{name of the sheet tab}
+\item{sheetname}{Name of the sheet where the image should be inserted}
 
-\item{image}{image or plot}
+\item{image}{Image, either a ggplot object or the path to an existing image.}
 
-\item{startrow}{row coordinate of upper left corner of figure}
+\item{title}{Title of the image. Can be NULL}
 
-\item{startcol}{column coordinate of upper left corner of figure}
+\item{source}{Source associated with the image. Can be NULL.}
+
+\item{metadata}{Metadata associated with the image. Can be NULL.}
 
 \item{width}{width of figure}
 
 \item{height}{height of figure}
+
+\item{startrow}{row coordinate of upper left corner of figure}
+
+\item{startcol}{column coordinate of upper left corner of figure}
 
 \item{units}{unit of measurement (default: in)}
 
 \item{dpi}{image resolution (default: 300)}
 }
 \description{
-Insert an image into a worksheet
+Inserts an image into a new worksheet, optionally with title,
+  source, and metadata. Images must be provided either as a ggplot object
+  or as a path to the image file.
 }
 \note{
 The function does not write the result into a .xlsx file. A separate

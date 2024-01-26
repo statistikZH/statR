@@ -16,15 +16,20 @@ insert_second_header(
 \arguments{
 \item{wb}{workbook object to add new worksheet to.}
 
-\item{sheetname}{name of the sheet tab.}
+\item{sheetname}{Names of the worksheet in output file. Note that this name
+will be truncated to 31 characters, must be unique, and cannot contain
+some special characters (namely the following: /, \, ?, *, :, [, ]).}
 
 \item{data_start_row}{Row index for first row with data}
 
-\item{group_names}{Names for groupings in secondary header. Format:
-List e.g list(c("title 1", "title 2", "title 3"))}
+\item{group_names}{A vector of names for groups to be displayed in a
+secondary header. Should be of the same length as grouplines, and cannot
+be used unless these are set. Defaults to NA, meaning no secondary header
+is created.}
 
-\item{grouplines}{defaults to NA. Can be used to separate grouped
-variables visually.}
+\item{grouplines}{Can be used to visually group variables. Values should
+either correspond to numeric column indices or column names, denoting the
+first variable in a group. Defaults to NA, meaning no lines are added.}
 
 \item{data}{data to be included.}
 }

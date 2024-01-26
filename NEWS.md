@@ -1,3 +1,35 @@
+# statR 2.4.0 
+* User configuration files are now stored at path pointed to by 
+  tools::R_user_dir. This eliminates the problem that configuration files would
+  be lost on updates
+* Deprecated and removed inputHelperSource, inputHelperMetadata, and associated 
+  global options. If multiple sources need to be shown in one row, users should 
+  create the string via paste() or similar functions.
+* Fixed an issue where Excel Worksheets created using datasetsXLSX could become 
+  corrupted.
+* When defining a second header (either by numeric index or variable name at 
+  the beginning of a block) are now properly merged and centered. Last block 
+  terminates at the final column of the dataset.
+* splitXLSX is now based on datasetsXLSX.
+* When including images with datasetsXLSX, users can now specify a title, 
+  source, and metadata.
+* Users can now attach an additional metadata sheet in datasetsXLSX.
+* insert_worksheet allows users to leave the source and metadata arguments at 
+  NULL. In these instances, the function no longer includes an empty row.
+* Reworked datasetsXLSX to allow a tidyverse-like workflow where titles, 
+  sources, metadata, etc. are attached as attributes to objects (see examples).
+* As part of this syntax, users can more easily control how sources and 
+  metadata are displayed. add_source() and add_metadata() both take prefix and 
+  collapse as input.
+* insert_hyperlinks now (formally) allows users to point to external files.
+
+## Problems 
+* Found an issue where output .xlsx is considered corrupt by Excel when using
+  sheetnames with special characters or spaces. The reason is that sheetnames 
+  are used to construct named regions. The resulting illegal names don't cause
+  issues in R, but are detected and removed by Microsoft Excel. To ensure that
+  warnings aren't accidentally shown,
+
 # statR 2.3.2
 
 ## Bugfix

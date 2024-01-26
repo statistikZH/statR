@@ -30,18 +30,14 @@ library(dichromat)
 library(ggrepel)
 ```
 
-Das **statR**-ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale 
-Corporate Design einzufügen. Es basiert auf dem ggplot2-theme 'minimal' und 
-bestimmt diejenigen Grafikeigenschaften, die nichts mit den Daten an sich zu 
-tun haben (z.B. die Schriftart).  
+Das **statR**-ggplot2-theme ist darauf ausgelegt, sich gut ins kantonale Corporate Design einzufügen. Es basiert auf dem ggplot2-theme 'minimal' und bestimmt diejenigen Grafikeigenschaften, die nichts mit den Daten an sich zu tun haben (z.B. die Schriftart).  
 
-Innerhalb des themes kann die Schriftgrösse, die Position der 
-Achsenbeschriftungen sowie das Vorhandensein von Achsenlinien, Achsen-Ticks 
-und Gitterlinien bestimmt werden (siehe `?theme_stat()`).
+Innerhalb des themes kann die Schriftgrösse, die Position der Achsenbeschriftungen sowie das Vorhandensein von Achsenlinien, Achsen-Ticks und Gitterlinien bestimmt werden (siehe `?theme_stat()`).
 
 ```{r}
-ggplot(mpg, aes(class,fill = drv))+
-  geom_bar()+
+ggplot(mpg, aes(class, fill = drv)) +
+  geom_bar() +
+  
   # Default-Spezifikationen innerhalb theme_stat()
   theme_stat(base_size = 11,
              axis.label.pos = "top",
@@ -53,13 +49,12 @@ ggplot(mpg, aes(class,fill = drv))+
   scale_fill_manual(values=zhpal$zhwebdataviz[11:13])
 ```
 
-
-Mit der Funktion `flush_left()` können Titel, Untertitel und Fussnote nach 
-links verschoben werden, sodass sie bündig sind mit der y-Achse der Grafik:
+Mit der Funktion `flush_left()` können Titel, Untertitel und Fussnote nach links verschoben werden, sodass sie bündig sind mit der y-Achse der Grafik:
 
 ```{r}
-p <- ggplot(mpg, aes(class,fill = drv))+
-  geom_bar()+
+p <- ggplot(mpg, aes(class,fill = drv)) +
+  geom_bar() +
+  
   # Default-Spezifikationen innerhalb theme_stat()
   theme_stat(base_size = 11,
              axis.label.pos = "top",
@@ -78,32 +73,30 @@ flush_left(p)
 Für Karten kann die Option `map` auf `TRUE` gesetzt werden.
 ```{r}
 # Bezug der Geodaten mit den Gemeindegrenzen (Stand 2020)
-downloader::download("https://www.web.statistik.zh.ch/ogd/daten/ressourcen/KTZH_00000151_00001653.zip","geodata.zip")
-zip::unzip("geodata.zip")
+if (!dir.exists("data/GEN_A4_GEMEINDEN_2020_shp")) {
+  downloader::download(
+    "https://www.web.statistik.zh.ch/ogd/daten/ressourcen/KTZH_00000151_00001653.zip",
+    "data/geodata.zip")
+  zip::unzip("data/geodata.zip", exdir = "data/")
+}
 
-shape <- sf::st_read("GEN_A4_GEMEINDEN_2020_shp")
+shape <- sf::st_read("data/GEN_A4_GEMEINDEN_2020_shp")
 
-# plot(shape)
-
-map <- ggplot(shape,aes(fill=BFS))+
-  geom_sf()+
-  theme_stat(map=TRUE)+
+map <- ggplot(shape, aes(fill = BFS)) +
+  geom_sf() +
+  theme_stat(map = TRUE) +
   labs(title = "Title", subtitle = "Subtitle", caption = "Caption")
 
 map
-
-ggsave("map.png")
 ```
 
 
 
 # Farbpaletten & Barrierefreiheit
 
-Das Farbpalettenobjekt `zhpal` enthält alle im Package vorhandenen Farbpaletten 
-und ist mit dem geladenen `statR`-Package global verfügbar. 
+Das Farbpalettenobjekt `zhpal` enthält alle im Package vorhandenen Farbpaletten und ist mit dem geladenen `statR`-Package global verfügbar. 
 
-Mit der Funktion `display.statcol.all()` können alle vorhandenen Farbpaletten 
-angezeigt werden:
+Mit der Funktion `display.statcol.all()` können alle vorhandenen Farbpaletten angezeigt werden:
 
 ```{r}
 display.statcol.all()
@@ -149,8 +142,8 @@ Die offiziellen Farbpaletten sind im statR-Package integriert.
 
 ```{r}
 ggplot(mpg, aes(class,fill = drv))+
-  geom_bar()+
-  theme_stat()+
+  geom_bar() +
+  theme_stat() +
   scale_fill_manual(values=zhpal$zhwebdataviz[11:13])
 
 # ggsave(file = "zhweb_plot.png", width=18, height=8, unit="cm")
@@ -173,22 +166,11 @@ berücksichtigt werden.
 
 ### 1. Farbsehschwächen
 
-Damit Grafiken auch für Personen mit Farbsehschwächen möglichst gut 
-interpretierbar sind, sollten Farben in Grafiken sowohl bezüglich der 
-*Farbanteile* als auch der *Farbsättigung* variiert werden. Wenn möglich, 
-sollten unterschiedliche Datenkategorien zudem nicht nur über die Farben 
-sondern auch über unterschiedliche Darstellungsformen unterscheidbar sein 
-(z.B. Schraffuren, Punkt- oder Linientypen; siehe 1.3). Auch die direkte 
-Beschriftung von Kategorien bietet sich hier als Mittel an (siehe 1.4).
-
+Damit Grafiken auch für Personen mit Farbsehschwächen möglichst gut interpretierbar sind, sollten Farben in Grafiken sowohl bezüglich der *Farbanteile* als auch der *Farbsättigung* variiert werden. Wenn möglich, sollten unterschiedliche Datenkategorien zudem nicht nur über die Farben sondern auch über unterschiedliche Darstellungsformen unterscheidbar sein (z.B. Schraffuren, Punkt- oder Linientypen; siehe 1.3). Auch die direkte Beschriftung von Kategorien bietet sich hier als Mittel an (siehe 1.4).
 
 ### 1.2 Auswahl Farbpaletten
 
-In R können mit dem [dichromat-Package](https://cran.r-project.org/web/packages/dichromat/index.html) 
-diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt es 
-Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich sind. Je 
-heller die Paletten sind, desto weniger geeignet sind sie. Das trifft vor allem 
-auf Farbpaletten wie *zhextralight* oder *zhultralight* zu.
+In R können mit dem [dichromat-Package](https://cran.r-project.org/web/packages/dichromat/index.html) diverse Ausprägungen von Farbsehschwäche simuliert werden. Dies erlaubt es Farbpaletten auszuwählen, die möglichst farbsehschwächenfreundlich sind. Je heller die Paletten sind, desto weniger geeignet sind sie. Das trifft vor allem auf Farbpaletten wie *zhextralight* oder *zhultralight* zu.
 
 ```{r out.width="20%", out.height="20%"}
 library(dichromat)
@@ -229,7 +211,7 @@ __Beispiel : Liniengrafik__
 ```{r}
 # Datenzugriff von: https://www.zh.ch/de/politik-staat/opendata.zhweb-noredirect.zhweb-cache.html?keywords=ogd#/datasets/544@oberjugendanwaltschaft-kanton-zuerich/distributions/1031
 
-data <- read.csv("daten/KTZH_00000544_00001031.csv") %>% 
+data <- read.csv("data/KTZH_00000544_00001031.csv") %>% 
   pivot_longer(cols=2:3)
 
 gg_ojuga <- ggplot(data, aes(Jahr, value, color = name, linetype = name)) + 
@@ -256,7 +238,7 @@ Bei gewissen Grafiktypen kann die Unterscheidbarkeit von Kategorien auch durch d
 ```{r}
 library(ggrepel)
 
-data <- read.csv("daten/KTZH_00000544_00001031.csv") %>% 
+data <- read.csv("data/KTZH_00000544_00001031.csv") %>% 
   pivot_longer(cols=2:3)
 
 

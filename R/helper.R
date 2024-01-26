@@ -1,4 +1,4 @@
-#' verifyInputSheetname()
+#' Ensure that a sheetname are unique and legal according to MS Excel
 #'
 #' @description Function which truncates a sheetname to 31 characters
 #' @details MS Excel imposes a character limit of 31 characters for names of
@@ -7,17 +7,44 @@
 #' @param sheetname A character string with the name for an XLSX worksheet
 #' @returns A character string
 #' @keywords internal
-#' @noRd
+#' @rdname verifyInputSheetname
 verifyInputSheetname <- function(sheetname) {
+
+  forbidden_chars <- c("/", "\\", "?", "*", ":", "[", "]")
+  pattern <- paste0("(", paste0(
+    paste0("\\", forbidden_chars), collapse = "|"), ")")
+
   if (nchar(sheetname) > 31) {
-    message("sheetname truncated at 31 characters to satisfy MS-Excel limit.")
+    message("sheetname ", sheetname, "truncated at 31 characters (Excel limit).")
+    sheetname <- substr(sheetname, 0, 31)
   }
 
-  return(substr(sheetname, 0, 31))
+  if (grepl(pattern, sheetname)) {
+    message("Found (and replaced with '_') forbidden characters: ",
+            paste(forbidden_chars, collapse = " "))
+    sheetname <- gsub(pattern, "_", sheetname)
+  }
+
+  return(sheetname)
+}
+
+#' @rdname verifyInputSheetname
+verifyInputSheetnames <- function(sheetnames) {
+
+  output_sheetnames <- lapply(sheetnames, verifyInputSheetname)
+  counts <- table(unlist(output_sheetnames))
+
+  if (any(counts > 1)) {
+    duplicates <- names(counts)[counts > 1]
+    stop("Duplicate sheetnames after truncation for datasets ",
+         paste(which(output_sheetnames %in% duplicates), collapse = ", "))
+  }
+
+  return(output_sheetnames)
 }
 
 
-#' verifyInputFilename()
+#' Ensure that filename has file extension
 #'
 #' @description Function which adds a file extension to a filename if missing .
 #' @param filename A character string with the filename
@@ -25,13 +52,12 @@ verifyInputSheetname <- function(sheetname) {
 #' @returns A character string
 #' @keywords internal
 #' @noRd
-verifyInputFilename <- function(filename, extension = ".xlsx") {
-  regex_pattern <- paste0(extension, "$")
-  paste0(gsub(regex_pattern, "", filename), extension)
+verifyInputFilename <- function(filename, extension = "xlsx") {
+  regex_pattern <- paste0("[.]", extension, "$")
+  paste0(gsub(regex_pattern, "", filename), ".", extension)
 }
 
-
-#' verifyDataUngrouped()
+#' Ensure that input data is ungrouped
 #'
 #' @description Function which checks if a data.frame is a grouped_df, in which
 #'  case it calls dplyr::ungroup().
@@ -47,54 +73,8 @@ verifyDataUngrouped <- function(data) {
   return(dplyr::ungroup(data))
 }
 
-#' inputHelperSource()
-#'
-#' @description Substitute default value "statzh" with official title
-#' @param source A character vector with source information
-#' @param prefix A character string giving prepended to the sources
-#' @param collapse Separator for collapsing multiple sources with
-#' @returns A character string
-#' @keywords internal
-#' @noRd
-inputHelperSource <- function(source, prefix = getOption("statR_prefix_source"),
-                              collapse = getOption("statR_collapse")) {
 
-  if (all(is.na(source))) {
-    return("")
-  }
-
-  if (!is.null(collapse)) {
-    return(paste(prefix, paste0(source, collapse = collapse)))
-  }
-
-  return(c(prefix, source))
-}
-
-
-#' inputHelperMetadata()
-#'
-#' @description Concatenate metadata into a formatted string.
-#' @inheritParams inputHelperSource
-#' @param metadata A character vector with metadata information
-#' @returns A character vector
-#' @keywords internal
-#' @noRd
-inputHelperMetadata <- function(metadata, prefix = getOption("statR_prefix_metadata"),
-                                collapse = getOption("statR_collapse")) {
-
-  if (all(is.na(metadata))) {
-    return("")
-  }
-
-  if (!is.null(collapse)) {
-    return(paste(prefix, paste0(metadata, collapse = collapse)))
-  }
-
-  return(c(prefix, metadata))
-}
-
-
-#' inputHelperLogoPath()
+#' Set up logo path and attach settings for width and height
 #'
 #' @description Replace default values "zh" and "statzh" with the file path to
 #'  the respective logo (included in /extdata), otherwise returns the input value.
@@ -102,29 +82,38 @@ inputHelperMetadata <- function(metadata, prefix = getOption("statR_prefix_metad
 #' @returns A character string
 #' @keywords internal
 #' @noRd
-inputHelperLogoPath <- function(logo) {
+inputHelperLogoPath <- function(
+    logo, width = getOption("statR_logo_width"),
+    height = getOption("statR_logo_height")) {
+
   if (is.null(logo)) {
     message("No logo added.")
 
-  } else if (logo == "statzh") {
-    logo <- paste0(find.package("statR"), "/extdata/", statzh_logo)
+  } else {
 
-  } else if (logo == "zh") {
-    logo <- paste0(find.package("statR"), "/extdata/", zh_logo)
+    if (logo == "zh") {
+      logo <- system.file("extdata/Stempel_Kanton_ZH.png", package = "statR")
+
+    } else if (logo == "statzh") {
+      logo <- system.file("extdata/Stempel_STAT-01.png", package = "statR")
+    }
+
+    logo <- add_plot_size(logo, c(width, height))
   }
 
   return(logo)
 }
 
 
-#' inputHelperContactInfo()
+#' Construct a vector with contact information from defaults
 #'
-#' @description Replaces default value "statzh" with the contact information of
-#'  the Statistics Office of Canton Zurich, otherwise returns the input value.
-#' @param compact A boolean which controls the format of the contact information. Default: FALSE
+#' A helper function which constructs a character vector from the contact
+#' information defined in the user profile. If \code{compact = TRUE}, the
+#' organization is dropped, and the name and phone number are displayed in the
+#' same row.
+#' @param compact A boolean. If TRUE, a shortened version is displayed
 #' @returns A character vector
-#' @keywords internal
-#' @noRd
+#' @export
 inputHelperContactInfo <- function(compact = FALSE) {
 
   phone <- inputHelperPhone(getOption("statR_phone"))
@@ -138,32 +127,12 @@ inputHelperContactInfo <- function(compact = FALSE) {
            phone, getOption("statR_email")))
 }
 
-
-#' inputHelperOfficeHours()
+#' Set homepage to a hyperlink
 #'
-#' @description Replace default value "statzh" with the office hours
-#'  of the Statistics Office of Canton Zurich, otherwise returns
-#'  the input value.
-#' @param openinghours A character vector with opening hours.
-#' @returns A character vector
-#' @keywords internal
-#' @noRd
-inputHelperOfficeHours <- function(openinghours) {
-  if (openinghours == "statzh") {
-    openinghours <- statzh_openinghours
-  }
-
-  return(openinghours)
-}
-
-
-#' inputHelperHomepage()
-#'
-#' @description Formats homepage as a hyperlink object.
+#' Formats homepage as a hyperlink object.
 #' @param homepage A character string
 #' @returns A character string or a 'hyperlink' object
-#' @keywords internal
-#' @noRd
+#' @export
 inputHelperHomepage <- function(homepage) {
   if (!is.null(homepage)) {
     class(homepage) <- "hyperlink"
@@ -187,7 +156,6 @@ inputHelperPhone <- function(phone, prefix = getOption("statR_prefix_phone")) {
   return(phone)
 }
 
-
 #' inputHelperDateCreated()
 #'
 #' @description Returns current date as a string with format specified by date_format
@@ -198,10 +166,9 @@ inputHelperPhone <- function(phone, prefix = getOption("statR_prefix_phone")) {
 #' @seealso format
 #' @noRd
 inputHelperDateCreated <- function(prefix = getOption("statR_prefix_date"),
-                                   date_format = getOption("date_format")) {
+                                   date_format = getOption("statR_date_format")) {
   paste(prefix, format(Sys.Date(), format = date_format))
 }
-
 
 #' inputHelperOrderNumber()
 #'
@@ -220,7 +187,6 @@ inputHelperOrderNumber <- function(order_num,
   return(order_num)
 }
 
-
 #' inputHelperAuthorName()
 #'
 #' @description Function extracts initials from global environment if
@@ -233,6 +199,11 @@ inputHelperOrderNumber <- function(order_num,
 #'
 inputHelperAuthorName <- function(author,
                                   prefix = getOption("statR_prefix_author")) {
+
+  if (is.null(author) || is.na(author)) {
+    return(NULL)
+  }
+
   if (author == "user") {
     sys_vals <- c(Sys.getenv("USERNAME"), Sys.getenv("USER"))
     author_name <- sys_vals[which(sys_vals != "")[1]]
@@ -242,9 +213,7 @@ inputHelperAuthorName <- function(author,
   return(paste(prefix, author))
 }
 
-
-
-#' excelIndexToRowCol()
+#' Convert Excel index to row/column indices
 #'
 #' @description Converts an Excel style index (e.g. A1) into numeric row and
 #'   column indices. Handles cells (A1) as well as matrices (A1:B2)
@@ -282,7 +251,7 @@ excelIndexToRowCol <- function(index) {
 }
 
 
-#' namedRegionExtent()
+#' Determine the row and column extent of named regions
 #'
 #' @description Get extent of a named region in a workbook object
 #' @details If a single name is provided, returns the extent of the associated
@@ -290,7 +259,7 @@ excelIndexToRowCol <- function(index) {
 #'   returned instead. If left at default (NULL), the combined extent of all
 #'   regions is returned.
 #' @param wb A workbook object
-#' @param sheet Name of a worksheet
+#' @param sheetname Name of a worksheet
 #' @param region_name names of regions in Workbook.
 #' @param which either "row", "col", or "both" (default).
 #' @returns A list with two numeric vectors row and col, containing
@@ -302,12 +271,13 @@ namedRegionExtent <- function(wb, sheetname, region_name = NULL,
 
   if (!(sheetname %in% names(wb))) {
     stop("Sheetname does not exist in Workbook")
+
+  } else if (all(is.null(named_regions))) {
+    stop("No named regions defined.")
   }
 
   sheet_ind <- which(sheetname == attr(named_regions, "sheet"))
   region_names <- named_regions[sheet_ind]
-
-
   positions <- attr(named_regions, "position")[sheet_ind]
 
   if (which == "both") {
@@ -335,69 +305,86 @@ namedRegionExtent <- function(wb, sheetname, region_name = NULL,
 }
 
 
-#' namedRegionRowExtent()
+#' Determine the extent of a named region in a particular direction
 #'
-#' @description Get row extent of a named region in a workbook object
+#' @description Get row or column extent of a named region in a workbook object.
 #' @inheritParams namedRegionExtent
-#' @returns A numeric vector of row indices
+#' @returns A numeric vector of indices
+#' @rdname namedRegionExtent1D
 #' @keywords internal
-#'
 namedRegionRowExtent <- function(wb, sheetname, region_name = NULL) {
   unlist(namedRegionExtent(wb, sheetname, region_name, "row"))
 }
-
-
-#' namedRegionColumnExtent()
-#'
-#' @description Get column extent of a named region in a Workbook object
-#' @inheritParams namedRegionExtent
-#' @returns A numeric vector of column indices
+#' @rdname namedRegionExtent1D
 #' @keywords internal
-#'
-namedRegionColumnExtent <- function(wb, sheetname, name = NULL) {
-  unlist(namedRegionExtent(wb, sheetname, name, "col"))
+namedRegionColumnExtent <- function(wb, sheetname, region_name = NULL) {
+  unlist(namedRegionExtent(wb, sheetname, region_name, "col"))
 }
 
 
-#' namedRegionFirstRow()
+#' Functions to determine the outer boundaries of named regions
 #'
-#' @description Get first row number of named region
+#' @description Methods for determining the first and last index of
+#'   a namedRegion in row and column directions.
 #' @inheritParams namedRegionExtent
-#' @returns Numeric value corresponding to first row of named region
+#' @returns Numeric value
 #' @keywords internal
-namedRegionFirstRow <- function(wb, sheet, region_name = NULL) {
-  min(namedRegionRowExtent(wb, sheet, region_name))
+#' @rdname namedRegionBoundary
+namedRegionFirstRow <- function(wb, sheetname, region_name = NULL) {
+  min(namedRegionRowExtent(wb, sheetname, region_name))
+}
+#' @rdname namedRegionBoundary
+#' @keywords internal
+namedRegionLastRow <- function(wb, sheetname, region_name = NULL) {
+  max(namedRegionRowExtent(wb, sheetname, region_name))
+}
+#' @rdname namedRegionBoundary
+#' @keywords internal
+namedRegionFirstCol <- function(wb, sheetname, region_name = NULL) {
+  min(namedRegionColumnExtent(wb, sheetname, region_name))
+}
+#' @rdname namedRegionBoundary
+#' @keywords internal
+namedRegionLastCol <- function(wb, sheetname, region_name = NULL) {
+  max(namedRegionColumnExtent(wb, sheetname, region_name))
 }
 
 
-#' namedRegionLastRow()
+#' cleanNamedRegions()
 #'
-#' @description Get last row number of named region
-#' @inheritParams namedRegionExtent
-#' @returns Numeric value corresponding to last row of named region
+#' @description Function to clean up unneeded named regions.
+#' @details Named regions are used as a convenient tool during the construction
+#'   of the output workbook. This function can be used to remove some or all
+#'   named regions. Note: this doesn't extend to the data contained in a named
+#'   region.
+#' @note When working with insert-like functions to construct a custom output,
+#'   this function should only be called just before the conversion of the workbook into an .xlsx file.
+#' @param wb A workbook object
+#' @param which Either "keep_data" (to keep any named regions pertaining to tables),
+#'   or "all".
 #' @keywords internal
-namedRegionLastRow <- function(wb, sheet, region_name = NULL) {
-  max(namedRegionRowExtent(wb, sheet, region_name))
+#' @noRd
+cleanNamedRegions <- function(wb, which = c("keep_data", "all")) {
+  named_regions <- openxlsx::getNamedRegions(wb)
+  delete_regions <- c()
+
+  if (which == "keep_data") {
+    delete_regions <- named_regions[!grepl("_data", named_regions)]
+  } else if (which == "all") {
+    delete_regions <- named_regions
+  }
+
+  if (length(delete_regions > 0)) {
+    purrr::walk(delete_regions, ~openxlsx::deleteNamedRegion(wb, .))
+  }
 }
 
 
-#' namedRegionFirstCol()
-#'
-#' @description Get first col number of named region
-#' @inheritParams namedRegionExtent
-#' @returns Numeric value corresponding to first column of named region
-#' @keywords internal
-namedRegionFirstCol <- function(wb, sheet, region_name = NULL) {
-  min(namedRegionColumnExtent(wb, sheet, region_name))
-}
 
-
-#' namedRegionLastCol()
+#' Convert missing input to NULL
 #'
-#' @description Get last col number of named region
-#' @inheritParams namedRegionExtent
-#' @returns Numeric value corresponding to last column of named region
 #' @keywords internal
-namedRegionLastCol <- function(wb, sheet, region_name = NULL) {
-  max(namedRegionColumnExtent(wb, sheet, region_name))
+missingToNull <- function(input_value) {
+  if (!missing(input_value))
+    return(input_value)
 }
