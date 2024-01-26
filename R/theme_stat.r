@@ -1,16 +1,26 @@
 #' theme_stat()
 #'
-#' This ggplot2 theme is based on ggplot2::theme_minimal(). It controls the non-data related characteristics of a plot (e.g., the font type).
-#' On top of that, the font size, the major and minor grid lines, axis lines, axis ticks and the axis label positions can be specified.
+#' This ggplot2 theme is based on ggplot2::theme_minimal(). It controls the
+#' non-data related characteristics of a plot (e.g., the font type).
+#' On top of that, the font size, the major and minor grid lines, axis lines,
+#' axis ticks and the axis label positions can be specified.
 #'
-#' To use this theme in a R Markdown generated PDF document, insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
+#' To use this theme in a R Markdown generated PDF document,
+#' insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
+#'
 #' @inheritParams ggplot2::theme_minimal
-#' @param axis.label.pos position of x and y-axis labels, can be set to "top", "center", or "bottom".
-#' @param axis.lines presence of axis lines, can be set to "x", "y", "both", or "none".
-#' @param ticks presence of axis ticks, can be set to "x", "y", "both", or "none".
-#' @param major.grid.lines presence of major grid lines, can be set to "x", "y", "both", or "none".
-#' @param minor.grid.lines presence of minor grid line<s, can be set to "x", "y", "both", or "none".
-#' @param map whether the theme should be optimized for maps, can be set to TRUE or FALSE.
+#' @param axis.label.pos position of x and y-axis labels, can be set to "top",
+#'   "center", or "bottom".
+#' @param axis.lines presence of axis lines, can be set to "x", "y", "both", or
+#'   "none".
+#' @param ticks presence of axis ticks, can be set to "x", "y", "both", or
+#'   "none".
+#' @param major.grid.lines presence of major grid lines, can be set to "x", "y",
+#'   "both", or "none".
+#' @param minor.grid.lines presence of minor grid line<s, can be set to "x",
+#'   "y", "both", or "none".
+#' @param map whether the theme should be optimized for maps, can be set to
+#'   TRUE or FALSE.
 #' @keywords theme_stat
 #' @export
 #' @importFrom ggplot2 theme_minimal theme element_blank element_line unit continuous_scale
@@ -31,11 +41,12 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
                        minor.grid.lines = "none", map = FALSE) {
 
   palette <- RColorBrewer::brewer.pal("Greys", n = 9)
-  color.grid = palette[5]
-  color.title = palette[9]
-  color.axis = palette[7]
+  color.grid <- palette[5]
+  color.title <- palette[9]
+  color.axis <- palette[7]
 
   theme_var <- ggplot2::theme_minimal(base_family = "Arial") +
+
     # TEXTE
     ggplot2::theme(
       text = ggplot2::element_text(size = base_size, color = color.axis,
@@ -44,9 +55,11 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
       plot.title = ggplot2::element_text(size = base_size * 4 / 3,
                                          colour = color.title, face = "bold",
                                          family = "Arial Black"),
+
       plot.subtitle = ggplot2::element_text(size = base_size,
                                             color = color.title, face = "plain",
                                             family = "Arial"),
+
       plot.caption = ggplot2::element_text(size = base_size,
                                            color = color.title, face = "plain",
                                            family = "Arial", hjust = 0),
@@ -56,11 +69,13 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
 
       axis.title = ggplot2::element_text(size = base_size, color = color.axis,
                                          face = "plain", family = "Arial"),
+
       axis.text = ggplot2::element_text(size = base_size, color = color.axis,
                                         face = "plain", family = "Arial"),
 
       legend.title = ggplot2::element_text(size = base_size, color = color.axis,
                                            face = "plain", family = "Arial"),
+
       legend.text = ggplot2::element_text(size = base_size, color = color.axis,
                                           face = "plain", family = "Arial")
     )
@@ -68,7 +83,7 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
   # ACHSEN
 
   ## Achsenposition
-  if(axis.label.pos == "top") {
+  if (axis.label.pos == "top") {
     vjust.x <- 0
     hjust.x <- 1
     vjust.y <- 1

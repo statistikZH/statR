@@ -25,6 +25,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,23 +39,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">statR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.4.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -79,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/statistikZH/statR/">
+  <a href="https://github.com/statistikZH/statR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -94,13 +90,13 @@
 
       
 
-      </header><script src="Sonstige_Funktionen_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Sonstige Funktionen</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/statistikZH/statR/blob/master/vignettes/Sonstige_Funktionen.Rmd"><code>vignettes/Sonstige_Funktionen.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/statistikZH/statR/blob/HEAD/vignettes/Sonstige_Funktionen.Rmd" class="external-link"><code>vignettes/Sonstige_Funktionen.Rmd</code></a></small>
       <div class="hidden name"><code>Sonstige_Funktionen.Rmd</code></div>
 
     </div>
@@ -112,9 +108,9 @@ beinhaltet <code>statR</code> auch zwei weitere Hilfsfunktionen.
 <code><a href="../reference/quick_sum.html">quick_sum()</a></code> erleichtert das Erstellen von deskriptiven
 Übersichtstabellen. <code><a href="../reference/interpolate2.html">interpolate2()</a></code> kann zur Generierung von
 individualisierten Farbpaletten verwendet werden.</p>
-<div id="quick_sum" class="section level1">
-<h1 class="hasAnchor">
-<a href="#quick_sum" class="anchor"></a>quick_sum()</h1>
+<div class="section level2">
+<h2 id="quick_sum">quick_sum()<a class="anchor" aria-label="anchor" href="#quick_sum"></a>
+</h2>
 <p>Mit der Funktion <code><a href="../reference/quick_sum.html">quick_sum()</a></code> können deskriptive
 Statistiken berechnet werden. Je nach Spezifikation des
 <code>stats</code>-Arguments wird eine andere Anzahl Statistiken
@@ -127,39 +123,39 @@ Zylinderanzahl (<code>cyl</code>) und ihres Motorentyps
 die Ausprägungen der Gruppierungsvariablen, die Anzahl sowie der
 Durchschnitt und die Quartile.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://statistikzh.github.io/statR/">statR</a></span><span class="op">)</span>
-<span class="fu"><a href="../reference/quick_sum.html">quick_sum</a></span><span class="op">(</span>df<span class="op">=</span><span class="va">mtcars</span>, var<span class="op">=</span><span class="va">mpg</span>, <span class="va">cyl</span>, <span class="va">vs</span>, stats<span class="op">=</span><span class="st">"base"</span>, protect<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 5 × 7</span>
-<span class="co">#&gt;     cyl    vs Anzahl mean_mpg q25_mpg med_mpg q75_mpg</span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     4     0      1     26      26      26      26  </span>
-<span class="co">#&gt; 2     4     1     10     26.7    22.8    25.8    30.4</span>
-<span class="co">#&gt; 3     6     0      3     20.6    20.4    21      21  </span>
-<span class="co">#&gt; 4     6     1      4     19.1    18.0    18.6    19.8</span>
-<span class="co">#&gt; 5     8     0     14     15.1    14.4    15.2    16.2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://statistikzh.github.io/statR/" class="external-link">statR</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/quick_sum.html">quick_sum</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">mtcars</span>, var <span class="op">=</span> <span class="va">mpg</span>, <span class="va">cyl</span>, <span class="va">vs</span>, stats <span class="op">=</span> <span class="st">"base"</span>, protect <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 7</span></span></span>
+<span><span class="co">#&gt;     cyl    vs Anzahl mean_mpg q25_mpg med_mpg q75_mpg</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     4     0      1     26      26      26      26  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     4     1     10     26.7    22.8    25.8    30.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     6     0      3     20.6    20.4    21      21  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     6     1      4     19.1    18.0    18.6    19.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     8     0     14     15.1    14.4    15.2    16.2</span></span></code></pre></div>
 </div>
-<div id="interpolate2" class="section level1">
-<h1 class="hasAnchor">
-<a href="#interpolate2" class="anchor"></a>interpolate2()</h1>
+<div class="section level2">
+<h2 id="interpolate2">interpolate2()<a class="anchor" aria-label="anchor" href="#interpolate2"></a>
+</h2>
 <p>Mit der Funktion <code><a href="../reference/interpolate2.html">interpolate2()</a></code> können neue Farbpaletten
 erstellt werden, indem <code>zhpal</code>-Paletten mit einer oder
 mehreren Farben interpoliert werden. Die Funktion baut auf
-<code><a href="https://rdrr.io/r/grDevices/colorRamp.html">grDevices::colorRamp()</a></code> auf. Mit dem Argument
+<code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">grDevices::colorRamp()</a></code> auf. Mit dem Argument
 <code>degree</code> kann die Stärke der Interpolation bestimmt werden
 (von 1 bis 7) und mit dem Argument <code>number</code> die Anzahl der
 Farben, die die neue Palette enthalten soll.</p>
 <p>Im Beispiel unten wird die Palette <code>zhpal$zhblue</code> mit
 schwarz (“#000000”) interpoliert.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">new</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/interpolate2.html">interpolate2</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="va">zhpal</span><span class="op">$</span><span class="va">zhblue</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#000000"</span><span class="op">)</span>, degree <span class="op">=</span> <span class="fl">3</span>, number <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></code></pre></div>
-<p><img src="Sonstige_Funktionen_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<code class="sourceCode R"><span><span class="va">new</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/interpolate2.html">interpolate2</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="va">zhpal</span><span class="op">$</span><span class="va">zhblue</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#000000"</span><span class="op">)</span>, degree <span class="op">=</span> <span class="fl">3</span>, </span>
+<span>                    number <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></code></pre></div>
 <p>So sieht die ursprüngliche Palette aus:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhblue</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="va">zhpal</span><span class="op">$</span><span class="va">zhblue</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Sonstige_Funktionen_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>Zum direkten Vergleich die interpolierte Palette:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="va">new</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/display.html">display</a></span><span class="op">(</span><span class="va">new</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Sonstige_Funktionen_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
   </div>
@@ -167,8 +163,7 @@ schwarz (“#000000”) interpoliert.</p>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
 
         <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#quick_sum" id="toc-quick_sum">quick_sum()</a></li>
       <li><a href="#interpolate2" id="toc-interpolate2">interpolate2()</a></li>
@@ -184,13 +179,13 @@ schwarz (“#000000”) interpoliert.</p>
 
 
       <footer><div class="copyright">
-  <p>Developed by Andrea Schnell, Michelle Donzallaz, Lara Theiler, Thomas Knecht, Alexandra Würmli, Thomas Lo Russo.</p>
+  <p>Developed by .</p>
 </div>
 
 <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#000000 !important;background-color:#FFFFFF !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 0px 9px !important;font-size: 17px !important;letter-spacing:-0.08px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Lato', sans-serif !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#000000 !important;}</style>
 <link href="https://fonts.googleapis.com/css?family=Lato&amp;subset=latin,latin-ext" rel="stylesheet">
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> .</p>
 </div>
 
       </footer>
@@ -198,6 +193,8 @@ schwarz (“#000000”) interpoliert.</p>
 
   
 
+
+  
 
   </body>
 </html>
