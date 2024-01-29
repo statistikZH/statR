@@ -284,15 +284,15 @@ datasetsXLSX(
 ### Benutzerkonfigurationen
 Um das Paket einem breiteren Anwenderkreis zugänglich zu machen, wurden diverse Aspekte im Design parametrisiert. Textfelder wie Kontaktinformationen können in den Funktionen direkt übersteuert werden. Für längerfristige Anpassungen besteht die Möglichkeit, Nutzerkonfigurationen anzulegen.
 
-Bei der Erstinstallation von statR wird über die Funktion \code{initUserConfigStore()} das Verzeichnis "~/.config/R/statR" erstellt und ein Index angelegt, in dem bestehende Konfigurationen erfasst werden. Die Konfigurationen sind Text-Dateien im YAML-Format. Jeder Eintrag enthält ein Schlüsselwort mit einem zugehörigen Wert. 
+Bei der Erstinstallation von statR wird über die Funktion \code{initUserConfigStore} das Verzeichnis "~/.config/R/statR" erstellt und ein Index angelegt, in dem bestehende Konfigurationen erfasst werden. Die Konfigurationen sind Text-Dateien im YAML-Format. Jeder Eintrag enthält ein Schlüsselwort mit einem zugehörigen Wert. 
 
-Beim Laden des statR-Pakets wird zunächst die default Konfiguration geladen: 
-
-```{r, echo=FALSE}
+Beim Laden des statR-Pakets wird zunächst die default Konfiguration geladen (der folgende Code zeigt deren Inhalt an): 
+```{r, eval = FALSE}
 configs <- statR:::readUserConfigStore()
 cat(readLines(subset(configs, configs$config_name == "default")$config_path), sep = "\n")
 ```
-Die Datei kann modifiziert werden, auf der Grundlage der Datei können aber auch weitere Konfigurationen erstellt und mit der Funktion \code{addUserConfig()} registriert werden. Bestehende Konfigurationen können mit \code{loadUserConfig} geladen werden, oder allenfalls mit \code{removeUserConfig()} gelöscht werden.
+
+Die Datei kann modifiziert werden, auf der Grundlage der Datei können aber auch weitere Konfigurationen erstellt und mit der Funktion \code{addUserConfig} registriert werden. Bestehende Konfigurationen können mit \code{loadUserConfig} geladen werden, oder allenfalls mit \code{removeUserConfig} gelöscht werden.
 
 
 ### Einbindung von Bild-Dateien

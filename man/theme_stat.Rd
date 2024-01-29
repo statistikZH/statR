@@ -17,24 +17,33 @@ theme_stat(
 \arguments{
 \item{base_size}{base font size, given in pts.}
 
-\item{axis.label.pos}{position of x and y-axis labels, can be set to "top", "center", or "bottom".}
+\item{axis.label.pos}{position of x and y-axis labels, can be set to "top",
+"center", or "bottom".}
 
-\item{axis.lines}{presence of axis lines, can be set to "x", "y", "both", or "none".}
+\item{axis.lines}{presence of axis lines, can be set to "x", "y", "both", or
+"none".}
 
-\item{ticks}{presence of axis ticks, can be set to "x", "y", "both", or "none".}
+\item{ticks}{presence of axis ticks, can be set to "x", "y", "both", or
+"none".}
 
-\item{major.grid.lines}{presence of major grid lines, can be set to "x", "y", "both", or "none".}
+\item{major.grid.lines}{presence of major grid lines, can be set to "x", "y",
+"both", or "none".}
 
-\item{minor.grid.lines}{presence of minor grid line<s, can be set to "x", "y", "both", or "none".}
+\item{minor.grid.lines}{presence of minor grid line<s, can be set to "x",
+"y", "both", or "none".}
 
-\item{map}{whether the theme should be optimized for maps, can be set to TRUE or FALSE.}
+\item{map}{whether the theme should be optimized for maps, can be set to
+TRUE or FALSE.}
 }
 \description{
-This ggplot2 theme is based on ggplot2::theme_minimal(). It controls the non-data related characteristics of a plot (e.g., the font type).
-On top of that, the font size, the major and minor grid lines, axis lines, axis ticks and the axis label positions can be specified.
+This ggplot2 theme is based on ggplot2::theme_minimal(). It controls the
+non-data related characteristics of a plot (e.g., the font type).
+On top of that, the font size, the major and minor grid lines, axis lines,
+axis ticks and the axis label positions can be specified.
 }
 \details{
-To use this theme in a R Markdown generated PDF document, insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
+To use this theme in a R Markdown generated PDF document,
+insert `dev="cairo_pdf"` into `knitr::opts_chunk$set()`.
 }
 \examples{
 \donttest{

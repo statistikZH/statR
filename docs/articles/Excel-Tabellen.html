@@ -435,41 +435,10 @@ bestehende Konfigurationen erfasst werden. Die Konfigurationen sind
 Text-Dateien im YAML-Format. Jeder Eintrag enthält ein Schlüsselwort mit
 einem zugehörigen Wert.</p>
 <p>Beim Laden des statR-Pakets wird zunächst die default Konfiguration
-geladen:</p>
-<pre><code><span><span class="co">#&gt; # Configuration file for statR</span></span>
-<span><span class="co">#&gt; statR_config_name: default</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # Contact information</span></span>
-<span><span class="co">#&gt; statR_organization: Statistisches Amt des Kantons Zürich</span></span>
-<span><span class="co">#&gt; statR_name: Datashop</span></span>
-<span><span class="co">#&gt; statR_phone: +41 43 259 75 00</span></span>
-<span><span class="co">#&gt; statR_email: datashop@statistik.zh.ch</span></span>
-<span><span class="co">#&gt; statR_homepage: http://www.statistik.zh.ch</span></span>
-<span><span class="co">#&gt; statR_openinghours:</span></span>
-<span><span class="co">#&gt; - Bürozeiten</span></span>
-<span><span class="co">#&gt; - Montag bis Freitag</span></span>
-<span><span class="co">#&gt; - 09:00 bis 12:00</span></span>
-<span><span class="co">#&gt; - 13:00 bis 16:00</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # Logo: this can be one of the values statzh or zh, or a path to an image</span></span>
-<span><span class="co">#&gt; statR_logo: statzh</span></span>
-<span><span class="co">#&gt; statR_logo_width: 2.145</span></span>
-<span><span class="co">#&gt; statR_logo_height: 0.7865</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # Prefixes for strings</span></span>
-<span><span class="co">#&gt; statR_prefix_date: "Aktualisiert am:"</span></span>
-<span><span class="co">#&gt; statR_prefix_author: "durch:"</span></span>
-<span><span class="co">#&gt; statR_prefix_phone: "Tel."</span></span>
-<span><span class="co">#&gt; statR_prefix_order_id: "Auftragsnr.:"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # Default values</span></span>
-<span><span class="co">#&gt; statR_toc_title: Inhalt</span></span>
-<span><span class="co">#&gt; statR_source: Statistisches Amt des Kantons Zürich</span></span>
-<span><span class="co">#&gt; statR_default_plot_width: 6</span></span>
-<span><span class="co">#&gt; statR_default_plot_height: 3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; # Miscellaneous</span></span>
-<span><span class="co">#&gt; statR_date_format: "%d.%m.%Y"</span></span></code></pre>
+geladen (der folgende Code zeigt deren Inhalt an):</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">configs</span> <span class="op">&lt;-</span> <span class="fu">statR</span><span class="fu">:::</span><span class="fu"><a href="../reference/readUserConfigStore.html">readUserConfigStore</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">configs</span>, <span class="va">configs</span><span class="op">$</span><span class="va">config_name</span> <span class="op">==</span> <span class="st">"default"</span><span class="op">)</span><span class="op">$</span><span class="va">config_path</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
 <p>Die Datei kann modifiziert werden, auf der Grundlage der Datei können
 aber auch weitere Konfigurationen erstellt und mit der Funktion
 registriert werden. Bestehende Konfigurationen können mit geladen
