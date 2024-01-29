@@ -21,6 +21,7 @@ initUserConfigStore <- function(store_path = "~/.config/R/statR") {
 
   }
 
+  message(paste(list.files(system.file("extdata/config", package = "statR"), full.names = TRUE)))
   addUserConfig(store_path = store_path)
 
   loadUserConfig(store_path = store_path)
