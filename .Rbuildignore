@@ -11,3 +11,5 @@
 
 ^doc$
 ^Meta$
+^tests/testthat/test_env
+^tests/testthat/test_out

@@ -118,6 +118,7 @@
 #'
 #' @keywords datasetsXLSX
 #' @importFrom dplyr %>%
+#' @importFrom stats na.omit
 #' @export
 datasetsXLSX <- function(
     file, datasets, sheetname = NULL, title = NULL, source = NULL,

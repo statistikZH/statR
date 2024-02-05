@@ -12,7 +12,7 @@ test_that(
     testthat::expect_equal(config_file$config_name, "default")
     testthat::expect_equal(
       config_file$config_path,
-      system.file("extdata/config/default", package = "statR"))
+      system.file("extdata/config/default.yaml", package = "statR"))
     testthat::expect_equal(getOption("statR_email"),
                            "datashop@statistik.zh.ch")
 

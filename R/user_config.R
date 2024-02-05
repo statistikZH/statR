@@ -21,10 +21,14 @@ initUserConfigStore <- function(store_path = "~/.config/R/statR") {
 
   }
 
-  message(paste(list.files(system.file("extdata/config", package = "statR"), full.names = TRUE)))
-  addUserConfig(store_path = store_path)
+  # Handle 00LOCK-entries created on temporary installation
+  if (grepl("00LOCK-statR", find.package("statR"))) {
+    loadDefaultUserConfig()
 
-  loadUserConfig(store_path = store_path)
+  } else {
+    addUserConfig(store_path = store_path)
+    loadUserConfig(store_path = store_path)
+  }
 }
 
 
@@ -63,7 +67,7 @@ addUserConfig <- function(name = "default", path = NULL,
   }
 
   if (name == "default" && is.null(path)) {
-    path <- system.file("extdata/config/default", package = "statR")
+    path <- system.file("extdata/config/default.yaml", package = "statR")
   }
 
   if (name == "default" & "default" %in% configs$config_name){
@@ -137,8 +141,6 @@ readUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
   all_configs <- readUserConfigStore(store_path)
   path <- subset(all_configs, name == all_configs$config_name)$config_path
 
-  message(path)
-
   if (!file.exists(path)) {
     stop("Header-Konfigurations-YAML-File: ", path, " existiert nicht.")
   }
@@ -154,4 +156,19 @@ readUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
 #' @export
 loadUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
   options(readUserConfig(name, store_path))
+}
+
+#' Lade default config
+#'
+#' Die Funktion hat nur den Zweck, das Config-File aus dem Paketordner zu laden.
+#' Dadurch wird während der temporären Installation die Möglichkeit geschaffen,
+#' die Konfiguration zu laden, ohne den temporären Pfad im ConfigStore zu
+#' hinterlegen. Die Funktion wid nicht exportiert, weil die Erwartung ist, dass
+#' Benutzer über add_config Konfigurationen registrieren.
+#'
+#' @inheritParams readUserConfig
+#' @keywords internal
+loadDefaultUserConfig <- function(store_path = "~/.config/R/statR") {
+  default_config <- system.file("extdata/config/default.yaml", package = "statR")
+  options(yaml::read_yaml(default_config))
 }
