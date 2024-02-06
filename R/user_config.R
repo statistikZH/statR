@@ -21,10 +21,8 @@ initUserConfigStore <- function(store_path = "~/.config/R/statR") {
 
   }
 
-  message(paste(list.files(system.file("extdata/config", package = "statR"), full.names = TRUE)))
   addUserConfig(store_path = store_path)
 
-  loadUserConfig(store_path = store_path)
 }
 
 
@@ -63,7 +61,7 @@ addUserConfig <- function(name = "default", path = NULL,
   }
 
   if (name == "default" && is.null(path)) {
-    path <- system.file("extdata/config/default", package = "statR")
+    path <- system.file("extdata/config/default.yaml", package = "statR")
   }
 
   if (name == "default" & "default" %in% configs$config_name){
@@ -147,11 +145,53 @@ readUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
 }
 
 
-#' Setzt die Header-Konfigurationen als options
-#'
-#' @param name welches file soll angezogen werden
-#' @inheritParams readUserConfig
-#' @export
-loadUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
-  options(readUserConfig(name, store_path))
+
+
+
+
+get_user_config <- function(config, params_to_check){
+  initUserConfigStore()
+
+  user_config <- readUserConfig(config)
+
+  out <- unlist(user_config, recursive = FALSE)
+
+  names(out) <- gsub(".*\\.", "", names(out))
+
+  config_name <- tail(paste0("statR_", substitute(params_to_check)), -1)
+
+  user_config <- purrr::reduce2(params_to_check, config_name, ~ replace_by_parameter(..1, ..2, ..3), .init = out)
+
+  options(user_config)
+
+
+  if(!("statR_contactdetails" %in% names(user_config))){
+    user_config$statR_contactdetails <- inputHelperContactInfo()
+
+    options(user_config)
+  }
+
+
+
 }
+
+
+replace_by_parameter <- function(yaml_file, parameter, config_param_name) {
+
+  if (!is.null(parameter)) {
+    if(config_param_name %in% names(yaml_file)){
+      yaml_file[config_param_name] <- parameter
+    } else {
+      yaml_file$add <- parameter
+
+      new_names <- c(head(names(yaml_file),-1), config_param_name)
+
+      names(yaml_file) <- new_names
+    }
+
+  }
+
+  return(yaml_file)
+}
+
+

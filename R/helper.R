@@ -119,11 +119,11 @@ inputHelperContactInfo <- function(compact = FALSE) {
   phone <- inputHelperPhone(getOption("statR_phone"))
 
   if (compact) {
-    return(c(paste(getOption("statR_name"), phone, sep = ", "),
+    return(list(paste(getOption("statR_name"), phone, sep = ", "),
              getOption("statR_email")))
   }
 
-  return(c(getOption("statR_organization"), getOption("statR_name"),
+  return(list(getOption("statR_organization"), getOption("statR_name"),
            phone, getOption("statR_email")))
 }
 

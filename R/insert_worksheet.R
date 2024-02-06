@@ -169,6 +169,8 @@ insert_header <- function(wb, sheetname, logo = getOption("statR_logo"),
                           auftrag_id = NULL, author = "user",
                           openinghours = NULL, contact_col = 13) {
 
+  logo <- inputHelperLogoPath(getOption("statR_logo"))
+
   sheetname <- verifyInputSheetname(sheetname)
   if (!(sheetname %in% names(wb))) openxlsx::addWorksheet(wb, sheetname)
 
@@ -181,7 +183,7 @@ insert_header <- function(wb, sheetname, logo = getOption("statR_logo"),
                               paste0(sheetname, "_header_start"))
 
   fields <- list(
-    contact = contactdetails,
+    contact = unlist(contactdetails),
     homepage = inputHelperHomepage(homepage),
     info = c(paste(inputHelperDateCreated(), inputHelperAuthorName(author)),
              inputHelperOrderNumber(auftrag_id))

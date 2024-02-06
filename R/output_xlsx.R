@@ -122,12 +122,15 @@
 datasetsXLSX <- function(
     file, datasets, sheetname = NULL, title = NULL, source = NULL,
     metadata = NULL, grouplines = NULL, group_names = NULL, plot_width = NULL,
-    plot_height = NULL, index_title = getOption("statR_toc_title"),
-    index_source = getOption("statR_source"), logo = getOption("statR_logo"),
-    contactdetails = inputHelperContactInfo(),
-    homepage = getOption("statR_homepage"),
-    openinghours = getOption("statR_openinghours"),
-    auftrag_id = NULL, author = "user", metadata_sheet = NULL, overwrite = TRUE) {
+    plot_height = NULL, index_title = NULL,
+    index_source = NULL, logo = NULL,
+    contactdetails = NULL,
+    homepage = NULL,
+    openinghours = NULL,
+    auftrag_id = NULL, author = "user", metadata_sheet = NULL, overwrite = TRUE, config = "default") {
+
+
+  user_config <- get_user_config(config, c(index_title, index_source, logo, contactdetails, homepage, openinghours))
 
   # "Optional" input arguments
   for (value in c("title", "source", "metadata", "grouplines", "group_names")){
@@ -156,7 +159,7 @@ datasetsXLSX <- function(
     for (arg in c("plot_height", "plot_width")){
       buffer <- as.list(rep(NA, length.out = length(datasets)))
 
-      if (is.null(values <- eval(as.name(arg)))) {
+      if (is.null((values<- eval(as.name(arg))))) {
         values <- unlist(extract_attributes(datasets, arg))
       }
 
@@ -239,9 +242,12 @@ datasetsXLSX <- function(
 #' @export
 splitXLSX <- function(
     file, data, sheetvar, title = NULL, source = NULL, metadata = NULL,
-    grouplines = NULL, group_names = NULL, logo = getOption("statR_logo"),
-    contactdetails = inputHelperContactInfo(compact = TRUE),
-    homepage = getOption("statR_homepage"), author = "user") {
+    grouplines = NULL, group_names = NULL, logo = NULL,
+    contactdetails = NULL,
+    homepage = NULL, author = "user", config = "default") {
+
+  user_config <- get_user_config(config, c(logo, contactdetails,  homepage))
+
 
   # Shared values: these are attached to the source data.frame before
   # splitting on sheetvar using split.data.frame(), which preserves attributes
@@ -289,9 +295,12 @@ splitXLSX <- function(
 #' @export
 aXLSX <- function(
     file, data, title = NULL, source = NULL, metadata = NULL, grouplines = NULL,
-    group_names = NULL, logo = getOption("statR_logo"),
-    contactdetails = inputHelperContactInfo(),
-    homepage = getOption("statR_homepage"), author = "user") {
+    group_names = NULL, logo = NULL,
+    contactdetails = NULL,
+    homepage = getOption("statR_homepage"), author = "user", config = "default") {
+
+  user_config <- get_user_config(config, c(logo, contactdetails,  homepage))
+
 
   for (value in c("title", "source", "metadata", "grouplines", "group_names")) {
     if (!is.null(eval(as.name(value)))) {
@@ -343,10 +352,15 @@ aXLSX <- function(
 #' }
 quickXLSX <- function(
     data, file, title = NULL, source = NULL, metadata = NULL, grouplines = NULL,
-    group_names = NULL, logo = getOption("statR_logo"),
-    contactdetails = statR:::inputHelperContactInfo(compact = TRUE),
-    homepage = getOption("statR_homepage"),
-    author = "user") {
+    group_names = NULL, logo = NULL,
+    contactdetails = NULL,
+    homepage = NULL,
+    author = "user",
+    config = "default") {
+
+  get_user_config(config, list(logo, contactdetails,  homepage))
+
+
 
   for (value in c("title", "source", "metadata", "grouplines", "group_names")) {
     if (!is.null(eval(as.name(value)))) {
@@ -356,7 +370,7 @@ quickXLSX <- function(
 
   wb <- openxlsx::createWorkbook()
   insert_worksheet(wb, sheetname = "Inhalt", data = data, logo = logo,
-                   contactdetails = contactdetails, homepage = homepage,
+                   contactdetails = getOption("statR_contactdetails"), homepage = homepage,
                    author = author)
   cleanNamedRegions(wb, "all")
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
