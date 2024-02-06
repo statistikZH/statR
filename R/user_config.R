@@ -149,6 +149,7 @@ readUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
 
 
 get_user_config <- function(config, params_to_check){
+
   initUserConfigStore()
 
   user_config <- readUserConfig(config)
@@ -158,6 +159,7 @@ get_user_config <- function(config, params_to_check){
   names(out) <- gsub(".*\\.", "", names(out))
 
   config_name <- tail(paste0("statR_", substitute(params_to_check)), -1)
+
 
   user_config <- purrr::reduce2(params_to_check, config_name, ~ replace_by_parameter(..1, ..2, ..3), .init = out)
 
@@ -177,7 +179,7 @@ get_user_config <- function(config, params_to_check){
 
 replace_by_parameter <- function(yaml_file, parameter, config_param_name) {
 
-  if (!is.null(parameter)) {
+  if (!is.na(parameter)) {
     if(config_param_name %in% names(yaml_file)){
       yaml_file[config_param_name] <- parameter
     } else {
