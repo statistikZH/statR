@@ -44,6 +44,7 @@
 #' @param contact_col Column number at which the contact information should be
 #'   inserted.
 #' @examples
+#' \dontrun{
 #' # Initialize Workbook
 #' wb <- openxlsx::createWorkbook()
 #'
@@ -60,6 +61,7 @@
 #'   source = "Source: ...", metadata = "Note: ...",
 #'   grouplines = c(5,8), group_names = c("First group", "Second group")
 #' )
+#' }
 #'
 #' @keywords insert_worksheet
 #' @export
@@ -175,7 +177,7 @@ insert_header <- function(wb, sheetname, logo = getOption("statR_logo"),
   if (!(sheetname %in% names(wb))) openxlsx::addWorksheet(wb, sheetname)
 
   # Insert logo ------
-  insert_worksheet_image(wb, sheetname, image = inputHelperLogoPath(logo),
+  insert_worksheet_image(wb, sheetname, image = logo,
                          startrow = 1, startcol = 1)
 
   start_row <- 2
@@ -188,6 +190,8 @@ insert_header <- function(wb, sheetname, logo = getOption("statR_logo"),
     info = c(paste(inputHelperDateCreated(), inputHelperAuthorName(author)),
              inputHelperOrderNumber(auftrag_id))
   )
+
+  fields <- fields[!is.na(fields)]
 
   # Insert contact info, date created, and author -----
   for (field_name in names(fields)){

@@ -41,6 +41,7 @@
 #'  Intended for conveying long-form information. Default is NULL, not included.
 #' @param overwrite Overwrites the existing excel files with the same file name.
 #'  default to TRUE
+#' @param config which config file should be used. Default: default
 #' @examples
 #' library(dplyr)
 #' library(statR)
@@ -123,12 +124,12 @@
 datasetsXLSX <- function(
     file, datasets, sheetname = NULL, title = NULL, source = NULL,
     metadata = NULL, grouplines = NULL, group_names = NULL, plot_width = NULL,
-    plot_height = NULL, index_title = NULL,
-    index_source = NULL, logo = NULL,
-    contactdetails = NULL,
-    homepage = NULL,
-    openinghours = NULL,
-    auftrag_id = NULL, author = "user", metadata_sheet = NULL, overwrite = TRUE, config = "default") {
+    plot_height = NULL, index_title = NA,
+    index_source = NA, logo = NA,
+    contactdetails = NA,
+    homepage = NA,
+    openinghours = NA,
+    auftrag_id = NA, author = "user", metadata_sheet = NULL, overwrite = TRUE, config = "default") {
 
 
   user_config <- get_user_config(config, c(index_title, index_source, logo, contactdetails, homepage, openinghours))
@@ -243,11 +244,11 @@ datasetsXLSX <- function(
 #' @export
 splitXLSX <- function(
     file, data, sheetvar, title = NULL, source = NULL, metadata = NULL,
-    grouplines = NULL, group_names = NULL, logo = NULL,
-    contactdetails = NULL,
-    homepage = NULL, author = "user", config = "default") {
+    grouplines = NULL, group_names = NULL, logo = NA,
+    contactdetails = NA,
+    homepage = NA, author = "user", config = "default") {
 
-  user_config <- get_user_config(config, c(logo, contactdetails,  homepage))
+  get_user_config(config, c(logo, contactdetails,  homepage))
 
 
   # Shared values: these are attached to the source data.frame before
@@ -296,11 +297,11 @@ splitXLSX <- function(
 #' @export
 aXLSX <- function(
     file, data, title = NULL, source = NULL, metadata = NULL, grouplines = NULL,
-    group_names = NULL, logo = NULL,
-    contactdetails = NULL,
-    homepage = getOption("statR_homepage"), author = "user", config = "default") {
+    group_names = NULL, logo = NA,
+    contactdetails = NA,
+    homepage = NA, author = "user", config = "default") {
 
-  user_config <- get_user_config(config, c(logo, contactdetails,  homepage))
+  get_user_config(config, c(logo, contactdetails,  homepage))
 
 
   for (value in c("title", "source", "metadata", "grouplines", "group_names")) {
@@ -329,6 +330,7 @@ aXLSX <- function(
 #' @description A simple function for exporting data from R to a single formatted
 #'   .xlsx-spreadsheet.
 #' @inheritParams insert_worksheet
+#' @param config which config file should be used. Default: default
 #' @param file file name of the xlsx-file. The extension ".xlsx" is added
 #' @keywords quickXLSX
 #' @export
@@ -353,11 +355,12 @@ aXLSX <- function(
 #' }
 quickXLSX <- function(
     data, file, title = NULL, source = NULL, metadata = NULL, grouplines = NULL,
-    group_names = NULL, logo = NULL,
-    contactdetails = NULL,
-    homepage = NULL,
+    group_names = NULL, logo = NA,
+    contactdetails = NA,
+    homepage = NA,
     author = "user",
     config = "default") {
+
 
   get_user_config(config, list(logo, contactdetails,  homepage))
 
