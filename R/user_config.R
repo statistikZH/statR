@@ -21,6 +21,7 @@ initUserConfigStore <- function(store_path = "~/.config/R/statR") {
 
   }
 
+
   addUserConfig(store_path = store_path)
 
 }
@@ -134,8 +135,6 @@ removeUserConfig <- function(name, store_path = "~/.config/R/statR") {
 readUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
   all_configs <- readUserConfigStore(store_path)
   path <- subset(all_configs, name == all_configs$config_name)$config_path
-
-  message(path)
 
   if (!file.exists(path)) {
     stop("Header-Konfigurations-YAML-File: ", path, " existiert nicht.")
