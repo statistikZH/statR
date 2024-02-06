@@ -15,7 +15,8 @@ aXLSX(
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(),
   homepage = getOption("statR_homepage"),
-  author = "user"
+  author = "user",
+  config = "default"
 )
 }
 \arguments{

@@ -12,10 +12,11 @@ quickXLSX(
   metadata = NULL,
   grouplines = NULL,
   group_names = NULL,
-  logo = getOption("statR_logo"),
-  contactdetails = statR:::inputHelperContactInfo(compact = TRUE),
-  homepage = getOption("statR_homepage"),
-  author = "user"
+  logo = NULL,
+  contactdetails = NULL,
+  homepage = NULL,
+  author = "user",
+  config = "default"
 )
 }
 \arguments{

@@ -25,8 +25,8 @@ statR_prefix_phone: "Tel."
 statR_prefix_order_id: "Auftragsnr.:"
 
 # Default values
-statR_toc_title: Inhalt
-statR_source: Statistisches Amt des Kantons Zürich
+statR_index_title: Inhalt
+statR_index_source: Statistisches Amt des Kantons Zürich
 statR_default_plot_width: 6
 statR_default_plot_height: 3
 

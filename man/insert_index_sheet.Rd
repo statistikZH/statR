@@ -13,7 +13,7 @@ insert_index_sheet(
   contactdetails = inputHelperContactInfo(),
   homepage = getOption("statR_homepage"),
   openinghours = getOption("statR_openinghours"),
-  source = getOption("statR_source"),
+  source = getOption("statR_index_source"),
   author = "user"
 )
 }

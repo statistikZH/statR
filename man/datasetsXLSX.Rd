@@ -15,8 +15,8 @@ datasetsXLSX(
   group_names = NULL,
   plot_width = NULL,
   plot_height = NULL,
-  index_title = getOption("statR_toc_title"),
-  index_source = getOption("statR_source"),
+  index_title = getOption("statR_index_title"),
+  index_source = getOption("statR_index_source"),
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(),
   homepage = getOption("statR_homepage"),
@@ -24,7 +24,8 @@ datasetsXLSX(
   auftrag_id = NULL,
   author = "user",
   metadata_sheet = NULL,
-  overwrite = TRUE
+  overwrite = TRUE,
+  config = "default"
 )
 }
 \arguments{

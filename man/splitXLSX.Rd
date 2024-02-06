@@ -16,7 +16,8 @@ splitXLSX(
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(compact = TRUE),
   homepage = getOption("statR_homepage"),
-  author = "user"
+  author = "user",
+  config = "default"
 )
 }
 \arguments{
