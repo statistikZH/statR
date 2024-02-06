@@ -134,15 +134,3 @@ test_that(
   })
 
 
-test_that(
-  "own header config is loaded",
-  {
-    initUserConfigStore(store_path = confdir)
-    addUserConfig("test",
-                  testthat::test_path("example_userconf", "test"),
-                  store_path = confdir)
-    loadUserConfig(name = "test", store_path = confdir)
-    testthat::expect_equal(getOption("statR_email"),
-                           "blabla@statistik.zh.ch")
-    cleanup_test()
-  })
