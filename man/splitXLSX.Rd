@@ -13,9 +13,9 @@ splitXLSX(
   metadata = NULL,
   grouplines = NULL,
   group_names = NULL,
-  logo = getOption("statR_logo"),
-  contactdetails = inputHelperContactInfo(compact = TRUE),
-  homepage = getOption("statR_homepage"),
+  logo = NA,
+  contactdetails = NA,
+  homepage = NA,
   author = "user",
   config = "default"
 )
@@ -58,6 +58,8 @@ configuration.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
+
+\item{config}{which config file should be used. Default: default}
 }
 \description{
 Function to export data from R as a formatted .xlsx-file,

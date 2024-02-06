@@ -107,6 +107,7 @@ This function does not output an .xlsx file on its own. A separate call
   to \code{openxlsx::saveWorkbook()} is required.
 }
 \examples{
+\dontrun{
 # Initialize Workbook
 wb <- openxlsx::createWorkbook()
 
@@ -123,6 +124,7 @@ insert_worksheet_nh(
   source = "Source: ...", metadata = "Note: ...",
   grouplines = c(5,8), group_names = c("First group", "Second group")
 )
+}
 
 }
 \keyword{insert_worksheet}

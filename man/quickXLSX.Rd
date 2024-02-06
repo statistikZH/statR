@@ -12,9 +12,9 @@ quickXLSX(
   metadata = NULL,
   grouplines = NULL,
   group_names = NULL,
-  logo = NULL,
-  contactdetails = NULL,
-  homepage = NULL,
+  logo = NA,
+  contactdetails = NA,
+  homepage = NA,
   author = "user",
   config = "default"
 )
@@ -54,6 +54,8 @@ configuration.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
+
+\item{config}{which config file should be used. Default: default}
 }
 \description{
 A simple function for exporting data from R to a single formatted

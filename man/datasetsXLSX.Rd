@@ -15,13 +15,13 @@ datasetsXLSX(
   group_names = NULL,
   plot_width = NULL,
   plot_height = NULL,
-  index_title = getOption("statR_index_title"),
-  index_source = getOption("statR_index_source"),
-  logo = getOption("statR_logo"),
-  contactdetails = inputHelperContactInfo(),
-  homepage = getOption("statR_homepage"),
-  openinghours = getOption("statR_openinghours"),
-  auftrag_id = NULL,
+  index_title = NA,
+  index_source = NA,
+  logo = NA,
+  contactdetails = NA,
+  homepage = NA,
+  openinghours = NA,
+  auftrag_id = NA,
   author = "user",
   metadata_sheet = NULL,
   overwrite = TRUE,
@@ -90,6 +90,8 @@ Intended for conveying long-form information. Default is NULL, not included.}
 
 \item{overwrite}{Overwrites the existing excel files with the same file name.
 default to TRUE}
+
+\item{config}{which config file should be used. Default: default}
 }
 \description{
 Function to export multiple datasets and/or figures from R to a workbook.
