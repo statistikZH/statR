@@ -1,0 +1,27 @@
+statR_config_name: team_data
+contactdetails:
+  statR_organization: Statistisches Amt des Kantons Zürich
+  statR_name: Team Data
+  statR_phone: +41 43 259 75 00
+  statR_email: datashop@statistik.zh.ch
+  statR_homepage: http://www.statistik.zh.ch
+  statR_openinghours:
+  - Bürozeiten
+  - Montag bis Freitag
+  - 09:00 bis 12:00
+  - 13:00 bis 16:00
+logo:
+  statR_logo: zh
+  statR_logo_width: 2.145
+  statR_logo_height: 0.7865
+prefixes:
+  statR_prefix_date: 'Aktualisiert am:'
+  statR_prefix_author: 'durch:'
+  statR_prefix_phone: Tel.
+  statR_prefix_order_id: 'Auftragsnr.:'
+defaults:
+  statR_index_title: Inhalt
+  statR_index_source: Statistisches Amt des Kantons Zürich
+  statR_default_plot_width: 6
+  statR_default_plot_height: 3
+statR_date_format: '%d.%m.%Y'

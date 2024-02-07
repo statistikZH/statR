@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+library(yaml)
 library(statR)
 library(dplyr)
 library(ggplot2)
@@ -40,17 +41,20 @@ mtcars_metadata <- paste0("The data was extracted from the 1974 Motor Trend ",
                           "10 aspects of automobile design and performance ",
                           "for 32 automobiles (1973–74 models).")
 
+# Wenn logo, contactdetails und homepage NA sind, werden die Werte aus der 
+# Nutzerkonfiguration verwendet
 quickXLSX(data = mtcars, 
-          file = "motor_trend_car_road_tests",
+          file = "output/quickxlsx_demo",
           title = mtcars_title, 
           source = mtcars_source,
           metadata = mtcars_metadata,
           grouplines = NULL, 
           group_names = NULL,
-          logo = getOption("statR_logo"),
-          contactdetails = statR:::inputHelperContactInfo(compact = TRUE),
-          homepage = getOption("statR_homepage"),
-          author = "Vorname Nachname")
+          logo = NA,
+          contactdetails = NA,
+          homepage = NA,
+          author = "Vorname Nachname",
+          config = "default")
 ```
 
 ![Screenshot von motor_trend_car_road_tests.xlsx](./img/quickXLSX.PNG){width=95%}
@@ -68,16 +72,12 @@ mtcars_metadata <- paste0("The data was extracted from the 1974 Motor Trend ",
                           "10 aspects of automobile design and performance ",
                           "for 32 automobiles (1973–74 models).")
 aXLSX(data = mtcars,
-      file = "motor_trend_car_road_tests",
+      file = "output/axlsx_demo",
       title = mtcars_title,
       source = mtcars_source,
       metadata = mtcars_metadata,
-      grouplines = NULL,
-      group_names = NULL,
-      logo = getOption("statR_logo"),
-      contactdetails = inputHelperContactInfo(),
-      homepage = getOption("statR_homepage"),
-      author = "Vorname Nachname")
+      author = "Vorname Nachname",
+      config = "default")
 ```
 
 ![Screenshot des Datenblatts in der Datei motor_trend_car_road_tests.xlsx](./img/aXLSX_1.PNG){width=95%}
@@ -93,27 +93,14 @@ Implizit wird angenommen, dass die Quellangaben und Metadaten für jede der Ausp
 
 Im folgenden Beispiel wird aus dem \code{mtcars} Datensatz eine Arbeitsmappe erstellt, in der die Datenpunkte entsprechend der Anzahl von Zylindern auf mehrere Arbeitsblätter aufgeteilt werden.
 ```{r,echo = TRUE, eval = FALSE}
-mtcars_title <- "Motor trend car road tests"
-mtcars_source <- paste0("Henderson and Velleman (1981). Building multiple ",
-                        "regression models interactively. ",
-                        "Biometrics, 37, 391–411.")
-mtcars_metadata <- paste0("The data was extracted from the 1974 Motor Trend ",
-                          "US magazine and comprises fuel consumption and ",
-                          "10 aspects of automobile design and performance ",
-                          "for 32 automobiles (1973–74 models).")
-
 splitXLSX(data = mtcars,
-          file = "motor_trend_car_road_tests",
+          file = "output/splitxlsx_demo",
           sheetvar = "cyl",
           title = mtcars_title,
           source = mtcars_source,
           metadata = mtcars_metadata,
-          grouplines = NULL,
-          group_names = NULL,
-          logo = getOption("statR_logo"),
-          contactdetails = inputHelperContactInfo(compact = TRUE),
-          homepage = getOption("statR_homepage"),
-          author = "Vorname Nachname"
+          author = "Vorname Nachname",
+          config = "default"
 )
 ```
 
@@ -127,14 +114,6 @@ Das folgende Beispiel demonstriert diese Funktionsweisen:
 ```{r datasetsXLSX_ex1, echo = TRUE, eval = FALSE}
 # --- mtcars ---
 mtcars_dataset <- mtcars
-mtcars_title <- "Motor trend car road tests"
-mtcars_source <- paste0("Henderson and Velleman (1981). Building multiple ",
-                        "regression models interactively. ",
-                        "Biometrics, 37, 391–411.")
-mtcars_metadata <- paste0("The data was extracted from the 1974 Motor Trend ",
-                          "US magazine and comprises fuel consumption and ",
-                          "10 aspects of automobile design and performance ",
-                          "for 32 automobiles (1973–74 models).")
 
 # --- PlantGrowth ---
 PlantGrowth_dataset <- PlantGrowth
@@ -171,7 +150,7 @@ beiblatt <- list(
 
 # --- Export .xlsx ---
 datasetsXLSX(
-  file = "datasetsXLSX_demo.xlsx",
+  file = "output/datasetsXLSX_demo1.xlsx",
   datasets = list(mtcars_dataset, PlantGrowth_dataset, grafik1, grafik2),
   sheetname = list("mtcars", "PlantGrowth", "Grafik1", "Grafik2"),
   title = list(mtcars_title, PlantGrowth_title, grafik1_title, grafik2_title),
@@ -181,16 +160,11 @@ datasetsXLSX(
   group_names = NULL,
   plot_width = 10,
   plot_height = list(10, 5),
-  index_title = getOption("statR_index_title"),
-  index_source = getOption("statR_index_source"),
-  logo = getOption("statR_logo"),
-  contactdetails = inputHelperContactInfo(),
-  homepage = getOption("statR_homepage"),
-  openinghours = getOption("statR_openinghours"),
   auftrag_id = NULL,
   author = "Vorname Nachname",
   metadata_sheet = beiblatt,
-  overwrite = TRUE)
+  overwrite = TRUE,
+  config = "default")
 ```
 
 Das Beispiel weist aus Illustrationsgründen zwei Besonderheiten auf. Erstens werden im Beispielscode im Argument \code{metadata} zwei Einträge als NULL gesetzt. Dies entspricht einer Leerlassung. Zweitens wird für das Argument \code{plot_width} nur ein Wert definiert. Dieser Wert wird für alle weiteren Grafiken verwendet. Im Argument \code{plot_height} werden die Höhen für beide Plots definiert. Wie die Länge des Beispielscodes bereits impliziert, kann ein \code{datasetsXLSX}-Aufruf schnell unübersichtlich werden. Ferner werden bei Änderungen in der Reihenfolge  entsprechende Anpassungen bei bis zu 9 Listen fällig. 
@@ -199,32 +173,11 @@ Mit den Funktionen der \code{add_attribute}-Familie wird eine alternative Mögli
 
 ```{r datasetsXLSX_ex3, echo = TRUE, eval = FALSE}
 # --- mtcars ---
-mtcars_title <- "Motor trend car road tests"
-mtcars_source <- paste0("Henderson and Velleman (1981). Building multiple ",
-                        "regression models interactively. ",
-                        "Biometrics, 37, 391–411.")
-mtcars_metadata <- paste0("The data was extracted from the 1974 Motor Trend ",
-                          "US magazine and comprises fuel consumption and ",
-                          "10 aspects of automobile design and performance ",
-                          "for 32 automobiles (1973–74 models).")
 mtcars_dataset <- mtcars |>
   add_sheetname("mtcars") |> 
   add_title(mtcars_title) |>
   add_source(mtcars_source) |>
   add_metadata(mtcars_metadata)
-
-# --- PlantGrowth ---
-PlantGrowth_title <- "Results from an Experiment on Plant Growth"
-PlantGrowth_source <- paste0(
-  "Dobson, A. J. (1983) An Introduction to Statistical ",
-  "Modelling. London: Chapman and Hall.")
-PlantGrowth_metadata <- c(
-  "A data frame of 30 cases on 2 variables.",
-  "[, 1] weight numeric",
-  "[, 2] group factor",
-  "",
-  "The levels of group are ‘ctrl’, ‘trt1’, and ‘trt2’."
-)
 
 PlantGrowth_dataset <- PlantGrowth |>
   add_sheetname("PlantGrowth") |> 
@@ -233,41 +186,26 @@ PlantGrowth_dataset <- PlantGrowth |>
   add_metadata(PlantGrowth_metadata)
 
 # --- grafik1 ---
-grafik1 <- (ggplot2::ggplot(mtcars, ggplot2::aes(x = wt, y = hp)) + 
-  ggplot2::geom_point()) |>
+grafik1 <- grafik1 |>
   add_sheetname("Grafik1") |>
   add_title("mtcars: weight vs engine power (hp)") |>
   add_source(mtcars_source) |>
   add_plot_size(c(10, 10))
 
 # --- grafik2 ---
-grafik2 <- (ggplot2::ggplot(mtcars, ggplot2::aes(x = wt, y = hp)) + 
-  ggplot2::geom_point()) |>
+grafik2 <- grafik2 |>
   add_sheetname("Grafik2") |>
   add_title("mtcars: weight vs engine displacement (cu. in.)") |>
   add_source(mtcars_source) 
 
-# --- Beiblatt ---
-beiblatt <- list(
-  title = "Überschrift des Beiblatts",
-  source = "Quelle",
-  metadata = "Platzhalter für den Inhalt des Beiblatts"
-)
-
 # --- Export .xlsx ---
 datasetsXLSX(
-  file = "datasetsXLSX_demo.xlsx",
+  file = "output/datasetsXLSX_demo2.xlsx",
   datasets = list(mtcars_dataset, PlantGrowth_dataset, grafik1, grafik2),
-  index_title = getOption("statR_index_title"),
-  index_source = getOption("statR_index_source"),
-  logo = getOption("statR_logo"),
-  contactdetails = inputHelperContactInfo(),
-  homepage = getOption("statR_homepage"),
-  openinghours = getOption("statR_openinghours"),
-  auftrag_id = NULL,
   author = "Vorname Nachname",
   metadata_sheet = beiblatt,
-  overwrite = TRUE)
+  overwrite = TRUE,
+  config = "default")
 
 ```
 
@@ -282,17 +220,36 @@ datasetsXLSX(
 ## Ausgewählte Themen
 
 ### Benutzerkonfigurationen
-Um das Paket einem breiteren Anwenderkreis zugänglich zu machen, wurden diverse Aspekte im Design parametrisiert. Textfelder wie Kontaktinformationen können in den Funktionen direkt übersteuert werden. Für längerfristige Anpassungen besteht die Möglichkeit, Nutzerkonfigurationen anzulegen.
+Um das Paket einem breiteren Anwenderkreis zugänglich zu machen, wurden diverse Aspekte im Design parametrisiert. Textfelder wie Kontaktinformationen können in den Funktionen direkt übersteuert werden. Für längerfristige Anpassungen besteht die Möglichkeit, Nutzerkonfigurationen anzulegen. Die Konfigurationen sind YAML-Dateien, in denen Einträge durch Schlüsselwörter mit zugehörigen Werten hinterlegt sind. 
 
-Bei der Erstinstallation von statR wird über die Funktion \code{initUserConfigStore} das Verzeichnis "~/.config/R/statR" erstellt und ein Index angelegt, in dem bestehende Konfigurationen erfasst werden. Die Konfigurationen sind Text-Dateien im YAML-Format. Jeder Eintrag enthält ein Schlüsselwort mit einem zugehörigen Wert. 
+Bei der Erstinstallation von statR kann mit der Funktion \code{initUserConfigStore} ein Verzeichnis "~/.config/R/statR" erstellt und ein Index-File angelegt werden, in dem Konfigurationen erfasst werden. Das Paket kommt mit einer Standardkonfiguration ("default") mit folgendem Inhalt:
 
-Beim Laden des statR-Pakets wird zunächst die default Konfiguration geladen (der folgende Code zeigt deren Inhalt an): 
-```{r, eval = FALSE}
-configs <- statR:::readUserConfigStore()
-cat(readLines(subset(configs, configs$config_name == "default")$config_path), sep = "\n")
+```yaml
+`r xfun::file_string(system.file("extdata/config/default.yaml", package = "statR"))`
 ```
 
-Die Datei kann modifiziert werden, auf der Grundlage der Datei können aber auch weitere Konfigurationen erstellt und mit der Funktion \code{addUserConfig} registriert werden. Bestehende Konfigurationen können mit \code{loadUserConfig} geladen werden, oder allenfalls mit \code{removeUserConfig} gelöscht werden.
+Auf der Grundlage von 'default.yaml' können auch weitere Konfigurationen angelegt und mit der Funktion \code{addUserConfig} registriert werden. Das folgende Beispiel demonstriert einen einfachen Workflow zum Anlegen einer neuen Konfiguration:
+
+```{r, eval = FALSE}
+new_config <- statR:::readUserConfig("default")
+new_config$statR_config_name <- "team_data"
+new_config$contactdetails$statR_name <- "Team Data"
+new_config$logo$statR_logo <- "zh"
+
+yaml::write_yaml(new_config, "config/team_data.yaml")
+statR::addUserConfig("team_data", "config/team_data.yaml")
+
+mtcars_title <- "Motor trend car road tests"
+
+statR::quickXLSX(data = mtcars, 
+          file = "output/userconfig_demo",
+          title = mtcars_title,
+          source = mtcars_source,
+          metadata = mtcars_metadata,
+          config = "team_data",
+          author = "Vorname Nachname")
+```
+
 
 
 ### Einbindung von Bild-Dateien
@@ -309,26 +266,15 @@ Bei \code{ggplot}-Objekten kann es sinnvoll sein, eine universale Bildgrösse zu
 Mit dem Argument `grouplines` können in Datensätzen vertikale Linien eingefügt werden, um bestimmte Spalten visuell zu gruppieren. Dazu müssen im Argument entweder der Spaltennamen oder Spalten-Nr. der Spalten angegeben werden, bei denen eine neue Gruppe anfängt. Ferner können für diese Gruppen noch zusätzliche Überschriften erstellt werden. Dazu müssen im Argument `group_names` die Überschriftentitel angegeben werden.
 
 ```{r, eval=FALSE}
-mtcars_title <- "Motor trend car road tests"
-mtcars_source <- paste0("Henderson and Velleman (1981). Building multiple ",
-                        "regression models interactively. ",
-                        "Biometrics, 37, 391–411.")
-mtcars_metadata <- paste0("The data was extracted from the 1974 Motor Trend ",
-                          "US magazine and comprises fuel consumption and ",
-                          "10 aspects of automobile design and performance ",
-                          "for 32 automobiles (1973–74 models).")
-
 quickXLSX(data = mtcars, 
-          file = "quickXLSX_grouped.xlsx",
+          file = "output/quickXLSX_grouped.xlsx",
           title = mtcars_title, 
           source = mtcars_source,
           metadata = mtcars_metadata,
           grouplines = c(1, 4, 7), 
           group_names = c("Gruppe 1", "Gruppe 2", "Gruppe 3"),
-          logo = getOption("statR_logo"),
-          contactdetails = statR:::inputHelperContactInfo(compact = TRUE),
-          homepage = getOption("statR_homepage"),
-          author = "Vorname Nachname")
+          author = "Vorname Nachname",
+          config = "default")
 ```
 
 ![Screenshot: Gruppierte Spalten mit Überschriften](./img/quickXLSX_grouped.PNG){width=95%}
@@ -346,26 +292,15 @@ Das folgende Beispiel demonstriert den Prozess anhand des Merkmals "drat" (rear 
 mtcars_dataset <- mtcars
 class(mtcars_dataset$drat) <- "percentage"
 
-mtcars_title <- "Motor trend car road tests"
-mtcars_source <- paste0("Henderson and Velleman (1981). Building multiple ",
-                        "regression models interactively. ",
-                        "Biometrics, 37, 391–411.")
-mtcars_metadata <- paste0("The data was extracted from the 1974 Motor Trend ",
-                          "US magazine and comprises fuel consumption and ",
-                          "10 aspects of automobile design and performance ",
-                          "for 32 automobiles (1973–74 models).")
-
 quickXLSX(data = mtcars_dataset, 
-          file = "quickXLSX_pct.xlsx",
+          file = "output/quickXLSX_pct.xlsx",
           title = mtcars_title, 
           source = mtcars_source,
           metadata = mtcars_metadata,
           grouplines = c(1, 4, 7), 
           group_names = c("Gruppe 1", "Gruppe 2", "Gruppe 3"),
-          logo = getOption("statR_logo"),
-          contactdetails = statR:::inputHelperContactInfo(compact = TRUE),
-          homepage = getOption("statR_homepage"),
-          author = "Vorname Nachname")
+          author = "Vorname Nachname",
+          config = "default")
 ```
 ![Screenshot: Spaltenformatierungen](./img/quickXLSX_pct.PNG){width=95%}
 

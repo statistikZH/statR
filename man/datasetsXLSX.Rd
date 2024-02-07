@@ -21,7 +21,7 @@ datasetsXLSX(
   contactdetails = NA,
   homepage = NA,
   openinghours = NA,
-  auftrag_id = NA,
+  auftrag_id = NULL,
   author = "user",
   metadata_sheet = NULL,
   overwrite = TRUE,

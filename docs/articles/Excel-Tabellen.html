@@ -137,17 +137,20 @@ Titel, Quelle und Metadaten.</p>
 <span>                          <span class="st">"10 aspects of automobile design and performance "</span>,</span>
 <span>                          <span class="st">"for 32 automobiles (1973–74 models)."</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Wenn logo, contactdetails und homepage NA sind, werden die Werte aus der </span></span>
+<span><span class="co"># Nutzerkonfiguration verwendet</span></span>
 <span><span class="fu"><a href="../reference/quickXLSX.html">quickXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>, </span>
-<span>          file <span class="op">=</span> <span class="st">"motor_trend_car_road_tests"</span>,</span>
+<span>          file <span class="op">=</span> <span class="st">"output/quickxlsx_demo"</span>,</span>
 <span>          title <span class="op">=</span> <span class="va">mtcars_title</span>, </span>
 <span>          source <span class="op">=</span> <span class="va">mtcars_source</span>,</span>
 <span>          metadata <span class="op">=</span> <span class="va">mtcars_metadata</span>,</span>
 <span>          grouplines <span class="op">=</span> <span class="cn">NULL</span>, </span>
 <span>          group_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>          logo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_logo"</span><span class="op">)</span>,</span>
-<span>          contactdetails <span class="op">=</span> <span class="fu">statR</span><span class="fu">:::</span><span class="fu"><a href="../reference/inputHelperContactInfo.html">inputHelperContactInfo</a></span><span class="op">(</span>compact <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>          homepage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_homepage"</span><span class="op">)</span>,</span>
-<span>          author <span class="op">=</span> <span class="st">"Vorname Nachname"</span><span class="op">)</span></span></code></pre></div>
+<span>          logo <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>          contactdetails <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>          homepage <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>          author <span class="op">=</span> <span class="st">"Vorname Nachname"</span>,</span>
+<span>          config <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
 <img src="img/quickXLSX.PNG" style="width:95.0%" alt="Screenshot von motor_trend_car_road_tests.xlsx"><div class="figcaption">Screenshot von
 motor_trend_car_road_tests.xlsx</div>
@@ -179,16 +182,12 @@ werden.</p>
 <span>                          <span class="st">"10 aspects of automobile design and performance "</span>,</span>
 <span>                          <span class="st">"for 32 automobiles (1973–74 models)."</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/aXLSX.html">aXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>,</span>
-<span>      file <span class="op">=</span> <span class="st">"motor_trend_car_road_tests"</span>,</span>
+<span>      file <span class="op">=</span> <span class="st">"output/axlsx_demo"</span>,</span>
 <span>      title <span class="op">=</span> <span class="va">mtcars_title</span>,</span>
 <span>      source <span class="op">=</span> <span class="va">mtcars_source</span>,</span>
 <span>      metadata <span class="op">=</span> <span class="va">mtcars_metadata</span>,</span>
-<span>      grouplines <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>      group_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>      logo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_logo"</span><span class="op">)</span>,</span>
-<span>      contactdetails <span class="op">=</span> <span class="fu"><a href="../reference/inputHelperContactInfo.html">inputHelperContactInfo</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>      homepage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_homepage"</span><span class="op">)</span>,</span>
-<span>      author <span class="op">=</span> <span class="st">"Vorname Nachname"</span><span class="op">)</span></span></code></pre></div>
+<span>      author <span class="op">=</span> <span class="st">"Vorname Nachname"</span>,</span>
+<span>      config <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
 <img src="img/aXLSX_1.PNG" style="width:95.0%" alt="Screenshot des Datenblatts in der Datei motor_trend_car_road_tests.xlsx"><div class="figcaption">Screenshot des Datenblatts in der Datei
 motor_trend_car_road_tests.xlsx</div>
@@ -215,27 +214,14 @@ werden.</p>
 erstellt, in der die Datenpunkte entsprechend der Anzahl von Zylindern
 auf mehrere Arbeitsblätter aufgeteilt werden.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtcars_title</span> <span class="op">&lt;-</span> <span class="st">"Motor trend car road tests"</span></span>
-<span><span class="va">mtcars_source</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Henderson and Velleman (1981). Building multiple "</span>,</span>
-<span>                        <span class="st">"regression models interactively. "</span>,</span>
-<span>                        <span class="st">"Biometrics, 37, 391–411."</span><span class="op">)</span></span>
-<span><span class="va">mtcars_metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"The data was extracted from the 1974 Motor Trend "</span>,</span>
-<span>                          <span class="st">"US magazine and comprises fuel consumption and "</span>,</span>
-<span>                          <span class="st">"10 aspects of automobile design and performance "</span>,</span>
-<span>                          <span class="st">"for 32 automobiles (1973–74 models)."</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/splitXLSX.html">splitXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>,</span>
-<span>          file <span class="op">=</span> <span class="st">"motor_trend_car_road_tests"</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/splitXLSX.html">splitXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>,</span>
+<span>          file <span class="op">=</span> <span class="st">"output/splitxlsx_demo"</span>,</span>
 <span>          sheetvar <span class="op">=</span> <span class="st">"cyl"</span>,</span>
 <span>          title <span class="op">=</span> <span class="va">mtcars_title</span>,</span>
 <span>          source <span class="op">=</span> <span class="va">mtcars_source</span>,</span>
 <span>          metadata <span class="op">=</span> <span class="va">mtcars_metadata</span>,</span>
-<span>          grouplines <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>          group_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>          logo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_logo"</span><span class="op">)</span>,</span>
-<span>          contactdetails <span class="op">=</span> <span class="fu"><a href="../reference/inputHelperContactInfo.html">inputHelperContactInfo</a></span><span class="op">(</span>compact <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>          homepage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_homepage"</span><span class="op">)</span>,</span>
-<span>          author <span class="op">=</span> <span class="st">"Vorname Nachname"</span></span>
+<span>          author <span class="op">=</span> <span class="st">"Vorname Nachname"</span>,</span>
+<span>          config <span class="op">=</span> <span class="st">"default"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -253,14 +239,6 @@ mit dem Argument ein Beiblatt zu erzeugen.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># --- mtcars ---</span></span>
 <span><span class="va">mtcars_dataset</span> <span class="op">&lt;-</span> <span class="va">mtcars</span></span>
-<span><span class="va">mtcars_title</span> <span class="op">&lt;-</span> <span class="st">"Motor trend car road tests"</span></span>
-<span><span class="va">mtcars_source</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Henderson and Velleman (1981). Building multiple "</span>,</span>
-<span>                        <span class="st">"regression models interactively. "</span>,</span>
-<span>                        <span class="st">"Biometrics, 37, 391–411."</span><span class="op">)</span></span>
-<span><span class="va">mtcars_metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"The data was extracted from the 1974 Motor Trend "</span>,</span>
-<span>                          <span class="st">"US magazine and comprises fuel consumption and "</span>,</span>
-<span>                          <span class="st">"10 aspects of automobile design and performance "</span>,</span>
-<span>                          <span class="st">"for 32 automobiles (1973–74 models)."</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- PlantGrowth ---</span></span>
 <span><span class="va">PlantGrowth_dataset</span> <span class="op">&lt;-</span> <span class="va">PlantGrowth</span></span>
@@ -297,7 +275,7 @@ mit dem Argument ein Beiblatt zu erzeugen.</p>
 <span></span>
 <span><span class="co"># --- Export .xlsx ---</span></span>
 <span><span class="fu"><a href="../reference/datasetsXLSX.html">datasetsXLSX</a></span><span class="op">(</span></span>
-<span>  file <span class="op">=</span> <span class="st">"datasetsXLSX_demo.xlsx"</span>,</span>
+<span>  file <span class="op">=</span> <span class="st">"output/datasetsXLSX_demo1.xlsx"</span>,</span>
 <span>  datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">mtcars_dataset</span>, <span class="va">PlantGrowth_dataset</span>, <span class="va">grafik1</span>, <span class="va">grafik2</span><span class="op">)</span>,</span>
 <span>  sheetname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"mtcars"</span>, <span class="st">"PlantGrowth"</span>, <span class="st">"Grafik1"</span>, <span class="st">"Grafik2"</span><span class="op">)</span>,</span>
 <span>  title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">mtcars_title</span>, <span class="va">PlantGrowth_title</span>, <span class="va">grafik1_title</span>, <span class="va">grafik2_title</span><span class="op">)</span>,</span>
@@ -307,16 +285,11 @@ mit dem Argument ein Beiblatt zu erzeugen.</p>
 <span>  group_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  plot_width <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  plot_height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">5</span><span class="op">)</span>,</span>
-<span>  index_title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_index_title"</span><span class="op">)</span>,</span>
-<span>  index_source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_index_source"</span><span class="op">)</span>,</span>
-<span>  logo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_logo"</span><span class="op">)</span>,</span>
-<span>  contactdetails <span class="op">=</span> <span class="fu"><a href="../reference/inputHelperContactInfo.html">inputHelperContactInfo</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  homepage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_homepage"</span><span class="op">)</span>,</span>
-<span>  openinghours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_openinghours"</span><span class="op">)</span>,</span>
 <span>  auftrag_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  author <span class="op">=</span> <span class="st">"Vorname Nachname"</span>,</span>
 <span>  metadata_sheet <span class="op">=</span> <span class="va">beiblatt</span>,</span>
-<span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  config <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
 <p>Das Beispiel weist aus Illustrationsgründen zwei Besonderheiten auf.
 Erstens werden im Beispielscode im Argument zwei Einträge als NULL
 gesetzt. Dies entspricht einer Leerlassung. Zweitens wird für das
@@ -335,32 +308,11 @@ Daten und Datenbeschreibung , , , etc. an. Am letzten Beispiel
 illustriert:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># --- mtcars ---</span></span>
-<span><span class="va">mtcars_title</span> <span class="op">&lt;-</span> <span class="st">"Motor trend car road tests"</span></span>
-<span><span class="va">mtcars_source</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Henderson and Velleman (1981). Building multiple "</span>,</span>
-<span>                        <span class="st">"regression models interactively. "</span>,</span>
-<span>                        <span class="st">"Biometrics, 37, 391–411."</span><span class="op">)</span></span>
-<span><span class="va">mtcars_metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"The data was extracted from the 1974 Motor Trend "</span>,</span>
-<span>                          <span class="st">"US magazine and comprises fuel consumption and "</span>,</span>
-<span>                          <span class="st">"10 aspects of automobile design and performance "</span>,</span>
-<span>                          <span class="st">"for 32 automobiles (1973–74 models)."</span><span class="op">)</span></span>
 <span><span class="va">mtcars_dataset</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_sheetname</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_title</a></span><span class="op">(</span><span class="va">mtcars_title</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_source</a></span><span class="op">(</span><span class="va">mtcars_source</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_metadata</a></span><span class="op">(</span><span class="va">mtcars_metadata</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># --- PlantGrowth ---</span></span>
-<span><span class="va">PlantGrowth_title</span> <span class="op">&lt;-</span> <span class="st">"Results from an Experiment on Plant Growth"</span></span>
-<span><span class="va">PlantGrowth_source</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span>  <span class="st">"Dobson, A. J. (1983) An Introduction to Statistical "</span>,</span>
-<span>  <span class="st">"Modelling. London: Chapman and Hall."</span><span class="op">)</span></span>
-<span><span class="va">PlantGrowth_metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="st">"A data frame of 30 cases on 2 variables."</span>,</span>
-<span>  <span class="st">"[, 1] weight numeric"</span>,</span>
-<span>  <span class="st">"[, 2] group factor"</span>,</span>
-<span>  <span class="st">""</span>,</span>
-<span>  <span class="st">"The levels of group are ‘ctrl’, ‘trt1’, and ‘trt2’."</span></span>
-<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">PlantGrowth_dataset</span> <span class="op">&lt;-</span> <span class="va">PlantGrowth</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_sheetname</a></span><span class="op">(</span><span class="st">"PlantGrowth"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -369,41 +321,26 @@ illustriert:</p>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_metadata</a></span><span class="op">(</span><span class="va">PlantGrowth_metadata</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- grafik1 ---</span></span>
-<span><span class="va">grafik1</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">hp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span><span class="va">grafik1</span> <span class="op">&lt;-</span> <span class="va">grafik1</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_sheetname</a></span><span class="op">(</span><span class="st">"Grafik1"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_title</a></span><span class="op">(</span><span class="st">"mtcars: weight vs engine power (hp)"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_source</a></span><span class="op">(</span><span class="va">mtcars_source</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_plot_size</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- grafik2 ---</span></span>
-<span><span class="va">grafik2</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">hp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span><span class="va">grafik2</span> <span class="op">&lt;-</span> <span class="va">grafik2</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_sheetname</a></span><span class="op">(</span><span class="st">"Grafik2"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_title</a></span><span class="op">(</span><span class="st">"mtcars: weight vs engine displacement (cu. in.)"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_attribute.html">add_source</a></span><span class="op">(</span><span class="va">mtcars_source</span><span class="op">)</span> </span>
 <span></span>
-<span><span class="co"># --- Beiblatt ---</span></span>
-<span><span class="va">beiblatt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  title <span class="op">=</span> <span class="st">"Überschrift des Beiblatts"</span>,</span>
-<span>  source <span class="op">=</span> <span class="st">"Quelle"</span>,</span>
-<span>  metadata <span class="op">=</span> <span class="st">"Platzhalter für den Inhalt des Beiblatts"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
 <span><span class="co"># --- Export .xlsx ---</span></span>
 <span><span class="fu"><a href="../reference/datasetsXLSX.html">datasetsXLSX</a></span><span class="op">(</span></span>
-<span>  file <span class="op">=</span> <span class="st">"datasetsXLSX_demo.xlsx"</span>,</span>
+<span>  file <span class="op">=</span> <span class="st">"output/datasetsXLSX_demo2.xlsx"</span>,</span>
 <span>  datasets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">mtcars_dataset</span>, <span class="va">PlantGrowth_dataset</span>, <span class="va">grafik1</span>, <span class="va">grafik2</span><span class="op">)</span>,</span>
-<span>  index_title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_index_title"</span><span class="op">)</span>,</span>
-<span>  index_source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_index_source"</span><span class="op">)</span>,</span>
-<span>  logo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_logo"</span><span class="op">)</span>,</span>
-<span>  contactdetails <span class="op">=</span> <span class="fu"><a href="../reference/inputHelperContactInfo.html">inputHelperContactInfo</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  homepage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_homepage"</span><span class="op">)</span>,</span>
-<span>  openinghours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_openinghours"</span><span class="op">)</span>,</span>
-<span>  auftrag_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  author <span class="op">=</span> <span class="st">"Vorname Nachname"</span>,</span>
 <span>  metadata_sheet <span class="op">=</span> <span class="va">beiblatt</span>,</span>
-<span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  config <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
 <img src="img/datasetsXLSX_1.PNG" style="width:95.0%" alt="Screenshot: Titelblatt der Datei datasetsXLSX_demo.xlsx"><div class="figcaption">Screenshot: Titelblatt der Datei
 datasetsXLSX_demo.xlsx</div>
@@ -428,21 +365,73 @@ datasetsXLSX_demo.xlsx</div>
 wurden diverse Aspekte im Design parametrisiert. Textfelder wie
 Kontaktinformationen können in den Funktionen direkt übersteuert werden.
 Für längerfristige Anpassungen besteht die Möglichkeit,
-Nutzerkonfigurationen anzulegen.</p>
-<p>Bei der Erstinstallation von statR wird über die Funktion das
-Verzeichnis “~/.config/R/statR” erstellt und ein Index angelegt, in dem
-bestehende Konfigurationen erfasst werden. Die Konfigurationen sind
-Text-Dateien im YAML-Format. Jeder Eintrag enthält ein Schlüsselwort mit
-einem zugehörigen Wert.</p>
-<p>Beim Laden des statR-Pakets wird zunächst die default Konfiguration
-geladen (der folgende Code zeigt deren Inhalt an):</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">configs</span> <span class="op">&lt;-</span> <span class="fu">statR</span><span class="fu">:::</span><span class="fu"><a href="../reference/readUserConfigStore.html">readUserConfigStore</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">configs</span>, <span class="va">configs</span><span class="op">$</span><span class="va">config_name</span> <span class="op">==</span> <span class="st">"default"</span><span class="op">)</span><span class="op">$</span><span class="va">config_path</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
-<p>Die Datei kann modifiziert werden, auf der Grundlage der Datei können
-aber auch weitere Konfigurationen erstellt und mit der Funktion
-registriert werden. Bestehende Konfigurationen können mit geladen
-werden, oder allenfalls mit gelöscht werden.</p>
+Nutzerkonfigurationen anzulegen. Die Konfigurationen sind YAML-Dateien,
+in denen Einträge durch Schlüsselwörter mit zugehörigen Werten
+hinterlegt sind.</p>
+<p>Bei der Erstinstallation von statR kann mit der Funktion ein
+Verzeichnis “~/.config/R/statR” erstellt und ein Index-File angelegt
+werden, in dem Konfigurationen erfasst werden. Das Paket kommt mit einer
+Standardkonfiguration (“default”) mit folgendem Inhalt:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Configuration file for statR</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">statR_config_name</span><span class="kw">:</span><span class="at"> default</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># Contact information</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">contactdetails</span><span class="kw">:</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_organization</span><span class="kw">:</span><span class="at"> Statistisches Amt des Kantons Zürich</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_name</span><span class="kw">:</span><span class="at"> Datashop</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_phone</span><span class="kw">:</span><span class="at"> +41 43 259 75 00</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_email</span><span class="kw">:</span><span class="at"> datashop@statistik.zh.ch</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_homepage</span><span class="kw">:</span><span class="at"> http://www.statistik.zh.ch</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_openinghours</span><span class="kw">:</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> Bürozeiten</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> Montag bis Freitag</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> 09:00 bis 12:00</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> 13:00 bis 16:00</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co"># Logo: this can be one of the values statzh or zh, or a path to an image</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="fu">logo</span><span class="kw">:</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_logo</span><span class="kw">:</span><span class="at"> statzh</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_logo_width</span><span class="kw">:</span><span class="at"> </span><span class="fl">2.145</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_logo_height</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.7865</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co"># Prefixes for strings</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="fu">prefixes</span><span class="kw">:</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_prefix_date</span><span class="kw">:</span><span class="at"> </span><span class="st">"Aktualisiert am:"</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_prefix_author</span><span class="kw">:</span><span class="at"> </span><span class="st">"durch:"</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_prefix_phone</span><span class="kw">:</span><span class="at"> </span><span class="st">"Tel."</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_prefix_order_id</span><span class="kw">:</span><span class="at"> </span><span class="st">"Auftragsnr.:"</span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co"># Default values</span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="fu">defaults</span><span class="kw">:</span></span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_index_title</span><span class="kw">:</span><span class="at"> Inhalt</span></span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_index_source</span><span class="kw">:</span><span class="at"> Statistisches Amt des Kantons Zürich</span></span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_default_plot_width</span><span class="kw">:</span><span class="at"> </span><span class="dv">6</span></span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_default_plot_height</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span></span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a></span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a><span class="co"># Miscellaneous</span></span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a><span class="fu">statR_date_format</span><span class="kw">:</span><span class="at"> </span><span class="st">"%d.%m.%Y"</span></span></code></pre></div>
+<p>Auf der Grundlage von ‘default.yaml’ können auch weitere
+Konfigurationen angelegt und mit der Funktion registriert werden. Das
+folgende Beispiel demonstriert einen einfachen Workflow zum Anlegen
+einer neuen Konfiguration:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">new_config</span> <span class="op">&lt;-</span> <span class="fu">statR</span><span class="fu">:::</span><span class="fu"><a href="../reference/readUserConfig.html">readUserConfig</a></span><span class="op">(</span><span class="st">"default"</span><span class="op">)</span></span>
+<span><span class="va">new_config</span><span class="op">$</span><span class="va">statR_config_name</span> <span class="op">&lt;-</span> <span class="st">"team_data"</span></span>
+<span><span class="va">new_config</span><span class="op">$</span><span class="va">contactdetails</span><span class="op">$</span><span class="va">statR_name</span> <span class="op">&lt;-</span> <span class="st">"Team Data"</span></span>
+<span><span class="va">new_config</span><span class="op">$</span><span class="va">logo</span><span class="op">$</span><span class="va">statR_logo</span> <span class="op">&lt;-</span> <span class="st">"zh"</span></span>
+<span></span>
+<span><span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/write_yaml.html" class="external-link">write_yaml</a></span><span class="op">(</span><span class="va">new_config</span>, <span class="st">"config/team_data.yaml"</span><span class="op">)</span></span>
+<span><span class="fu">statR</span><span class="fu">::</span><span class="fu"><a href="../reference/addUserConfig.html">addUserConfig</a></span><span class="op">(</span><span class="st">"team_data"</span>, <span class="st">"config/team_data.yaml"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mtcars_title</span> <span class="op">&lt;-</span> <span class="st">"Motor trend car road tests"</span></span>
+<span></span>
+<span><span class="fu">statR</span><span class="fu">::</span><span class="fu"><a href="../reference/quickXLSX.html">quickXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>, </span>
+<span>          file <span class="op">=</span> <span class="st">"output/userconfig_demo"</span>,</span>
+<span>          title <span class="op">=</span> <span class="va">mtcars_title</span>,</span>
+<span>          source <span class="op">=</span> <span class="va">mtcars_source</span>,</span>
+<span>          metadata <span class="op">=</span> <span class="va">mtcars_metadata</span>,</span>
+<span>          config <span class="op">=</span> <span class="st">"team_data"</span>,</span>
+<span>          author <span class="op">=</span> <span class="st">"Vorname Nachname"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="einbindung-von-bild-dateien">Einbindung von Bild-Dateien<a class="anchor" aria-label="anchor" href="#einbindung-von-bild-dateien"></a>
@@ -468,27 +457,16 @@ Spalten-Nr. der Spalten angegeben werden, bei denen eine neue Gruppe
 anfängt. Ferner können für diese Gruppen noch zusätzliche Überschriften
 erstellt werden. Dazu müssen im Argument <code>group_names</code> die
 Überschriftentitel angegeben werden.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtcars_title</span> <span class="op">&lt;-</span> <span class="st">"Motor trend car road tests"</span></span>
-<span><span class="va">mtcars_source</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Henderson and Velleman (1981). Building multiple "</span>,</span>
-<span>                        <span class="st">"regression models interactively. "</span>,</span>
-<span>                        <span class="st">"Biometrics, 37, 391–411."</span><span class="op">)</span></span>
-<span><span class="va">mtcars_metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"The data was extracted from the 1974 Motor Trend "</span>,</span>
-<span>                          <span class="st">"US magazine and comprises fuel consumption and "</span>,</span>
-<span>                          <span class="st">"10 aspects of automobile design and performance "</span>,</span>
-<span>                          <span class="st">"for 32 automobiles (1973–74 models)."</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/quickXLSX.html">quickXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>, </span>
-<span>          file <span class="op">=</span> <span class="st">"quickXLSX_grouped.xlsx"</span>,</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/quickXLSX.html">quickXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>, </span>
+<span>          file <span class="op">=</span> <span class="st">"output/quickXLSX_grouped.xlsx"</span>,</span>
 <span>          title <span class="op">=</span> <span class="va">mtcars_title</span>, </span>
 <span>          source <span class="op">=</span> <span class="va">mtcars_source</span>,</span>
 <span>          metadata <span class="op">=</span> <span class="va">mtcars_metadata</span>,</span>
 <span>          grouplines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">7</span><span class="op">)</span>, </span>
 <span>          group_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gruppe 1"</span>, <span class="st">"Gruppe 2"</span>, <span class="st">"Gruppe 3"</span><span class="op">)</span>,</span>
-<span>          logo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_logo"</span><span class="op">)</span>,</span>
-<span>          contactdetails <span class="op">=</span> <span class="fu">statR</span><span class="fu">:::</span><span class="fu"><a href="../reference/inputHelperContactInfo.html">inputHelperContactInfo</a></span><span class="op">(</span>compact <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>          homepage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_homepage"</span><span class="op">)</span>,</span>
-<span>          author <span class="op">=</span> <span class="st">"Vorname Nachname"</span><span class="op">)</span></span></code></pre></div>
+<span>          author <span class="op">=</span> <span class="st">"Vorname Nachname"</span>,</span>
+<span>          config <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
 <img src="img/quickXLSX_grouped.PNG" style="width:95.0%" alt="Screenshot: Gruppierte Spalten mit Überschriften"><div class="figcaption">Screenshot: Gruppierte Spalten mit
 Überschriften</div>
@@ -516,30 +494,19 @@ unterstützten Klassen zugeordnet werden (“percentage”, “hyperlink”,
 -Vignette <a href="https://cran.r-project.org/web/packages/openxlsx/vignettes/Formatting.html" class="external-link uri">https://cran.r-project.org/web/packages/openxlsx/vignettes/Formatting.html</a>).</p>
 <p>Das folgende Beispiel demonstriert den Prozess anhand des Merkmals
 “drat” (rear axle ratio):</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars_dataset</span> <span class="op">&lt;-</span> <span class="va">mtcars</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">mtcars_dataset</span><span class="op">$</span><span class="va">drat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"percentage"</span></span>
 <span></span>
-<span><span class="va">mtcars_title</span> <span class="op">&lt;-</span> <span class="st">"Motor trend car road tests"</span></span>
-<span><span class="va">mtcars_source</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Henderson and Velleman (1981). Building multiple "</span>,</span>
-<span>                        <span class="st">"regression models interactively. "</span>,</span>
-<span>                        <span class="st">"Biometrics, 37, 391–411."</span><span class="op">)</span></span>
-<span><span class="va">mtcars_metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"The data was extracted from the 1974 Motor Trend "</span>,</span>
-<span>                          <span class="st">"US magazine and comprises fuel consumption and "</span>,</span>
-<span>                          <span class="st">"10 aspects of automobile design and performance "</span>,</span>
-<span>                          <span class="st">"for 32 automobiles (1973–74 models)."</span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu"><a href="../reference/quickXLSX.html">quickXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars_dataset</span>, </span>
-<span>          file <span class="op">=</span> <span class="st">"quickXLSX_pct.xlsx"</span>,</span>
+<span>          file <span class="op">=</span> <span class="st">"output/quickXLSX_pct.xlsx"</span>,</span>
 <span>          title <span class="op">=</span> <span class="va">mtcars_title</span>, </span>
 <span>          source <span class="op">=</span> <span class="va">mtcars_source</span>,</span>
 <span>          metadata <span class="op">=</span> <span class="va">mtcars_metadata</span>,</span>
 <span>          grouplines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">7</span><span class="op">)</span>, </span>
 <span>          group_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gruppe 1"</span>, <span class="st">"Gruppe 2"</span>, <span class="st">"Gruppe 3"</span><span class="op">)</span>,</span>
-<span>          logo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_logo"</span><span class="op">)</span>,</span>
-<span>          contactdetails <span class="op">=</span> <span class="fu">statR</span><span class="fu">:::</span><span class="fu"><a href="../reference/inputHelperContactInfo.html">inputHelperContactInfo</a></span><span class="op">(</span>compact <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>          homepage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"statR_homepage"</span><span class="op">)</span>,</span>
-<span>          author <span class="op">=</span> <span class="st">"Vorname Nachname"</span><span class="op">)</span></span></code></pre></div>
+<span>          author <span class="op">=</span> <span class="st">"Vorname Nachname"</span>,</span>
+<span>          config <span class="op">=</span> <span class="st">"default"</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
 <img src="img/quickXLSX_pct.PNG" style="width:95.0%" alt="Screenshot: Spaltenformatierungen"><div class="figcaption">Screenshot: Spaltenformatierungen</div>
 </div>
