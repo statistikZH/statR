@@ -1,3 +1,7 @@
+# statR 2.4.1
+* The store file for user configurations is no longer initialized as part of 
+  .onload() as this caused issues during package installation.
+
 # statR 2.4.0 
 * User configuration files are now stored at path pointed to by 
   tools::R_user_dir. This eliminates the problem that configuration files would
