@@ -21,7 +21,7 @@ library(ggplot2)
 
 ## Allgemeine Informationen
 
-Das `statR` Package enthält Funktionen zur schnellen Erzeugung von Microsoft Excel-Dateien mithilfe des [openxlsx](https://github.com/awalker89/openxlsx) Pakets. Die Voreinstellungen orientieren sich am Corporate Design vom Statistischen Amt Kanton Zürich, Anwender können diese Voreinstellungen aberauch an ihre Bedürfnisse anpassen. Entweder, indem sie Anpassungen in den Eingabeargumenten der Funktionen vornehmen, oder indem sie eine eigene Konfiguration anlegen.
+Das `statR` Package enthält Funktionen zur schnellen Erzeugung von Microsoft Excel-Dateien mithilfe des [openxlsx](https://github.com/awalker89/openxlsx) Pakets. Die Voreinstellungen orientieren sich am Corporate Design vom Statistischen Amt Kanton Zürich, Anwender können diese Voreinstellungen aber auch an ihre Bedürfnisse anpassen. Entweder, indem sie Anpassungen in den Eingabeargumenten der Funktionen vornehmen, oder indem sie eine eigene Konfiguration anlegen.
 
 Diese Vignette bietet einen Überblick der wichtigsten Funktionen in diesem Paket sowie einen Leitfaden zur Handhabung von Nutzerkonfigurationen.
 
@@ -87,7 +87,7 @@ aXLSX(data = mtcars,
 
 ### splitXLSX
 
-Mit der Funktion \code{splitXLSX} lässt sich ein beliebiger Datensatz anhand eines Merkmals auf mehrere Arbeitsblätter verteilen. Zur Vereinfachung der Navigation wird im ersten Arbeitsblatt ein Inhaltsverzeichnis mit Hyperlinks angelegt. Die Funktion eignet sich besonders für Variabl besonders geeignet in Fällen, wenn die Variable eine begrenzte Anzahl von Ausprägungen mit intuitiven Bedeutungen hat (zB. Altersklassen, Jahre oder Regionen). 
+Mit der Funktion \code{splitXLSX} lässt sich ein beliebiger Datensatz anhand eines Merkmals auf mehrere Arbeitsblätter verteilen. Zur Vereinfachung der Navigation wird im ersten Arbeitsblatt ein Inhaltsverzeichnis mit Hyperlinks angelegt. Die Funktion ist besonders geeignet in Fällen, wenn die Variable eine begrenzte Anzahl von Ausprägungen mit intuitiven Bedeutungen hat (zB. Altersklassen, Jahre oder Regionen).
 
 Implizit wird angenommen, dass die Quellangaben und Metadaten für jede der Ausprägungen gelten. Andernfalls sollte die Funktion \code{datasetsXLSX} verwendet werden.
 
@@ -108,7 +108,7 @@ splitXLSX(data = mtcars,
 
 ### datasetsXLSX
 
-Die Funktion \code{datasetsXLSX} ermöglicht die Erzeugung komplexerer Arbeitsmappen mit mehreren Datensätzen sowie die Einbindung von Grafiken (\code{ggplot}-Objekte oder Pfadangaben zu Bild-Dateien). Die Datensätze und Grafiken werden dabei als Liste im Funktionsargument \code{datasets} übergeben. Jeder Eintrag wird in ein neues Arbeitsplatt exportiert und kann wahlweise mit Titeln, Quellangaben und Metadaten versehen werden. Wie in \code{splitXLSX} wird ein Deckblatt mit einem Inhaltsverzeichnis erzeugt. Ferner besteht die Möglichkeit, mit dem Argument \code{metadata_sheet} ein Beiblatt zu erzeugen.
+Die Funktion \code{datasetsXLSX} ermöglicht die Erzeugung komplexerer Arbeitsmappen mit mehreren Datensätzen sowie die Einbindung von Grafiken (\code{ggplot}-Objekte oder Pfadangaben zu Bild-Dateien). Die Datensätze und Grafiken werden dabei als Liste im Funktionsargument \code{datasets} übergeben. Jeder Eintrag wird in ein neues Arbeitsblatt exportiert und kann wahlweise mit Titeln, Quellangaben und Metadaten versehen werden. Wie in \code{splitXLSX} wird ein Deckblatt mit einem Inhaltsverzeichnis erzeugt. Ferner besteht die Möglichkeit, mit dem Argument \code{metadata_sheet} ein Beiblatt zu erzeugen.
 
 Das folgende Beispiel demonstriert diese Funktionsweisen:
 ```{r datasetsXLSX_ex1, echo = TRUE, eval = FALSE}
@@ -167,9 +167,14 @@ datasetsXLSX(
   config = "default")
 ```
 
-Das Beispiel weist aus Illustrationsgründen zwei Besonderheiten auf. Erstens werden im Beispielscode im Argument \code{metadata} zwei Einträge als NULL gesetzt. Dies entspricht einer Leerlassung. Zweitens wird für das Argument \code{plot_width} nur ein Wert definiert. Dieser Wert wird für alle weiteren Grafiken verwendet. Im Argument \code{plot_height} werden die Höhen für beide Plots definiert. Wie die Länge des Beispielscodes bereits impliziert, kann ein \code{datasetsXLSX}-Aufruf schnell unübersichtlich werden. Ferner werden bei Änderungen in der Reihenfolge  entsprechende Anpassungen bei bis zu 9 Listen fällig. 
+Das Beispiel weist aus Illustrationsgründen zwei Besonderheiten auf. 
 
-Mit den Funktionen der \code{add_attribute}-Familie wird eine alternative Möglichkeit angeboten, \code{datasetsXLSX} zu parametrisieren. Jedes Eingabeobjekt (ob Daten oder Grafiken) kann mit Attributen für Titel, Quellen, Metadaten, und mehr versehen werden. Das so augmentierte Objekt kann ohne weitere Angaben an \code{datasetsXLSX} übergeben werden. Schritt kann einfach Philosophie unterstützt, dass Daten und Datenbeschreibung \code{add_sheetname}, \code{add_title}, \code{add_source}, etc. an. Am letzten Beispiel illustriert:
+* Im Argument \code{metadata} sind zwei Einträge NULL, was einer Leerlassung entspricht.
+* Im Argument \code{plot_width} wird nur ein Wert angegeben, im Argument \code{plot_height} hingegen Werte für beide Grafiken. Wird nur ein Wert angegeben, so  wird dieser für alle Grafiken verwendet. 
+
+Wie der Beispielcode suggeriert, kann ein komplexer \code{datasetsXLSX}-Aufruf unübersichtlich werden und Änderungen in der Reihenfolge der Datensätze erfordern zugleich Anpassungen bei allen übrigen Eingaben. 
+
+Die Funktionen der  \code{add_attribute}-Familie bieten eine alternativen Weg, \code{datasetsXLSX} zu parametrisieren. Jedes Eingabeobjekt (sowohl Daten als auch Grafiken) kann mit Titel, Quellangabe, Metadaten und mehr ausgestattet werden. Das so augmentierte Objekt kann direkt in \code{datasetsXLSX} verwendet werden. Die Argumente \code{title}, \code{source}, \code{metadata} etc. können bei NULL belassen werden:
 
 ```{r datasetsXLSX_ex3, echo = TRUE, eval = FALSE}
 # --- mtcars ---
@@ -220,25 +225,34 @@ datasetsXLSX(
 ## Ausgewählte Themen
 
 ### Benutzerkonfigurationen
-Um das Paket einem breiteren Anwenderkreis zugänglich zu machen, wurden diverse Aspekte im Design parametrisiert. Textfelder wie Kontaktinformationen können in den Funktionen direkt übersteuert werden. Für längerfristige Anpassungen besteht die Möglichkeit, Nutzerkonfigurationen anzulegen. Die Konfigurationen sind YAML-Dateien, in denen Einträge durch Schlüsselwörter mit zugehörigen Werten hinterlegt sind. 
-
-Bei der Erstinstallation von statR kann mit der Funktion \code{initUserConfigStore} ein Verzeichnis "~/.config/R/statR" erstellt und ein Index-File angelegt werden, in dem Konfigurationen erfasst werden. Das Paket kommt mit einer Standardkonfiguration ("default") mit folgendem Inhalt:
+Um das Paket einem breiteren Anwenderkreis zugänglich zu machen, wurden diverse Textelemente im Design parametrisiert. Eingaben, die nicht NA sind, werden priorisiert. Werden Argumente zu Textelementen wie Kontaktinformationen aber bei NA belassen, werden Werte aus einer bestehenden und anpassbaren Nutzerkonfiguration substituiert. Das Paket kommt mit einer Standardkonfiguration ("default") mit dem folgendem Inhalt:
 
 ```yaml
 `r xfun::file_string(system.file("extdata/config/default.yaml", package = "statR"))`
 ```
+Basierend auf dieser Vorlage können auch weitere Konfigurationen erstellt werden. Anwendungsbeispiele: 
 
-Auf der Grundlage von 'default.yaml' können auch weitere Konfigurationen angelegt und mit der Funktion \code{addUserConfig} registriert werden. Das folgende Beispiel demonstriert einen einfachen Workflow zum Anlegen einer neuen Konfiguration:
+* Übersetzung von Textelementen in andere Sprachen
+* Abteilungs-/Organisationsspezifische Kontaktinformationen
+
+Bei der ersten Verwendung von statR wird mit der Funktion \code{initUserConfigStore} ein Verzeichnis "~/.config/R/statR" angelegt und eine Index-Datei erstellt. In dieser Datei werden der Konfigurationsname und der Pfad zur Konfigurationsdatei gespeichert. 
+
+Neue Konfigurationen müssen zunächst mit der Funktion \code{addUserConfig} registriert werden. Das folgende Beispiel demonstriert die Vorgehensweise:
 
 ```{r, eval = FALSE}
+# Laden der Konfiguration als Listenobjekt
 new_config <- statR:::readUserConfig("default")
+
+# Anpassung einzelner Eintraege
 new_config$statR_config_name <- "team_data"
 new_config$contactdetails$statR_name <- "Team Data"
 new_config$logo$statR_logo <- "zh"
 
+# Speichern & Registrierung der neuen Konfiguration
 yaml::write_yaml(new_config, "config/team_data.yaml")
 statR::addUserConfig("team_data", "config/team_data.yaml")
 
+# Anwendung
 mtcars_title <- "Motor trend car road tests"
 
 statR::quickXLSX(data = mtcars, 
@@ -248,9 +262,9 @@ statR::quickXLSX(data = mtcars,
           metadata = mtcars_metadata,
           config = "team_data",
           author = "Vorname Nachname")
+
 ```
-
-
+Schliesslich besteht noch die Möglichkeit, Konfigurationen zu modifizieren (\code{updateUserConfig}) oder zu löschen (\code{removeUserConfig}).
 
 ### Einbindung von Bild-Dateien
 Bilder können gegenwärtig nur mit der \code{datasetsXLSX}-Funktion eingebunden werden. Die Bildgrösse muss vom Anwender über die Argumente \code{plot_width} und \code{plot_height} definiert werden. Die folgenden Modalitäten sind zu beachten:
