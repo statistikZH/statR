@@ -2,14 +2,13 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^pkgdown$
-^docs$
 ^man-roxygen$
-^index\.html$
-^vignettes$
 ^\.github$
 ^_pkgdown\.yml$
-
 ^doc$
+^docs$
 ^Meta$
 ^tests/testthat/test_env
 ^tests/testthat/test_out
+^index\.html$
+^vignettes$

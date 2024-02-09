@@ -1,6 +1,8 @@
 # statR 2.4.1
 * The store file for user configurations is no longer initialized as part of 
-  .onload() as this caused issues during package installation.
+  .onload() as this caused issues during package installation. Instead, the
+  configuration is selected during calls to quickXLSX etc through the config 
+  argument. 
 
 # statR 2.4.0 
 * User configuration files are now stored at path pointed to by 

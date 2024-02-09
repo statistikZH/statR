@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 ## Das `theme_stat` für ggplot2 - Grafiken
 
-```{r setup, warning = F, message = F}
+```{r setup, warning = FALSE, message = FALSE}
 library(statR)
 library(dplyr)
 library(ggplot2)
