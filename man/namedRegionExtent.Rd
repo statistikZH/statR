@@ -2,18 +2,18 @@
 % Please edit documentation in R/helper.R
 \name{namedRegionExtent}
 \alias{namedRegionExtent}
-\title{namedRegionExtent()}
+\title{Determine the row and column extent of named regions}
 \usage{
 namedRegionExtent(wb, sheetname, region_name = NULL, which = "both")
 }
 \arguments{
 \item{wb}{A workbook object}
 
+\item{sheetname}{Name of a worksheet}
+
 \item{region_name}{names of regions in Workbook.}
 
 \item{which}{either "row", "col", or "both" (default).}
-
-\item{sheet}{Name of a worksheet}
 }
 \value{
 A list with two numeric vectors row and col, containing

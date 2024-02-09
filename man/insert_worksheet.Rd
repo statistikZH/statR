@@ -2,70 +2,129 @@
 % Please edit documentation in R/insert_worksheet.R
 \name{insert_worksheet}
 \alias{insert_worksheet}
-\title{insert_worksheet()}
+\alias{insert_worksheet_nh}
+\alias{insert_header}
+\title{Functions for generating formatted worksheets for data}
 \usage{
 insert_worksheet(
   wb,
-  sheetname = "Daten",
+  sheetname,
   data,
-  title = "Title",
-  source = getOption("statR_source"),
-  metadata = NA,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
+  grouplines = NULL,
+  group_names = NULL,
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(),
   homepage = getOption("statR_homepage"),
+  author = "user"
+)
+
+insert_worksheet_nh(
+  wb,
+  sheetname,
+  data,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
+  grouplines = NULL,
+  group_names = NULL
+)
+
+insert_header(
+  wb,
+  sheetname,
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  homepage = getOption("statR_homepage"),
+  auftrag_id = NULL,
   author = "user",
-  grouplines = NA,
-  group_names = NA
+  openinghours = NULL,
+  contact_col = 13
 )
 }
 \arguments{
 \item{wb}{workbook object to add new worksheet to.}
 
-\item{sheetname}{name of the sheet tab.}
+\item{sheetname}{Names of the worksheet in output file. Note that this name
+will be truncated to 31 characters, must be unique, and cannot contain
+some special characters (namely the following: /, \, ?, *, :, [, ]).}
 
 \item{data}{data to be included.}
 
 \item{title}{title to be put above the data.}
 
-\item{source}{source of the data. Defaults to "statzh".}
+\item{source}{source of the data. Default can be adjusted via user profiles}
 
-\item{metadata}{metadata information to be included. Defaults to NA.}
+\item{metadata}{metadata information to be included. Defaults to NA, meaning
+no metadata are attached.}
 
-\item{logo}{path of the file to be included as logo (png / jpeg / svg).
-Defaults to "statzh"}
+\item{grouplines}{Can be used to visually group variables. Values should
+either correspond to numeric column indices or column names, denoting the
+first variable in a group. Defaults to NA, meaning no lines are added.}
 
-\item{contactdetails}{contact details of the data publisher. Defaults to
-"statzh".}
+\item{group_names}{A vector of names for groups to be displayed in a
+secondary header. Should be of the same length as grouplines, and cannot
+be used unless these are set. Defaults to NA, meaning no secondary header
+is created.}
 
-\item{homepage}{Homepage of data publisher. Defaults to "statzh".}
+\item{logo}{File path to the logo to be included in the index-sheet.
+Defaults to the logo of the Statistical Office of Kanton Zurich. This can
+either be overridden with a path to an image file, or configured in a user
+profile.}
+
+\item{contactdetails}{Character vector with contact information to be displayed
+on the title sheet. By default uses \code{inputHelperContactInfo()} to
+construct it based on values defined in the active user configuration.}
+
+\item{homepage}{Homepage of data publisher. Default can be adjusted via user
+configuration.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
 
-\item{grouplines}{defaults to NA. Can be used to separate grouped
-variables visually.}
+\item{auftrag_id}{An ID associated with the Excel file. Defaults to NULL (
+no output).}
 
-\item{group_names}{Names for groupings in secondary header. Format:
-List e.g list(c("title 1", "title 2", "title 3"))}
+\item{openinghours}{A character vector with office hours. Defaults to NULL (
+no output).}
+
+\item{contact_col}{Column number at which the contact information should be
+inserted.}
 }
 \description{
-Function to insert a formatted worksheet into an existing
- Workbook object.
+Inserts a data.frame into a new formatted worksheet.
+  The distinction between \code{insert_worksheet} and
+  \code{insert_worksheet_nh} is that the former also generates a header with
+  contact information using the function \code{insert_header}.
+  Some arguments have default values which are pulled from the active user
+  configuration. When using the default configuration, the logo and contact
+  information of the Statistical Office of Kanton Zurich will be inserted.
 }
 \note{
-The function does not write the result into a .xlsx file.
- A separate call to openxlsx::saveWorkbook() is required.
+This function does not output an .xlsx file on its own. A separate call
+  to \code{openxlsx::saveWorkbook()} is required.
 }
 \examples{
+\dontrun{
 # Initialize Workbook
 wb <- openxlsx::createWorkbook()
 
 # Insert mtcars dataset with STATZH design
-insert_worksheet(data = mtcars,
-                 wb = wb,
-                 title = "mtcars dataset",
-                 sheetname = "carb")
+insert_worksheet(
+  wb, sheetname = "cars1", data = mtcars, title = "mtcars dataset",
+  source = "Source: ...", metadata = "Note: ...",
+  grouplines = c(5,8), group_names = c("First group", "Second group")
+)
+
+# The same, but without header
+insert_worksheet_nh(
+  wb, sheetname = "cars2", data = mtcars, title = "mtcars dataset (no header)",
+  source = "Source: ...", metadata = "Note: ...",
+  grouplines = c(5,8), group_names = c("First group", "Second group")
+)
+}
 
 }
 \keyword{insert_worksheet}

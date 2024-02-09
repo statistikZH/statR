@@ -2,35 +2,38 @@
 % Please edit documentation in R/insert_metadata_sheet.R
 \name{insert_metadata_sheet}
 \alias{insert_metadata_sheet}
-\title{insert_metadata_sheet()}
+\title{Insert sheet with metadata}
 \usage{
 insert_metadata_sheet(
   wb,
-  sheetname = "Metadaten",
-  title = "Title",
-  source = getOption("statR_source"),
-  metadata = NA,
+  sheetname,
+  meta_infos,
   logo = getOption("statR_logo"),
   contactdetails = inputHelperContactInfo(compact = TRUE),
+  homepage = getOption("statR_homepage"),
   author = "user"
 )
 }
 \arguments{
 \item{wb}{workbook object to add new worksheet to.}
 
-\item{sheetname}{name of the sheet tab.}
+\item{sheetname}{Names of the worksheet in output file. Note that this name
+will be truncated to 31 characters, must be unique, and cannot contain
+some special characters (namely the following: /, \, ?, *, :, [, ]).}
 
-\item{title}{title to be put above the data.}
+\item{meta_infos}{a list with title, source, and metadata as named objects}
 
-\item{source}{source of the data. Defaults to "statzh".}
+\item{logo}{File path to the logo to be included in the index-sheet.
+Defaults to the logo of the Statistical Office of Kanton Zurich. This can
+either be overridden with a path to an image file, or configured in a user
+profile.}
 
-\item{metadata}{metadata information to be included. Defaults to NA.}
+\item{contactdetails}{Character vector with contact information to be displayed
+on the title sheet. By default uses \code{inputHelperContactInfo()} to
+construct it based on values defined in the active user configuration.}
 
-\item{logo}{path of the file to be included as logo (png / jpeg / svg).
-Defaults to "statzh"}
-
-\item{contactdetails}{contact details of the data publisher. Defaults to
-"statzh".}
+\item{homepage}{Homepage of data publisher. Default can be adjusted via user
+configuration.}
 
 \item{author}{defaults to the last two letters (initials) or numbers of the
 internal user name.}
@@ -38,15 +41,6 @@ internal user name.}
 \description{
 Function to add a formatted worksheet with metadata to an
   existing Workbook object.
-}
-\examples{
-# Create Workbook
-wb <- openxlsx::createWorkbook()
-
-# Insert a simple metadata sheet
-insert_metadata_sheet(wb, title = "Title of mtcars",
-  metadata = c("Meta data information."))
-
 }
 \seealso{
 createWorkbook, addWorksheet, writeData

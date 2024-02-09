@@ -2,7 +2,7 @@
 % Please edit documentation in R/insert_index_sheet.R
 \name{insert_index_sheet}
 \alias{insert_index_sheet}
-\title{insert_index_sheet()}
+\title{Insert empty index sheet}
 \usage{
 insert_index_sheet(
   wb,
@@ -13,32 +13,51 @@ insert_index_sheet(
   contactdetails = inputHelperContactInfo(),
   homepage = getOption("statR_homepage"),
   openinghours = getOption("statR_openinghours"),
-  source = getOption("statR_source")
+  source = getOption("statR_index_source"),
+  author = "user"
 )
 }
 \arguments{
 \item{wb}{workbook object to add new worksheet to.}
 
-\item{sheetname}{name of the sheet tab.}
+\item{sheetname}{Names of the worksheet in output file. Note that this name
+will be truncated to 31 characters, must be unique, and cannot contain
+some special characters (namely the following: /, \, ?, *, :, [, ]).}
 
 \item{title}{title to be put above the data.}
 
 \item{auftrag_id}{Order ID}
 
-\item{logo}{path of the file to be included as logo (png / jpeg / svg).
-Defaults to "statzh"}
+\item{logo}{File path to the logo to be included in the index-sheet.
+Defaults to the logo of the Statistical Office of Kanton Zurich. This can
+either be overridden with a path to an image file, or configured in a user
+profile.}
 
-\item{contactdetails}{contact details of the data publisher. Defaults to
-"statzh".}
+\item{contactdetails}{Character vector with contact information to be displayed
+on the title sheet. By default uses \code{inputHelperContactInfo()} to
+construct it based on values defined in the active user configuration.}
 
-\item{homepage}{Homepage of data publisher. Defaults to "statzh".}
+\item{homepage}{Homepage of data publisher. Default can be adjusted via user
+configuration.}
 
 \item{openinghours}{statzh or a character string or vector with opening hours}
 
-\item{source}{source of the data. Defaults to "statzh".}
+\item{source}{source of the data. Default can be adjusted via user profiles}
+
+\item{author}{defaults to the last two letters (initials) or numbers of the
+internal user name.}
 }
 \description{
-Function which generates an index sheet inside an openxlsx
-  workbook.
+Function which initializes an empty index sheet. The function is
+  intended to be called at the beginning of a workflow (just after the
+  initialization of the Workbook object), and paired with the function
+  \code{insert_index_hyperlinks()}.
+}
+\details{
+The logo can be customized via the `statR_logo` global option. This
+  should point to the path of the logo file. Other options such as the image
+  size in the final .xlsx can either be changed via the options
+  `statR_logo_width` and `statR_logo_height`, or set along with contact
+  information in a custom profile.
 }
 \keyword{insert_index_sheet}

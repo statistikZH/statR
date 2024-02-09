@@ -2,28 +2,25 @@
 % Please edit documentation in R/insert_hyperlinks.R
 \name{insert_hyperlinks}
 \alias{insert_hyperlinks}
-\title{insert_hyperlinks()}
+\title{Insert hyperlinks}
 \usage{
-insert_hyperlinks(
-  wb,
-  sheetnames,
-  titles,
-  index_sheet_name = "Index",
-  sheet_start_row = 15
-)
+insert_hyperlinks(wb, sheetname, text, where, start_row = 15, file = NULL)
 }
 \arguments{
 \item{wb}{workbook object to add new worksheet to.}
 
-\item{sheetnames}{Names of sheets to create hyperlinks to}
+\item{sheetname}{Names of sheets to create hyperlinks to}
 
-\item{titles}{Titles of Hyperlinks}
+\item{text}{Text to display in the cell with the hyperlink}
 
-\item{index_sheet_name}{Name of sheet where hyperlink should be created}
+\item{where}{Name of the worksheet where the hyperlinks should be inserted}
 
-\item{sheet_start_row}{Initial row after which hyperlinks should be created}
+\item{start_row}{First row from which hyperlink should be inserted}
+
+\item{file}{External file. Default: NULL}
 }
 \description{
-Function for inserting hyperlinks within an openxlsx Workbook
+Function for inserting hyperlinks within an openxlsx Workbook.
+             Provides support for links to external .xlsx.
 }
 \keyword{insert_hyperlinks}
