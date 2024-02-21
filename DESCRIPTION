@@ -1,6 +1,6 @@
 Package: statR
 Title: statR
-Version: 2.4.0
+Version: 2.4.1
 Authors@R: as.person(c(
     "Andrea Schnell <andrea.schnell@statistik.ji.zh.ch> [aut]",
     "Michelle Donzallaz <michelle.donzallaz@statistik.ji.zh.ch> [aut]",

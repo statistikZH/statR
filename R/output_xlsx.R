@@ -124,15 +124,13 @@
 datasetsXLSX <- function(
     file, datasets, sheetname = NULL, title = NULL, source = NULL,
     metadata = NULL, grouplines = NULL, group_names = NULL, plot_width = NULL,
-    plot_height = NULL, index_title = NA,
-    index_source = NA, logo = NA,
-    contactdetails = NA,
-    homepage = NA,
-    openinghours = NA,
-    auftrag_id = NA, author = "user", metadata_sheet = NULL, overwrite = TRUE, config = "default") {
+    plot_height = NULL, index_title = NA, index_source = NA, logo = NA,
+    contactdetails = NA, homepage = NA, openinghours = NA, auftrag_id = NULL,
+    author = "user", metadata_sheet = NULL, overwrite = TRUE, config = "default") {
 
 
-  user_config <- get_user_config(config, c(index_title, index_source, logo, contactdetails, homepage, openinghours))
+  get_user_config(config, c(index_title, index_source, logo,
+                            contactdetails, homepage, openinghours))
 
   # "Optional" input arguments
   for (value in c("title", "source", "metadata", "grouplines", "group_names")){
@@ -182,8 +180,10 @@ datasetsXLSX <- function(
   wb <- openxlsx::createWorkbook()
   insert_index_sheet(wb, sheetname = "Index", title = index_title,
                      auftrag_id = auftrag_id, logo = logo,
-                     contactdetails = contactdetails, homepage = homepage,
-                     openinghours = openinghours, source = index_source,
+                     contactdetails = getOption("statR_contactdetails"),
+                     homepage = getOption("statR_homepage"),
+                     openinghours = getOption("statR_openinghours"),
+                     source = getOption("statR_index_source"),
                      author = author)
 
   # Iterate over datasets
@@ -204,8 +204,10 @@ datasetsXLSX <- function(
   # long-form metadata by insert_metadata_sheet. It is meant to be used to
   # provide globally applicable information for multiple analyses.
   if (!is.null(metadata_sheet)) {
-    insert_metadata_sheet(wb, "Beiblatt", metadata_sheet, logo = logo,
-                          contactdetails = contactdetails, homepage = homepage,
+    insert_metadata_sheet(wb, "Beiblatt", metadata_sheet,
+                          logo = getOption("statR_logo"),
+                          contactdetails = getOption("statR_contactdetails"),
+                          homepage = getOption("statR_homepage"),
                           author = author)
   }
 
@@ -318,8 +320,11 @@ aXLSX <- function(
 
   wb <- openxlsx::createWorkbook()
   insert_worksheet_nh(wb, sheetname = "Data", data = data, metadata = NA)
-  insert_metadata_sheet(wb, "Metadaten", meta_info_list, logo,
-                        contactdetails, homepage, author)
+  insert_metadata_sheet(wb, "Metadaten", meta_info_list,
+                        logo = getOption("statR_logo"),
+                        contactdetails = getOption("statR_contactdetails"),
+                        homepage = getOption("statR_homepage"),
+                        author)
   cleanNamedRegions(wb, "all")
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
 }
@@ -361,10 +366,7 @@ quickXLSX <- function(
     author = "user",
     config = "default") {
 
-
   get_user_config(config, list(logo, contactdetails,  homepage))
-
-
 
   for (value in c("title", "source", "metadata", "grouplines", "group_names")) {
     if (!is.null(eval(as.name(value)))) {

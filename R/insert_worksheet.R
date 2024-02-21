@@ -173,6 +173,7 @@ insert_header <- function(wb, sheetname, logo = getOption("statR_logo"),
 
   logo <- inputHelperLogoPath(getOption("statR_logo"))
 
+
   sheetname <- verifyInputSheetname(sheetname)
   if (!(sheetname %in% names(wb))) openxlsx::addWorksheet(wb, sheetname)
 
@@ -181,7 +182,7 @@ insert_header <- function(wb, sheetname, logo = getOption("statR_logo"),
                          startrow = 1, startcol = 1)
 
   start_row <- 2
-  openxlsx::createNamedRegion(wb, sheetname, contact_col + 0:3, start_row,
+  openxlsx::createNamedRegion(wb, sheetname, contact_col + 0:4, start_row,
                               paste0(sheetname, "_header_start"))
 
   fields <- list(
@@ -196,7 +197,7 @@ insert_header <- function(wb, sheetname, logo = getOption("statR_logo"),
   # Insert contact info, date created, and author -----
   for (field_name in names(fields)){
     if (is.character(fields[[field_name]])) {
-      writeText(wb, sheetname, fields[[field_name]], start_row, contact_col + 0:3,
+      writeText(wb, sheetname, fields[[field_name]], start_row, contact_col + 0:4,
                 NULL, field_name)
       start_row <- namedRegionLastRow(wb, sheetname, field_name) + 1
     }
@@ -206,7 +207,7 @@ insert_header <- function(wb, sheetname, logo = getOption("statR_logo"),
   if (is.character(openinghours)) {
     writeText(wb, sheetname, openinghours,
               namedRegionFirstRow(wb, sheetname, "header_start"),
-              contact_col + 4:6, NULL, "openinghours")
+              contact_col + 5:7, NULL, "openinghours")
   }
 
   header_entries <- c("header_start", "contact", "homepage", "info",

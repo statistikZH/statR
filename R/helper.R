@@ -101,10 +101,10 @@ inputHelperLogoPath <- function(
 
   } else {
 
-    if (logo == "statzh") {
+    if (logo == "zh") {
       logo <- paste0(find.package("statR"), "/extdata/Stempel_Kanton_ZH.png")
 
-    } else if (logo == "zh") {
+    } else if (logo == "statzh") {
       logo <- paste0(find.package("statR"), "/extdata/Stempel_STAT-01.png")
     }
 
@@ -128,13 +128,18 @@ inputHelperContactInfo <- function(compact = FALSE) {
 
   phone <- inputHelperPhone(getOption("statR_phone"))
 
-  if (compact) {
-    return(c(paste(getOption("statR_name"), phone, sep = ", "),
-             getOption("statR_email")))
+  contact_details <- if (compact) {
+    c(paste(getOption("statR_name"), phone, sep = ", "),
+      getOption("statR_email"))
+  } else {
+    c(getOption("statR_organization"),
+      getOption("statR_name"),
+      phone,
+      getOption("statR_email"))
   }
 
-  return(c(getOption("statR_organization"), getOption("statR_name"),
-           phone, getOption("statR_email")))
+  options(statR_contactdetails = contact_details)
+  return(contact_details)
 }
 
 #' Set homepage to a hyperlink
