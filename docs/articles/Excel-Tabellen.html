@@ -51,6 +51,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/Benutzerkonfiguration.html">Benutzerkonfiguration</a>
+    </li>
+    <li>
       <a href="../articles/Excel-Tabellen.html">Excel-Tabellen</a>
     </li>
     <li>
@@ -111,6 +114,7 @@ Konfiguration anlegen.</p>
 <p>Diese Vignette bietet einen Überblick der wichtigsten Funktionen in
 diesem Paket sowie einen Leitfaden zur Handhabung von
 Nutzerkonfigurationen.</p>
+<p>Wichtig!: Lese auch den Artikel zu den Benutzerkonfigurationen.</p>
 </div>
 <div class="section level2">
 <h2 id="funktionen-und-beispiele">Funktionen und Beispiele<a class="anchor" aria-label="anchor" href="#funktionen-und-beispiele"></a>
@@ -355,94 +359,6 @@ datasetsXLSX_demo.xlsx</div>
 <h2 id="ausgewählte-themen">Ausgewählte Themen<a class="anchor" aria-label="anchor" href="#ausgew%C3%A4hlte-themen"></a>
 </h2>
 <div class="section level3">
-<h3 id="benutzerkonfigurationen">Benutzerkonfigurationen<a class="anchor" aria-label="anchor" href="#benutzerkonfigurationen"></a>
-</h3>
-<p>Um das Paket einem breiteren Anwenderkreis zugänglich zu machen,
-wurden diverse Textelemente im Design parametrisiert. Eingaben, die
-nicht NA sind, werden priorisiert. Werden Argumente zu Textelementen wie
-Kontaktinformationen aber bei NA belassen, werden Werte aus einer
-bestehenden und anpassbaren Nutzerkonfiguration substituiert. Das Paket
-kommt mit einer Standardkonfiguration (“default”) mit dem folgendem
-Inhalt:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Configuration file for statR</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">statR_config_name</span><span class="kw">:</span><span class="at"> default</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># Contact information</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">contactdetails</span><span class="kw">:</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_organization</span><span class="kw">:</span><span class="at"> Statistisches Amt des Kantons Zürich</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_name</span><span class="kw">:</span><span class="at"> Datashop</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_phone</span><span class="kw">:</span><span class="at"> +41 43 259 75 00</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_email</span><span class="kw">:</span><span class="at"> datashop@statistik.zh.ch</span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_homepage</span><span class="kw">:</span><span class="at"> http://www.statistik.zh.ch</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_openinghours</span><span class="kw">:</span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> Bürozeiten</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> Montag bis Freitag</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> 09:00 bis 12:00</span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> 13:00 bis 16:00</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co"># Logo: this can be one of the values statzh or zh, or a path to an image</span></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="fu">logo</span><span class="kw">:</span></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_logo</span><span class="kw">:</span><span class="at"> statzh</span></span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_logo_width</span><span class="kw">:</span><span class="at"> </span><span class="fl">2.145</span></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_logo_height</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.7865</span></span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a></span>
-<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co"># Prefixes for strings</span></span>
-<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="fu">prefixes</span><span class="kw">:</span></span>
-<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_prefix_date</span><span class="kw">:</span><span class="at"> </span><span class="st">"Aktualisiert am:"</span></span>
-<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_prefix_author</span><span class="kw">:</span><span class="at"> </span><span class="st">"durch:"</span></span>
-<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_prefix_phone</span><span class="kw">:</span><span class="at"> </span><span class="st">"Tel."</span></span>
-<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_prefix_order_id</span><span class="kw">:</span><span class="at"> </span><span class="st">"Auftragsnr.:"</span></span>
-<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a></span>
-<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co"># Default values</span></span>
-<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="fu">defaults</span><span class="kw">:</span></span>
-<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_index_title</span><span class="kw">:</span><span class="at"> Inhalt</span></span>
-<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_index_source</span><span class="kw">:</span><span class="at"> Statistisches Amt des Kantons Zürich</span></span>
-<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_default_plot_width</span><span class="kw">:</span><span class="at"> </span><span class="dv">6</span></span>
-<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a><span class="at">  </span><span class="fu">statR_default_plot_height</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span></span>
-<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a></span>
-<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a><span class="co"># Miscellaneous</span></span>
-<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a><span class="fu">statR_date_format</span><span class="kw">:</span><span class="at"> </span><span class="st">"%d.%m.%Y"</span></span></code></pre></div>
-<p>Basierend auf dieser Vorlage können auch weitere Konfigurationen
-erstellt werden. Anwendungsbeispiele:</p>
-<ul>
-<li>Übersetzung von Textelementen in andere Sprachen</li>
-<li>Abteilungs-/Organisationsspezifische Kontaktinformationen</li>
-</ul>
-<p>Bei der ersten Verwendung von statR wird mit der Funktion
-<code>initUserConfigStore</code> ein Verzeichnis “~/.config/R/statR”
-angelegt und eine Index-Datei erstellt. In dieser Datei werden der
-Konfigurationsname und der Pfad zur Konfigurationsdatei gespeichert.</p>
-<p>Neue Konfigurationen müssen zunächst mit der Funktion
-<code>addUserConfig</code> registriert werden. Das folgende Beispiel
-demonstriert die Vorgehensweise:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Laden der Konfiguration als Listenobjekt</span></span>
-<span><span class="va">new_config</span> <span class="op">&lt;-</span> <span class="fu">statR</span><span class="fu">::</span><span class="fu"><a href="../reference/readUserConfig.html">readUserConfig</a></span><span class="op">(</span><span class="st">"default"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Anpassung einzelner Eintraege</span></span>
-<span><span class="va">new_config</span><span class="op">$</span><span class="va">statR_config_name</span> <span class="op">&lt;-</span> <span class="st">"team_data"</span></span>
-<span><span class="va">new_config</span><span class="op">$</span><span class="va">contactdetails</span><span class="op">$</span><span class="va">statR_name</span> <span class="op">&lt;-</span> <span class="st">"Team Data"</span></span>
-<span><span class="va">new_config</span><span class="op">$</span><span class="va">logo</span><span class="op">$</span><span class="va">statR_logo</span> <span class="op">&lt;-</span> <span class="st">"zh"</span></span>
-<span></span>
-<span><span class="co"># Speichern &amp; Registrierung der neuen Konfiguration</span></span>
-<span><span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/write_yaml.html" class="external-link">write_yaml</a></span><span class="op">(</span><span class="va">new_config</span>, <span class="st">"config/team_data.yaml"</span><span class="op">)</span></span>
-<span><span class="fu">statR</span><span class="fu">::</span><span class="fu"><a href="../reference/addUserConfig.html">addUserConfig</a></span><span class="op">(</span><span class="st">"team_data"</span>, <span class="st">"config/team_data.yaml"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Anwendung</span></span>
-<span><span class="va">mtcars_title</span> <span class="op">&lt;-</span> <span class="st">"Motor trend car road tests"</span></span>
-<span></span>
-<span><span class="fu">statR</span><span class="fu">::</span><span class="fu"><a href="../reference/quickXLSX.html">quickXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>, </span>
-<span>          file <span class="op">=</span> <span class="st">"output/userconfig_demo"</span>,</span>
-<span>          title <span class="op">=</span> <span class="va">mtcars_title</span>,</span>
-<span>          source <span class="op">=</span> <span class="va">mtcars_source</span>,</span>
-<span>          metadata <span class="op">=</span> <span class="va">mtcars_metadata</span>,</span>
-<span>          config <span class="op">=</span> <span class="st">"team_data"</span>,</span>
-<span>          author <span class="op">=</span> <span class="st">"Vorname Nachname"</span><span class="op">)</span></span></code></pre></div>
-<p>Schliesslich besteht noch die Möglichkeit, Konfigurationen zu
-modifizieren (<code>updateUserConfig</code>) oder zu löschen
-(<code>removeUserConfig</code>).</p>
-</div>
-<div class="section level3">
 <h3 id="einbindung-von-bild-dateien">Einbindung von Bild-Dateien<a class="anchor" aria-label="anchor" href="#einbindung-von-bild-dateien"></a>
 </h3>
 <p>Bilder können gegenwärtig nur mit der
@@ -469,7 +385,7 @@ Spalten-Nr. der Spalten angegeben werden, bei denen eine neue Gruppe
 anfängt. Ferner können für diese Gruppen noch zusätzliche Überschriften
 erstellt werden. Dazu müssen im Argument <code>group_names</code> die
 Überschriftentitel angegeben werden.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/quickXLSX.html">quickXLSX</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mtcars</span>, </span>
 <span>          file <span class="op">=</span> <span class="st">"output/quickXLSX_grouped.xlsx"</span>,</span>
 <span>          title <span class="op">=</span> <span class="va">mtcars_title</span>, </span>
@@ -522,7 +438,7 @@ unterstützten Klassen zugeordnet werden (“percentage”, “hyperlink”,
 </ul>
 <p>Das folgende Beispiel demonstriert den Prozess anhand des Merkmals
 “drat” (rear axle ratio):</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars_dataset</span> <span class="op">&lt;-</span> <span class="va">mtcars</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">mtcars_dataset</span><span class="op">$</span><span class="va">drat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"percentage"</span></span>
 <span></span>

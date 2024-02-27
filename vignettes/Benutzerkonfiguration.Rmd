@@ -1,0 +1,80 @@
+---
+title: "Benutzerkonfiguration"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Benutzerkonfiguration}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Allgemeine Informationen
+
+Die Benutzerkonfiguration erlaubt es, Informationen den Excel-Outputs mitzugeben.
+Diese werden global gesetzt und jedes Excel-File enthält die selben Informationen.
+Dies ermöglicht, Team-Spezifische oder Organisations-Spezifische Konfigurationen zu setzten.
+Die Benutzerkonfiguration lebt nicht mehr im Package direkt, sondern es wird ein Pfad zur Konfiguration angegeben. 
+Der Grund für diese Auslagerung der Informationen ist, dass so ein ganzes Team auf die Gleiche Konfiguration zugreifen kann.
+Falls keine eigene Konfiguration verwenet wird, fallen die Werte auf einen Default-Wert zurück, welche im Package hinterlegt sind.
+
+
+## Erstellen einer eigenen Benutzerkonfiguration
+
+Die Benutzerkonfiguration wird in einem YAML-File gemacht.
+Sie muss gleich sein wie das untenstehende Beispiel:
+
+```yaml
+`r xfun::file_string(system.file("extdata/config/default.yaml", package = "statR"))`
+```
+
+Du hast die folgenden Konfigurations-Möglichkeiten:
+
+**contactdetails**
+
+In diesem Bereich kannst du die Kontakt-Informationen deines Teams oder der Organisation angeben.
+
+**logo**
+
+Hier kannst du die Angaben zum Logo machen, welches in den Excel-Files angezeigt werden soll.
+Wenn du nicht das standard KTZH-Logo verwenden möchtest, musst du einen Pfad zu einem anderen Logo angeben.
+
+**prefixes**
+
+Hier kannst du bestimmte Schreibweisen definieren.
+Dieser Teil ist vor allem dafür gedacht, dass eine andere Sprache konfiguriert werden kann.
+
+**defaults**
+
+Hier können bestimmte Default Settings gesetzt werden.
+Unter anderem kannst du hier für das Index-Scheet (relevant bei datasets.xlsx) einen Titel sowie die Source definieren.
+Zudem kannst du hier default Plot-Grössen definieren.
+Diese Angaben könnten in den Funktionen auch überschrieben werden, wenn ein Plot dem Standard abweicht.
+
+
+## Verwenden einer eigenen Benutzerkonfiguration
+
+Eine eigene Benutzerkonfiguration wird nicht automatisch im Package verwendet.
+Wir müssem dem Package zuerst sagen, wo unsere Konfiguration liegt.
+
+Dazu gibt es ein paar Hilfsfunktionen:
+
+- Mit `addUserConfig()` kann eine neuer Konfiguration registriert werden.
+
+- Mit `updateUserConfig()` kann ein Pfad angepasst werden.
+
+- Mit `removeUserConfig()` kann eine Konfiguration entfernt werden.
+
+
+Wenn du nun zum Beispiel eine Team-Konfiguration verwenden möchtest, dann kannst du wie folgt vorgehen:
+
+1. Kopiere die oben aufgeführten Angaben und passe sie für dich an
+
+2. Speichere das File als YAML ab (.yaml)
+
+3. registriere das neue Konfigurationsfile (hier als Beispiel für team_data):
+
+    `addUserConfig(name = "team_data", path = "der_Pfad_zum_file")`
+    
+4. wenn du eine Exce-Funktion aufrufst, setze den Parameter `config = "team_data"` 
+
+
+Du hast auch die möglichkeit mehrere Konfigurationen zu registrieren. Du kannst dann einfach mit dem `config`-Parameter bestimmen, welche Konfiguration angezogen werden soll.
