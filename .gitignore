@@ -2,7 +2,6 @@
 .Rhistory
 .RData
 inst/doc
-docs
 *.xlsx
 sqlnet.log
 /doc/
