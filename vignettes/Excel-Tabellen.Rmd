@@ -25,8 +25,7 @@ Das `statR` Package enthält Funktionen zur schnellen Erzeugung von Microsoft Ex
 
 Diese Vignette bietet einen Überblick der wichtigsten Funktionen in diesem Paket sowie einen Leitfaden zur Handhabung von Nutzerkonfigurationen.
 
-
-Wichtig!: Lese auch den Artikel zu den Benutzerkonfigurationen.
+Wichtig! Auch noch den Artikel der Benutzerkonfiguration lesen!
 
 ## Funktionen und Beispiele
 
@@ -224,6 +223,7 @@ datasetsXLSX(
 
 
 ## Ausgewählte Themen
+
 
 ### Einbindung von Bild-Dateien
 Bilder können gegenwärtig nur mit der `datasetsXLSX`-Funktion eingebunden werden. Die Bildgrösse muss vom Anwender über die Argumente `plot_width` und `plot_height` definiert werden. Die folgenden Modalitäten sind zu beachten:
