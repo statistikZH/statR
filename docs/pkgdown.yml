@@ -2,9 +2,10 @@ pandoc: 3.1.1
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
+  Benutzerkonfiguration: Benutzerkonfiguration.html
   Excel-Tabellen: Excel-Tabellen.html
   Sonstige_Funktionen: Sonstige_Funktionen.html
   Visualisierungen: Visualisierungen.html
   html_report_template: html_report_template.html
-last_built: 2024-02-09T08:57Z
+last_built: 2024-02-27T12:13Z
 
