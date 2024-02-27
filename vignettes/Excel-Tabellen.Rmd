@@ -25,6 +25,7 @@ Das `statR` Package enthält Funktionen zur schnellen Erzeugung von Microsoft Ex
 
 Diese Vignette bietet einen Überblick der wichtigsten Funktionen in diesem Paket sowie einen Leitfaden zur Handhabung von Nutzerkonfigurationen.
 
+Wichtig! Auch noch den Artikel der Benutzerkonfiguration lesen!
 
 ## Funktionen und Beispiele
 
@@ -223,47 +224,6 @@ datasetsXLSX(
 
 ## Ausgewählte Themen
 
-### Benutzerkonfigurationen
-Um das Paket einem breiteren Anwenderkreis zugänglich zu machen, wurden diverse Textelemente im Design parametrisiert. Eingaben, die nicht NA sind, werden priorisiert. Werden Argumente zu Textelementen wie Kontaktinformationen aber bei NA belassen, werden Werte aus einer bestehenden und anpassbaren Nutzerkonfiguration substituiert. Das Paket kommt mit einer Standardkonfiguration ("default") mit dem folgendem Inhalt:
-
-```yaml
-`r xfun::file_string(system.file("extdata/config/default.yaml", package = "statR"))`
-```
-Basierend auf dieser Vorlage können auch weitere Konfigurationen erstellt werden. Anwendungsbeispiele: 
-
-* Übersetzung von Textelementen in andere Sprachen
-* Abteilungs-/Organisationsspezifische Kontaktinformationen
-
-Bei der ersten Verwendung von statR wird mit der Funktion `initUserConfigStore` ein Verzeichnis "~/.config/R/statR" angelegt und eine Index-Datei erstellt. In dieser Datei werden der Konfigurationsname und der Pfad zur Konfigurationsdatei gespeichert. 
-
-Neue Konfigurationen müssen zunächst mit der Funktion `addUserConfig` registriert werden. Das folgende Beispiel demonstriert die Vorgehensweise:
-
-```{r, eval = FALSE}
-# Laden der Konfiguration als Listenobjekt
-new_config <- statR::readUserConfig("default")
-
-# Anpassung einzelner Eintraege
-new_config$statR_config_name <- "team_data"
-new_config$contactdetails$statR_name <- "Team Data"
-new_config$logo$statR_logo <- "zh"
-
-# Speichern & Registrierung der neuen Konfiguration
-yaml::write_yaml(new_config, "config/team_data.yaml")
-statR::addUserConfig("team_data", "config/team_data.yaml")
-
-# Anwendung
-mtcars_title <- "Motor trend car road tests"
-
-statR::quickXLSX(data = mtcars, 
-          file = "output/userconfig_demo",
-          title = mtcars_title,
-          source = mtcars_source,
-          metadata = mtcars_metadata,
-          config = "team_data",
-          author = "Vorname Nachname")
-
-```
-Schliesslich besteht noch die Möglichkeit, Konfigurationen zu modifizieren (`updateUserConfig`) oder zu löschen (`removeUserConfig`).
 
 ### Einbindung von Bild-Dateien
 Bilder können gegenwärtig nur mit der `datasetsXLSX`-Funktion eingebunden werden. Die Bildgrösse muss vom Anwender über die Argumente `plot_width` und `plot_height` definiert werden. Die folgenden Modalitäten sind zu beachten:
