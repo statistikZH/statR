@@ -17,6 +17,7 @@ datasetsXLSX(
   plot_height = NULL,
   index_title = NA,
   index_source = NA,
+  index_toc_title = NA,
   logo = NA,
   contactdetails = NA,
   homepage = NA,
@@ -63,6 +64,8 @@ in inches (1 inch = 2.54 cm), or a list of the same length as `datasets`}
 \item{index_title}{Title to be put on the index sheet.}
 
 \item{index_source}{Source to be shown below the index title.}
+
+\item{index_toc_title}{Title shown above the table of content.}
 
 \item{logo}{File path to the logo to be included in the index-sheet.
 Defaults to the logo of the Statistical Office of Kanton Zurich. This can

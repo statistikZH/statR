@@ -34,7 +34,7 @@ insert_index_sheet <- function(
             3:18, style_subtitle(), "source")
 
   ### Table of content caption
-  writeText(wb, sheetname, getOption("statR_index_title"),
+  writeText(wb, sheetname, getOption("statR_index_toc_title"),
             namedRegionLastRow(wb, sheetname, "source") + 3,
             3, style_indextitle(), "toc")
 

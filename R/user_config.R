@@ -21,9 +21,7 @@ initUserConfigStore <- function(store_path = "~/.config/R/statR") {
 
   }
 
-
   addUserConfig(store_path = store_path)
-
 }
 
 
@@ -66,6 +64,7 @@ addUserConfig <- function(name = "default", path = NULL,
   }
 
   if (name == "default" & "default" %in% configs$config_name){
+    updateUserConfig("default", path, store_path)
     return("Alles bereit")
   }
 
@@ -95,18 +94,22 @@ addUserConfig <- function(name = "default", path = NULL,
 #' @inheritParams initUserConfigStore
 #' @export
 updateUserConfig <- function(name, path, store_path = "~/.config/R/statR"){
+
+  configs <- readUserConfigStore(store_path)
+
+  if (name == "default") {
+    path <- configs[configs$config_name == "default", "config_path"]
+    curr_vers <- paste0(version$major, ".", gsub(".[0-9]+$", "", version$minor))
+    path <- gsub("[0-9.]+/statR", paste0(curr_vers, "/", "statR"), path)
+  }
+
   if (!is.null(path) && !file.exists(path)) {
     stop("No config file found at ", path)
   }
 
-  configs <- readUserConfigStore(store_path)
-
   configs[configs$config_name == name, "config_path"] <- path
-
-  out <- configs
-
   store_file <- file.path(store_path, "statR_profile.csv")
-  write.table(out, store_file, row.names = FALSE, sep = ",")
+  write.table(configs, store_file, row.names = FALSE, sep = ",")
 }
 
 #' Loeschen eines Konfigurations-Eintrages
@@ -145,39 +148,35 @@ readUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
 }
 
 
-
-
-
-
+#' Extrahiert Defaults aus User Config und ersetzt Werte
+#' @param config Name der User Config
+#' @param params_to_check Vektor mit Parametern
+#' @importFrom purrr reduce2
+#' @keywords internal
 get_user_config <- function(config, params_to_check){
 
   initUserConfigStore()
-
   user_config <- readUserConfig(config)
-
   out <- unlist(user_config, recursive = FALSE)
-
   names(out) <- gsub(".*\\.", "", names(out))
-
   config_name <- tail(paste0("statR_", substitute(params_to_check)), -1)
-
-
-  user_config <- purrr::reduce2(params_to_check, config_name, ~ replace_by_parameter(..1, ..2, ..3), .init = out)
-
+  user_config <- purrr::reduce2(params_to_check, config_name,
+                                ~ replace_by_parameter(..1, ..2, ..3),
+                                .init = out)
   options(user_config)
 
-
-  if(!("statR_contactdetails" %in% names(user_config))){
+  if (!("statR_contactdetails" %in% names(user_config))){
     user_config$statR_contactdetails <- inputHelperContactInfo()
-
     options(user_config)
   }
-
-
-
 }
 
 
+#' Ersetzt Werte in aktiver Config mit gesetzten Parametern
+#' @param yaml_file Inhalt der aktiven Config
+#' @param parameter Wert des Parameters
+#' @param config_param_name Name des Parameters
+#' @keywords internal
 replace_by_parameter <- function(yaml_file, parameter, config_param_name) {
 
   if (!is.na(parameter)) {
@@ -185,15 +184,9 @@ replace_by_parameter <- function(yaml_file, parameter, config_param_name) {
       yaml_file[config_param_name] <- parameter
     } else {
       yaml_file$add <- parameter
-
       new_names <- c(head(names(yaml_file),-1), config_param_name)
-
       names(yaml_file) <- new_names
     }
-
   }
-
   return(yaml_file)
 }
-
-
