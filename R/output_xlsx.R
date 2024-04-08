@@ -37,6 +37,7 @@
 #'  in inches (1 inch = 2.54 cm), or a list of the same length as `datasets`
 #' @param index_title Title to be put on the index sheet.
 #' @param index_source Source to be shown below the index title.
+#' @param index_toc_title Title shown above the table of content.
 #' @param metadata_sheet A list with named elements 'title', 'source', and 'text'.
 #'  Intended for conveying long-form information. Default is NULL, not included.
 #' @param overwrite Overwrites the existing excel files with the same file name.
@@ -124,12 +125,12 @@
 datasetsXLSX <- function(
     file, datasets, sheetname = NULL, title = NULL, source = NULL,
     metadata = NULL, grouplines = NULL, group_names = NULL, plot_width = NULL,
-    plot_height = NULL, index_title = NA, index_source = NA, logo = NA,
-    contactdetails = NA, homepage = NA, openinghours = NA, auftrag_id = NULL,
+    plot_height = NULL, index_title = NA, index_source = NA, index_toc_title = NA,
+    logo = NA, contactdetails = NA, homepage = NA, openinghours = NA, auftrag_id = NULL,
     author = "user", metadata_sheet = NULL, overwrite = TRUE, config = "default") {
 
 
-  get_user_config(config, c(index_title, index_source, logo,
+  get_user_config(config, c(index_title, index_source, index_toc_title, logo,
                             contactdetails, homepage, openinghours))
 
   # "Optional" input arguments
@@ -178,7 +179,7 @@ datasetsXLSX <- function(
   sheetname <- verifyInputSheetnames(sheetname)
 
   wb <- openxlsx::createWorkbook()
-  insert_index_sheet(wb, sheetname = "Index", title = index_title,
+  insert_index_sheet(wb, sheetname = "Index", title = getOption("statR_index_title"),
                      auftrag_id = auftrag_id, logo = logo,
                      contactdetails = getOption("statR_contactdetails"),
                      homepage = getOption("statR_homepage"),
