@@ -45,12 +45,16 @@ addUserConfig <- function(name = "default", path = NULL,
                           store_path = "~/.config/R/statR") {
 
   store_file <- file.path(store_path, "statR_profile.csv")
+  configs <- readUserConfigStore(store_path)
 
-  if(!file.exists(store_file)){
+  lib_path <- dirname(dirname(system.file(package = "statR")))
+  current_path <- configs[configs$config_name == name, "config_path"]
+  default_path <- system.file("extdata/config/default.yaml", package = "statR")
+
+  if (!file.exists(store_file)){
     initUserConfigStore(store_path)
   }
 
-  configs <- readUserConfigStore(store_path)
   if (is.null(path) && name != "default") {
     stop("Kein Pfad zu config file angegeben")
   }
@@ -60,23 +64,30 @@ addUserConfig <- function(name = "default", path = NULL,
   }
 
   if (name == "default" && is.null(path)) {
-    path <- system.file("extdata/config/default.yaml", package = "statR")
+
+    if (length(current_path) == 0) {
+      path <- default_path
+
+    } else if (grepl(lib_path, current_path)) {
+      curr_vers <- paste0(version$major, ".", gsub(".[0-9]+$", "", version$minor))
+      path <- gsub("[0-9.]+/statR/extdata/config/default.yaml",
+                   paste0(curr_vers, "/", "statR/extdata/config/"), current_path)
+      updateUserConfig("default", path, store_path)
+    }
   }
 
-  if (name == "default" & "default" %in% configs$config_name){
-    updateUserConfig("default", path, store_path)
+  if (name == "default" && "default" %in% configs$config_name){
     return("Alles bereit")
   }
 
   if (name %in% configs$config_name){
 
-    if (configs[configs$config_name == name, "config_path"] == path){
+    if (current_path == path){
       stop("Diese Konfiguration existiert bereits! Verwende die ",
            "updateUserConfig()-Funktion um den Pfad zu aendern.")
 
     } else {
-      stop("Der Konfigurationsname: ",
-           configs[configs$config_name == name, "config_name"],
+      stop("Der Konfigurationsname: ", name,
            " existiert bereits. Setze einen neuen Pfad mit der ",
            "updateUserConfig()-Funktion")
     }
@@ -98,9 +109,9 @@ updateUserConfig <- function(name, path, store_path = "~/.config/R/statR"){
   configs <- readUserConfigStore(store_path)
 
   if (name == "default") {
-    path <- configs[configs$config_name == "default", "config_path"]
     curr_vers <- paste0(version$major, ".", gsub(".[0-9]+$", "", version$minor))
-    path <- gsub("[0-9.]+/statR", paste0(curr_vers, "/", "statR"), path)
+    path <- gsub("[0-9.]+/statR/extdata/config/",
+                 paste0(curr_vers, "/", "statR/extdata/config/"), path)
   }
 
   if (!is.null(path) && !file.exists(path)) {
