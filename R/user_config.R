@@ -70,7 +70,7 @@ addUserConfig <- function(name = "default", path = NULL,
 
     } else if (grepl(lib_path, current_path)) {
       curr_vers <- paste0(version$major, ".", gsub(".[0-9]+$", "", version$minor))
-      path <- gsub("[0-9.]+/statR/extdata/config/default.yaml",
+      path <- gsub("[0-9.]+/statR/extdata/config/",
                    paste0(curr_vers, "/", "statR/extdata/config/"), current_path)
       updateUserConfig("default", path, store_path)
     }
