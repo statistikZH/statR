@@ -256,11 +256,17 @@ theme_stat <- function(base_size = 11, axis.label.pos = "top", axis.lines = "x",
       legend.box.spacing = unit(0, "cm"),
       legend.box.margin = ggplot2::margin(0, 0, 1, -1, "mm"),
       legend.position = "top",
+      legend.location = "plot",
       legend.justification = "left",
       # legend.spacing = unit(c(0, 0, 0, 0), "mm"),
       legend.key.width = unit(4, "mm"),
       legend.key.height = unit(3, "mm")
     )+
+
+    # Titel
+    ggplot2::theme(
+      plot.title.position = "plot"
+    ) +
 
     # PLOT MARGINS
     ggplot2::theme(plot.margin = unit(c(0.3, 0.3, 0.3, 0.3), "cm"))
