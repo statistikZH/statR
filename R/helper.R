@@ -105,7 +105,7 @@ inputHelperLogoPath <- function(
       logo <- paste0(find.package("statR"), "/extdata/Stempel_Kanton_ZH.png")
 
     } else if (logo == "statzh") {
-      logo <- paste0(find.package("statR"), "/extdata/Stempel_STAT-01.png")
+      logo <- paste0(find.package("statR"), "/extdata/Stempel_ASD.png")
     }
 
     logo <- add_plot_size(logo, c(width, height))

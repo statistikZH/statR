@@ -4,12 +4,12 @@ testthat::test_that(
   {
 
     testthat::expect_no_error(
-      quickXLSX(data = mtcars, file = output_file_path, logo = "fixtures/logo.png"))
+      quickXLSX(data = mtcars, file = output_file_path, logo = "fixtures/Stempel_ASD.png"))
     testthat::expect_no_error(
-      aXLSX(data = mtcars, file = output_file_path, logo = "fixtures/logo.png"))
+      aXLSX(data = mtcars, file = output_file_path, logo = "fixtures/Stempel_ASD.png"))
     testthat::expect_no_error(
       splitXLSX(data = mtcars, file = output_file_path, sheetvar = "cyl",
-                logo = "fixtures/logo.png"))
+                logo = "fixtures/Stempel_ASD.png"))
 
     cleanup_test("test_out")
   }
