@@ -8,7 +8,6 @@
 #'  von Header-Config-Yaml-Files liegen soll
 #' @export
 initUserConfigStore <- function(store_path = "~/.config/R/statR") {
-
   if (!dir.exists(store_path)) {
     dir.create(store_path, recursive = TRUE)
   }
@@ -18,12 +17,9 @@ initUserConfigStore <- function(store_path = "~/.config/R/statR") {
   if (!file.exists(store_file)) {
     file.create(store_file)
     writeLines("config_name,config_path", store_file)
-
   }
 
-
   addUserConfig(store_path = store_path)
-
 }
 
 
@@ -43,16 +39,22 @@ readUserConfigStore <- function(store_path = "~/.config/R/statR") {
 #' @param path Pfad zum Header-Konfigurations-Yaml-File
 #' @inheritParams initUserConfigStore
 #' @export
-addUserConfig <- function(name = "default", path = NULL,
-                          store_path = "~/.config/R/statR") {
-
+addUserConfig <- function(
+  name = "default",
+  path = NULL,
+  store_path = "~/.config/R/statR"
+) {
   store_file <- file.path(store_path, "statR_profile.csv")
+  configs <- readUserConfigStore(store_path)
 
-  if(!file.exists(store_file)){
+  lib_path <- dirname(dirname(system.file(package = "statR")))
+  current_path <- configs[configs$config_name == name, "config_path"]
+  default_path <- system.file("extdata/config/default.yaml", package = "statR")
+
+  if (!file.exists(store_file)) {
     initUserConfigStore(store_path)
   }
 
-  configs <- readUserConfigStore(store_path)
   if (is.null(path) && name != "default") {
     stop("Kein Pfad zu config file angegeben")
   }
@@ -62,24 +64,40 @@ addUserConfig <- function(name = "default", path = NULL,
   }
 
   if (name == "default" && is.null(path)) {
-    path <- system.file("extdata/config/default.yaml", package = "statR")
+    if (length(current_path) == 0) {
+      path <- default_path
+    } else if (grepl(lib_path, current_path)) {
+      curr_vers <- paste0(
+        version$major,
+        ".",
+        gsub(".[0-9]+$", "", version$minor)
+      )
+      path <- gsub(
+        "[0-9.]+/statR/extdata/config/",
+        paste0(curr_vers, "/", "statR/extdata/config/"),
+        current_path
+      )
+      updateUserConfig("default", path, store_path)
+    }
   }
 
-  if (name == "default" & "default" %in% configs$config_name){
+  if (name == "default" && "default" %in% configs$config_name) {
     return("Alles bereit")
   }
 
-  if (name %in% configs$config_name){
-
-    if (configs[configs$config_name == name, "config_path"] == path){
-      stop("Diese Konfiguration existiert bereits! Verwende die ",
-           "updateUserConfig()-Funktion um den Pfad zu aendern.")
-
+  if (name %in% configs$config_name) {
+    if (current_path == path) {
+      stop(
+        "Diese Konfiguration existiert bereits! Verwende die ",
+        "updateUserConfig()-Funktion um den Pfad zu aendern."
+      )
     } else {
-      stop("Der Konfigurationsname: ",
-           configs[configs$config_name == name, "config_name"],
-           " existiert bereits. Setze einen neuen Pfad mit der ",
-           "updateUserConfig()-Funktion")
+      stop(
+        "Der Konfigurationsname: ",
+        name,
+        " existiert bereits. Setze einen neuen Pfad mit der ",
+        "updateUserConfig()-Funktion"
+      )
     }
   }
 
@@ -94,19 +112,25 @@ addUserConfig <- function(name = "default", path = NULL,
 #' @param path Pfad zum Header-Konfigurations-Yaml-File
 #' @inheritParams initUserConfigStore
 #' @export
-updateUserConfig <- function(name, path, store_path = "~/.config/R/statR"){
+updateUserConfig <- function(name, path, store_path = "~/.config/R/statR") {
+  configs <- readUserConfigStore(store_path)
+
+  if (name == "default") {
+    curr_vers <- paste0(version$major, ".", gsub(".[0-9]+$", "", version$minor))
+    path <- gsub(
+      "[0-9.]+/statR/extdata/config/",
+      paste0(curr_vers, "/", "statR/extdata/config/"),
+      path
+    )
+  }
+
   if (!is.null(path) && !file.exists(path)) {
     stop("No config file found at ", path)
   }
 
-  configs <- readUserConfigStore(store_path)
-
   configs[configs$config_name == name, "config_path"] <- path
-
-  out <- configs
-
   store_file <- file.path(store_path, "statR_profile.csv")
-  write.table(out, store_file, row.names = FALSE, sep = ",")
+  write.table(configs, store_file, row.names = FALSE, sep = ",")
 }
 
 #' Loeschen eines Konfigurations-Eintrages
@@ -115,16 +139,21 @@ updateUserConfig <- function(name, path, store_path = "~/.config/R/statR"){
 #' @inheritParams initUserConfigStore
 #' @export
 removeUserConfig <- function(name, store_path = "~/.config/R/statR") {
-
   if (name == "default") {
-    stop("Der Default-Wert kann nicht geloescht werden. Wenn du den Pfad ",
-         "anpassen moechtest, verwende die updateUserConfig()-Funktion")
+    stop(
+      "Der Default-Wert kann nicht geloescht werden. Wenn du den Pfad ",
+      "anpassen moechtest, verwende die updateUserConfig()-Funktion"
+    )
   }
 
   store_file <- file.path(store_path, "statR_profile.csv")
   configs <- readUserConfigStore(store_path)
-  write.table(subset(configs, configs$config_name != name),
-              store_file, row.names = FALSE, sep = ",")
+  write.table(
+    subset(configs, configs$config_name != name),
+    store_file,
+    row.names = FALSE,
+    sep = ","
+  )
 }
 
 
@@ -145,55 +174,46 @@ readUserConfig <- function(name = "default", store_path = "~/.config/R/statR") {
 }
 
 
-
-
-
-
-get_user_config <- function(config, params_to_check){
-
+#' Extrahiert Defaults aus User Config und ersetzt Werte
+#' @param config Name der User Config
+#' @param params_to_check Vektor mit Parametern
+#' @importFrom purrr reduce2
+#' @keywords internal
+get_user_config <- function(config, params_to_check) {
   initUserConfigStore()
-
   user_config <- readUserConfig(config)
-
   out <- unlist(user_config, recursive = FALSE)
-
   names(out) <- gsub(".*\\.", "", names(out))
-
   config_name <- tail(paste0("statR_", substitute(params_to_check)), -1)
-
-
-  user_config <- purrr::reduce2(params_to_check, config_name, ~ replace_by_parameter(..1, ..2, ..3), .init = out)
-
+  user_config <- purrr::reduce2(
+    params_to_check,
+    config_name,
+    ~ replace_by_parameter(..1, ..2, ..3),
+    .init = out
+  )
   options(user_config)
 
-
-  if(!("statR_contactdetails" %in% names(user_config))){
+  if (!("statR_contactdetails" %in% names(user_config))) {
     user_config$statR_contactdetails <- inputHelperContactInfo()
-
     options(user_config)
   }
-
-
-
 }
 
 
+#' Ersetzt Werte in aktiver Config mit gesetzten Parametern
+#' @param yaml_file Inhalt der aktiven Config
+#' @param parameter Wert des Parameters
+#' @param config_param_name Name des Parameters
+#' @keywords internal
 replace_by_parameter <- function(yaml_file, parameter, config_param_name) {
-
   if (!is.na(parameter)) {
-    if(config_param_name %in% names(yaml_file)){
+    if (config_param_name %in% names(yaml_file)) {
       yaml_file[config_param_name] <- parameter
     } else {
       yaml_file$add <- parameter
-
-      new_names <- c(head(names(yaml_file),-1), config_param_name)
-
+      new_names <- c(head(names(yaml_file), -1), config_param_name)
       names(yaml_file) <- new_names
     }
-
   }
-
   return(yaml_file)
 }
-
-

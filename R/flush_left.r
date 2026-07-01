@@ -13,7 +13,6 @@
 #' @keywords flush_left
 #' @export
 flush_left <- function(g) {
-
   xout <- ggplot2::ggplotGrob(g)
   xout$layout$l[xout$layout$name == "title"] <- 1
   xout$layout$l[xout$layout$name == "subtitle"] <- 1

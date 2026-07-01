@@ -9,19 +9,30 @@
 #' @keywords internal
 #' @noRd
 verifyInputSheetname <- function(sheetname) {
-
   forbidden_chars <- c("/", "\\", "?", "*", ":", "[", "]")
-  pattern <- paste0("(", paste0(
-    paste0("\\", forbidden_chars), collapse = "|"), ")")
+  pattern <- paste0(
+    "(",
+    paste0(
+      paste0("\\", forbidden_chars),
+      collapse = "|"
+    ),
+    ")"
+  )
 
   if (nchar(sheetname) > 31) {
-    message("sheetname ", sheetname, "truncated at 31 characters (Excel limit).")
+    message(
+      "sheetname ",
+      sheetname,
+      "truncated at 31 characters (Excel limit)."
+    )
     sheetname <- substr(sheetname, 0, 31)
   }
 
   if (grepl(pattern, sheetname)) {
-    message("Found (and replaced with '_') forbidden characters: ",
-            paste(forbidden_chars, collapse = " "))
+    message(
+      "Found (and replaced with '_') forbidden characters: ",
+      paste(forbidden_chars, collapse = " ")
+    )
     sheetname <- gsub(pattern, "_", sheetname)
   }
 
@@ -41,14 +52,15 @@ verifyInputSheetname <- function(sheetname) {
 #' @keywords internal
 #' @noRd
 verifyInputSheetnames <- function(sheetnames) {
-
   output_sheetnames <- lapply(sheetnames, verifyInputSheetname)
   counts <- table(unlist(output_sheetnames))
 
   if (any(counts > 1)) {
     duplicates <- names(counts)[counts > 1]
-    stop("Duplicate sheetnames after truncation for datasets ",
-         paste(which(output_sheetnames %in% duplicates), collapse = ", "))
+    stop(
+      "Duplicate sheetnames after truncation for datasets ",
+      paste(which(output_sheetnames %in% duplicates), collapse = ", ")
+    )
   }
 
   return(output_sheetnames)
@@ -93,19 +105,17 @@ verifyDataUngrouped <- function(data) {
 #' @keywords internal
 #' @noRd
 inputHelperLogoPath <- function(
-    logo, width = getOption("statR_logo_width"),
-    height = getOption("statR_logo_height")) {
-
+  logo,
+  width = getOption("statR_logo_width"),
+  height = getOption("statR_logo_height")
+) {
   if (is.null(logo)) {
     message("No logo added.")
-
   } else {
-
     if (logo == "zh") {
       logo <- paste0(find.package("statR"), "/extdata/Stempel_Kanton_ZH.png")
-
     } else if (logo == "statzh") {
-      logo <- paste0(find.package("statR"), "/extdata/Stempel_STAT-01.png")
+      logo <- paste0(find.package("statR"), "/extdata/Stempel_ASD.png")
     }
 
     logo <- add_plot_size(logo, c(width, height))
@@ -125,17 +135,20 @@ inputHelperLogoPath <- function(
 #' @returns A character vector
 #' @export
 inputHelperContactInfo <- function(compact = FALSE) {
-
   phone <- inputHelperPhone(getOption("statR_phone"))
 
   contact_details <- if (compact) {
-    c(paste(getOption("statR_name"), phone, sep = ", "),
-      getOption("statR_email"))
+    c(
+      paste(getOption("statR_name"), phone, sep = ", "),
+      getOption("statR_email")
+    )
   } else {
-    c(getOption("statR_organization"),
+    c(
+      getOption("statR_organization"),
       getOption("statR_name"),
       phone,
-      getOption("statR_email"))
+      getOption("statR_email")
+    )
   }
 
   options(statR_contactdetails = contact_details)
@@ -180,8 +193,10 @@ inputHelperPhone <- function(phone, prefix = getOption("statR_prefix_phone")) {
 #' @keywords internal
 #' @seealso format
 #' @noRd
-inputHelperDateCreated <- function(prefix = getOption("statR_prefix_date"),
-                                   date_format = getOption("statR_date_format")) {
+inputHelperDateCreated <- function(
+  prefix = getOption("statR_prefix_date"),
+  date_format = getOption("statR_date_format")
+) {
   paste(prefix, format(Sys.Date(), format = date_format))
 }
 
@@ -193,8 +208,10 @@ inputHelperDateCreated <- function(prefix = getOption("statR_prefix_date"),
 #' @keywords internal
 #' @seealso format
 #' @noRd
-inputHelperOrderNumber <- function(order_num,
-                                   prefix = getOption("statR_prefix_order_id")) {
+inputHelperOrderNumber <- function(
+  order_num,
+  prefix = getOption("statR_prefix_order_id")
+) {
   if (!is.null(order_num)) {
     order_num <- paste(prefix, order_num)
   }
@@ -212,9 +229,10 @@ inputHelperOrderNumber <- function(order_num,
 #' @keywords internal
 #' @noRd
 #'
-inputHelperAuthorName <- function(author,
-                                  prefix = getOption("statR_prefix_author")) {
-
+inputHelperAuthorName <- function(
+  author,
+  prefix = getOption("statR_prefix_author")
+) {
   if (is.null(author) || is.na(author)) {
     return(NULL)
   }
@@ -237,7 +255,6 @@ inputHelperAuthorName <- function(author,
 #' @keywords internal
 #' @importFrom utils stack
 excelIndexToRowCol <- function(index) {
-
   splitIndex <- function(x, split = "") unlist(strsplit(x, split))
 
   excelColumnLetterToNumeric <- function(x) {
@@ -252,13 +269,17 @@ excelIndexToRowCol <- function(index) {
     extents <- unique(do.call(rbind, lapply(extents, stack)))
     rows <- extents[extents$ind == "row", "values"]
     cols <- extents[extents$ind == "col", "values"]
-    return(list(row = seq(min(rows), max(rows)),
-                col = seq(min(cols), max(cols))))
+    return(list(
+      row = seq(min(rows), max(rows)),
+      col = seq(min(cols), max(cols))
+    ))
   }
 
   # Single index
-  column_index <- sapply(splitIndex(gsub("([0-9]+)", "", index), ":"),
-                         excelColumnLetterToNumeric)
+  column_index <- sapply(
+    splitIndex(gsub("([0-9]+)", "", index), ":"),
+    excelColumnLetterToNumeric
+  )
 
   rows <- eval(parse(text = gsub("([A-Z]{1,3})", "", index)))
   cols <- seq(min(column_index), max(column_index))
@@ -280,13 +301,16 @@ excelIndexToRowCol <- function(index) {
 #' @returns A list with two numeric vectors row and col, containing
 #'   row and column indices.
 #' @keywords internal
-namedRegionExtent <- function(wb, sheetname, region_name = NULL,
-                              which = "both") {
+namedRegionExtent <- function(
+  wb,
+  sheetname,
+  region_name = NULL,
+  which = "both"
+) {
   named_regions <- openxlsx::getNamedRegions(wb)
 
   if (!(sheetname %in% names(wb))) {
     stop("Sheetname does not exist in Workbook")
-
   } else if (all(is.null(named_regions))) {
     stop("No named regions defined.")
   }
@@ -390,16 +414,16 @@ cleanNamedRegions <- function(wb, which = c("keep_data", "all")) {
   }
 
   if (length(delete_regions > 0)) {
-    purrr::walk(delete_regions, ~openxlsx::deleteNamedRegion(wb, .))
+    purrr::walk(delete_regions, ~ openxlsx::deleteNamedRegion(wb, .))
   }
 }
-
 
 
 #' Convert missing input to NULL
 #'
 #' @keywords internal
 missingToNull <- function(input_value) {
-  if (!missing(input_value))
+  if (!missing(input_value)) {
     return(input_value)
+  }
 }

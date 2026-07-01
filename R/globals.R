@@ -1,5 +1,5 @@
 utils::globalVariables(
   c(
-    "Anzahl"  # quick_sum
+    "Anzahl" # quick_sum
   )
 )

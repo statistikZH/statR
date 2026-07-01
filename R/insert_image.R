@@ -30,33 +30,54 @@
 #' @keywords insert_worksheet_image
 #' @importFrom methods is
 #' @export
-insert_worksheet_image <- function(wb, sheetname, image, title = NULL,
-                                   source = NULL, metadata = NULL, width = NULL,
-                                   height = NULL, startrow = 3, startcol = 3,
-                                   units = "in", dpi = 300) {
-
+insert_worksheet_image <- function(
+  wb,
+  sheetname,
+  image,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
+  width = NULL,
+  height = NULL,
+  startrow = 3,
+  startcol = 3,
+  units = "in",
+  dpi = 300
+) {
   for (value in c("title", "source", "metadata")) {
     if (is.null(eval(as.name(value)))) {
       assign(value, extract_attribute(image, value))
     }
   }
 
-  if (is.null(width)) width <- extract_attribute(image, "plot_width", TRUE)
-  if (is.null(height)) height <- extract_attribute(image, "plot_height", TRUE)
+  if (is.null(width)) {
+    width <- extract_attribute(image, "plot_width", TRUE)
+  }
+  if (is.null(height)) {
+    height <- extract_attribute(image, "plot_height", TRUE)
+  }
 
   # If image is.null, pass
-  if (is.null(image)) return()
+  if (is.null(image)) {
+    return()
+  }
 
   if (checkImplementedPlotType(image)) {
     image_path <- ifelse(is.character(image), image, tempfile(fileext = ".png"))
-
   } else {
     stop("Plot muss ein ggplot Objekt oder Dateipfad sein.")
   }
 
   if (inherits(image, c("gg", "ggplot"))) {
-    ggplot2::ggsave(image_path, plot = image, device = "png",
-                    width = width, height = height, units = units, dpi = dpi)
+    ggplot2::ggsave(
+      image_path,
+      plot = image,
+      device = "png",
+      width = width,
+      height = height,
+      units = units,
+      dpi = dpi
+    )
   }
 
   # If file not found at image_path, warn and pass
@@ -71,22 +92,54 @@ insert_worksheet_image <- function(wb, sheetname, image, title = NULL,
   }
 
   if (is.character(title)) {
-    writeText(wb, sheetname, title, startrow, startcol + 0:17, style_title(), "imgtitle")
+    writeText(
+      wb,
+      sheetname,
+      title,
+      startrow,
+      startcol + 0:17,
+      style_title(),
+      "imgtitle"
+    )
     startrow <- namedRegionLastRow(wb, sheetname, "imgtitle") + 1
   }
 
   if (is.character(source)) {
-    writeText(wb, sheetname, source, startrow, startcol + 0:17, style_subtitle(), "imgsource")
+    writeText(
+      wb,
+      sheetname,
+      source,
+      startrow,
+      startcol + 0:17,
+      style_subtitle(),
+      "imgsource"
+    )
     startrow <- namedRegionLastRow(wb, sheetname, "imgsource") + 1
   }
 
   if (is.character(metadata)) {
-    writeText(wb, sheetname, metadata, startrow, startcol + 0:17, style_subtitle(), "imgmetadata")
+    writeText(
+      wb,
+      sheetname,
+      metadata,
+      startrow,
+      startcol + 0:17,
+      style_subtitle(),
+      "imgmetadata"
+    )
     startrow <- namedRegionLastRow(wb, sheetname, "imgmetadata") + 1
   }
 
   # Insert image ---------
-  openxlsx::insertImage(wb, sheet = sheetname, file = image_path,
-                        width = width, height = height, startRow = startrow,
-                        startCol = startcol, units = units, dpi = dpi)
+  openxlsx::insertImage(
+    wb,
+    sheet = sheetname,
+    file = image_path,
+    width = width,
+    height = height,
+    startRow = startrow,
+    startCol = startcol,
+    units = units,
+    dpi = dpi
+  )
 }

@@ -1,3 +1,10 @@
+# statR 2.4.2
+* Rename to "Amt für Statistik und Daten" in the default config
+* theme_stat: Adjust legend to be left aligned with the y-axis labels
+* Allow different title for Table of Content (TOC) in the index sheet
+* Replace depracated variable `size` with `linewidth` in `element_line`
+* Fix GitHub Action RCMD-Check
+
 # statR 2.4.1
 * The store file for user configurations is no longer initialized as part of 
   .onload() as this caused issues during package installation. Instead, the
