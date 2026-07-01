@@ -15,24 +15,39 @@
 #' @keywords writeText
 #' @export
 writeText <- function(wb, sheetname, x, row, column, style, name) {
-
-  openxlsx::writeData(wb, sheetname, as.character(x), min(column), min(row),
-    name = paste(sheetname, name, sep = "_"))
+  openxlsx::writeData(
+    wb,
+    sheetname,
+    as.character(x),
+    min(column),
+    min(row),
+    name = paste(sheetname, name, sep = "_")
+  )
 
   row_extent <- namedRegionRowExtent(wb, sheetname, name)
   col_extent <- min(column):max(column)
 
   if (length(col_extent) > 1) {
-    purrr::walk(row_extent,
-                ~openxlsx::mergeCells(wb, sheetname, cols = col_extent, rows = .))
+    purrr::walk(
+      row_extent,
+      ~ openxlsx::mergeCells(wb, sheetname, cols = col_extent, rows = .)
+    )
   }
 
   if (inherits(style, "Style")) {
     openxlsx::addStyle(
-      wb, sheetname, style, row_extent, min(column))
+      wb,
+      sheetname,
+      style,
+      row_extent,
+      min(column)
+    )
   }
 
-  if (!is.null(attr(x, "row_heights")) && length(attr(x, "row_heights")) == length(x)) {
+  if (
+    !is.null(attr(x, "row_heights")) &&
+      length(attr(x, "row_heights")) == length(x)
+  ) {
     openxlsx::setRowHeights(wb, sheetname, row_extent, attr(x, "row_heights"))
   }
 }

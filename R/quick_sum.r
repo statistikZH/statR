@@ -48,20 +48,27 @@ quick_sum <- function(df, var, ..., stats = "all", protect = FALSE) {
 
   if (stats %in% c("base")) {
     df %>%
-    dplyr::group_by(!!!grps) %>%
-    dplyr::summarise(
-      Anzahl = dplyr::n(),
-      !!mean_name := ifelse(Anzahl <= n1, NA,
-                            mean(!!var, na.rm = TRUE)),
-      !!q25_name := ifelse(Anzahl <= n2, NA,
-                           quantile(!!var, probs = 0.25, na.rm = TRUE)),
-      !!med_name := ifelse(Anzahl <= n1, NA,
-                           median(!!var, probs = 0.5, na.rm = TRUE)),
-      !!q75_name := ifelse(Anzahl <= n2, NA,
-                           quantile(!!var, probs = 0.75, na.rm = TRUE))
-    )%>%
-    dplyr::ungroup()
-
+      dplyr::group_by(!!!grps) %>%
+      dplyr::summarise(
+        Anzahl = dplyr::n(),
+        !!mean_name := ifelse(Anzahl <= n1, NA, mean(!!var, na.rm = TRUE)),
+        !!q25_name := ifelse(
+          Anzahl <= n2,
+          NA,
+          quantile(!!var, probs = 0.25, na.rm = TRUE)
+        ),
+        !!med_name := ifelse(
+          Anzahl <= n1,
+          NA,
+          median(!!var, probs = 0.5, na.rm = TRUE)
+        ),
+        !!q75_name := ifelse(
+          Anzahl <= n2,
+          NA,
+          quantile(!!var, probs = 0.75, na.rm = TRUE)
+        )
+      ) %>%
+      dplyr::ungroup()
   } else if (stats %in% c("all")) {
     df %>%
       dplyr::group_by(!!!grps) %>%
@@ -69,19 +76,33 @@ quick_sum <- function(df, var, ..., stats = "all", protect = FALSE) {
         Anzahl = dplyr::n(),
         !!mean_name := ifelse(Anzahl <= n1, NA, mean(!!var, na.rm = TRUE)),
         !!sd_name := ifelse(Anzahl <= n2, NA, sd(!!var, na.rm = TRUE)),
-        !!q10_name := ifelse(Anzahl <= n2, NA,
-                             quantile(!!var, probs = 0.1, na.rm = TRUE)),
-        !!q25_name := ifelse(Anzahl <= n2, NA,
-                             quantile(!!var, probs = 0.25, na.rm = TRUE)),
-        !!med_name := ifelse(Anzahl <= n1, NA,
-                             median(!!var, probs = 0.5, na.rm = TRUE)),
-        !!q75_name := ifelse(Anzahl <= n2, NA,
-                             quantile(!!var, probs = 0.75, na.rm = TRUE)),
-        !!q90_name := ifelse(Anzahl <= n2, NA,
-                             quantile(!!var, probs = 0.9, na.rm = TRUE))
+        !!q10_name := ifelse(
+          Anzahl <= n2,
+          NA,
+          quantile(!!var, probs = 0.1, na.rm = TRUE)
+        ),
+        !!q25_name := ifelse(
+          Anzahl <= n2,
+          NA,
+          quantile(!!var, probs = 0.25, na.rm = TRUE)
+        ),
+        !!med_name := ifelse(
+          Anzahl <= n1,
+          NA,
+          median(!!var, probs = 0.5, na.rm = TRUE)
+        ),
+        !!q75_name := ifelse(
+          Anzahl <= n2,
+          NA,
+          quantile(!!var, probs = 0.75, na.rm = TRUE)
+        ),
+        !!q90_name := ifelse(
+          Anzahl <= n2,
+          NA,
+          quantile(!!var, probs = 0.9, na.rm = TRUE)
+        )
       ) %>%
       dplyr::ungroup()
-
   } else if (stats %in% c("mean")) {
     df %>%
       dplyr::group_by(!!!grps) %>%

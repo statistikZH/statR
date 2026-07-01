@@ -142,8 +142,9 @@ add_group_names <- function(object, value) {
 #' @rdname add_attribute
 #' @export
 add_plot_size <- function(object, value) {
-
-  if (all(is.na(value))) return(object)
+  if (all(is.na(value))) {
+    return(object)
+  }
 
   if (!checkImplementedPlotType(object)) {
     warning("Tried to attach plot dimension attributes to non-plot object")
@@ -165,10 +166,17 @@ add_plot_size <- function(object, value) {
 #' data.frame.
 #' @param object Input data.frame
 #' @keywords internal
-check_for_attributes <- function(object){
-  attributes_to_check <- c("title", "source", "metadata", "grouplines",
-                           "group_names", "metadata_sheet", "plot_width",
-                           "plot_height")
+check_for_attributes <- function(object) {
+  attributes_to_check <- c(
+    "title",
+    "source",
+    "metadata",
+    "grouplines",
+    "group_names",
+    "metadata_sheet",
+    "plot_width",
+    "plot_height"
+  )
 
   check <- names(attributes(object))
   return(any(attributes_to_check %in% check))
@@ -190,18 +198,15 @@ check_for_attributes <- function(object){
 #' @rdname extract_attribute
 #' @export
 extract_attribute <- function(object, which, required_val = FALSE) {
-
   value <- attr(object, which)
 
   if (all(is.null(value))) {
-
     if (required_val) {
       value <- getOption(paste0("statR_default_", which))
 
       if (all(is.null(value))) {
         stop("No default value found for required argument ", which)
       }
-
     } else {
       value <- NA
     }
@@ -219,7 +224,8 @@ extract_attributes <- function(object_list, which, required_val = FALSE) {
       extract_attribute(object_list[[i]], which, required_val),
       error = function(err) {
         stop("missing value in required field '", which, "' of dataset ", i)
-      })
+      }
+    )
   }
 
   return(values)

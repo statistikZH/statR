@@ -65,28 +65,56 @@
 #'
 #' @keywords insert_worksheet
 #' @export
-insert_worksheet <- function(wb, sheetname, data, title = NULL,
-                             source = NULL, metadata = NULL,
-                             grouplines = NULL, group_names = NULL,
-                             logo = getOption("statR_logo"),
-                             contactdetails = inputHelperContactInfo(),
-                             homepage = getOption("statR_homepage"),
-                             author = "user") {
-
+insert_worksheet <- function(
+  wb,
+  sheetname,
+  data,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
+  grouplines = NULL,
+  group_names = NULL,
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  homepage = getOption("statR_homepage"),
+  author = "user"
+) {
   sheetname <- verifyInputSheetname(sheetname)
-  insert_header(wb, sheetname, logo, contactdetails, homepage, NULL, author,
-                NULL, contact_col = max(ncol(data) - 2, 4))
-  insert_worksheet_nh(wb, sheetname, data, title = title, source = source,
-                      metadata = metadata, grouplines = grouplines,
-                      group_names = group_names)
+  insert_header(
+    wb,
+    sheetname,
+    logo,
+    contactdetails,
+    homepage,
+    NULL,
+    author,
+    NULL,
+    contact_col = max(ncol(data) - 2, 4)
+  )
+  insert_worksheet_nh(
+    wb,
+    sheetname,
+    data,
+    title = title,
+    source = source,
+    metadata = metadata,
+    grouplines = grouplines,
+    group_names = group_names
+  )
 }
 
 #' @rdname insert_worksheet
 #' @export
-insert_worksheet_nh <- function(wb, sheetname, data, title = NULL, source = NULL,
-                                metadata = NULL, grouplines = NULL,
-                                group_names = NULL) {
-
+insert_worksheet_nh <- function(
+  wb,
+  sheetname,
+  data,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
+  grouplines = NULL,
+  group_names = NULL
+) {
   for (value in c("title", "source", "metadata", "grouplines", "group_names")) {
     if (is.null(eval(as.name(value)))) {
       assign(value, extract_attribute(data, value))
@@ -98,12 +126,17 @@ insert_worksheet_nh <- function(wb, sheetname, data, title = NULL, source = NULL
   if (!(sheetname %in% names(wb))) {
     openxlsx::addWorksheet(wb, sheetname)
     start_row <- 1
-
   } else {
     start_row <- namedRegionLastRow(wb, sheetname) + 3
   }
 
-  openxlsx::createNamedRegion(wb, sheetname, 1, start_row, paste0(sheetname, "_content_start"))
+  openxlsx::createNamedRegion(
+    wb,
+    sheetname,
+    1,
+    start_row,
+    paste0(sheetname, "_content_start")
+  )
 
   # Insert title, metadata, and sources into worksheet --------
   if (is.character(title)) {
@@ -112,112 +145,209 @@ insert_worksheet_nh <- function(wb, sheetname, data, title = NULL, source = NULL
   }
 
   if (is.character(source)) {
-    writeText(wb, sheetname, source, start_row, 1:18, style_subtitle(), "source")
+    writeText(
+      wb,
+      sheetname,
+      source,
+      start_row,
+      1:18,
+      style_subtitle(),
+      "source"
+    )
     start_row <- namedRegionLastRow(wb, sheetname, "source") + 1
   }
 
   if (is.character(metadata)) {
-    writeText(wb, sheetname, metadata, start_row, 1:18, style_subtitle(), "metadata")
+    writeText(
+      wb,
+      sheetname,
+      metadata,
+      start_row,
+      1:18,
+      style_subtitle(),
+      "metadata"
+    )
     start_row <- namedRegionLastRow(wb, sheetname, "metadata") + 1
   }
 
-  data_start_row <- max(namedRegionLastRow(wb, sheetname, c("content_start, title", "source", "metadata")) + 2,
-                        start_row)
+  data_start_row <- max(
+    namedRegionLastRow(
+      wb,
+      sheetname,
+      c("content_start, title", "source", "metadata")
+    ) +
+      2,
+    start_row
+  )
 
   # Grouplines ---------
   if (!any(is.null(grouplines)) & !any(is.na(grouplines))) {
     if (is.numeric(grouplines)) {
       groupline_numbers <- grouplines
-
     } else if (is.character(grouplines)) {
       groupline_numbers <- match(grouplines, colnames(data))
     }
 
     ### Insert second header
     if (!any(is.null(group_names)) & !any(is.na(group_names))) {
-      insert_second_header(wb, sheetname, data_start_row, group_names, grouplines, data)
+      insert_second_header(
+        wb,
+        sheetname,
+        data_start_row,
+        group_names,
+        grouplines,
+        data
+      )
       data_start_row <- data_start_row + 1
     }
 
     data_row_extent <- data_start_row + 0:nrow(data)
-    openxlsx::addStyle(wb, sheetname, style_leftline(),
-                       data_row_extent, groupline_numbers,
-                       gridExpand = TRUE, stack = TRUE)
+    openxlsx::addStyle(
+      wb,
+      sheetname,
+      style_leftline(),
+      data_row_extent,
+      groupline_numbers,
+      gridExpand = TRUE,
+      stack = TRUE
+    )
   }
 
   ### Pad colnames using whitespaces for better auto-fitting of column width
   colnames(data) <- paste0(colnames(data), "  ", sep = "")
 
-  openxlsx::writeData(wb, sheetname, verifyDataUngrouped(data),
-                      startRow = data_start_row, rowNames = FALSE,
-                      withFilter = FALSE,
-                      name = paste(sheetname, "data", sep = "_"))
-  openxlsx::addStyle(wb, sheetname, style_header(), data_start_row,
-                     1:ncol(data), gridExpand = TRUE, stack = TRUE)
+  openxlsx::writeData(
+    wb,
+    sheetname,
+    verifyDataUngrouped(data),
+    startRow = data_start_row,
+    rowNames = FALSE,
+    withFilter = FALSE,
+    name = paste(sheetname, "data", sep = "_")
+  )
+  openxlsx::addStyle(
+    wb,
+    sheetname,
+    style_header(),
+    data_start_row,
+    1:ncol(data),
+    gridExpand = TRUE,
+    stack = TRUE
+  )
 
   ### Define minimum column width
   options("openxlsx.minWidth" = 5)
 
   ### Use automatic column width for columns with data
-  openxlsx::setColWidths(wb, sheetname, 1:ncol(data), "auto",
-                         ignoreMergedCells = TRUE)
+  openxlsx::setColWidths(
+    wb,
+    sheetname,
+    1:ncol(data),
+    "auto",
+    ignoreMergedCells = TRUE
+  )
 }
 
 #' @rdname insert_worksheet
 #' @export
-insert_header <- function(wb, sheetname, logo = getOption("statR_logo"),
-                          contactdetails = inputHelperContactInfo(),
-                          homepage = getOption("statR_homepage"),
-                          auftrag_id = NULL, author = "user",
-                          openinghours = NULL, contact_col = 13) {
-
+insert_header <- function(
+  wb,
+  sheetname,
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(),
+  homepage = getOption("statR_homepage"),
+  auftrag_id = NULL,
+  author = "user",
+  openinghours = NULL,
+  contact_col = 13
+) {
   logo <- inputHelperLogoPath(getOption("statR_logo"))
 
-
   sheetname <- verifyInputSheetname(sheetname)
-  if (!(sheetname %in% names(wb))) openxlsx::addWorksheet(wb, sheetname)
+  if (!(sheetname %in% names(wb))) {
+    openxlsx::addWorksheet(wb, sheetname)
+  }
 
   # Insert logo ------
-  insert_worksheet_image(wb, sheetname, image = logo,
-                         startrow = 1, startcol = 1)
+  insert_worksheet_image(
+    wb,
+    sheetname,
+    image = logo,
+    startrow = 1,
+    startcol = 1
+  )
 
   start_row <- 2
-  openxlsx::createNamedRegion(wb, sheetname, contact_col + 0:4, start_row,
-                              paste0(sheetname, "_header_start"))
+  openxlsx::createNamedRegion(
+    wb,
+    sheetname,
+    contact_col + 0:4,
+    start_row,
+    paste0(sheetname, "_header_start")
+  )
 
   fields <- list(
     contact = unlist(contactdetails),
     homepage = inputHelperHomepage(homepage),
-    info = c(paste(inputHelperDateCreated(), inputHelperAuthorName(author)),
-             inputHelperOrderNumber(auftrag_id))
+    info = c(
+      paste(inputHelperDateCreated(), inputHelperAuthorName(author)),
+      inputHelperOrderNumber(auftrag_id)
+    )
   )
 
   fields <- fields[!is.na(fields)]
 
   # Insert contact info, date created, and author -----
-  for (field_name in names(fields)){
+  for (field_name in names(fields)) {
     if (is.character(fields[[field_name]])) {
-      writeText(wb, sheetname, fields[[field_name]], start_row, contact_col + 0:4,
-                NULL, field_name)
+      writeText(
+        wb,
+        sheetname,
+        fields[[field_name]],
+        start_row,
+        contact_col + 0:4,
+        NULL,
+        field_name
+      )
       start_row <- namedRegionLastRow(wb, sheetname, field_name) + 1
     }
   }
 
   # Needs to be handled separately
   if (is.character(openinghours)) {
-    writeText(wb, sheetname, openinghours,
-              namedRegionFirstRow(wb, sheetname, "header_start"),
-              contact_col + 5:7, NULL, "openinghours")
+    writeText(
+      wb,
+      sheetname,
+      openinghours,
+      namedRegionFirstRow(wb, sheetname, "header_start"),
+      contact_col + 5:7,
+      NULL,
+      "openinghours"
+    )
   }
 
-  header_entries <- c("header_start", "contact", "homepage", "info",
-                      "openinghours")
-  openxlsx::createNamedRegion(wb, sheetname,
-                    namedRegionColumnExtent(wb, sheetname, header_entries),
-                    namedRegionRowExtent(wb, sheetname, header_entries),
-                    paste0(sheetname, "_header_body"))
+  header_entries <- c(
+    "header_start",
+    "contact",
+    "homepage",
+    "info",
+    "openinghours"
+  )
+  openxlsx::createNamedRegion(
+    wb,
+    sheetname,
+    namedRegionColumnExtent(wb, sheetname, header_entries),
+    namedRegionRowExtent(wb, sheetname, header_entries),
+    paste0(sheetname, "_header_body")
+  )
 
-  openxlsx::addStyle(wb, sheetname, style_headerline(), start_row,
-                     1:namedRegionLastCol(wb, sheetname, "header_body"),
-                     gridExpand = TRUE, stack = TRUE)
+  openxlsx::addStyle(
+    wb,
+    sheetname,
+    style_headerline(),
+    start_row,
+    1:namedRegionLastCol(wb, sheetname, "header_body"),
+    gridExpand = TRUE,
+    stack = TRUE
+  )
 }

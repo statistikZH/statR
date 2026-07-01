@@ -8,32 +8,60 @@
 #' @seealso createWorkbook, addWorksheet, writeData
 #' @export
 insert_metadata_sheet <- function(
-    wb, sheetname, meta_infos, logo = getOption("statR_logo"),
-    contactdetails = inputHelperContactInfo(compact = TRUE),
-    homepage = getOption("statR_homepage"), author = "user") {
-
+  wb,
+  sheetname,
+  meta_infos,
+  logo = getOption("statR_logo"),
+  contactdetails = inputHelperContactInfo(compact = TRUE),
+  homepage = getOption("statR_homepage"),
+  author = "user"
+) {
   title <- meta_infos[["title"]]
   source <- meta_infos[["source"]]
   metadata <- meta_infos[["metadata"]]
 
-  insert_header(wb, sheetname, logo, contactdetails, homepage, NULL, author,
-                NULL, 15)
+  insert_header(
+    wb,
+    sheetname,
+    logo,
+    contactdetails,
+    homepage,
+    NULL,
+    author,
+    NULL,
+    15
+  )
 
   start_row <- namedRegionLastRow(wb, sheetname, "info") + 3
 
-
-  if (is.character(title)){
+  if (is.character(title)) {
     writeText(wb, sheetname, title, start_row, 1:18, style_title(), "title")
     start_row <- namedRegionLastRow(wb, sheetname, "title") + 1
   }
 
   if (is.character(source)) {
-    writeText(wb, sheetname, source, start_row, 1:18, style_subtitle(), "source")
+    writeText(
+      wb,
+      sheetname,
+      source,
+      start_row,
+      1:18,
+      style_subtitle(),
+      "source"
+    )
     start_row <- namedRegionLastRow(wb, sheetname, "source") + 1
   }
 
   if (is.character(metadata)) {
-    writeText(wb, sheetname, metadata, start_row, 1:18, style_subtitle(), "metadata")
+    writeText(
+      wb,
+      sheetname,
+      metadata,
+      start_row,
+      1:18,
+      style_subtitle(),
+      "metadata"
+    )
     start_row <- namedRegionLastRow(wb, sheetname, "metadata") + 1
   }
 

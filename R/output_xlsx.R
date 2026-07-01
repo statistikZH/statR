@@ -123,26 +123,55 @@
 #' @importFrom stats na.omit
 #' @export
 datasetsXLSX <- function(
-    file, datasets, sheetname = NULL, title = NULL, source = NULL,
-    metadata = NULL, grouplines = NULL, group_names = NULL, plot_width = NULL,
-    plot_height = NULL, index_title = NA, index_source = NA, index_toc_title = NA,
-    logo = NA, contactdetails = NA, homepage = NA, openinghours = NA, auftrag_id = NULL,
-    author = "user", metadata_sheet = NULL, overwrite = TRUE, config = "default") {
-
-
-  get_user_config(config, c(index_title, index_source, index_toc_title, logo,
-                            contactdetails, homepage, openinghours))
+  file,
+  datasets,
+  sheetname = NULL,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
+  grouplines = NULL,
+  group_names = NULL,
+  plot_width = NULL,
+  plot_height = NULL,
+  index_title = NA,
+  index_source = NA,
+  index_toc_title = NA,
+  logo = NA,
+  contactdetails = NA,
+  homepage = NA,
+  openinghours = NA,
+  auftrag_id = NULL,
+  author = "user",
+  metadata_sheet = NULL,
+  overwrite = TRUE,
+  config = "default"
+) {
+  get_user_config(
+    config,
+    c(
+      index_title,
+      index_source,
+      index_toc_title,
+      logo,
+      contactdetails,
+      homepage,
+      openinghours
+    )
+  )
 
   # "Optional" input arguments
-  for (value in c("title", "source", "metadata", "grouplines", "group_names")){
+  for (value in c("title", "source", "metadata", "grouplines", "group_names")) {
     if (!is.null(eval(as.name(value)))) {
-      datasets <- purrr::map2(datasets, eval(as.name(value)),
-                              ~add_attribute(..1, value, ..2))
+      datasets <- purrr::map2(
+        datasets,
+        eval(as.name(value)),
+        ~ add_attribute(..1, value, ..2)
+      )
     }
   }
 
   # Required input arguments
-  for (value in c("sheetname")){
+  for (value in c("sheetname")) {
     if (is.null(eval(as.name(value)))) {
       assign(value, extract_attributes(datasets, value, required_val = TRUE))
     }
@@ -152,15 +181,14 @@ datasetsXLSX <- function(
   is_plot <- sapply(datasets, checkImplementedPlotType)
 
   if (any(is_plot)) {
-
     # Reads object with name == arg, if NULL tries to extract attribute.
     # If length == 1, all plots are assigned the same plot size, otherwise
     # assigns plot_size in order of plots. Overrides all attributes if non-null
     # plot_size is provided.
-    for (arg in c("plot_height", "plot_width")){
+    for (arg in c("plot_height", "plot_width")) {
       buffer <- as.list(rep(NA, length.out = length(datasets)))
 
-      if (is.null((values<- eval(as.name(arg))))) {
+      if (is.null((values <- eval(as.name(arg))))) {
         values <- unlist(extract_attributes(datasets, arg))
       }
 
@@ -172,44 +200,60 @@ datasetsXLSX <- function(
       assign(arg, buffer)
     }
 
-    plot_size_list <- purrr::map2(plot_width, plot_height, ~c(..1,..2))
-    datasets <- purrr::map2(datasets, plot_size_list, ~add_plot_size(..1, ..2))
+    plot_size_list <- purrr::map2(plot_width, plot_height, ~ c(..1, ..2))
+    datasets <- purrr::map2(datasets, plot_size_list, ~ add_plot_size(..1, ..2))
   }
 
   sheetname <- verifyInputSheetnames(sheetname)
 
   wb <- openxlsx::createWorkbook()
-  insert_index_sheet(wb, sheetname = "Index", title = getOption("statR_index_title"),
-                     auftrag_id = auftrag_id, logo = logo,
-                     contactdetails = getOption("statR_contactdetails"),
-                     homepage = getOption("statR_homepage"),
-                     openinghours = getOption("statR_openinghours"),
-                     source = getOption("statR_index_source"),
-                     author = author)
+  insert_index_sheet(
+    wb,
+    sheetname = "Index",
+    title = getOption("statR_index_title"),
+    auftrag_id = auftrag_id,
+    logo = logo,
+    contactdetails = getOption("statR_contactdetails"),
+    homepage = getOption("statR_homepage"),
+    openinghours = getOption("statR_openinghours"),
+    source = getOption("statR_index_source"),
+    author = author
+  )
 
   # Iterate over datasets
   for (i in seq_along(datasets)) {
     if (is_plot[i]) {
-      insert_worksheet_image(wb, sheetname = sheetname[i], image = datasets[[i]])
-
+      insert_worksheet_image(
+        wb,
+        sheetname = sheetname[i],
+        image = datasets[[i]]
+      )
     } else if (is.data.frame(datasets[[i]])) {
       insert_worksheet_nh(wb, sheetname = sheetname[i], data = datasets[[i]])
     }
   }
 
-  insert_index_hyperlinks(wb, sheetname, extract_attributes(datasets, "title"),
-                          index_sheet_name = "Index",
-                          sheet_start_row = namedRegionLastRow(wb, "Index", "toc") + 1)
+  insert_index_hyperlinks(
+    wb,
+    sheetname,
+    extract_attributes(datasets, "title"),
+    index_sheet_name = "Index",
+    sheet_start_row = namedRegionLastRow(wb, "Index", "toc") + 1
+  )
 
   # Metadata sheets are constructed from a list with title, source, and
   # long-form metadata by insert_metadata_sheet. It is meant to be used to
   # provide globally applicable information for multiple analyses.
   if (!is.null(metadata_sheet)) {
-    insert_metadata_sheet(wb, "Beiblatt", metadata_sheet,
-                          logo = getOption("statR_logo"),
-                          contactdetails = getOption("statR_contactdetails"),
-                          homepage = getOption("statR_homepage"),
-                          author = author)
+    insert_metadata_sheet(
+      wb,
+      "Beiblatt",
+      metadata_sheet,
+      logo = getOption("statR_logo"),
+      contactdetails = getOption("statR_contactdetails"),
+      homepage = getOption("statR_homepage"),
+      author = author
+    )
   }
 
   # Clean unneeded named regions - keep_data or all. Using 'all' here as a
@@ -246,13 +290,21 @@ datasetsXLSX <- function(
 #' @keywords splitXLSX
 #' @export
 splitXLSX <- function(
-    file, data, sheetvar, title = NULL, source = NULL, metadata = NULL,
-    grouplines = NULL, group_names = NULL, logo = NA,
-    contactdetails = NA,
-    homepage = NA, author = "user", config = "default") {
-
-  get_user_config(config, c(logo, contactdetails,  homepage))
-
+  file,
+  data,
+  sheetvar,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
+  grouplines = NULL,
+  group_names = NULL,
+  logo = NA,
+  contactdetails = NA,
+  homepage = NA,
+  author = "user",
+  config = "default"
+) {
+  get_user_config(config, c(logo, contactdetails, homepage))
 
   # Shared values: these are attached to the source data.frame before
   # splitting on sheetvar using split.data.frame(), which preserves attributes
@@ -262,13 +314,20 @@ splitXLSX <- function(
     }
   }
 
-  datasets <- split.data.frame(data, data[,sheetvar])
+  datasets <- split.data.frame(data, data[, sheetvar])
   sheetnames <- paste0(sheetvar, "_", names(datasets))
   titles <- paste0(title, " (", sheetvar, ": ", names(datasets), ")")
 
-  datasetsXLSX(file = file, datasets = datasets, sheetname = sheetnames,
-               title = titles, logo = logo, contactdetails = contactdetails,
-               homepage = homepage, author = author)
+  datasetsXLSX(
+    file = file,
+    datasets = datasets,
+    sheetname = sheetnames,
+    title = titles,
+    logo = logo,
+    contactdetails = contactdetails,
+    homepage = homepage,
+    author = author
+  )
 }
 
 
@@ -299,13 +358,20 @@ splitXLSX <- function(
 #' @keywords aXLSX
 #' @export
 aXLSX <- function(
-    file, data, title = NULL, source = NULL, metadata = NULL, grouplines = NULL,
-    group_names = NULL, logo = NA,
-    contactdetails = NA,
-    homepage = NA, author = "user", config = "default") {
-
-  get_user_config(config, c(logo, contactdetails,  homepage))
-
+  file,
+  data,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
+  grouplines = NULL,
+  group_names = NULL,
+  logo = NA,
+  contactdetails = NA,
+  homepage = NA,
+  author = "user",
+  config = "default"
+) {
+  get_user_config(config, c(logo, contactdetails, homepage))
 
   for (value in c("title", "source", "metadata", "grouplines", "group_names")) {
     if (!is.null(eval(as.name(value)))) {
@@ -321,11 +387,15 @@ aXLSX <- function(
 
   wb <- openxlsx::createWorkbook()
   insert_worksheet_nh(wb, sheetname = "Data", data = data, metadata = NA)
-  insert_metadata_sheet(wb, "Metadaten", meta_info_list,
-                        logo = getOption("statR_logo"),
-                        contactdetails = getOption("statR_contactdetails"),
-                        homepage = getOption("statR_homepage"),
-                        author)
+  insert_metadata_sheet(
+    wb,
+    "Metadaten",
+    meta_info_list,
+    logo = getOption("statR_logo"),
+    contactdetails = getOption("statR_contactdetails"),
+    homepage = getOption("statR_homepage"),
+    author
+  )
   cleanNamedRegions(wb, "all")
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
 }
@@ -360,14 +430,20 @@ aXLSX <- function(
 #'           metadata = metadata)
 #' }
 quickXLSX <- function(
-    data, file, title = NULL, source = NULL, metadata = NULL, grouplines = NULL,
-    group_names = NULL, logo = NA,
-    contactdetails = NA,
-    homepage = NA,
-    author = "user",
-    config = "default") {
-
-  get_user_config(config, list(logo, contactdetails,  homepage))
+  data,
+  file,
+  title = NULL,
+  source = NULL,
+  metadata = NULL,
+  grouplines = NULL,
+  group_names = NULL,
+  logo = NA,
+  contactdetails = NA,
+  homepage = NA,
+  author = "user",
+  config = "default"
+) {
+  get_user_config(config, list(logo, contactdetails, homepage))
 
   for (value in c("title", "source", "metadata", "grouplines", "group_names")) {
     if (!is.null(eval(as.name(value)))) {
@@ -376,9 +452,15 @@ quickXLSX <- function(
   }
 
   wb <- openxlsx::createWorkbook()
-  insert_worksheet(wb, sheetname = "Inhalt", data = data, logo = logo,
-                   contactdetails = getOption("statR_contactdetails"), homepage = homepage,
-                   author = author)
+  insert_worksheet(
+    wb,
+    sheetname = "Inhalt",
+    data = data,
+    logo = logo,
+    contactdetails = getOption("statR_contactdetails"),
+    homepage = homepage,
+    author = author
+  )
   cleanNamedRegions(wb, "all")
   openxlsx::saveWorkbook(wb, verifyInputFilename(file), overwrite = TRUE)
 }
